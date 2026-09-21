@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>D’Matek Technology Limited | Solving What Matters</title>
+<meta name="description" content="A problem-solving company powered by technology. You can trust us. You won’t be alone. We’ll figure it out.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:#F5F1E8; color:#1A1A1A; font-family:'Manrope',system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
+  * { box-sizing:border-box; }
+  a { color:#06382E; text-decoration:none; transition:color .22s cubic-bezier(.4,0,.2,1), background .22s cubic-bezier(.4,0,.2,1), border-color .22s cubic-bezier(.4,0,.2,1); }
+  a:hover { color:#28705A; }
+  button, input, textarea, select { font-family:'Manrope',system-ui,sans-serif; }
+  button { transition:color .22s cubic-bezier(.4,0,.2,1), background .22s cubic-bezier(.4,0,.2,1), border-color .22s cubic-bezier(.4,0,.2,1), transform .22s cubic-bezier(.4,0,.2,1), box-shadow .22s cubic-bezier(.4,0,.2,1); }
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible { outline:2px solid #D4A637; outline-offset:3px; }
+  ::selection { background:#D4A637; color:#06382E; }
+  #dm-burger { display:none; }
+  @media (max-width:960px) {
+    #dm-desk { display:none !important; }
+    #dm-burger { display:flex !important; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition:none !important; animation:none !important; scroll-behavior:auto !important; } }
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;background:#F5F1E8">
+
+<a href="#main" style="position:absolute;left:-9999px;top:8px;background:#06382E;color:#F5F1E8;padding:12px 18px;z-index:200" style-focus="left:8px">Skip to content</a>
+
+<header style="position:sticky;top:0;z-index:80;background:rgba(245,241,232,0.94);backdrop-filter:blur(12px);border-bottom:1px solid rgba(6,56,46,0.10)">
+  <div style="max-width:1280px;margin:0 auto;padding:16px 32px;display:flex;align-items:center;gap:32px">
+    <a href="#main" onClick="{{ nav.home }}" aria-label="D’Matek Technology Limited — home" style="display:flex;align-items:center;gap:12px;flex-shrink:0">
+      <img src="assets/mark-green.png" alt="" style="height:32px;width:auto;display:block">
+      <span style="display:flex;flex-direction:column;line-height:1">
+        <span style="font-size:18px;font-weight:800;letter-spacing:0.05em;color:#06382E">D&rsquo;MATEK</span>
+        <span style="font-size:8px;font-weight:600;letter-spacing:0.2em;color:#28705A;margin-top:4px">TECHNOLOGY LIMITED</span>
+      </span>
+    </a>
+    <nav id="dm-desk" aria-label="Primary" style="margin-left:auto;display:flex;align-items:center;gap:2px">
+      <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="5">
+        <a href="#main" onClick="{{ n.go }}" aria-current="{{ n.current }}" style="font-size:14.5px;font-weight:600;color:#1A1A1A;padding:10px 14px;border-bottom:2px solid {{ n.underline }}" style-hover="color:#06382E;border-bottom-color:#D4A637">{{ n.label }}</a>
+      </sc-for>
+      <a href="#main" onClick="{{ nav.contact }}" style="margin-left:18px;font-size:13px;font-weight:700;letter-spacing:0.04em;color:#06382E;background:#D4A637;padding:14px 22px" style-hover="background:#06382E;color:#F5F1E8">LET&rsquo;S TALK</a>
+    </nav>
+    <button id="dm-burger" type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuExpanded }}" aria-label="Menu" style="margin-left:auto;background:#06382E;border:none;color:#F5F1E8;font-size:13px;font-weight:700;letter-spacing:0.1em;padding:14px 20px;cursor:pointer;align-items:center">{{ menuLabel }}</button>
+  </div>
+</header>
+
+<sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+  <nav aria-label="Mobile" style="position:fixed;inset:0;z-index:90;background:#06382E;color:#F5F1E8;padding:24px 28px 40px;display:flex;flex-direction:column;overflow-y:auto">
+    <div style="display:flex;align-items:center;gap:12px">
+      <img src="assets/mark-cream.png" alt="" style="height:30px;width:auto">
+      <span style="font-size:17px;font-weight:800;letter-spacing:0.05em">D&rsquo;MATEK</span>
+      <button type="button" onClick="{{ toggleMenu }}" aria-label="Close menu" style="margin-left:auto;background:transparent;border:1px solid rgba(245,241,232,0.2);color:#F5F1E8;font-size:13px;font-weight:700;letter-spacing:0.1em;padding:12px 18px;cursor:pointer">CLOSE</button>
+    </div>
+    <div style="display:flex;flex-direction:column;margin-top:40px;border-top:1px solid rgba(245,241,232,0.2)">
+      <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="5">
+        <a href="#main" onClick="{{ n.goMobile }}" style="font-size:30px;font-weight:700;letter-spacing:-0.02em;color:#F5F1E8;padding:20px 0;border-bottom:1px solid rgba(245,241,232,0.2)" style-hover="color:#D4A637">{{ n.label }}</a>
+      </sc-for>
+    </div>
+    <a href="#main" onClick="{{ contactMobile }}" style="margin-top:36px;text-align:center;font-size:15px;font-weight:700;letter-spacing:0.05em;color:#06382E;background:#D4A637;padding:20px 24px">LET&rsquo;S TALK &rarr;</a>
+  </nav>
+</sc-if>
+
+<main id="main" style="flex:1">
+
+<!-- ============================ HOME ============================ -->
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<div>
+
+  <section aria-labelledby="hero-h" style="position:relative;background:#F5F1E8;overflow:hidden">
+    <div style="position:absolute;inset:0;pointer-events:none" aria-hidden="true">{{ heroLine }}</div>
+    <div style="position:relative;max-width:1280px;margin:0 auto;padding:clamp(64px,8vw,124px) 32px clamp(56px,6vw,92px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(40px,5vw,72px);align-items:center">
+      <div data-reveal>
+        <p style="font-size:12px;font-weight:700;letter-spacing:0.22em;color:#28705A;margin:0 0 28px">D&rsquo;MATEK TECHNOLOGY LIMITED</p>
+        <h1 id="hero-h" style="font-size:clamp(42px,6vw,84px);line-height:0.98;font-weight:800;letter-spacing:-0.038em;color:#06382E;margin:0 0 28px;text-wrap:balance">Solving what <span style="color:#D4A637">matters</span>.</h1>
+        <p style="font-size:clamp(19px,1.9vw,25px);line-height:1.45;font-weight:500;color:#06382E;max-width:22em;margin:0 0 18px">You can trust us. You won&rsquo;t be alone. We&rsquo;ll figure it out.</p>
+        <p style="font-size:17px;line-height:1.7;color:#3A4A44;max-width:30em;margin:0 0 40px">A problem-solving company powered by technology. You don&rsquo;t need to know which part of technology you need &mdash; tell us the problem and we&rsquo;ll take it from there.</p>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center">
+          <a href="#main" onClick="{{ nav.contact }}" style="font-size:15px;font-weight:700;color:#06382E;background:#D4A637;padding:18px 32px" style-hover="background:#06382E;color:#F5F1E8">Let&rsquo;s talk &rarr;</a>
+          <a href="#main" onClick="{{ nav.approach }}" style="font-size:15px;font-weight:600;color:#06382E;border-bottom:2px solid rgba(6,56,46,0.2);padding:8px 2px" style-hover="border-bottom-color:#D4A637">How we work &rarr;</a>
+        </div>
+      </div>
+      <div data-reveal style="position:relative;aspect-ratio:4/5;min-height:300px;background:#EFEADC;border:1px solid rgba(6,56,46,0.15);display:flex;flex-direction:column;justify-content:flex-end;padding:26px" role="img" aria-label="Placeholder for photography of real work on site">
+        <span style="position:absolute;top:0;left:26px;width:1px;height:38%;background:#D4A637"></span>
+        <p style="font-size:11.5px;font-weight:700;letter-spacing:0.16em;color:#28705A;margin:0 0 10px">[ REAL PHOTOGRAPHY REQUIRED ]</p>
+        <p style="font-size:15px;line-height:1.6;color:#3A4A44;margin:0">Damilola on site, mid-problem. A team setting something up. Not a server rack, not a stock photo.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="eco-h" style="background:#EFEADC;border-top:1px solid rgba(6,56,46,0.12)">
+    <div style="max-width:1280px;margin:0 auto;padding:clamp(60px,7vw,104px) 32px">
+      <div data-reveal style="max-width:46em;margin:0 0 clamp(40px,5vw,64px)">
+        <p style="font-size:12px;font-weight:700;letter-spacing:0.22em;color:#28705A;margin:0 0 20px">ONE D&rsquo;MATEK. MANY SPECIALISTS.</p>
+        <h2 id="eco-h" style="font-size:clamp(30px,4vw,52px);line-height:1.04;font-weight:800;letter-spacing:-0.03em;color:#06382E;margin:0 0 20px;text-wrap:balance">One customer. One relationship. Six specialists behind it.</h2>
+        <p style="font-size:17px;line-height:1.7;color:#3A4A44;margin:0">Most problems need more than one kind of technology. You keep one relationship; we coordinate the rest.</p>
+      </div>
+      <div data-reveal style="position:relative;width:100%;max-width:820px;margin:0 auto;aspect-ratio:1/1">
+        <svg viewBox="0 0 100 100" style="position:absolute;inset:0;width:100%;height:100%" aria-hidden="true">
+          <circle cx="50" cy="50" r="32" fill="none" stroke="rgba(6,56,46,0.18)" stroke-width="0.3"></circle>
+          <circle cx="50" cy="50" r="32" fill="none" stroke="#D4A637" stroke-width="0.6" stroke-dasharray="201" stroke-dashoffset="{{ orbitOffset }}" transform="rotate(-90 50 50)"></circle>
+        </svg>
+        <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:34%;aspect-ratio:1/1;border-radius:50%;background:#06382E;color:#F5F1E8;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6%">
+          <p style="font-size:clamp(9px,1.1vw,11px);font-weight:700;letter-spacing:0.18em;color:#D4A637;margin:0 0 8px">THE RELATIONSHIP</p>
+          <p style="font-size:clamp(15px,2.1vw,26px);font-weight:800;letter-spacing:-0.02em;line-height:1.1;margin:0">One<br>customer</p>
+        </div>
+        <sc-for list="{{ orbit }}" as="o" hint-placeholder-count="6">
+          <button type="button" onClick="{{ o.go }}" style="position:absolute;left:{{ o.x }};top:{{ o.y }};transform:translate(-50%,-50%);width:22%;aspect-ratio:1/1;border-radius:50%;background:#F5F1E8;border:1px solid rgba(6,56,46,0.2);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4%;gap:4px" style-hover="border-color:#D4A637;background:#FFFFFF;box-shadow:0 10px 28px rgba(6,56,46,0.12)">
+            <span style="font-size:clamp(9px,1vw,10px);font-weight:700;letter-spacing:0.16em;color:#D4A637">{{ o.verb }}</span>
+            <span style="font-size:clamp(11px,1.5vw,17px);font-weight:700;letter-spacing:-0.01em;line-height:1.2;color:#06382E">{{ o.name }}</span>
+          </button>
+        </sc-for>
+      </div>
+      <p data-reveal style="text-align:center;font-size:15px;color:#3A4A44;margin:clamp(32px,4vw,48px) 0 0"><a href="#main" onClick="{{ nav.businesses }}" style="font-weight:700;border-bottom:2px solid #D4A637;padding-bottom:3px">See the six businesses in detail &rarr;</a></p>
+    </div>
+  </section>
+
+  <section aria-labelledby="own-h" style="background:#F5F1E8;border-top:1px solid rgba(6,56,46,0.12)">
+    <div style="max-width:1280px;margin:0 auto;padding:clamp(60px,7vw,104px) 32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(40px,5vw,72px);align-items:start">
+      <div data-reveal>
+        <p style="font-size:12px;font-weight:700;letter-spacing:0.22em;color:#28705A;margin:0 0 20px">HOW WE WORK</p>
+        <h2 id="own-h" style="font-size:clamp(30px,4vw,52px);line-height:1.04;font-weight:800;letter-spacing:-0.03em;color:#06382E;margin:0 0 20px;text-wrap:balance">We don&rsquo;t hand over and walk away.</h2>
+        <p style="font-size:17px;line-height:1.7;color:#3A4A44;margin:0 0 32px;max-width:32em">Roughly seventy percent of the work happens before anything is deployed. Then we operate it, improve it, and stay responsible for the result &mdash; in most cases for a decade or more.</p>
+        <a href="#main" onClick="{{ nav.approach }}" style="font-size:15px;font-weight:700;color:#06382E;border-bottom:2px solid #D4A637;padding-bottom:4px">See how we do this &rarr;</a>
+      </div>
+      <div data-reveal style="display:grid;gap:1px;background:rgba(6,56,46,0.15);border:1px solid rgba(6,56,46,0.15)">
+        <sc-for list="{{ stagesShort }}" as="s" hint-placeholder-count="6">
+          <div style="background:#F5F1E8;padding:20px 24px;display:flex;align-items:baseline;gap:18px">
+            <span style="font-size:12px;font-weight:700;letter-spacing:0.1em;color:#D4A637;min-width:26px">{{ s.num }}</span>
+            <span style="font-size:19px;font-weight:700;letter-spacing:-0.01em;color:#06382E;min-width:8em">{{ s.name }}</span>
+            <span style="font-size:14.5px;line-height:1.5;color:#3A4A44">{{ s.note }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="Proof" style="background:#06382E;color:#F5F1E8">
+    <div style="max-width:1280px;margin:0 auto;padding:clamp(52px,6vw,88px) 32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:clamp(28px,4vw,56px)">
+      <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+        <div data-reveal>
+          <p style="font-size:clamp(38px,5vw,62px);font-weight:800;letter-spacing:-0.035em;color:#D4A637;line-height:1;margin:0 0 14px">{{ s.figure }}</p>
+          <p style="font-size:15.5px;line-height:1.55;color:rgba(245,241,232,0.82);margin:0">{{ s.label }}</p>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section aria-labelledby="work-teaser-h" style="background:#EFEADC">
+    <div style="max-width:1280px;margin:0 auto;padding:clamp(60px,7vw,104px) 32px">
+      <div data-reveal style="display:flex;flex-wrap:wrap;gap:20px 40px;align-items:end;justify-content:space-between;margin-bottom:clamp(32px,4vw,52px)">
+        <div style="max-width:30em">
+          <p style="font-size:12px;font-weight:700;letter-spacing:0.22em;color:#28705A;margin:0 0 20px">REAL OUTCOMES</p>
+          <h2 id="work-teaser-h" style="font-size:clamp(30px,4vw,52px);line-height:1.04;font-weight:800;letter-spacing:-0.03em;color:#06382E;margin:0">What it looked like before, and after.</h2>
+        </div>
+        <a href="#main" onClick="{{ nav.work }}" style="font-size:15px;font-weight:700;color:#06382E;border-bottom:2px solid #D4A637;padding-bottom:4px">All case studies &rarr;</a>
+      </div>
+      <div data-reveal style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:24px">
+        <sc-for list="{{ caseTeasers }}" as="c" hint-placeholder-count="3">
+          <button type="button" onClick="{{ c.go }}" style="text-align:left;cursor:pointer;background:#F5F1E8;border:1px solid rgba(6,56,46,0.15);border-left:3px solid #06382E;padding:28px 26px;display:flex;flex-direction:column;gap:14px" style-hover="border-left-color:#D4A637;background:#FFFFFF;box-shadow:0 12px 30px rgba(6,56,46,0.10)">
+            <span style="font-size:11.5px;font-weight:700;letter-spacing:0.16em;color:#28705A">{{ c.sector }}</span>
+            <span style="font-size:23px;font-weight:800;letter-spacing:-0.02em;line-height:1.15;color:#06382E">{{ c.title }}</span>
+            <span style="font-size:15px;line-height:1.6;color:#3A4A44">{{ c.problem }}</span>
+            <span style="margin-top:4px;font-size:13px;font-weight:700;letter-spacing:0.1em;color:#D4A637">{{ c.tenure }}</span>
+          </button>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="stay-h" style="background:#F5F1E8;border-top:1px solid rgba(6,56,46,0.12)">
+    <div style="max-width:1280px;margin:0 auto;padding:clamp(60px,7vw,104px) 32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(36px,5vw,72px);align-items:center">
+      <div data-reveal>
+        <p style="font-size:12px;font-weight:700;letter-spacing:0.22em;color:#28705A;margin:0 0 20px">WE STAY</p>
+        <h2 id="stay-h" style="font-size:clamp(30px,4vw,52px);line-height:1.04;font-weight:800;letter-spacing:-0.03em;color:#06382E;margin:0 0 20px">You don&rsquo;t get a ticket system. You get Damilola.</h2>
+        <p style="font-size:17px;line-height:1.7;color:#3A4A44;margin:0 0 30px;max-width:32em">When something matters to you, it matters to us. The person who understood your problem in the first meeting is still the person you call three years later.</p>
+        <a href="#main" onClick="{{ nav.about }}" style="font-size:15px;font-weight:700;color:#06382E;border-bottom:2px solid #D4A637;padding-bottom:4px">About D&rsquo;Matek &rarr;</a>
+      </div>
+      <blockquote data-reveal style="margin:0;background:#06382E;color:#F5F1E8;padding:clamp(32px,4vw,52px)">
+        <p style="font-size:clamp(20px,2.2vw,28px);line-height:1.4;font-weight:600;letter-spacing:-0.015em;margin:0 0 24px;text-wrap:pretty">&ldquo;[ REAL CLIENT QUOTE TO BE ADDED &mdash; the pattern we hear is relief, then gratitude, then trust. ]&rdquo;</p>
+        <footer style="font-size:14px;letter-spacing:0.06em;color:#D4A637;font-weight:700">[ NAME, ROLE, ORGANISATION ]</footer>
+      </blockquote>
+    </div>
+  </section>
+
+</div>
+</sc-if>
+
+<!-- ============================ APPROACH ============================ -->
+<sc-if value="{{ isApproach }}" hint-placeholder-val="{{ false }}">
+<div>
+  <section style="background:#F5F1E8;border-bottom:1px solid rgba(6,56,46,0.12)">
+    <div style="max-width:1280px;margin:0 auto;padding:clamp(56px,7vw,104px) 32px clamp(40px,5vw,64px);max-width:1280px">
+      <p style="font-size:12px;font-weight:700;letter-spacing:0.22em;color:#28705A;margin:0 0 24px">OUR APPROACH</p>
+      <h1 style="font-size:clamp(38px,5.4vw,74px);line-height:1;font-weight:800;letter-spacing:-0.035em;color:#06382E;margin:0 0 26px;max-width:20em;text-wrap:balance">We own the problem until the result is real.</h1>
+      <p style="font-size:clamp(17px,1.7vw,20px);line-height:1.65;color:#3A4A44;max-width:36em;margin:0">Six stages, one continuous relationship. Most of the thinking happens before anything is installed, and none of it ends at handover.</p>
+    </div>
+  </section>
+
+  <section style="background:#F5F1E8">
+    <div style="max-width:1280px;margin:0 auto;padding:clamp(40px,5vw,72px) 32px clamp(60px,7vw,104px)">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:clamp(36px,4vw,56px);border-bottom:1px solid rgba(6,56,46,0.15);padding-bottom:16px">
+        <sc-for list="{{ stageNav }}" as="s" hint-placeholder-count="6">
+          <button type="button" onClick="{{ s.go }}" style="cursor:pointer;background:{{ s.bg }};border:1px solid {{ s.border }};color:{{ s.color }};font-size:13px;font-weight:700;letter-spacing:0.08em;padding:11px 16px">{{ s.tag }}</button>
+        </sc-for>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1px;background:rgba(6,56,46,0.15)">
+        <sc-for list="{{ stages }}" as="s" hint-placeholder-count="6">
+          <div id="{{ s.id }}" data-reveal style="background:{{ s.panel }};padding:clamp(32px,4vw,56px) clamp(24px,3vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:clamp(28px,4vw,56px);align-items:start;scroll-margin-top:96px">
+            <div>
+              <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:18px">
+                <span style="font-size:13px;font-weight:700;letter-spacing:0.14em;color:#D4A637">{{ s.num }}</span>
+                <h2 style="font-size:clamp(28px,3.4vw,44px);line-height:1.05;font-weight:800;letter-spacing:-0.03em;color:#06382E;margin:0">{{ s.name }}</h2>
+              </div>
+              <p style="font-size:17px;line-height:1.7;color:#3A4A44;margin:0 0 22px;max-width:34em">{{ s.body }}</p>
+              <p style="font-size:14px;font-weight:700;letter-spacing:0.1em;color:#28705A;margin:0;padding-top:18px;border-top:1px solid rgba(6,56,46,0.15)">{{ s.value }}</p>
+            </div>
+            <div style="border:1px solid rgba(6,56,46,0.15);background:#EFEADC;min-height:200px;padding:24px;display:flex;flex-direction:column;justify-content:space-between;gap:24px" role="img" aria-label="Placeholder photograph">
+              <p style="font-size:11.5px;font-weight:700;letter-spacing:0.16em;color:#28705A;margin:0">[ PHOTO &mdash; {{ s.photo }} ]</p>
+              <p style="font-size:clamp(20px,2.4vw,30px);font-weight:800;letter-spacing:-0.025em;line-height:1.15;color:#06382E;margin:0">{{ s.outcome }}</p>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#06382E;color:#F5F1E8">
+    <div style="max-width:1280px;margin:0 auto;padding:clamp(56px,7vw,96px) 32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:clamp(32px,4vw,64px);align-items:center">
+      <div>
+        <p style="font-size:12px;font-weight:700;letter-spacing:0.22em;color:#D4A637;margin:0 0 20px">THE MOAT</p>
+        <h2 style="font-size:clamp(28px,3.6vw,48px);line-height:1.05;font-weight:800;letter-spacing:-0.03em;margin:0 0 20px">Seventy percent of the work is design. Then we stay ten years.</h2>
+        <p style="font-size:17px;line-height:1.7;color:rgba(245,241,232,0.82);margin:0 0 32px;max-width:32em">Anyone can install equipment. Fewer people will sit with your problem long enough to design the right answer, and fewer still are around when it needs to change.</p>
+        <a href="#main" onClick="{{ nav.work }}" style="font-size:15px;font-weight:700;color:#06382E;background:#D4A637;padding:17px 30px;display:inline-block" style-hover="background:#F5F1E8">See how we do this &rarr;</a>
+      </div>
+      <div style="display:grid;gap:1px;background:rgba(245,241,232,0.2);border:1px solid rgba(245,241,232,0.2)">
+        <sc-for list="{{ values }}" as="v" hint-placeholder-count="4">
+          <div style="background:#06382E;padding:24px 26px">
+            <p style="font-size:19px;font-weight:700;letter-spacing:-0.01em;color:#D4A637;margin:0 0 8px">{{ v.name }}</p>
+            <p style="font-size:15px;line-height:1.6;color:rgba(245,241,232,0.82);margin:0">{{ v.body }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<!-- ============================ BUSINESSES ============================ -->
+<sc-if value="{{ isBusinesses }}" hint-placeholder-val="{{ false }}">
+<div>
+  <section style="background:#F5F1E8;border-bottom:1px solid rgba(6,56,46,0.12)">
+    <div style="max-width:1280px;margin:0 auto;padding:clamp(56px,7vw,104px) 32px clamp(40px,5vw,64px)">
+      <p style="font-size:12px;font-weight:700;letter-spacing:0.22em;color:#28705A;margin:0 0 24px">ONE D&rsquo;MATEK. MANY SPECIALISTS.</p>
+      <h1 style="font-size:clamp(38px,5.4vw,74px);line-height:1;font-weight:800;letter-spacing:-0.035em;color:#06382E;margin:0 0 26px;max-width:20em;text-wrap:balance">Six businesses that work on the same problem.</h1>
+      <p style="font-size:clamp(17px,1.7vw,20px);line-height:1.65;color:#3A4A44;max-width:36em;margin:0">A hotel needs connectivity, cameras, cloud backup, a booking integration and someone to run all of it. That is five of our businesses and one conversation with us.</p>
+    </div>
+  </section>
+
+  <section style="background:#F5F1E8">
+    <div style="max-width:1280px;margin:0 auto;padding:clamp(48px,6vw,88px) 32px">
+      <p style="font-size:12px;font-weight:700;letter-spacing:0.18em;color:#28705A;margin:0 0 clamp(24px,3vw,40px)">A TYPICAL PROJECT PATH</p>
+      <div style="display:flex;flex-wrap:wrap;gap:1px;background:rgba(6,56,46,0.15);border:1px solid rgba(6,56,46,0.15);margin-bottom:clamp(48px,6vw,80px)">
+        <sc-for list="{{ pathSteps }}" as="p" hint-placeholder-count="6">
+          <div style="background:#EFEADC;flex:1 1 180px;padding:22px 20px">
+            <p style="font-size:11.5px;font-weight:700;letter-spacing:0.14em;color:#D4A637;margin:0 0 10px">{{ p.step }}</p>
+            <p style="font-size:17px;font-weight:700;letter-spacing:-0.01em;color:#06382E;margin:0">{{ p.name }}</p>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:grid;gap:clamp(20px,2.5vw,32px)">
+        <sc-for list="{{ businesses }}" as="b" hint-placeholder-count="6">
+          <article data-reveal style="background:#EFEADC;border:1px solid rgba(6,56,46,0.15);border-left:4px solid #06382E;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(24px,3vw,48px);padding:clamp(28px,3.4vw,44px)">
+            <div>
+              <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 18px;margin-bottom:16px">
+                <h2 style="font-size:clamp(26px,3.2vw,40px);line-height:1.05;font-weight:800;letter-spacing:-0.03em;color:#06382E;margin:0">{{ b.name }}</h2>
+                <span style="font-size:12px;font-weight:700;letter-spacing:0.18em;color:#D4A637">{{ b.verb }}</span>
+              </div>
+              <p style="font-size:17.5px;line-height:1.6;font-weight:500;color:#06382E;margin:0 0 16px;max-width:30em">{{ b.solves }}</p>
+              <p style="font-size:15.5px;line-height:1.7;color:#3A4A44;margin:0 0 20px;max-width:34em">{{ b.scope }}</p>
+              <p style="font-size:13px;font-weight:700;letter-spacing:0.1em;color:#28705A;margin:0">{{ b.note }}</p>
+            </div>
+            <div style="background:#F5F1E8;border:1px solid rgba(6,56,46,0.15);min-height:180px;padding:22px;display:flex;flex-direction:column;justify-content:space-between;gap:20px">
+              <p style="font-size:11.5px;font-weight:700;letter-spacing:0.16em;color:#28705A;margin:0">[ PHOTO &mdash; {{ b.photo }} ]</p>
+              <div>
+                <p style="font-size:clamp(28px,3.4vw,42px);font-weight:800;letter-spacing:-0.03em;color:#D4A637;line-height:1;margin:0 0 10px">{{ b.stat }}</p>
+                <p style="font-size:14.5px;line-height:1.55;color:#3A4A44;margin:0">{{ b.statLabel }}</p>
+              </div>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<!-- ============================ WORK ============================ -->
+<sc-if value="{{ isWork }}" hint-placeholder-val="{{ false }}">
+<div>
+  <section style="background:#F5F1E8;border-bottom:1px solid rgba(6,56,46,0.12)">
+    <div style="max-width:1280px;margin:0 auto;padding:clamp(56px,7vw,104px) 32px clamp(40px,5vw,64px)">
+      <p style="font-size:12px;font-weight:700;letter-spacing:0.22em;color:#28705A;margin:0 0 24px">CASE STUDIES</p>
+      <h1 style="font-size:clamp(38px,5.4vw,74px);line-height:1;font-weight:800;letter-spacing:-0.035em;color:#06382E;margin:0 0 26px;max-width:18em;text-wrap:balance">Problems we were trusted with.</h1>
+      <p style="font-size:clamp(17px,1.7vw,20px);line-height:1.65;color:#3A4A44;max-width:36em;margin:0">Property, hospitality and estates, mostly. Each one started as a mess and became something the owner stopped thinking about.</p>
+    </div>
+  </section>
+
+  <section style="background:#F5F1E8">
+    <div style="max-width:1280px;margin:0 auto;padding:clamp(40px,5vw,72px) 32px clamp(60px,7vw,104px);display:flex;flex-direction:column;gap:clamp(48px,6vw,88px)">
+      <sc-for list="{{ cases }}" as="c" hint-placeholder-count="3">
+        <article id="{{ c.id }}" data-reveal style="border-top:2px solid #06382E;padding-top:clamp(28px,3vw,44px);scroll-margin-top:96px">
+          <div style="display:flex;flex-wrap:wrap;gap:12px 28px;align-items:baseline;margin-bottom:24px">
+            <p style="font-size:11.5px;font-weight:700;letter-spacing:0.18em;color:#28705A;margin:0">{{ c.sector }}</p>
+            <p style="font-size:11.5px;font-weight:700;letter-spacing:0.18em;color:#D4A637;margin:0">{{ c.tenure }}</p>
+          </div>
+          <h2 style="font-size:clamp(28px,3.8vw,50px);line-height:1.04;font-weight:800;letter-spacing:-0.032em;color:#06382E;margin:0 0 clamp(28px,3vw,40px);max-width:24em;text-wrap:balance">{{ c.title }}</h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:clamp(24px,3vw,40px);margin-bottom:clamp(28px,3vw,40px)">
+            <div style="background:#EFEADC;border:1px solid rgba(6,56,46,0.15);padding:26px">
+              <p style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:#28705A;margin:0 0 14px">BEFORE</p>
+              <p style="font-size:16.5px;line-height:1.65;color:#3A4A44;margin:0">{{ c.before }}</p>
+            </div>
+            <div style="background:#EFEADC;border:1px solid rgba(6,56,46,0.15);padding:26px">
+              <p style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:#28705A;margin:0 0 14px">WHAT WE DID</p>
+              <p style="font-size:16.5px;line-height:1.65;color:#3A4A44;margin:0 0 16px">{{ c.did }}</p>
+              <p style="font-size:13.5px;font-weight:700;letter-spacing:0.04em;color:#06382E;margin:0">{{ c.divisions }}</p>
+            </div>
+            <div style="background:#EFEADC;border:1px solid rgba(6,56,46,0.15);border-top:3px solid #D4A637;padding:26px">
+              <p style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:#28705A;margin:0 0 14px">AFTER</p>
+              <p style="font-size:16.5px;line-height:1.65;color:#3A4A44;margin:0">{{ c.after }}</p>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:clamp(24px,3vw,40px);align-items:stretch">
+            <div style="background:#EFEADC;border:1px solid rgba(6,56,46,0.15);min-height:220px;padding:24px;display:flex;flex-direction:column;justify-content:flex-end" role="img" aria-label="Placeholder installation photograph">
+              <p style="font-size:11.5px;font-weight:700;letter-spacing:0.16em;color:#28705A;margin:0 0 8px">[ BEFORE / AFTER PHOTOS REQUIRED ]</p>
+              <p style="font-size:15px;line-height:1.6;color:#3A4A44;margin:0">{{ c.photo }}</p>
+            </div>
+            <blockquote style="margin:0;background:#06382E;color:#F5F1E8;padding:clamp(28px,3vw,40px);display:flex;flex-direction:column;justify-content:center">
+              <p style="font-size:clamp(18px,2vw,24px);line-height:1.45;font-weight:600;letter-spacing:-0.015em;margin:0 0 20px;text-wrap:pretty">{{ c.quote }}</p>
+              <footer style="font-size:13.5px;letter-spacing:0.06em;font-weight:700;color:#D4A637">{{ c.attrib }}</footer>
+            </blockquote>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<!-- ============================ ABOUT ============================ -->
+<sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+<div>
+  <section style="background:#F5F1E8;border-bottom:1px solid rgba(6,56,46,0.12)">
+    <div style="max-width:1280px;margin:0 auto;padding:clamp(56px,7vw,104px) 32px clamp(40px,5vw,64px)">
+      <p style="font-size:12px;font-weight:700;letter-spacing:0.22em;color:#28705A;margin:0 0 24px">ABOUT D&rsquo;MATEK</p>
+      <h1 style="font-size:clamp(38px,5.4vw,74px);line-height:1;font-weight:800;letter-spacing:-0.035em;color:#06382E;margin:0 0 26px;max-width:18em;text-wrap:balance">We&rsquo;re not vendors. We&rsquo;re partners for life.</h1>
+      <p style="font-size:clamp(17px,1.7vw,20px);line-height:1.65;color:#3A4A44;max-width:36em;margin:0">Built in Lagos, working across Nigeria. The people who start with your problem are the people who stay with it.</p>
+    </div>
+  </section>
+
+  <section style="background:#F5F1E8">
+    <div style="max-width:1280px;margin:0 auto;padding:clamp(48px,6vw,88px) 32px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:1px;background:rgba(6,56,46,0.15);border:1px solid rgba(6,56,46,0.15)">
+        <sc-for list="{{ values }}" as="v" hint-placeholder-count="4">
+          <div data-reveal style="background:#EFEADC;padding:30px 28px">
+            <p style="font-size:21px;font-weight:800;letter-spacing:-0.015em;color:#06382E;margin:0 0 12px">{{ v.name }}</p>
+            <p style="font-size:15.5px;line-height:1.65;color:#3A4A44;margin:0">{{ v.body }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#EFEADC;border-top:1px solid rgba(6,56,46,0.12)">
+    <div style="max-width:1280px;margin:0 auto;padding:clamp(56px,7vw,100px) 32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(36px,5vw,72px);align-items:center">
+      <div data-reveal style="aspect-ratio:4/5;min-height:320px;background:#F5F1E8;border:1px solid rgba(6,56,46,0.15);padding:26px;display:flex;flex-direction:column;justify-content:flex-end" role="img" aria-label="Placeholder portrait of Damilola">
+        <p style="font-size:11.5px;font-weight:700;letter-spacing:0.16em;color:#28705A;margin:0 0 10px">[ PORTRAIT REQUIRED ]</p>
+        <p style="font-size:15px;line-height:1.6;color:#3A4A44;margin:0">Damilola, warm light, on site or mid-conversation. Not a corporate headshot.</p>
+      </div>
+      <div data-reveal>
+        <p style="font-size:12px;font-weight:700;letter-spacing:0.22em;color:#28705A;margin:0 0 20px">MEET DAMILOLA</p>
+        <h2 style="font-size:clamp(28px,3.6vw,48px);line-height:1.05;font-weight:800;letter-spacing:-0.03em;color:#06382E;margin:0 0 22px">When something matters to you, it matters to us.</h2>
+        <p style="font-size:17px;line-height:1.75;color:#3A4A44;margin:0 0 20px;max-width:32em">You don&rsquo;t get a ticket system. You get Damilola &mdash; in the first meeting, during the build, and at 11pm three years later when something needs attention.</p>
+        <div style="border-left:3px solid #D4A637;padding:6px 0 6px 22px;margin:0 0 28px">
+          <p style="font-size:16.5px;line-height:1.7;color:#06382E;margin:0;font-weight:500">[ ONE SHORT STORY TO BE ADDED &mdash; the time a customer&rsquo;s problem was fixed in two hours before they thought to ask. ]</p>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:1px;background:rgba(6,56,46,0.15);border:1px solid rgba(6,56,46,0.15)">
+          <sc-for list="{{ aboutStats }}" as="s" hint-placeholder-count="3">
+            <div style="background:#EFEADC;flex:1 1 140px;padding:20px">
+              <p style="font-size:clamp(24px,2.6vw,32px);font-weight:800;letter-spacing:-0.03em;color:#D4A637;line-height:1;margin:0 0 8px">{{ s.figure }}</p>
+              <p style="font-size:13.5px;line-height:1.5;color:#3A4A44;margin:0">{{ s.label }}</p>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#F5F1E8">
+    <div style="max-width:1280px;margin:0 auto;padding:clamp(56px,7vw,100px) 32px">
+      <div data-reveal style="max-width:36em;margin:0 0 clamp(32px,4vw,52px)">
+        <p style="font-size:12px;font-weight:700;letter-spacing:0.22em;color:#28705A;margin:0 0 20px">WHY CLIENTS STICK AROUND</p>
+        <h2 style="font-size:clamp(30px,4vw,52px);line-height:1.04;font-weight:800;letter-spacing:-0.03em;color:#06382E;margin:0">Relief, then gratitude, then trust.</h2>
+      </div>
+      <div data-reveal style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:24px">
+        <sc-for list="{{ quotes }}" as="q" hint-placeholder-count="4">
+          <blockquote style="margin:0;background:{{ q.bg }};color:{{ q.fg }};border:1px solid rgba(6,56,46,0.15);padding:28px">
+            <p style="font-size:17px;line-height:1.65;font-weight:500;margin:0 0 18px;text-wrap:pretty">{{ q.text }}</p>
+            <footer style="font-size:13px;font-weight:700;letter-spacing:0.06em;color:{{ q.attribColor }}">{{ q.attrib }}</footer>
+          </blockquote>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<!-- ============================ CONTACT ============================ -->
+<sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+<div style="background:#06382E;color:#F5F1E8">
+  <div style="max-width:1280px;margin:0 auto;padding:clamp(56px,7vw,104px) 32px clamp(60px,7vw,110px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(40px,5vw,80px);align-items:start">
+    <div>
+      <p style="font-size:12px;font-weight:700;letter-spacing:0.22em;color:#D4A637;margin:0 0 24px">CONTACT</p>
+      <h1 style="font-size:clamp(38px,5vw,68px);line-height:1;font-weight:800;letter-spacing:-0.035em;margin:0 0 26px;text-wrap:balance">Let&rsquo;s figure it out together.</h1>
+      <p style="font-size:clamp(17px,1.7vw,20px);line-height:1.7;color:rgba(245,241,232,0.82);margin:0 0 40px;max-width:30em">Tell us the problem in your own words. You don&rsquo;t need to know which technology it needs, or whether it&rsquo;s one problem or four.</p>
+      <div style="display:grid;gap:1px;background:rgba(245,241,232,0.2);border:1px solid rgba(245,241,232,0.2);margin-bottom:40px">
+        <sc-for list="{{ badges }}" as="b" hint-placeholder-count="3">
+          <div style="background:#06382E;padding:20px 22px;display:flex;align-items:baseline;gap:14px">
+            <span style="color:#D4A637;font-size:13px;font-weight:700;letter-spacing:0.1em">&mdash;</span>
+            <span style="font-size:16px;font-weight:600;color:#F5F1E8">{{ b }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="font-size:15.5px;line-height:1.9;color:rgba(245,241,232,0.82)">
+        <p style="margin:0">Lagos, Nigeria</p>
+        <p style="margin:0">[ PHONE TO BE ADDED ]</p>
+        <p style="margin:0">[ EMAIL TO BE ADDED ]</p>
+      </div>
+    </div>
+    <form onSubmit="{{ submit }}" style="background:#043028;border:1px solid rgba(245,241,232,0.2);padding:clamp(28px,3.4vw,44px);display:flex;flex-direction:column;gap:22px">
+      <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+        <div style="border-left:3px solid #D4A637;padding-left:20px">
+          <p style="font-size:21px;font-weight:700;margin:0 0 10px;color:#F5F1E8">Thank you. We&rsquo;ve got it.</p>
+          <p style="font-size:15.5px;line-height:1.65;color:rgba(245,241,232,0.82);margin:0">Someone will read this properly and come back to you within four hours.</p>
+        </div>
+      </sc-if>
+      <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;gap:22px">
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <label for="f-name" style="font-size:12px;font-weight:700;letter-spacing:0.14em;color:#D4A637">NAME</label>
+            <input id="f-name" name="name" type="text" required style="background:transparent;border:none;border-bottom:1px solid rgba(245,241,232,0.3);color:#F5F1E8;font-size:17px;padding:10px 0" style-focus="border-bottom-color:#D4A637;outline:none">
+          </div>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <label for="f-email" style="font-size:12px;font-weight:700;letter-spacing:0.14em;color:#D4A637">EMAIL</label>
+            <input id="f-email" name="email" type="email" required style="background:transparent;border:none;border-bottom:1px solid rgba(245,241,232,0.3);color:#F5F1E8;font-size:17px;padding:10px 0" style-focus="border-bottom-color:#D4A637;outline:none">
+          </div>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <label for="f-problem" style="font-size:12px;font-weight:700;letter-spacing:0.14em;color:#D4A637">CLOSEST STARTING POINT</label>
+            <select id="f-problem" name="problem" style="background:#043028;border:none;border-bottom:1px solid rgba(245,241,232,0.3);color:#F5F1E8;font-size:17px;padding:10px 0" style-focus="border-bottom-color:#D4A637;outline:none">
+              <sc-for list="{{ problemOptions }}" as="p" hint-placeholder-count="7">
+                <option value="{{ p }}">{{ p }}</option>
+              </sc-for>
+            </select>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <label for="f-msg" style="font-size:12px;font-weight:700;letter-spacing:0.14em;color:#D4A637">WHAT&rsquo;S HAPPENING?</label>
+            <textarea id="f-msg" name="message" rows="5" style="background:transparent;border:1px solid rgba(245,241,232,0.3);color:#F5F1E8;font-size:17px;line-height:1.6;padding:14px;resize:vertical" style-focus="border-color:#D4A637;outline:none"></textarea>
+          </div>
+          <button type="submit" style="margin-top:6px;background:#D4A637;border:none;color:#06382E;font-size:15px;font-weight:700;letter-spacing:0.04em;padding:19px 24px;cursor:pointer" style-hover="background:#F5F1E8">Send it to us &rarr;</button>
+          <p style="font-size:13.5px;line-height:1.6;color:rgba(245,241,232,0.6);margin:0">Problem-solving starts here. No sales sequence, no qualification call.</p>
+        </div>
+      </sc-if>
+    </form>
+  </div>
+</div>
+</sc-if>
+
+</main>
+
+<footer style="background:#F5F1E8;border-top:2px solid #06382E">
+  <div style="max-width:1280px;margin:0 auto;padding:clamp(48px,6vw,80px) 32px clamp(28px,3vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:clamp(32px,4vw,56px)">
+    <div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:22px">
+        <img src="assets/mark-green.png" alt="" style="height:30px;width:auto">
+        <span style="font-size:17px;font-weight:800;letter-spacing:0.05em;color:#06382E">D&rsquo;MATEK</span>
+      </div>
+      <p style="font-size:clamp(20px,2.2vw,26px);font-weight:800;letter-spacing:-0.02em;color:#06382E;margin:0 0 14px">Solving what matters.</p>
+      <p style="font-size:15px;line-height:1.7;color:#3A4A44;margin:0;max-width:24em">A problem-solving company powered by technology. Lagos, Nigeria.</p>
+    </div>
+    <div>
+      <p style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:#28705A;margin:0 0 18px">THE SIX BUSINESSES</p>
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <sc-for list="{{ businesses }}" as="b" hint-placeholder-count="6">
+          <a href="#main" onClick="{{ nav.businesses }}" style="font-size:15px;font-weight:500;color:#1A1A1A" style-hover="color:#06382E">{{ b.name }}</a>
+        </sc-for>
+      </div>
+    </div>
+    <div>
+      <p style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:#28705A;margin:0 0 18px">PAGES</p>
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="5">
+          <a href="#main" onClick="{{ n.go }}" style="font-size:15px;font-weight:500;color:#1A1A1A" style-hover="color:#06382E">{{ n.label }}</a>
+        </sc-for>
+      </div>
+    </div>
+    <div>
+      <p style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:#28705A;margin:0 0 18px">GET IN TOUCH</p>
+      <a href="#main" onClick="{{ nav.contact }}" style="display:inline-block;font-size:14px;font-weight:700;letter-spacing:0.04em;color:#06382E;background:#D4A637;padding:15px 22px;margin-bottom:20px" style-hover="background:#06382E;color:#F5F1E8">LET&rsquo;S TALK</a>
+      <p style="font-size:15px;line-height:1.8;color:#3A4A44;margin:0">[ PHONE ]<br>[ EMAIL ]<br>[ SOCIAL LINKS ]</p>
+    </div>
+  </div>
+  <div style="max-width:1280px;margin:0 auto;padding:0 32px clamp(32px,4vw,48px)">
+    <div style="border-top:1px solid rgba(6,56,46,0.15);padding-top:24px;display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-between">
+      <p style="font-size:13px;color:#4A5A54;margin:0">&copy; 2026 D&rsquo;Matek Technology Limited. Lagos, Nigeria.</p>
+      <p style="font-size:13px;font-weight:700;letter-spacing:0.12em;color:#28705A;margin:0">WE&rsquo;LL FIGURE IT OUT.</p>
+    </div>
+  </div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#D4A637&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#D4A637&quot;,&quot;#C8922B&quot;,&quot;#B98F3A&quot;,&quot;#E0B455&quot;]},&quot;animate&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Behaviour&quot;}}">
+class Component extends DCLogic {
+  state = { page: "home", menuOpen: false, sent: false, scroll: 0, activeStage: "understand" };
+
+  go = (page) => (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    this.setState({ page, menuOpen: false, sent: false });
+    window.scrollTo({ top: 0, behavior: "auto" });
+  };
+
+  componentDidMount() {
+    this._onScroll = () => {
+      const d = document.documentElement;
+      const max = Math.max(1, d.scrollHeight - window.innerHeight);
+      this.setState({ scroll: Math.min(1, window.scrollY / max) });
+    };
+    window.addEventListener("scroll", this._onScroll, { passive: true });
+    this.setupReveal();
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.page !== this.state.page) this.setupReveal();
+  }
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this._onScroll);
+    if (this._io) this._io.disconnect();
+  }
+
+  setupReveal() {
+    if (this.props.animate === false) return;
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    requestAnimationFrame(() => {
+      if (this._io) this._io.disconnect();
+      const els = Array.from(document.querySelectorAll("[data-reveal]"));
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((en) => {
+          if (en.isIntersecting) {
+            en.target.style.opacity = "1";
+            en.target.style.transform = "none";
+            io.unobserve(en.target);
+          }
+        });
+      }, { rootMargin: "0px 0px -8% 0px", threshold: 0.06 });
+      els.forEach((el) => {
+        const r = el.getBoundingClientRect();
+        const visible = r.top < window.innerHeight * 0.92;
+        el.style.transition = "opacity .7s cubic-bezier(.4,0,.2,1), transform .7s cubic-bezier(.4,0,.2,1)";
+        if (visible) { el.style.opacity = "1"; el.style.transform = "none"; return; }
+        el.style.opacity = "0";
+        el.style.transform = "translateY(22px)";
+        io.observe(el);
+      });
+      this._io = io;
+    });
+  }
+
+  renderVals() {
+    const p = this.state.page;
+    const accent = this.props.accent || "#D4A637";
+    const navItems = [
+      ["Home", "home"], ["Approach", "approach"], ["Businesses", "businesses"],
+      ["Work", "work"], ["About", "about"]
+    ].map(([label, key]) => ({
+      label, current: p === key ? "page" : undefined,
+      underline: p === key ? accent : "transparent",
+      go: this.go(key),
+      goMobile: this.go(key)
+    }));
+
+    const businesses = [
+      { name: "D’Matek Infrastructure", verb: "CONNECT IT",
+        solves: "When the network is the thing standing between people and their work.",
+        scope: "Design, build and operation of connectivity and physical network infrastructure — structured cabling, wireless, links, power and the parts nobody sees.",
+        note: "USUALLY THE FIRST DIVISION ON SITE",
+        photo: "cabling or wireless install in progress", stat: "[ FIGURE ]", statLabel: "Sites connected and still supported" },
+      { name: "D’Matek Cloud", verb: "RUN IT",
+        solves: "When data has to survive whatever happens next.",
+        scope: "Cloud, servers, hosting, storage, backup and disaster recovery — sized for the business rather than the brochure.",
+        note: "BACKUP TESTED, NOT ASSUMED",
+        photo: "server room or a recovery test underway", stat: "[ FIGURE ]", statLabel: "Workloads under managed recovery" },
+      { name: "D’Foundry", verb: "BUILD IT",
+        solves: "When the software you need doesn’t exist yet, or the ones you have won’t talk to each other.",
+        scope: "Custom software, apps, automation, integrations, SaaS and digital products — including QADPAY.",
+        note: "BUILT TO BE HANDED OVER CLEANLY",
+        photo: "screens mid-build, a whiteboard, a real interface", stat: "[ FIGURE ]", statLabel: "Products and integrations shipped" },
+      { name: "IléMesh", verb: "SENSE IT",
+        solves: "When a building should look after itself and the people in it.",
+        scope: "Smart homes and buildings, IoT, CCTV, access control, hotel technology, building automation and connected facilities.",
+        note: "STRONGEST IN PROPERTY AND HOSPITALITY",
+        photo: "access control at a door, a hotel room panel", stat: "[ FIGURE ]", statLabel: "Buildings running on IléMesh" },
+      { name: "Matek Emporium", verb: "SUPPLY IT",
+        solves: "When the right equipment has to arrive, correctly, on time.",
+        scope: "Sourcing, supply, distribution and procurement — specified against the design, not the cheapest catalogue line.",
+        note: "NAMING STILL OPEN — EMPORIUM OR PROVISION",
+        photo: "goods being checked in, kit staged for a job", stat: "[ FIGURE ]", statLabel: "Orders fulfilled to specification" },
+      { name: "D’Matek Assurance", verb: "OWN IT",
+        solves: "When somebody needs to be responsible for all of it, permanently.",
+        scope: "Managed technology, advisory, cybersecurity and ongoing operational responsibility for what we built.",
+        note: "THIS IS WHY CUSTOMERS STAY TEN YEARS",
+        photo: "a support conversation, a site visit, a review meeting", stat: "24/7", statLabel: "Coverage on managed accounts" }
+    ];
+
+    const orbitPos = [["50%","18%"],["77.7%","34%"],["77.7%","66%"],["50%","82%"],["22.3%","66%"],["22.3%","34%"]];
+    const orbit = businesses.map((b, i) => ({
+      name: b.name.replace("D’Matek ", "").replace("D’", "D’"),
+      verb: b.verb,
+      x: orbitPos[i][0], y: orbitPos[i][1],
+      go: this.go("businesses")
+    }));
+
+    const stageData = [
+      { id: "understand", num: "01", name: "Understand", tag: "01 UNDERSTAND",
+        body: "We listen before we prescribe. What is actually going wrong, who it affects, and what has already been tried. Most briefs change shape in this conversation.",
+        value: "TRUST", photo: "a planning meeting, notebooks out", outcome: "The real problem, named." },
+      { id: "design", num: "02", name: "Design", tag: "02 DESIGN",
+        body: "Around seventy percent of the work happens here, on paper. Options, trade-offs and costs in plain language, so the decision is yours and it is an informed one.",
+        value: "SIMPLIFY", photo: "drawings, floor plans, a whiteboard", outcome: "70% of the work, before anything is bought." },
+      { id: "implement", num: "03", name: "Implement", tag: "03 IMPLEMENT",
+        body: "Installation, build and integration, coordinated across whichever of our businesses the job needs. One schedule, one point of contact, one accountable party.",
+        value: "SOLVE", photo: "infrastructure work in progress on site", outcome: "One team on site, not five vendors." },
+      { id: "operate", num: "04", name: "Operate",
+        tag: "04 OPERATE",
+        body: "We run it. Monitoring, maintenance, response and the small interventions that stop small things becoming outages.",
+        value: "SUPPORT", photo: "monitoring screens, a site check", outcome: "Problems handled before they’re noticed." },
+      { id: "optimise", num: "05", name: "Optimise", tag: "05 OPTIMISE",
+        body: "Buildings change, businesses grow, requirements move. We revisit what we built and improve it rather than waiting for a replacement project.",
+        value: "IMPROVE", photo: "a review session with a client", outcome: "Better in year three than year one." },
+      { id: "own", num: "06", name: "Own the result", tag: "06 OWN THE RESULT",
+        body: "If it isn’t working, it’s ours to fix. Own it, fix it, learn from it — and stay long enough that the relationship outlasts the equipment.",
+        value: "WE STAY", photo: "a long-standing client and the team together", outcome: "Ten years and counting." }
+    ];
+    const stages = stageData.map((s, i) => Object.assign({}, s, { panel: i % 2 === 0 ? "#F5F1E8" : "#EFEADC" }));
+    const stageNav = stageData.map((s) => ({
+      tag: s.tag,
+      bg: this.state.activeStage === s.id ? "#06382E" : "transparent",
+      color: this.state.activeStage === s.id ? "#F5F1E8" : "#06382E",
+      border: this.state.activeStage === s.id ? "#06382E" : "rgba(6,56,46,0.25)",
+      go: (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+        this.setState({ activeStage: s.id });
+        const el = document.getElementById(s.id);
+        if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 90, behavior: "smooth" });
+      }
+    }));
+
+    const cases = [
+      { id: "safwah", sector: "HOSPITALITY — LAGOS", tenure: "ONGOING MANAGED PARTNERSHIP",
+        title: "A hotel opening with no working technology and six weeks on the clock.",
+        before: "Guest WiFi, CCTV, access control and room systems had each been quoted separately by different suppliers. None of them matched, nothing was scheduled, and the opening date had already been announced.",
+        did: "We took the whole scope, redesigned it as one system, and sequenced the install around the construction programme. One schedule, one contact, one accountable party.",
+        divisions: "Infrastructure · IléMesh · Cloud · Assurance",
+        after: "[ REAL OUTCOME TO BE ADDED — uptime, guest satisfaction, or cost against the original separate quotes. ]",
+        photo: "Safwah Hotel: the comms room and a guest floor, before and after.",
+        quote: "“[ REAL CLIENT QUOTE TO BE ADDED ]”", attrib: "[ NAME, ROLE — SAFWAH HOTEL ]" },
+      { id: "estate", sector: "RESIDENTIAL ESTATE", tenure: "[ X ]-YEAR PARTNERSHIP",
+        title: "An estate where security depended on whoever was awake at the gate.",
+        before: "Cameras that recorded to a box nobody checked, no access records, and residents paying for a service that couldn’t answer a single question after an incident.",
+        did: "Designed coverage around the actual movement of people and vehicles, then put the footage and access logs somewhere retrievable and backed up. Facility managers were trained on it, not just handed it.",
+        divisions: "IléMesh · Infrastructure · Cloud · Assurance",
+        after: "[ REAL OUTCOME TO BE ADDED — incident response time, resident satisfaction, or insurance position. ]",
+        photo: "Gatehouse and perimeter, before and after.",
+        quote: "“[ REAL CLIENT QUOTE TO BE ADDED ]”", attrib: "[ NAME, ROLE — ESTATE ]" },
+      { id: "commercial", sector: "COMMERCIAL PROPERTY", tenure: "[ X ]-YEAR PARTNERSHIP",
+        title: "A building where every tenant complaint was somebody else’s problem.",
+        before: "Shared connectivity nobody owned, three overlapping support contracts, and a landlord fielding calls they had no way to resolve.",
+        did: "Consolidated the infrastructure, put tenant services on a managed platform, and took operational responsibility for the whole stack so the landlord had one number to call.",
+        divisions: "Infrastructure · Cloud · Emporium · Assurance",
+        after: "[ REAL OUTCOME TO BE ADDED — tenant retention, complaint volume, or operating cost. ]",
+        photo: "Risers, tenant floor and the building entrance.",
+        quote: "“[ REAL CLIENT QUOTE TO BE ADDED ]”", attrib: "[ NAME, ROLE — LANDLORD ]" }
+    ];
+
+    return {
+      nav: {
+        home: this.go("home"), approach: this.go("approach"), businesses: this.go("businesses"),
+        work: this.go("work"), about: this.go("about"), contact: this.go("contact")
+      },
+      navItems,
+      isHome: p === "home", isApproach: p === "approach", isBusinesses: p === "businesses",
+      isWork: p === "work", isAbout: p === "about", isContact: p === "contact",
+      menuOpen: this.state.menuOpen,
+      menuExpanded: this.state.menuOpen ? "true" : "false",
+      menuLabel: this.state.menuOpen ? "CLOSE" : "MENU",
+      toggleMenu: () => this.setState((s) => ({ menuOpen: !s.menuOpen })),
+      contactMobile: this.go("contact"),
+
+      heroLine: React.createElement("svg", {
+        viewBox: "0 0 1440 620", preserveAspectRatio: "none",
+        style: { width: "100%", height: "100%", display: "block" }
+      }, React.createElement("path", {
+        d: "M-20 560 C 260 560, 420 470, 640 350 S 1050 130, 1500 40",
+        fill: "none", stroke: accent, strokeWidth: 2, opacity: 0.55,
+        strokeDasharray: 2000,
+        strokeDashoffset: 2000 - Math.min(1, this.state.scroll * 3.2 + 0.28) * 2000,
+        style: { transition: "stroke-dashoffset .35s linear" }
+      })),
+      orbitOffset: 201 - Math.min(1, this.state.scroll * 2.2 + 0.1) * 201,
+
+      orbit,
+      businesses,
+      stages, stageNav,
+      stagesShort: stageData.map((s) => ({ num: s.num, name: s.name, note: s.outcome })),
+      values: [
+        { name: "Trust", body: "We say what is true about cost, timeline and risk, including when it is inconvenient." },
+        { name: "Solve", body: "The problem is ours until it is actually solved, not until the invoice clears." },
+        { name: "Connect", body: "One relationship with us, however many specialists the job needs behind it." },
+        { name: "Improve", body: "Leave people better than you found them. Own it, fix it, learn from it." }
+      ],
+      stats: [
+        { figure: "10+", label: "Years alongside our longest-standing customers" },
+        { figure: "70%", label: "Of the work done in design, before deployment" },
+        { figure: "6", label: "Specialist businesses, one relationship with you" },
+        { figure: "24/7", label: "Response on managed accounts" }
+      ],
+      aboutStats: [
+        { figure: "[ 50+ ]", label: "Enterprise deployments" },
+        { figure: "24/7", label: "Support, answered by people you know" },
+        { figure: "10+", label: "Years in the game" }
+      ],
+      caseTeasers: cases.map((c) => ({
+        sector: c.sector, title: c.title, problem: c.before.slice(0, 120) + "…",
+        tenure: c.tenure, go: this.go("work")
+      })),
+      cases,
+      quotes: [
+        { text: "“[ TESTIMONIAL 1 — relief. The moment somebody finally took the problem off their hands. ]”", attrib: "[ NAME, ORGANISATION ]", bg: "#EFEADC", fg: "#1A1A1A", attribColor: "#28705A" },
+        { text: "“[ TESTIMONIAL 2 — gratitude. Something fixed before they had to ask. ]”", attrib: "[ NAME, ORGANISATION ]", bg: "#06382E", fg: "#F5F1E8", attribColor: accent },
+        { text: "“[ TESTIMONIAL 3 — trust. Why they keep calling us first. ]”", attrib: "[ NAME, ORGANISATION ]", bg: "#EFEADC", fg: "#1A1A1A", attribColor: "#28705A" },
+        { text: "“[ TESTIMONIAL 4 — permanence. A relationship measured in years. ]”", attrib: "[ NAME, ORGANISATION ]", bg: "#EFEADC", fg: "#1A1A1A", attribColor: "#28705A" }
+      ],
+      badges: ["24/7 support on managed accounts", "We respond within four hours", "Problem-solving starts here"],
+      problemOptions: [
+        "I’m not sure yet — help me figure it out",
+        "Connectivity or network problems",
+        "Servers, hosting, backup or recovery",
+        "Software, apps or systems that don’t talk",
+        "A building, hotel or estate to make smart",
+        "Sourcing and supplying equipment",
+        "Someone to manage and be responsible for all of it"
+      ],
+      sent: this.state.sent,
+      notSent: !this.state.sent,
+      submit: (e) => { e.preventDefault(); this.setState({ sent: true }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

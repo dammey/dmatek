@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<![CDATA[<helmet>
+<title>D’Matek Technology Limited | Solving What Matters</title>
+<meta name="description" content="Technology-powered problem-solving across infrastructure, cloud, software, connected environments, technology commerce and managed services. Tell us the problem — we’ll help you figure out what comes next.">
+<meta property="og:title" content="D’Matek Technology Limited | Solving What Matters">
+<meta property="og:description" content="A problem-solving company powered by technology. You don’t need to know which technology you need.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest:#06382E; --deep:#043028; --green:#28705A; --gold:#D4A637;
+    --cream:#F5F1E8; --cream-2:#EFEADC; --white:#FFFFFF; --charcoal:#1A1A1A;
+    --ink:#1A1A1A; --body:#3A4A44; --muted:#4A5A54;
+    --line:rgba(6,56,46,0.15); --line-soft:rgba(6,56,46,0.10);
+    --line-dark:rgba(245,241,232,0.20); --on-dark:rgba(245,241,232,0.80);
+    --s1:8px; --s2:16px; --s3:24px; --s4:32px; --s5:48px; --s6:64px; --s7:96px;
+    --radius:2px; --container:1280px;
+    --dur:.22s; --ease:cubic-bezier(.4,0,.2,1);
+  }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--cream); color:var(--ink); font-family:'Manrope',system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
+  * { box-sizing:border-box; }
+  a { color:var(--forest); text-decoration:none; transition:color var(--dur) var(--ease), background var(--dur) var(--ease), border-color var(--dur) var(--ease); }
+  a:hover { color:var(--green); }
+  button { transition:color var(--dur) var(--ease), background var(--dur) var(--ease), border-color var(--dur) var(--ease); }
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible { outline:2px solid var(--gold); outline-offset:3px; }
+  ::selection { background:var(--gold); color:var(--forest); }
+  ::placeholder { color:rgba(245,241,232,0.55); }
+  #dm-menu-btn { display:none; }
+  @media (max-width:940px) {
+    #dm-nav-desktop { display:none !important; }
+    #dm-menu-btn { display:flex !important; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition:none !important; animation:none !important; scroll-behavior:auto !important; } }
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden">
+
+<a href="#main" style="position:absolute;left:-9999px;top:8px;background:var(--forest);color:var(--cream);padding:12px 18px;z-index:200" style-focus="left:8px">Skip to content</a>
+
+<header style="position:sticky;top:0;z-index:80;background:rgba(245,241,232,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--line-soft)">
+  <div style="max-width:var(--container);margin:0 auto;padding:16px 32px;display:flex;align-items:center;gap:32px">
+    <a href="#main" onClick="{{ nav.home }}" aria-label="D’Matek Technology Limited — home" style="display:flex;align-items:center;gap:12px;flex-shrink:0">
+      <img src="assets/mark-green.png" alt="D’Matek" style="height:32px;width:auto;display:block">
+      <span style="display:flex;flex-direction:column;line-height:1">
+        <span style="font-size:18px;font-weight:800;letter-spacing:0.05em;color:var(--forest)">D&rsquo;MATEK</span>
+        <span style="font-size:8px;font-weight:600;letter-spacing:0.2em;color:var(--green);margin-top:4px">TECHNOLOGY LIMITED</span>
+      </span>
+    </a>
+    <nav id="dm-nav-desktop" aria-label="Primary" style="margin-left:auto;display:flex;align-items:center;gap:4px">
+      <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="5">
+        <a href="#main" onClick="{{ n.go }}" aria-current="{{ n.current }}" style="font-size:14.5px;font-weight:600;padding:10px 14px;border-radius:var(--radius);border-bottom:2px solid {{ n.underline }}">{{ n.label }}</a>
+      </sc-for>
+      <a href="#main" onClick="{{ nav.contact }}" style="margin-left:14px;font-size:13px;font-weight:700;letter-spacing:0.04em;color:var(--cream);background:var(--forest);padding:14px 22px;border-radius:var(--radius)" style-hover="background:var(--green)">TELL US WHAT YOU NEED</a>
+    </nav>
+    <button id="dm-menu-btn" type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuExpanded }}" aria-label="Menu" style="margin-left:auto;background:var(--forest);border:none;color:var(--cream);font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.1em;padding:14px 20px;border-radius:var(--radius);cursor:pointer;align-items:center;gap:10px">{{ menuLabel }}</button>
+  </div>
+</header>
+
+<sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+  <nav aria-label="Mobile" style="position:fixed;inset:0;z-index:90;background:var(--forest);color:var(--cream);padding:24px 28px 40px;display:flex;flex-direction:column;overflow-y:auto">
+    <div style="display:flex;align-items:center;gap:12px">
+      <img src="assets/mark-cream.png" alt="" style="height:30px;width:auto">
+      <span style="font-size:17px;font-weight:800;letter-spacing:0.05em">D&rsquo;MATEK</span>
+      <button type="button" onClick="{{ toggleMenu }}" aria-label="Close menu" style="margin-left:auto;background:transparent;border:1px solid var(--line-dark);color:var(--cream);font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.1em;padding:12px 18px;border-radius:var(--radius);cursor:pointer">CLOSE</button>
+    </div>
+    <div style="display:flex;flex-direction:column;margin-top:40px;border-top:1px solid var(--line-dark)">
+      <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="5">
+        <a href="#main" onClick="{{ n.goMobile }}" style="font-size:30px;font-weight:700;letter-spacing:-0.02em;color:var(--cream);padding:20px 0;border-bottom:1px solid var(--line-dark)" style-hover="color:var(--gold)">{{ n.label }}</a>
+      </sc-for>
+    </div>
+    <a href="#main" onClick="{{ contactMobile }}" style="margin-top:36px;text-align:center;font-size:15px;font-weight:700;letter-spacing:0.05em;color:var(--forest);background:var(--gold);padding:20px 24px;border-radius:var(--radius)">TELL US WHAT YOU NEED &rarr;</a>
+  </nav>
+</sc-if>
+
+<main id="main" style="flex:1">
+
+<!-- ========================= HOME ========================= -->
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<div>
+
+  <section aria-labelledby="hero-h" style="background:var(--forest);color:var(--cream)">
+    <div style="max-width:var(--container);margin:0 auto;padding:clamp(72px,9vw,140px) 32px clamp(56px,6vw,96px);display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(40px,5vw,80px);align-items:end">
+      <div>
+        <p style="font-size:12px;font-weight:600;letter-spacing:0.22em;color:var(--gold);margin:0 0 30px">D&rsquo;MATEK TECHNOLOGY LIMITED</p>
+        <h1 id="hero-h" style="font-size:clamp(44px,6.4vw,92px);line-height:0.95;font-weight:800;letter-spacing:-0.037em;margin:0 0 30px;text-wrap:balance">Solving<br>what matters.</h1>
+        <p style="font-size:clamp(17px,1.6vw,21px);line-height:1.6;color:var(--on-dark);max-width:24em;margin:0 0 42px">Technology-powered problem-solving for businesses, organisations and people.</p>
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <a href="#main" onClick="{{ nav.contact }}" style="font-size:15px;font-weight:700;color:var(--forest);background:var(--gold);padding:17px 30px;border-radius:var(--radius)" style-hover="background:var(--cream)">Tell us what you need &rarr;</a>
+          <a href="#main" onClick="{{ nav.solutions }}" style="font-size:15px;font-weight:600;color:var(--cream);border:1px solid var(--line-dark);padding:17px 30px;border-radius:var(--radius)" style-hover="border-color:var(--gold);color:var(--gold)">Explore what we do &rarr;</a>
+        </div>
+      </div>
+      <div style="min-height:clamp(280px,32vw,440px);background:repeating-linear-gradient(135deg,rgba(245,241,232,0.08) 0 9px,rgba(245,241,232,0.025) 9px 18px);border:1px solid var(--line-dark);display:flex;align-items:flex-end;padding:24px" role="img" aria-label="Placeholder for hero photography showing people at work">
+        <p style="font-size:12px;font-weight:600;letter-spacing:0.14em;color:rgba(245,241,232,0.55);line-height:1.7;margin:0">[ PLACEHOLDER &mdash; REAL PHOTOGRAPHY REQUIRED ]<br>People at work. Progress, not equipment.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="entry-h" style="background:var(--deep);color:var(--cream);border-top:1px solid rgba(212,166,55,0.35)">
+    <div style="max-width:var(--container);margin:0 auto;padding:clamp(60px,7vw,104px) 32px">
+      <div style="display:flex;flex-wrap:wrap;gap:16px 48px;align-items:baseline;margin-bottom:clamp(32px,4vw,52px)">
+        <p style="font-size:12px;font-weight:600;letter-spacing:0.22em;color:var(--gold);margin:0">HAVE A PROBLEM? START HERE.</p>
+        <h2 id="entry-h" style="font-size:clamp(28px,3.6vw,48px);line-height:1.05;font-weight:800;letter-spacing:-0.03em;margin:0;width:100%">What are you trying to solve?</h2>
+        <p style="font-size:17px;line-height:1.65;color:var(--on-dark);margin:0;max-width:34em">You don&rsquo;t need to know which technology you need. Pick the closest starting point &mdash; we&rsquo;ll take it from there.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--line-dark);border:1px solid var(--line-dark)">
+        <sc-for list="{{ entryPoints }}" as="e" hint-placeholder-count="8">
+          <button type="button" onClick="{{ e.pick }}" style="background:var(--deep);border:none;text-align:left;cursor:pointer;font-family:'Manrope',sans-serif;padding:26px 24px;display:flex;align-items:center;gap:16px;color:var(--cream)" style-hover="background:#0A453A">
+            <span style="flex:1;font-size:17px;font-weight:600;line-height:1.35">{{ e.label }}</span>
+            <span style="font-size:17px;color:var(--gold)">&rarr;</span>
+          </button>
+        </sc-for>
+      </div>
+      <div style="margin-top:28px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center">
+        <p style="font-size:16px;color:var(--on-dark);margin:0">None of these?</p>
+        <a href="#main" onClick="{{ nav.contact }}" style="font-size:16px;font-weight:700;color:var(--cream);border-bottom:2px solid var(--gold);padding-bottom:3px" style-hover="color:var(--gold)">Tell us in your own words &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="alone-h" style="background:var(--cream)">
+    <div style="max-width:var(--container);margin:0 auto;padding:clamp(72px,8vw,124px) 32px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(36px,5vw,72px);align-items:start;margin-bottom:clamp(48px,6vw,80px)">
+        <h2 id="alone-h" style="font-size:clamp(30px,3.9vw,54px);line-height:1.05;font-weight:800;letter-spacing:-0.032em;margin:0;color:var(--forest);text-wrap:balance">You don&rsquo;t have to figure it out alone.</h2>
+        <div>
+          <p style="font-size:17.5px;line-height:1.7;color:var(--body);margin:0 0 16px">Some problems need one solution. Others need several specialists working together.</p>
+          <p style="font-size:17.5px;line-height:1.7;color:var(--body);margin:0">D&rsquo;Matek brings the right technology, expertise and people together to solve what matters &mdash; and stays with you as your needs evolve.</p>
+        </div>
+      </div>
+      <ol style="list-style:none;margin:0;padding:34px 0 0;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:28px">
+        <sc-for list="{{ journey }}" as="j" hint-placeholder-count="5">
+          <li style="display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="width:9px;height:9px;border-radius:50%;background:var(--gold);flex-shrink:0;display:block"></span>
+              <span style="flex:1;height:1px;background:rgba(6,56,46,0.2);display:block"></span>
+            </div>
+            <h3 style="font-size:15px;font-weight:800;letter-spacing:0.12em;color:var(--forest);margin:0">{{ j.title }}</h3>
+            <p style="font-size:14.5px;line-height:1.6;color:var(--muted);margin:0">{{ j.body }}</p>
+          </li>
+        </sc-for>
+      </ol>
+    </div>
+  </section>
+
+  <section aria-labelledby="spec-h" style="background:var(--white);border-top:1px solid var(--line-soft)">
+    <div style="max-width:var(--container);margin:0 auto;padding:clamp(72px,8vw,124px) 32px">
+      <div style="display:flex;flex-wrap:wrap;gap:20px 56px;align-items:flex-end;margin-bottom:clamp(40px,5vw,64px)">
+        <h2 id="spec-h" style="font-size:clamp(30px,3.9vw,54px);line-height:1.05;font-weight:800;letter-spacing:-0.032em;margin:0;color:var(--forest)">One D&rsquo;Matek.<br>Many specialists.</h2>
+        <p style="font-size:17.5px;line-height:1.7;color:var(--body);margin:0;max-width:25em">Whatever the problem, we bring the right expertise to the table. You keep one relationship.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)">
+        <sc-for list="{{ businesses }}" as="b" hint-placeholder-count="6">
+          <article style="background:var(--white);padding:clamp(28px,3vw,38px) clamp(26px,2.6vw,34px);display:flex;flex-direction:column;gap:12px" style-hover="background:#FBF9F3">
+            <div style="display:flex;align-items:baseline;gap:12px">
+              <span style="font-size:12px;font-weight:700;color:var(--gold);letter-spacing:0.1em">{{ b.num }}</span>
+              <span style="margin-left:auto;font-size:10px;font-weight:600;letter-spacing:0.14em;color:var(--green)">{{ b.badge }}</span>
+            </div>
+            <h3 style="font-size:23px;font-weight:800;letter-spacing:-0.02em;color:var(--forest);margin:0">{{ b.name }}</h3>
+            <p style="font-size:13.5px;font-weight:600;letter-spacing:0.05em;color:var(--green);margin:0">{{ b.discipline }}</p>
+            <p style="font-size:15px;line-height:1.65;color:var(--muted);margin:6px 0 0">{{ b.role }}</p>
+            <p style="font-size:clamp(19px,1.9vw,25px);font-weight:700;letter-spacing:-0.02em;color:var(--forest);margin:14px 0 0">{{ b.idea }}</p>
+            <a href="#main" onClick="{{ b.go }}" style="margin-top:auto;padding-top:22px;font-size:13.5px;font-weight:700;letter-spacing:0.06em;color:var(--forest)" style-hover="color:var(--gold)">{{ b.cta }}</a>
+          </article>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="box-h" style="background:var(--deep);color:var(--cream)">
+    <div style="max-width:var(--container);margin:0 auto;padding:clamp(72px,8vw,124px) 32px">
+      <div style="max-width:40em;margin-bottom:clamp(44px,5vw,68px)">
+        <p style="font-size:12px;font-weight:600;letter-spacing:0.22em;color:var(--gold);margin:0 0 22px">THE D&rsquo;MATEK DIFFERENCE</p>
+        <h2 id="box-h" style="font-size:clamp(30px,3.9vw,54px);line-height:1.05;font-weight:800;letter-spacing:-0.032em;margin:0 0 22px;text-wrap:balance">Your problem doesn&rsquo;t have to fit into one box.</h2>
+        <p style="font-size:17.5px;line-height:1.7;color:var(--on-dark);margin:0">A hotel opening next quarter needs reliable connectivity, cloud infrastructure, CCTV, access control, smart rooms, software, equipment and someone to keep all of it running. That is eight vendors managing eight contracts &mdash; or one conversation with us.</p>
+      </div>
+      <div style="display:flex;flex-direction:column">
+        <div style="background:rgba(245,241,232,0.07);border:1px solid var(--line-dark);padding:28px;display:flex;flex-wrap:wrap;gap:12px 26px;align-items:center">
+          <span style="font-size:11.5px;font-weight:700;letter-spacing:0.16em;color:var(--gold)">01 &nbsp;THE PROBLEM</span>
+          <p style="font-size:clamp(17px,1.7vw,20px);font-weight:600;margin:0;flex:1;min-width:260px">&ldquo;We open in four months and nothing about our technology is decided.&rdquo;</p>
+        </div>
+        <div style="display:flex;justify-content:center"><span style="width:1px;height:34px;background:rgba(212,166,55,0.6);display:block"></span></div>
+        <div style="background:var(--gold);color:var(--forest);padding:28px;display:flex;flex-wrap:wrap;gap:12px 26px;align-items:center">
+          <span style="font-size:11.5px;font-weight:700;letter-spacing:0.16em">02 &nbsp;D&rsquo;MATEK</span>
+          <p style="font-size:clamp(17px,1.7vw,20px);font-weight:700;margin:0;flex:1;min-width:260px">One team understands the whole problem and owns the outcome.</p>
+        </div>
+        <div style="display:flex;justify-content:center"><span style="width:1px;height:34px;background:rgba(212,166,55,0.6);display:block"></span></div>
+        <div style="background:rgba(245,241,232,0.07);border:1px solid var(--line-dark);padding:28px">
+          <span style="font-size:11.5px;font-weight:700;letter-spacing:0.16em;color:var(--gold);display:block;margin-bottom:20px">03 &nbsp;THE SPECIALISTS WE BRING IN</span>
+          <div style="display:flex;flex-wrap:wrap;gap:10px">
+            <sc-for list="{{ scenarioMix }}" as="m" hint-placeholder-count="6">
+              <span style="font-size:14.5px;font-weight:600;color:var(--cream);border:1px solid rgba(245,241,232,0.32);padding:10px 18px;border-radius:var(--radius)">{{ m }}</span>
+            </sc-for>
+          </div>
+          <p style="font-size:15px;line-height:1.65;color:rgba(245,241,232,0.62);margin:22px 0 0;max-width:46em">You never see this layer. It is our job to coordinate it.</p>
+        </div>
+        <div style="display:flex;justify-content:center"><span style="width:1px;height:34px;background:rgba(212,166,55,0.6);display:block"></span></div>
+        <div style="background:var(--cream);color:var(--forest);padding:32px 28px;display:flex;flex-wrap:wrap;gap:12px 26px;align-items:center">
+          <span style="font-size:11.5px;font-weight:700;letter-spacing:0.16em;color:var(--green)">04 &nbsp;WHAT YOU GET</span>
+          <p style="font-size:clamp(18px,1.9vw,24px);font-weight:700;letter-spacing:-0.02em;margin:0;flex:1;min-width:260px">One plan. One point of contact. One team that stays.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="sol-h" style="background:var(--cream)">
+    <div style="max-width:var(--container);margin:0 auto;padding:clamp(72px,8vw,124px) 32px">
+      <div style="display:flex;flex-wrap:wrap;gap:16px 48px;align-items:baseline;margin-bottom:clamp(36px,5vw,60px)">
+        <h2 id="sol-h" style="font-size:clamp(30px,3.9vw,54px);line-height:1.05;font-weight:800;letter-spacing:-0.032em;margin:0;color:var(--forest)">Or start from the shape of it.</h2>
+        <a href="#main" onClick="{{ nav.solutions }}" style="margin-left:auto;font-size:14.5px;font-weight:700;color:var(--forest);border-bottom:2px solid var(--gold);padding-bottom:3px" style-hover="color:var(--green)">All solutions &rarr;</a>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px">
+        <sc-for list="{{ solutions }}" as="s" hint-placeholder-count="6">
+          <a href="#main" onClick="{{ s.goSolution }}" style="background:var(--white);border:1px solid rgba(6,56,46,0.13);padding:30px 28px;display:flex;flex-direction:column;gap:12px;min-height:180px" style-hover="border-color:var(--gold)">
+            <h3 style="font-size:16px;font-weight:800;letter-spacing:0.12em;color:var(--forest);margin:0">{{ s.title }}</h3>
+            <p style="font-size:15px;line-height:1.65;color:var(--muted);margin:0">{{ s.body }}</p>
+            <span style="margin-top:auto;font-size:13px;font-weight:700;color:var(--green)">Explore &rarr;</span>
+          </a>
+        </sc-for>
+        <div style="background:var(--forest);color:var(--cream);padding:30px 28px;display:flex;flex-direction:column;gap:12px;min-height:180px">
+          <h3 style="font-size:16px;font-weight:800;letter-spacing:0.12em;color:var(--gold);margin:0">NOT SURE WHAT YOU NEED?</h3>
+          <p style="font-size:15px;line-height:1.65;color:var(--on-dark);margin:0">Tell us the problem. We&rsquo;ll help you figure out what comes next.</p>
+          <a href="#main" onClick="{{ nav.contact }}" style="margin-top:auto;font-size:14px;font-weight:700;color:var(--cream)" style-hover="color:var(--gold)">Tell us what you need &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="work-h" style="background:var(--white);border-top:1px solid var(--line-soft)">
+    <div style="max-width:var(--container);margin:0 auto;padding:clamp(72px,8vw,124px) 32px">
+      <div style="display:flex;flex-wrap:wrap;gap:16px 40px;align-items:baseline;margin-bottom:clamp(36px,4vw,56px)">
+        <h2 id="work-h" style="font-size:clamp(30px,3.9vw,54px);line-height:1.05;font-weight:800;letter-spacing:-0.032em;margin:0;color:var(--forest)">Problems we&rsquo;ve helped solve.</h2>
+        <a href="#main" onClick="{{ nav.work }}" style="margin-left:auto;font-size:14.5px;font-weight:700;color:var(--forest);border-bottom:2px solid var(--gold);padding-bottom:3px" style-hover="color:var(--green)">All work &rarr;</a>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:24px">
+        <sc-for list="{{ cases }}" as="c" hint-placeholder-count="2">
+          <article style="border:1px solid var(--line);display:flex;flex-direction:column">
+            <div style="height:210px;background:repeating-linear-gradient(135deg,rgba(6,56,46,0.07) 0 9px,rgba(6,56,46,0.02) 9px 18px);border-bottom:1px solid var(--line);display:flex;align-items:flex-end;padding:18px">
+              <span style="font-size:11.5px;font-weight:600;letter-spacing:0.12em;color:var(--green)">[ PLACEHOLDER &mdash; PROJECT PHOTOGRAPHY ]</span>
+            </div>
+            <div style="padding:30px 28px;display:flex;flex-direction:column;gap:18px;flex:1">
+              <h3 style="font-size:clamp(19px,1.8vw,23px);line-height:1.2;font-weight:800;letter-spacing:-0.02em;color:var(--forest);margin:0">{{ c.title }}</h3>
+              <div>
+                <p style="font-size:11.5px;font-weight:700;letter-spacing:0.14em;color:var(--green);margin:0 0 6px">CHALLENGE</p>
+                <p style="font-size:15px;line-height:1.6;color:var(--muted);margin:0">{{ c.challenge }}</p>
+              </div>
+              <div>
+                <p style="font-size:11.5px;font-weight:700;letter-spacing:0.14em;color:var(--green);margin:0 0 6px">WHAT WE DID</p>
+                <p style="font-size:15px;line-height:1.6;color:var(--muted);margin:0">{{ c.did }}</p>
+              </div>
+              <div>
+                <p style="font-size:11.5px;font-weight:700;letter-spacing:0.14em;color:var(--green);margin:0 0 6px">OUTCOME</p>
+                <p style="font-size:14px;font-weight:600;line-height:1.6;color:#8A6B12;margin:0">{{ c.outcome }}</p>
+              </div>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="how-h" style="background:var(--forest);color:var(--cream)">
+    <div style="max-width:var(--container);margin:0 auto;padding:clamp(72px,8vw,124px) 32px">
+      <h2 id="how-h" style="font-size:clamp(30px,3.9vw,54px);line-height:1.05;font-weight:800;letter-spacing:-0.032em;margin:0 0 clamp(44px,5vw,70px);max-width:17em">We don&rsquo;t start with technology. We start with understanding.</h2>
+      <ol style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:var(--line-dark);border-top:1px solid var(--line-dark);border-bottom:1px solid var(--line-dark)">
+        <sc-for list="{{ stages }}" as="st" hint-placeholder-count="6">
+          <li style="background:var(--forest);padding:30px 22px 36px;display:flex;flex-direction:column;gap:14px" style-hover="background:#0A453A">
+            <span style="font-size:12px;font-weight:700;color:var(--gold);letter-spacing:0.1em">{{ st.num }}</span>
+            <h3 style="font-size:15px;font-weight:800;letter-spacing:0.12em;color:var(--cream);margin:0">{{ st.title }}</h3>
+            <p style="font-size:14.5px;line-height:1.6;color:rgba(245,241,232,0.72);margin:0">{{ st.body }}</p>
+          </li>
+        </sc-for>
+      </ol>
+    </div>
+  </section>
+
+  <section aria-labelledby="stay-h" style="background:var(--cream)">
+    <div style="max-width:var(--container);margin:0 auto;padding:clamp(72px,8vw,124px) 32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(40px,5vw,76px);align-items:center">
+      <div>
+        <p style="font-size:12px;font-weight:600;letter-spacing:0.22em;color:var(--green);margin:0 0 22px">WE STAY</p>
+        <h2 id="stay-h" style="font-size:clamp(30px,3.6vw,50px);line-height:1.05;font-weight:800;letter-spacing:-0.032em;margin:0 0 24px;color:var(--forest);text-wrap:balance">We don&rsquo;t disappear after delivery.</h2>
+        <p style="font-size:17.5px;line-height:1.7;color:var(--body);margin:0 0 16px">Technology changes. Businesses change. Problems change.</p>
+        <p style="font-size:17.5px;line-height:1.7;color:var(--body);margin:0">Most of what goes wrong happens after go-live, when the original team has moved on. We stay involved &mdash; because the problem you have in year two is rarely the one you started with.</p>
+      </div>
+      <ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid var(--line)">
+        <sc-for list="{{ stay }}" as="s" hint-placeholder-count="4">
+          <li style="display:flex;gap:22px;align-items:baseline;padding:22px 0;border-bottom:1px solid var(--line-soft)">
+            <span style="width:9px;height:9px;border-radius:50%;background:var(--gold);flex-shrink:0;display:block"></span>
+            <span style="font-size:17px;font-weight:800;letter-spacing:0.12em;color:var(--forest);min-width:120px">{{ s.title }}</span>
+            <span style="font-size:16px;line-height:1.6;color:var(--muted);flex:1">{{ s.body }}</span>
+          </li>
+        </sc-for>
+      </ol>
+    </div>
+  </section>
+
+  <section aria-labelledby="about-h" style="background:var(--white);border-top:1px solid var(--line-soft)">
+    <div style="max-width:var(--container);margin:0 auto;padding:clamp(72px,8vw,124px) 32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(40px,5vw,72px);align-items:center">
+      <div>
+        <p style="font-size:12px;font-weight:600;letter-spacing:0.22em;color:var(--green);margin:0 0 22px">ABOUT D&rsquo;MATEK</p>
+        <h2 id="about-h" style="font-size:clamp(28px,3.5vw,48px);line-height:1.07;font-weight:800;letter-spacing:-0.032em;margin:0 0 24px;color:var(--forest);text-wrap:balance">Technology is only useful when it solves something.</h2>
+        <p style="font-size:17px;line-height:1.7;color:var(--body);margin:0 0 16px">D&rsquo;Matek Technology Limited is a problem-solving company powered by technology.</p>
+        <p style="font-size:17px;line-height:1.7;color:var(--body);margin:0 0 16px">We bring together specialist capabilities across infrastructure, cloud, software, connected environments, technology commerce and managed services to make difficult things simpler and better.</p>
+        <p style="font-size:17px;line-height:1.7;color:var(--body);margin:0 0 30px">We solve problems, build better solutions and stay with our customers every step of the way.</p>
+        <a href="#main" onClick="{{ nav.about }}" style="font-size:15px;font-weight:700;color:var(--forest);border-bottom:2px solid var(--gold);padding-bottom:4px" style-hover="color:var(--green)">About D&rsquo;Matek &rarr;</a>
+      </div>
+      <div style="background:var(--forest);color:var(--cream);padding:clamp(32px,4vw,52px);display:flex;flex-direction:column;gap:18px">
+        <p style="font-size:12px;font-weight:600;letter-spacing:0.22em;color:var(--gold);margin:0">WHERE WE WORK</p>
+        <p style="font-size:clamp(24px,2.8vw,36px);line-height:1.12;font-weight:700;letter-spacing:-0.025em;margin:0">Built from Nigeria.<br>Designed to solve problems that matter anywhere.</p>
+        <p style="font-size:16px;line-height:1.7;color:var(--on-dark);margin:0">Our roots are Nigerian and our ambition is wider. We build for the way technology actually has to work here first &mdash; which tends to make it work everywhere else too.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="cta-h" style="background:var(--gold);color:var(--forest)">
+    <div style="max-width:var(--container);margin:0 auto;padding:clamp(72px,8vw,130px) 32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(36px,5vw,72px);align-items:center">
+      <h2 id="cta-h" style="font-size:clamp(32px,4.6vw,64px);line-height:1.01;font-weight:800;letter-spacing:-0.037em;margin:0;text-wrap:balance">Have a problem you&rsquo;re trying to solve?</h2>
+      <div>
+        <p style="font-size:19px;line-height:1.6;font-weight:600;margin:0 0 12px">You don&rsquo;t need to know which technology you need.</p>
+        <p style="font-size:19px;line-height:1.6;margin:0 0 34px">Tell us what&rsquo;s happening. We&rsquo;ll help you figure out what comes next.</p>
+        <a href="#main" onClick="{{ nav.contact }}" style="display:inline-block;font-size:15px;font-weight:700;letter-spacing:0.05em;color:var(--cream);background:var(--forest);padding:19px 34px;border-radius:var(--radius)" style-hover="background:var(--charcoal)">TELL US WHAT YOU NEED &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+</sc-if>
+
+<!-- ========================= SOLUTIONS ========================= -->
+<sc-if value="{{ isSolutions }}" hint-placeholder-val="{{ false }}">
+<div>
+  <section style="background:var(--forest);color:var(--cream)">
+    <div style="max-width:var(--container);margin:0 auto;padding:clamp(64px,7vw,108px) 32px clamp(48px,5vw,80px)">
+      <p style="font-size:12px;font-weight:600;letter-spacing:0.22em;color:var(--gold);margin:0 0 24px">SOLUTIONS</p>
+      <h1 style="font-size:clamp(36px,5.2vw,74px);line-height:1.01;font-weight:800;letter-spacing:-0.037em;margin:0 0 26px;max-width:13em">What are you trying to solve?</h1>
+      <p style="font-size:clamp(17px,1.5vw,20px);line-height:1.65;color:var(--on-dark);max-width:34em;margin:0">Start with the problem, not the product. Each route leads to the specialists who own it &mdash; but you only ever deal with one D&rsquo;Matek.</p>
+    </div>
+  </section>
+  <section style="background:var(--cream)">
+    <div style="max-width:var(--container);margin:0 auto;padding:clamp(56px,6vw,96px) 32px">
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <sc-for list="{{ solutions }}" as="s" hint-placeholder-count="6">
+          <article style="background:var(--white);border:1px solid var(--line);padding:clamp(28px,3vw,44px);display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:28px 44px;align-items:start" style-hover="border-color:var(--gold)">
+            <div>
+              <h2 style="font-size:clamp(21px,2.3vw,30px);font-weight:800;letter-spacing:0.05em;color:var(--forest);margin:0 0 12px">{{ s.title }}</h2>
+              <p style="font-size:16px;line-height:1.65;color:var(--body);margin:0 0 20px">{{ s.body }}</p>
+              <a href="#main" onClick="{{ nav.contact }}" style="font-size:13.5px;font-weight:700;color:var(--forest);border-bottom:2px solid var(--gold);padding-bottom:3px" style-hover="color:var(--green)">Tell us what you need &rarr;</a>
+            </div>
+            <div>
+              <p style="font-size:11.5px;font-weight:700;letter-spacing:0.14em;color:var(--green);margin:0 0 14px">THE PROBLEM USUALLY SOUNDS LIKE</p>
+              <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px">
+                <sc-for list="{{ s.problems }}" as="p" hint-placeholder-count="3">
+                  <li style="font-size:15.5px;line-height:1.5;color:var(--body);display:flex;gap:10px"><span style="color:var(--gold)">&mdash;</span><span>{{ p }}</span></li>
+                </sc-for>
+              </ul>
+            </div>
+            <div>
+              <p style="font-size:11.5px;font-weight:700;letter-spacing:0.14em;color:var(--green);margin:0 0 14px">TYPICAL OUTCOME</p>
+              <p style="font-size:16px;line-height:1.6;color:var(--forest);font-weight:600;margin:0 0 22px">{{ s.outcome }}</p>
+              <p style="font-size:11.5px;font-weight:700;letter-spacing:0.14em;color:var(--green);margin:0 0 10px">SPECIALISTS INVOLVED</p>
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                <sc-for list="{{ s.owners }}" as="o" hint-placeholder-count="2">
+                  <a href="#main" onClick="{{ o.go }}" style="font-size:13.5px;font-weight:600;color:var(--forest);border:1px solid var(--line);padding:8px 14px;border-radius:var(--radius)" style-hover="border-color:var(--gold);color:var(--green)">{{ o.name }}</a>
+                </sc-for>
+              </div>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+      <div style="margin-top:32px;background:var(--forest);color:var(--cream);padding:clamp(36px,4vw,60px);display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px;align-items:center">
+        <div>
+          <h2 style="font-size:clamp(24px,2.9vw,38px);line-height:1.08;font-weight:800;letter-spacing:-0.028em;margin:0 0 14px">Not sure what you need?</h2>
+          <p style="font-size:17px;line-height:1.65;color:var(--on-dark);margin:0">Tell us the problem. We&rsquo;ll help you figure out what comes next.</p>
+        </div>
+        <div>
+          <a href="#main" onClick="{{ nav.contact }}" style="display:inline-block;font-size:15px;font-weight:700;letter-spacing:0.05em;color:var(--forest);background:var(--gold);padding:19px 34px;border-radius:var(--radius)" style-hover="background:var(--cream)">TELL US WHAT YOU NEED &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<!-- ========================= BUSINESSES ========================= -->
+<sc-if value="{{ isBusinesses }}" hint-placeholder-val="{{ false }}">
+<div>
+  <section style="background:var(--forest);color:var(--cream)">
+    <div style="max-width:var(--container);margin:0 auto;padding:clamp(64px,7vw,108px) 32px clamp(48px,5vw,80px)">
+      <p style="font-size:12px;font-weight:600;letter-spacing:0.22em;color:var(--gold);margin:0 0 24px">BUSINESSES</p>
+      <h1 style="font-size:clamp(36px,5.2vw,74px);line-height:1.01;font-weight:800;letter-spacing:-0.037em;margin:0 0 26px">One D&rsquo;Matek.<br>Many specialists.</h1>
+      <p style="font-size:clamp(17px,1.5vw,20px);line-height:1.65;color:var(--on-dark);max-width:36em;margin:0 0 30px">You don&rsquo;t need to know which D&rsquo;Matek business you need. Tell us the problem. We&rsquo;ll bring the right specialists together.</p>
+      <p style="font-size:15px;line-height:1.7;color:rgba(245,241,232,0.6);max-width:36em;margin:0">One legal company, six operating businesses. This page is the inside view &mdash; useful if you want it, unnecessary if you don&rsquo;t.</p>
+    </div>
+  </section>
+  <section style="background:var(--cream)">
+    <div style="max-width:var(--container);margin:0 auto;padding:clamp(56px,6vw,96px) 32px">
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <sc-for list="{{ businesses }}" as="b" hint-placeholder-count="6">
+          <article style="background:var(--white);border:1px solid var(--line);padding:clamp(28px,3vw,44px);display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:26px 46px;align-items:start" style-hover="border-color:var(--gold)">
+            <div>
+              <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:14px">
+                <span style="font-size:12px;font-weight:700;color:var(--gold);letter-spacing:0.1em">{{ b.num }}</span>
+                <span style="font-size:10px;font-weight:600;letter-spacing:0.14em;color:var(--green)">{{ b.badge }}</span>
+              </div>
+              <h2 style="font-size:clamp(24px,2.6vw,33px);font-weight:800;letter-spacing:-0.025em;color:var(--forest);margin:0 0 8px">{{ b.name }}</h2>
+              <p style="font-size:14px;font-weight:600;letter-spacing:0.05em;color:var(--green);margin:0">{{ b.discipline }}</p>
+            </div>
+            <div>
+              <p style="font-size:16px;line-height:1.65;color:var(--body);margin:0 0 18px">{{ b.role }}</p>
+              <p style="font-size:clamp(20px,2vw,26px);font-weight:700;letter-spacing:-0.02em;color:var(--forest);margin:0">{{ b.idea }}</p>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start">
+              <p style="font-size:11.5px;font-weight:700;letter-spacing:0.14em;color:var(--green);margin:0">TODAY WE DELIVER</p>
+              <p style="font-size:15px;line-height:1.6;color:var(--muted);margin:0">{{ b.summary }}</p>
+              <a href="#main" onClick="{{ b.go }}" style="margin-top:8px;font-size:13.5px;font-weight:700;color:var(--forest);border-bottom:2px solid var(--gold);padding-bottom:3px" style-hover="color:var(--green)">{{ b.cta }}</a>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+      <p style="font-size:14.5px;line-height:1.7;color:var(--muted);margin:30px 0 0;max-width:52em">D&rsquo;Foundry, Il&eacute;Mesh and Matek Emporium / Matek Provision carry distinctive identities where the market justifies it. They remain businesses within D&rsquo;Matek, endorsed by the parent brand &mdash; not separate companies. Naming for the commerce business is still being finalised.</p>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<!-- ========================= BUSINESS DETAIL ========================= -->
+<sc-if value="{{ isBusiness }}" hint-placeholder-val="{{ false }}">
+<div>
+  <section style="background:{{ biz.heroBg }};color:var(--cream)">
+    <div style="max-width:var(--container);margin:0 auto;padding:clamp(52px,6vw,88px) 32px clamp(48px,5vw,80px)">
+      <a href="#main" onClick="{{ nav.businesses }}" style="font-size:12.5px;font-weight:700;letter-spacing:0.12em;color:rgba(245,241,232,0.6)" style-hover="color:var(--gold)">&larr; ALL BUSINESSES</a>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(32px,4vw,64px);align-items:end;margin-top:38px">
+        <div>
+          <p style="font-size:12px;font-weight:600;letter-spacing:0.2em;color:var(--gold);margin:0 0 20px">{{ biz.num }} &nbsp;&middot;&nbsp; {{ biz.discipline }}</p>
+          <h1 style="font-size:clamp(34px,4.8vw,68px);line-height:1.01;font-weight:800;letter-spacing:-0.037em;margin:0 0 20px">{{ biz.name }}</h1>
+          <p style="font-size:clamp(22px,2.5vw,34px);font-weight:700;letter-spacing:-0.022em;color:var(--gold);margin:0 0 18px">{{ biz.idea }}</p>
+          <p style="font-size:17px;line-height:1.6;font-weight:600;color:var(--cream);margin:0">{{ biz.proposition }}</p>
+        </div>
+        <div>
+          <p style="font-size:17.5px;line-height:1.7;color:var(--on-dark);margin:0 0 20px">{{ biz.role }}</p>
+          <p style="font-size:16px;line-height:1.7;color:rgba(245,241,232,0.65);margin:0 0 30px">{{ biz.positioning }}</p>
+          <a href="#main" onClick="{{ nav.contact }}" style="display:inline-block;font-size:15px;font-weight:700;color:var(--forest);background:var(--gold);padding:17px 30px;border-radius:var(--radius)" style-hover="background:var(--cream)">Tell us what you need &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:var(--cream)">
+    <div style="max-width:var(--container);margin:0 auto;padding:clamp(56px,6vw,96px) 32px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(36px,4vw,64px);align-items:start">
+        <div>
+          <h2 style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:var(--green);margin:0 0 20px">WHAT IT SOLVES</h2>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px">
+            <sc-for list="{{ biz.problems }}" as="p" hint-placeholder-count="3">
+              <li style="font-size:18px;line-height:1.5;font-weight:600;color:var(--forest);display:flex;gap:12px"><span style="color:var(--gold)">&ldquo;</span><span>{{ p }}</span></li>
+            </sc-for>
+          </ul>
+          <p style="font-size:16px;line-height:1.7;color:var(--muted);margin:26px 0 0">{{ biz.outcome }}</p>
+        </div>
+        <div>
+          <h2 style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:var(--green);margin:0 0 20px">WHAT WE DELIVER TODAY</h2>
+          <ul style="list-style:none;margin:0;padding:0;border-top:1px solid var(--line)">
+            <sc-for list="{{ biz.services }}" as="s" hint-placeholder-count="6">
+              <li style="font-size:16.5px;line-height:1.5;color:var(--ink);padding:15px 0;border-bottom:1px solid var(--line-soft)">{{ s }}</li>
+            </sc-for>
+          </ul>
+        </div>
+        <div>
+          <h2 style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:var(--green);margin:0 0 20px">BUILDING NEXT</h2>
+          <ul style="list-style:none;margin:0;padding:0;border-top:1px solid var(--line)">
+            <sc-for list="{{ biz.building }}" as="s" hint-placeholder-count="5">
+              <li style="font-size:16.5px;line-height:1.5;color:var(--muted);padding:15px 0;border-bottom:1px solid var(--line-soft)">{{ s }}</li>
+            </sc-for>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:var(--white);border-top:1px solid var(--line-soft)">
+    <div style="max-width:var(--container);margin:0 auto;padding:clamp(56px,6vw,96px) 32px">
+      <h2 style="font-size:clamp(24px,2.9vw,40px);line-height:1.08;font-weight:800;letter-spacing:-0.028em;color:var(--forest);margin:0 0 30px">Example solutions.</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:clamp(44px,5vw,72px)">
+        <sc-for list="{{ biz.examples }}" as="ex" hint-placeholder-count="3">
+          <div style="background:var(--white);padding:28px 26px;display:flex;flex-direction:column;gap:10px">
+            <h3 style="font-size:18px;font-weight:700;letter-spacing:-0.015em;color:var(--forest);margin:0">{{ ex.title }}</h3>
+            <p style="font-size:15px;line-height:1.6;color:var(--muted);margin:0">{{ ex.body }}</p>
+          </div>
+        </sc-for>
+      </div>
+      <h2 style="font-size:clamp(24px,2.9vw,40px);line-height:1.08;font-weight:800;letter-spacing:-0.028em;color:var(--forest);margin:0 0 12px">Rarely alone.</h2>
+      <p style="font-size:17px;line-height:1.7;color:var(--body);margin:0 0 30px;max-width:38em">{{ biz.togetherNote }}</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)">
+        <sc-for list="{{ biz.siblings }}" as="sib" hint-placeholder-count="5">
+          <a href="#main" onClick="{{ sib.go }}" style="background:var(--white);padding:26px 24px;display:flex;flex-direction:column;gap:8px" style-hover="background:#FBF9F3">
+            <span style="font-size:11.5px;font-weight:700;color:var(--gold);letter-spacing:0.1em">{{ sib.num }}</span>
+            <span style="font-size:18px;font-weight:700;letter-spacing:-0.015em;color:var(--forest)">{{ sib.name }}</span>
+            <span style="font-size:14.5px;color:var(--muted)">{{ sib.idea }}</span>
+          </a>
+        </sc-for>
+      </div>
+      <div style="margin-top:clamp(44px,5vw,72px);border:1px solid var(--line);padding:clamp(28px,3vw,40px);display:flex;flex-wrap:wrap;gap:20px 40px;align-items:center">
+        <div style="flex:1;min-width:260px">
+          <p style="font-size:11.5px;font-weight:700;letter-spacing:0.14em;color:var(--green);margin:0 0 10px">RELATED WORK</p>
+          <p style="font-size:17px;line-height:1.6;color:var(--muted);margin:0">[PLACEHOLDER &mdash; REAL CASE STUDIES REQUIRED]</p>
+        </div>
+        <a href="#main" onClick="{{ nav.work }}" style="font-size:14px;font-weight:700;color:var(--forest);border-bottom:2px solid var(--gold);padding-bottom:3px" style-hover="color:var(--green)">See all work &rarr;</a>
+      </div>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<!-- ========================= WORK ========================= -->
+<sc-if value="{{ isWork }}" hint-placeholder-val="{{ false }}">
+<div>
+  <section style="background:var(--forest);color:var(--cream)">
+    <div style="max-width:var(--container);margin:0 auto;padding:clamp(64px,7vw,108px) 32px clamp(48px,5vw,80px)">
+      <p style="font-size:12px;font-weight:600;letter-spacing:0.22em;color:var(--gold);margin:0 0 24px">WORK</p>
+      <h1 style="font-size:clamp(36px,5.2vw,74px);line-height:1.01;font-weight:800;letter-spacing:-0.037em;margin:0 0 26px">Problems we&rsquo;ve helped solve.</h1>
+      <p style="font-size:clamp(17px,1.5vw,20px);line-height:1.65;color:var(--on-dark);max-width:34em;margin:0">Each project below is recorded the way we think about it: the problem, who we brought in, and what changed.</p>
+    </div>
+  </section>
+  <section style="background:var(--cream)">
+    <div style="max-width:var(--container);margin:0 auto;padding:clamp(48px,5vw,80px) 32px clamp(56px,6vw,96px)">
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:36px" role="group" aria-label="Filter work">
+        <sc-for list="{{ workFilters }}" as="f" hint-placeholder-count="5">
+          <button type="button" onClick="{{ f.pick }}" aria-pressed="{{ f.pressed }}" style="font-family:'Manrope',sans-serif;font-size:13.5px;font-weight:600;cursor:pointer;padding:10px 18px;border-radius:var(--radius);background:{{ f.bg }};color:{{ f.fg }};border:1px solid {{ f.border }}">{{ f.label }}</button>
+        </sc-for>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:24px">
+        <sc-for list="{{ workCases }}" as="c" hint-placeholder-count="4">
+          <article style="background:var(--white);border:1px solid var(--line);display:flex;flex-direction:column" style-hover="border-color:var(--gold)">
+            <div style="height:200px;background:repeating-linear-gradient(135deg,rgba(6,56,46,0.07) 0 9px,rgba(6,56,46,0.02) 9px 18px);border-bottom:1px solid var(--line);display:flex;align-items:flex-end;padding:18px">
+              <span style="font-size:11.5px;font-weight:600;letter-spacing:0.12em;color:var(--green)">[ PLACEHOLDER &mdash; PROJECT PHOTOGRAPHY ]</span>
+            </div>
+            <div style="padding:28px 26px;display:flex;flex-direction:column;gap:16px;flex:1">
+              <span style="font-size:11px;font-weight:700;letter-spacing:0.14em;color:var(--gold)">{{ c.industry }}</span>
+              <h2 style="font-size:20px;line-height:1.2;font-weight:800;letter-spacing:-0.02em;color:var(--forest);margin:0">{{ c.title }}</h2>
+              <div><p style="font-size:11.5px;font-weight:700;letter-spacing:0.14em;color:var(--green);margin:0 0 5px">CHALLENGE</p><p style="font-size:15px;line-height:1.6;color:var(--muted);margin:0">{{ c.challenge }}</p></div>
+              <div><p style="font-size:11.5px;font-weight:700;letter-spacing:0.14em;color:var(--green);margin:0 0 5px">SPECIALISTS INVOLVED</p><p style="font-size:15px;line-height:1.6;color:var(--muted);margin:0">{{ c.did }}</p></div>
+              <div style="margin-top:auto"><p style="font-size:11.5px;font-weight:700;letter-spacing:0.14em;color:var(--green);margin:0 0 5px">OUTCOME</p><p style="font-size:14px;font-weight:600;line-height:1.6;color:#8A6B12;margin:0">{{ c.outcome }}</p></div>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+      <p style="font-size:14.5px;line-height:1.7;color:var(--muted);margin:30px 0 0">Case studies are published only with verified detail and customer permission. [PLACEHOLDER &mdash; REAL CONTENT REQUIRED]</p>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<!-- ========================= ABOUT ========================= -->
+<sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+<div>
+  <section style="background:var(--forest);color:var(--cream)">
+    <div style="max-width:var(--container);margin:0 auto;padding:clamp(64px,7vw,108px) 32px clamp(48px,5vw,80px)">
+      <p style="font-size:12px;font-weight:600;letter-spacing:0.22em;color:var(--gold);margin:0 0 24px">ABOUT</p>
+      <h1 style="font-size:clamp(34px,4.8vw,68px);line-height:1.03;font-weight:800;letter-spacing:-0.037em;margin:0 0 28px;max-width:15em">We believe difficult things can be made simpler.</h1>
+      <p style="font-size:clamp(17px,1.5vw,20px);line-height:1.65;color:var(--on-dark);max-width:38em;margin:0">D&rsquo;Matek Technology Limited is a problem-solving company powered by technology. Technology is the means, not the identity.</p>
+    </div>
+  </section>
+
+  <section style="background:var(--cream)">
+    <div style="max-width:var(--container);margin:0 auto;padding:clamp(56px,6vw,96px) 32px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)">
+        <sc-for list="{{ pillars }}" as="p" hint-placeholder-count="4">
+          <div style="background:var(--cream);padding:34px 28px;display:flex;flex-direction:column;gap:12px">
+            <h2 style="font-size:11.5px;font-weight:700;letter-spacing:0.16em;color:var(--green);margin:0">{{ p.label }}</h2>
+            <p style="font-size:17.5px;line-height:1.55;color:var(--forest);font-weight:600;margin:0">{{ p.body }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:var(--deep);color:var(--cream)">
+    <div style="max-width:var(--container);margin:0 auto;padding:clamp(60px,6vw,104px) 32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(36px,5vw,72px);align-items:center">
+      <div>
+        <p style="font-size:12px;font-weight:600;letter-spacing:0.22em;color:var(--gold);margin:0 0 22px">THE CUSTOMER PROMISE</p>
+        <p style="font-size:clamp(26px,3.3vw,46px);line-height:1.18;font-weight:700;letter-spacing:-0.028em;margin:0">You can trust us.<br>You won&rsquo;t be alone.<br>We&rsquo;ll figure it out.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:28px">
+        <sc-for list="{{ values }}" as="v" hint-placeholder-count="4">
+          <div>
+            <h3 style="font-size:13px;font-weight:800;letter-spacing:0.13em;color:var(--gold);margin:0 0 8px">{{ v.title }}</h3>
+            <p style="font-size:15px;line-height:1.55;color:var(--on-dark);margin:0">{{ v.body }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:var(--white)">
+    <div style="max-width:var(--container);margin:0 auto;padding:clamp(56px,6vw,96px) 32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(36px,5vw,72px);align-items:start">
+      <div>
+        <h2 style="font-size:clamp(26px,3vw,42px);line-height:1.08;font-weight:800;letter-spacing:-0.03em;color:var(--forest);margin:0 0 20px">We stay.</h2>
+        <p style="font-size:17px;line-height:1.7;color:var(--body);margin:0 0 16px">Delivery is not the end of the relationship. It is the point where support begins. We stay involved because the problem a customer has in year two is rarely the one they started with.</p>
+        <p style="font-size:17px;line-height:1.7;color:var(--body);margin:0 0 30px">When we get something wrong: <strong style="color:var(--forest)">own it, fix it, learn from it.</strong></p>
+        <h2 style="font-size:clamp(26px,3vw,42px);line-height:1.08;font-weight:800;letter-spacing:-0.03em;color:var(--forest);margin:0 0 20px">Built from Nigeria.</h2>
+        <p style="font-size:17px;line-height:1.7;color:var(--body);margin:0">Our roots are Nigerian and our ambition is wider &mdash; Nigeria, then Africa, then wherever the problems are worth solving. We are not claiming global scale we do not yet have. We are building towards it.</p>
+      </div>
+      <div>
+        <h2 style="font-size:11.5px;font-weight:700;letter-spacing:0.16em;color:var(--green);margin:0 0 20px">HOW WE BEHAVE</h2>
+        <div style="display:flex;flex-direction:column;border-top:1px solid var(--line)">
+          <sc-for list="{{ behaviour }}" as="b" hint-placeholder-count="4">
+            <div style="display:flex;gap:24px;padding:18px 0;border-bottom:1px solid var(--line-soft);align-items:baseline">
+              <span style="font-size:13px;font-weight:800;letter-spacing:0.12em;color:var(--forest);min-width:120px">{{ b.stage }}</span>
+              <span style="font-size:16px;line-height:1.55;color:var(--muted)">{{ b.body }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <h2 style="font-size:11.5px;font-weight:700;letter-spacing:0.16em;color:var(--green);margin:36px 0 20px">HOW WE ARE BUILT</h2>
+        <p style="font-size:16px;line-height:1.7;color:var(--body);margin:0 0 16px">One legal company. Six operating businesses. One external relationship. Complexity belongs behind the brand; clarity belongs in front of the customer.</p>
+        <a href="#main" onClick="{{ nav.businesses }}" style="font-size:15px;font-weight:700;color:var(--forest);border-bottom:2px solid var(--gold);padding-bottom:4px" style-hover="color:var(--green)">See the six businesses &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:var(--cream);border-top:1px solid var(--line-soft)">
+    <div style="max-width:var(--container);margin:0 auto;padding:clamp(56px,6vw,96px) 32px">
+      <h2 style="font-size:clamp(26px,3vw,42px);line-height:1.08;font-weight:800;letter-spacing:-0.03em;color:var(--forest);margin:0 0 18px">Products &amp; ventures.</h2>
+      <p style="font-size:17px;line-height:1.7;color:var(--body);margin:0 0 30px;max-width:40em">We do not only deploy and integrate technology &mdash; we build it. Products sit under the business that creates them until there is a genuine reason for separate treatment.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)">
+        <div style="background:var(--cream);padding:30px 26px;display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:11px;font-weight:700;letter-spacing:0.14em;color:var(--gold)">CURRENT VENTURE</span>
+          <h3 style="font-size:22px;font-weight:800;letter-spacing:-0.02em;color:var(--forest);margin:0">QADPAY</h3>
+          <p style="font-size:15px;line-height:1.6;color:var(--muted);margin:0">A D&rsquo;Matek-owned fintech product associated with D&rsquo;Foundry. [PLACEHOLDER &mdash; PRODUCT DETAIL REQUIRED]</p>
+        </div>
+        <div style="background:var(--cream);padding:30px 26px;display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:11px;font-weight:700;letter-spacing:0.14em;color:var(--green)">THE PATH</span>
+          <p style="font-size:16px;line-height:1.7;color:var(--body);margin:0">Customer project &rarr; reusable solution &rarr; product &rarr; product business &rarr; venture.</p>
+          <p style="font-size:15px;line-height:1.6;color:var(--muted);margin:0">A customer project does not automatically become a product or a brand.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<!-- ========================= INSIGHTS ========================= -->
+<sc-if value="{{ isInsights }}" hint-placeholder-val="{{ false }}">
+<div>
+  <section style="background:var(--forest);color:var(--cream)">
+    <div style="max-width:var(--container);margin:0 auto;padding:clamp(64px,7vw,108px) 32px clamp(48px,5vw,80px)">
+      <p style="font-size:12px;font-weight:600;letter-spacing:0.22em;color:var(--gold);margin:0 0 24px">INSIGHTS</p>
+      <h1 style="font-size:clamp(34px,4.8vw,68px);line-height:1.03;font-weight:800;letter-spacing:-0.037em;margin:0 0 26px;max-width:14em">Practical thinking on problems worth solving.</h1>
+      <p style="font-size:17.5px;line-height:1.65;color:var(--on-dark);max-width:34em;margin:0">Plain explanations of the decisions our customers face. No hype, no jargon.</p>
+    </div>
+  </section>
+  <section style="background:var(--cream)">
+    <div style="max-width:var(--container);margin:0 auto;padding:clamp(48px,5vw,80px) 32px clamp(56px,6vw,96px)">
+      <p style="font-size:11.5px;font-weight:700;letter-spacing:0.16em;color:var(--green);margin:0 0 26px">[ PLACEHOLDER &mdash; ARTICLES NOT YET WRITTEN ]</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)">
+        <sc-for list="{{ insights }}" as="i" hint-placeholder-count="6">
+          <article style="background:var(--cream);padding:30px 28px;display:flex;flex-direction:column;gap:14px;min-height:230px">
+            <span style="font-size:11.5px;font-weight:700;letter-spacing:0.14em;color:var(--gold)">{{ i.kicker }}</span>
+            <h2 style="font-size:21px;line-height:1.25;font-weight:700;letter-spacing:-0.02em;color:var(--forest);margin:0">{{ i.title }}</h2>
+            <p style="font-size:15px;line-height:1.6;color:var(--muted);margin:0">{{ i.body }}</p>
+            <span style="margin-top:auto;font-size:13px;font-weight:600;color:var(--green)">Planned &mdash; not yet published</span>
+          </article>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<!-- ========================= CONTACT ========================= -->
+<sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+<div>
+  <section style="background:var(--forest);color:var(--cream)">
+    <div style="max-width:var(--container);margin:0 auto;padding:clamp(56px,6vw,96px) 32px clamp(60px,6vw,100px);display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(40px,5vw,80px);align-items:start">
+      <div>
+        <p style="font-size:12px;font-weight:600;letter-spacing:0.22em;color:var(--gold);margin:0 0 24px">TELL US WHAT YOU NEED</p>
+        <h1 style="font-size:clamp(34px,4.6vw,62px);line-height:1.03;font-weight:800;letter-spacing:-0.037em;margin:0 0 26px">What are you trying to solve?</h1>
+        <p style="font-size:17.5px;line-height:1.7;color:var(--on-dark);margin:0 0 14px;max-width:28em">You don&rsquo;t need to know what technology you need.</p>
+        <p style="font-size:17.5px;line-height:1.7;color:var(--on-dark);margin:0 0 36px;max-width:28em">Tell us what&rsquo;s happening. We&rsquo;ll help you figure out what comes next.</p>
+        <div style="display:flex;flex-direction:column;gap:20px;border-top:1px solid var(--line-dark);padding-top:28px">
+          <sc-for list="{{ contactDetails }}" as="c" hint-placeholder-count="3">
+            <div>
+              <p style="font-size:11px;font-weight:700;letter-spacing:0.16em;color:rgba(245,241,232,0.55);margin:0 0 6px">{{ c.label }}</p>
+              <p style="font-size:17px;font-weight:600;color:var(--cream);margin:0">{{ c.value }}</p>
+            </div>
+          </sc-for>
+          <p style="font-size:13px;line-height:1.6;color:rgba(245,241,232,0.5);margin:0">[PLACEHOLDER &mdash; REAL CONTACT DETAILS REQUIRED]</p>
+        </div>
+      </div>
+      <form style="background:rgba(245,241,232,0.06);border:1px solid var(--line-dark);padding:clamp(28px,3vw,42px);display:flex;flex-direction:column;gap:28px">
+        <sc-if value="{{ hasEntry }}" hint-placeholder-val="{{ false }}">
+          <div style="border:1px solid rgba(212,166,55,0.5);background:rgba(212,166,55,0.12);padding:16px 18px;display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center">
+            <span style="font-size:11px;font-weight:700;letter-spacing:0.14em;color:var(--gold)">YOU STARTED WITH</span>
+            <span style="font-size:16px;font-weight:600;color:var(--cream);flex:1">{{ entryLabel }}</span>
+            <button type="button" onClick="{{ clearEntry }}" style="background:transparent;border:none;color:rgba(245,241,232,0.6);font-family:'Manrope',sans-serif;font-size:13px;font-weight:600;cursor:pointer;text-decoration:underline">Change</button>
+          </div>
+        </sc-if>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <label for="c-problem" style="font-size:11.5px;font-weight:700;letter-spacing:0.16em;color:var(--gold)">WHAT ARE YOU TRYING TO SOLVE?</label>
+          <textarea id="c-problem" rows="4" placeholder="Describe what is happening, in your own words." style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(245,241,232,0.3);padding:12px 0;font-family:'Manrope',sans-serif;font-size:16px;line-height:1.55;color:var(--cream);outline:none;resize:vertical" style-focus="border-bottom-color:var(--gold)"></textarea>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-size:11.5px;font-weight:700;letter-spacing:0.16em;color:rgba(245,241,232,0.7)">WHAT KIND OF ORGANISATION ARE YOU? <span style="font-weight:500;letter-spacing:0.04em">(optional)</span></span>
+          <div style="display:flex;flex-wrap:wrap;gap:10px">
+            <sc-for list="{{ orgTypes }}" as="o" hint-placeholder-count="7">
+              <button type="button" onClick="{{ o.pick }}" aria-pressed="{{ o.pressed }}" style="font-family:'Manrope',sans-serif;font-size:14px;font-weight:600;cursor:pointer;padding:10px 18px;border-radius:var(--radius);background:{{ o.bg }};color:{{ o.fg }};border:1px solid {{ o.border }}">{{ o.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:22px">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <label for="c-loc" style="font-size:11.5px;font-weight:700;letter-spacing:0.16em;color:rgba(245,241,232,0.7)">WHERE ARE YOU? <span style="font-weight:500">(optional)</span></label>
+            <input id="c-loc" type="text" placeholder="City or state" style="background:transparent;border:none;border-bottom:1px solid rgba(245,241,232,0.3);padding:11px 0;font-family:'Manrope',sans-serif;font-size:16px;color:var(--cream);outline:none" style-focus="border-bottom-color:var(--gold)">
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <label for="c-hope" style="font-size:11.5px;font-weight:700;letter-spacing:0.16em;color:rgba(245,241,232,0.7)">WHAT ARE YOU HOPING TO ACHIEVE? <span style="font-weight:500">(optional)</span></label>
+            <input id="c-hope" type="text" placeholder="What good would look like" style="background:transparent;border:none;border-bottom:1px solid rgba(245,241,232,0.3);padding:11px 0;font-family:'Manrope',sans-serif;font-size:16px;color:var(--cream);outline:none" style-focus="border-bottom-color:var(--gold)">
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <label for="c-reach" style="font-size:11.5px;font-weight:700;letter-spacing:0.16em;color:var(--gold)">HOW SHOULD WE CONTACT YOU? <span style="font-weight:500;letter-spacing:0.04em">(required)</span></label>
+          <input id="c-reach" type="text" required="true" placeholder="Name, and an email or phone number" style="background:transparent;border:none;border-bottom:1px solid rgba(245,241,232,0.3);padding:11px 0;font-family:'Manrope',sans-serif;font-size:16px;color:var(--cream);outline:none" style-focus="border-bottom-color:var(--gold)">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <label for="c-context" style="font-size:11.5px;font-weight:700;letter-spacing:0.16em;color:rgba(245,241,232,0.7)">ANYTHING ELSE WE SHOULD KNOW? <span style="font-weight:500">(optional)</span></label>
+          <textarea id="c-context" rows="2" placeholder="Timing, budget, who else is involved." style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(245,241,232,0.3);padding:11px 0;font-family:'Manrope',sans-serif;font-size:16px;color:var(--cream);outline:none;resize:vertical" style-focus="border-bottom-color:var(--gold)"></textarea>
+        </div>
+        <button type="button" style="background:var(--gold);color:var(--forest);border:none;padding:18px 24px;font-family:'Manrope',sans-serif;font-size:15px;font-weight:700;letter-spacing:0.04em;cursor:pointer;border-radius:var(--radius)" style-hover="background:var(--cream)">SEND IT TO US &rarr;</button>
+        <p style="font-size:13px;line-height:1.6;color:rgba(245,241,232,0.55);margin:0">A person reads every message. Discover &rarr; Understand &rarr; Solve &rarr; Deliver &rarr; Support &rarr; Improve.</p>
+      </form>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+</main>
+
+<footer style="background:var(--deep);color:rgba(245,241,232,0.72)">
+  <div style="max-width:var(--container);margin:0 auto;padding:clamp(52px,6vw,84px) 32px 32px;display:grid;grid-template-columns:minmax(240px,1.4fr) repeat(auto-fit,minmax(160px,1fr));gap:44px">
+    <div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+        <img src="assets/mark-cream.png" alt="D’Matek" style="height:30px;width:auto;display:block">
+        <span style="font-size:17px;font-weight:800;letter-spacing:0.05em;color:var(--cream)">D&rsquo;MATEK</span>
+      </div>
+      <p style="font-size:14.5px;line-height:1.65;margin:0 0 18px;max-width:26em">D&rsquo;Matek Technology Limited is a problem-solving company powered by technology, bringing specialist capabilities together to make difficult things simpler and better.</p>
+      <p style="font-size:11.5px;font-weight:700;letter-spacing:0.2em;color:var(--gold);margin:0">SOLVING WHAT MATTERS.</p>
+    </div>
+    <nav aria-label="Footer">
+      <h2 style="font-size:10.5px;font-weight:700;letter-spacing:0.16em;color:rgba(245,241,232,0.45);margin:0 0 16px">NAVIGATE</h2>
+      <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px">
+        <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="5">
+          <li><a href="#main" onClick="{{ n.go }}" style="font-size:14.5px;color:rgba(245,241,232,0.75)" style-hover="color:var(--gold)">{{ n.label }}</a></li>
+        </sc-for>
+        <li><a href="#main" onClick="{{ nav.contact }}" style="font-size:14.5px;color:rgba(245,241,232,0.75)" style-hover="color:var(--gold)">Tell Us What You Need</a></li>
+      </ul>
+    </nav>
+    <nav aria-label="Businesses">
+      <h2 style="font-size:10.5px;font-weight:700;letter-spacing:0.16em;color:rgba(245,241,232,0.45);margin:0 0 16px">BUSINESSES</h2>
+      <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px">
+        <sc-for list="{{ businesses }}" as="b" hint-placeholder-count="6">
+          <li><a href="#main" onClick="{{ b.go }}" style="font-size:14.5px;color:rgba(245,241,232,0.75)" style-hover="color:var(--gold)">{{ b.footerName }}</a></li>
+        </sc-for>
+      </ul>
+    </nav>
+    <div>
+      <h2 style="font-size:10.5px;font-weight:700;letter-spacing:0.16em;color:rgba(245,241,232,0.45);margin:0 0 16px">CONTACT</h2>
+      <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px">
+        <sc-for list="{{ contactDetails }}" as="c" hint-placeholder-count="3">
+          <li style="font-size:14.5px;color:rgba(245,241,232,0.75);line-height:1.5">{{ c.value }}</li>
+        </sc-for>
+      </ul>
+      <p style="font-size:12px;color:rgba(245,241,232,0.4);margin:14px 0 0">[PLACEHOLDER]</p>
+    </div>
+  </div>
+  <div style="max-width:var(--container);margin:0 auto;padding:22px 32px 40px;border-top:1px solid rgba(245,241,232,0.12);display:flex;flex-wrap:wrap;gap:14px 28px;align-items:center">
+    <span style="font-size:12.5px;color:rgba(245,241,232,0.45)">&copy; 2026 D&rsquo;Matek Technology Limited.</span>
+    <span style="font-size:12.5px;color:rgba(245,241,232,0.45);margin-left:auto">Website concept &mdash; brand identity V2.1</span>
+  </div>
+</footer>
+
+</div>]]>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+const BUSINESSES = [
+  { key:"infrastructure", num:"01", name:"D\u2019Matek Infrastructure", footerName:"D\u2019Matek Infrastructure",
+    discipline:"Infrastructure & Connectivity", badge:"PARENT-BRANDED", idea:"Connect it.", heroBg:"var(--forest)",
+    proposition:"Infrastructure doesn\u2019t happen by accident.",
+    role:"We design, build and operate the connectivity and physical network infrastructure a business runs on.",
+    positioning:"The layer everything else depends on \u2014 planned properly, documented, and built to be added to.",
+    summary:"Network design and deployment, Wi-Fi, LAN/WAN, firewalls and VoIP.",
+    problems:["The Wi-Fi drops and nobody can tell us why.","We\u2019re opening a new site and nothing is connected yet.","Our network grew by accident and no one has a diagram."],
+    services:["Network infrastructure design and deployment","Network architecture","Wi-Fi deployment and managed Wi-Fi","LAN/WAN implementation","Routing and switching","Connectivity and internet setup","Firewall and network security infrastructure","VoIP deployment and setup"],
+    building:["Managed network services","Network monitoring and management","SD-WAN","Enterprise connectivity packages","Fibre and last-mile deployment capability"],
+    outcome:"Reliable connectivity and properly engineered networks that scale with the business.",
+    examples:[
+      { title:"A site that comes online on time", body:"Survey, design, cabling, switching, firewall and internet coordinated to an opening date." },
+      { title:"Wi-Fi that reaches every room", body:"Coverage designed against the building, not guessed from a floor plan." },
+      { title:"A network someone finally owns", body:"Documented architecture handed over, then managed by Assurance." }],
+    togetherNote:"Connectivity is usually the first layer of a larger problem. Infrastructure work typically arrives alongside cloud, connected systems and ongoing management." },
+
+  { key:"cloud", num:"02", name:"D\u2019Matek Cloud", footerName:"D\u2019Matek Cloud",
+    discipline:"Cloud & Digital Infrastructure", badge:"PARENT-BRANDED", idea:"Run it.", heroBg:"var(--deep)",
+    proposition:"Compute you don\u2019t have to think about.",
+    role:"We run the compute, hosting and storage layer \u2014 and make sure you can recover when something goes wrong.",
+    positioning:"Hosting, servers and continuity, set up so that an ordinary bad day stays ordinary.",
+    summary:"Servers, cloud setup, hosting, domains, backup and recovery.",
+    problems:["Our server is under someone\u2019s desk and we\u2019re nervous about it.","We have backups but we\u2019ve never tested restoring one.","Email, hosting and domains are spread across four vendors."],
+    services:["Server setup and deployment","Cloud setup","Hosting and web hosting","Email hosting","Domain services","DNS setup and management","Virtual and server infrastructure"],
+    building:["Managed cloud","Cloud migration and optimisation","Virtualisation services","Backup and disaster recovery offerings","Hosted infrastructure packages"],
+    outcome:"Reliable hosting and compute, managed environments, and continuity you can count on.",
+    examples:[
+      { title:"A move off the desk", body:"Workloads relocated to properly provisioned infrastructure without a weekend of downtime." },
+      { title:"A recovery plan that has been tested", body:"Backup, retention and a restore you have actually watched happen." },
+      { title:"One place for hosting and email", body:"Domains, DNS and mail consolidated and documented." }],
+    togetherNote:"Compute rarely stands alone. Cloud work is normally paired with the network beneath it, the software above it and the team that keeps it running." },
+
+  { key:"foundry", num:"03", name:"D\u2019Foundry", footerName:"D\u2019Foundry",
+    discipline:"Software, Digital Products & Integration", badge:"ENDORSED IDENTITY", idea:"Build it.", heroBg:"var(--charcoal)",
+    proposition:"Built for your problem, not for a demo.",
+    role:"We build the software, applications, automations and integrations that solve a specific problem properly.",
+    positioning:"Where D\u2019Matek stops deploying other people\u2019s technology and starts making its own.",
+    summary:"Custom software, web and business applications, integration and automation.",
+    problems:["A core process still runs on paper and three spreadsheets.","Two systems we rely on refuse to talk to each other.","We have an idea that needs to become a real product."],
+    services:["Custom software development","Web development and web applications","Business application development","System integration","Automation and integration work","Digital solution development","QADPAY \u2014 D\u2019Matek-owned fintech venture"],
+    building:["Reusable software platforms","SaaS offerings","Workflow automation products","Industry-specific digital solutions","AI-enabled products and automation","API and integration products"],
+    outcome:"Digital tools and business systems built around a specific problem rather than a generic product.",
+    examples:[
+      { title:"A process that stops being manual", body:"The spreadsheet becomes an application the team actually uses." },
+      { title:"Two systems, one flow", body:"Integration work so data moves once instead of being re-keyed." },
+      { title:"An idea taken to product", body:"Customer project \u2192 reusable solution \u2192 product, deliberately." }],
+    togetherNote:"Software needs somewhere to live and someone to run it. Foundry projects normally involve cloud, infrastructure and ongoing support." },
+
+  { key:"ilemesh", num:"04", name:"Il\u00e9Mesh", footerName:"Il\u00e9Mesh",
+    discipline:"Smart & Connected Systems", badge:"ENDORSED IDENTITY", idea:"Connect the physical world.", heroBg:"var(--forest)",
+    proposition:"Connected environments, not connected gadgets.",
+    role:"We make buildings and physical environments intelligent, secure and controllable \u2014 as one system rather than a collection of devices.",
+    positioning:"Homes, hotels, offices and facilities where access, security, comfort and entertainment behave like a single environment.",
+    summary:"Smart buildings, CCTV, access control, IoT, hospitality and building automation.",
+    problems:["Cameras, locks and access cards are all on separate systems.","Our property should be smarter than it is.","Guests notice the technology, and not in a good way."],
+    services:["Smart home and smart building deployments","CCTV and security-system integration","Access control, smart locks and RFID cards","Elevator floor-level access control","Room power management and hotel room automation","Hotel IPTV, TV control and Pay-TV integration","IoT integration and building automation","Energy management, HVAC, lighting and occupancy","Digital signage and AV / meeting-room technology"],
+    building:["Smart buildings and connected facilities","Smart hospitality packages","Energy monitoring and management","Broader IoT solutions","Intelligent environments"],
+    outcome:"Safer buildings, automated rooms, controlled access and connected experiences people don\u2019t have to think about.",
+    examples:[
+      { title:"One card, one permission model", body:"Door access, lift floors and room power governed by the same credential." },
+      { title:"A room that knows a guest has arrived", body:"Power, lighting, climate and IPTV behaving as one sequence." },
+      { title:"A facility you can see", body:"Security, energy and occupancy visible in one place instead of six." }],
+    togetherNote:"Connected environments depend on the network, the platform and the support model around them \u2014 which is why these projects are almost always multi-business." },
+
+  { key:"commerce", num:"05", name:"Matek Emporium / Matek Provision", footerName:"Matek Emporium / Provision",
+    discipline:"Technology Commerce, Distribution & Procurement", badge:"ENDORSED IDENTITY", idea:"Source it.", heroBg:"var(--deep)",
+    proposition:"The right kit, sourced properly.",
+    role:"We source, supply and procure the technology a project or an organisation needs.",
+    positioning:"Procurement tied to the design it serves, so what arrives is what the project actually needs. Naming is still being finalised between Emporium and Provision.",
+    summary:"Devices, IT and networking equipment, project and corporate procurement.",
+    problems:["We need equipment for a project and the deadline is fixed.","Too many suppliers and nobody is accountable.","What arrived doesn\u2019t match what was designed."],
+    services:["Gadget and IT equipment sales","Phones, laptops and computers","Networking and IT equipment supply","Accessories and technology products","Project equipment procurement","Corporate procurement","Technology sourcing"],
+    building:["Vendor and channel partnerships","Equipment deployment","Distribution capability","Technology supply for D\u2019Matek projects"],
+    outcome:"The right equipment, sourced properly, delivered on time and fit for the project it serves.",
+    examples:[
+      { title:"Procurement against a design", body:"Equipment specified by the engineers who will install it." },
+      { title:"One supply line for a project", body:"A single accountable route instead of five vendors and no owner." },
+      { title:"Refresh without disruption", body:"Devices sourced, prepared and deployed in planned waves." }],
+    togetherNote:"Procurement rarely stands alone. It usually runs alongside deployment by Infrastructure or Il\u00e9Mesh and ongoing management by Assurance." },
+
+  { key:"assurance", num:"06", name:"D\u2019Matek Assurance", footerName:"D\u2019Matek Assurance",
+    discipline:"Advisory, Managed Services & Cybersecurity", badge:"PARENT-BRANDED", idea:"Manage, protect & improve it.", heroBg:"var(--charcoal)",
+    proposition:"The part where we stay.",
+    role:"We take ongoing operational responsibility \u2014 advising, managing, securing and improving your technology environment.",
+    positioning:"The layer that turns \u2018we stay\u2019 from a promise into a service.",
+    summary:"Advisory, managed IT, cybersecurity and technology operations.",
+    problems:["Nobody internally actually owns technology.","Our security is whatever the last vendor set up.","Support ended the day the invoice was paid."],
+    services:["Technology consulting and advisory","IT architecture and assessment","Managed IT support","Cybersecurity and firewall services","Technology operations support","Customer technology management"],
+    building:["Outsourced IT department model","Helpdesk, remote and onsite support","Infrastructure, cloud and endpoint management","Security assessment and architecture","Identity and access management","Managed security and monitoring"],
+    outcome:"A trusted partner who helps you understand, manage, secure, operate and continuously improve your technology.",
+    examples:[
+      { title:"An IT department you don\u2019t have to hire", body:"Helpdesk, monitoring and maintenance run as a service." },
+      { title:"A security position you can describe", body:"Assessment, architecture and access management, written down." },
+      { title:"An environment that improves", body:"Regular review against what the business now needs." }],
+    togetherNote:"Assurance sits over everything the other businesses build. It is how \u2018we stay\u2019 becomes real rather than a promise." }
+];
+
+class Component extends DCLogic {
+  state = { page:"home", biz:0, org:null, entry:null, menu:false, workFilter:"All" };
+
+  goto(page, biz) {
+    this.setState({ page, biz: biz == null ? this.state.biz : biz, menu:false });
+    window.scrollTo({ top:0, behavior:"auto" });
+  }
+
+  renderVals() {
+    const page = this.state.page;
+    const go = (p, b) => () => this.goto(p, b);
+    const b = BUSINESSES[this.state.biz];
+    const bizIndex = this.state.biz;
+
+    const businesses = BUSINESSES.map((x, i) => ({
+      ...x, cta:"Explore \u2192", go: go("business", i)
+    }));
+
+    const navDefs = [
+      { label:"Solutions", page:"solutions" },
+      { label:"Businesses", page:"businesses" },
+      { label:"Work", page:"work" },
+      { label:"About", page:"about" },
+      { label:"Insights", page:"insights" }
+    ];
+
+    const solutionDefs = [
+      { title:"CONNECT", body:"Connectivity, networks and infrastructure.", owners:[0,5],
+        problems:["Wi-Fi that drops or won\u2019t reach","A new site that needs to come online","A network nobody has documented"],
+        outcome:"Connectivity you stop thinking about." },
+      { title:"RUN", body:"Cloud, hosting, storage and digital infrastructure.", owners:[1,5],
+        problems:["Servers you can\u2019t rely on","No tested backup or recovery plan","Hosting and email spread across vendors"],
+        outcome:"Compute and continuity you can count on." },
+      { title:"BUILD", body:"Software, automation, applications and integrations.", owners:[2,1],
+        problems:["A process still run on paper or spreadsheets","Two systems that refuse to talk","An idea that needs to become a product"],
+        outcome:"A tool your team actually uses." },
+      { title:"CONNECT THE PHYSICAL WORLD", body:"Smart buildings, IoT and connected environments.", owners:[3,0],
+        problems:["Cameras, locks and access on separate systems","A property that should be smarter than it is","Guest or staff experience held back by the building"],
+        outcome:"A building that behaves as one system." },
+      { title:"SOURCE", body:"Technology procurement and supply.", owners:[4,5],
+        problems:["Equipment needed for a project on a deadline","Too many suppliers, no accountability","Kit arriving that doesn\u2019t fit the design"],
+        outcome:"The right equipment, on time, fit for purpose." },
+      { title:"MANAGE & PROTECT", body:"Managed services, advisory and cybersecurity.", owners:[5,1],
+        problems:["No one owns technology internally","Security you hope is good enough","Support that ends when the invoice is paid"],
+        outcome:"Someone accountable, every day, not just at delivery." }
+    ];
+
+    const entries = [
+      "Something isn\u2019t working.",
+      "We\u2019re building something new.",
+      "We need to connect something.",
+      "We need software.",
+      "We need help managing technology.",
+      "We need technology for a building.",
+      "We need to source technology.",
+      "I\u2019m not sure what I need."
+    ];
+
+    const allCases = [
+      { industry:"MULTI-SITE ORGANISATION", title:"From unreliable connectivity to a connected operation.",
+        challenge:"A growing organisation needed reliable connectivity across multiple locations.",
+        did:"Infrastructure + Cloud + Assurance.", outcome:"[REAL OUTCOME TO BE ADDED]", filter:"Infrastructure" },
+      { industry:"HOSPITALITY", title:"From disconnected building to connected environment.",
+        challenge:"A hospitality property needed its technology systems to work together.",
+        did:"Infrastructure + Il\u00e9Mesh + Cloud + Commerce + Assurance.", outcome:"[REAL OUTCOME TO BE ADDED]", filter:"Il\u00e9Mesh" },
+      { industry:"[INDUSTRY TO BE ADDED]", title:"[CASE STUDY TITLE TO BE ADDED]",
+        challenge:"[PLACEHOLDER \u2014 REAL CONTENT REQUIRED]",
+        did:"[SPECIALISTS TO BE CONFIRMED]", outcome:"[REAL OUTCOME TO BE ADDED]", filter:"Software" },
+      { industry:"[INDUSTRY TO BE ADDED]", title:"[CASE STUDY TITLE TO BE ADDED]",
+        challenge:"[PLACEHOLDER \u2014 REAL CONTENT REQUIRED]",
+        did:"[SPECIALISTS TO BE CONFIRMED]", outcome:"[REAL OUTCOME TO BE ADDED]", filter:"Managed services" }
+    ];
+    const filters = ["All","Infrastructure","Il\u00e9Mesh","Software","Managed services"];
+    const active = this.state.workFilter;
+
+    const chip = (on) => ({
+      bg: on ? "var(--forest)" : "transparent",
+      fg: on ? "var(--cream)" : "var(--forest)",
+      border: on ? "var(--forest)" : "var(--line)"
+    });
+
+    return {
+      isHome:page==="home", isSolutions:page==="solutions", isBusinesses:page==="businesses",
+      isBusiness:page==="business", isWork:page==="work", isAbout:page==="about",
+      isInsights:page==="insights", isContact:page==="contact",
+      menuOpen:this.state.menu, menuExpanded:this.state.menu ? "true" : "false",
+      menuLabel:this.state.menu ? "CLOSE" : "MENU",
+      toggleMenu:() => this.setState(s => ({ menu: !s.menu })),
+      contactMobile:() => this.goto("contact"),
+      nav:{
+        home:go("home"), solutions:go("solutions"), businesses:go("businesses"),
+        work:go("work"), about:go("about"), insights:go("insights"), contact:go("contact")
+      },
+      navItems:navDefs.map(n => ({
+        label:n.label, go:go(n.page), goMobile:go(n.page),
+        current: page === n.page ? "page" : undefined,
+        underline: page === n.page ? "var(--gold)" : "transparent"
+      })),
+      businesses,
+      biz:{
+        ...b,
+        siblings: BUSINESSES.map((x,i) => ({ x, i })).filter(o => o.i !== bizIndex)
+          .map(o => ({ num:o.x.num, name:o.x.name, idea:o.x.idea, go:go("business", o.i) }))
+      },
+      solutions: solutionDefs.map(s => ({
+        ...s,
+        goSolution: go("business", s.owners[0]),
+        owners: s.owners.map(i => ({ name: BUSINESSES[i].name, go: go("business", i) }))
+      })),
+      entryPoints: entries.map(e => ({
+        label:e,
+        pick:() => { this.setState({ entry:e }); this.goto("contact"); }
+      })),
+      hasEntry: !!this.state.entry,
+      entryLabel: this.state.entry || "",
+      clearEntry: () => this.setState({ entry:null }),
+      journey:[
+        { title:"UNDERSTAND", body:"We listen before we prescribe. The brief is rarely the whole problem." },
+        { title:"SOLVE", body:"We bring the right specialists together and agree one approach." },
+        { title:"DELIVER", body:"We make the solution work in your real environment." },
+        { title:"SUPPORT", body:"We stay involved after go-live, because that is when things move." },
+        { title:"IMPROVE", body:"We keep looking for better ways as your needs change." }
+      ],
+      stages:[
+        { num:"01", title:"DISCOVER", body:"We understand the problem." },
+        { num:"02", title:"UNDERSTAND", body:"We look beneath the obvious symptoms." },
+        { num:"03", title:"SOLVE", body:"We bring together the right expertise." },
+        { num:"04", title:"DELIVER", body:"We make the solution work." },
+        { num:"05", title:"SUPPORT", body:"We stay involved." },
+        { num:"06", title:"IMPROVE", body:"We keep looking for better ways." }
+      ],
+      stay:[
+        { title:"SUPPORT", body:"A route to a person who already knows your environment." },
+        { title:"MONITOR", body:"We watch the things that quietly degrade before they fail." },
+        { title:"IMPROVE", body:"Regular review against what the business now needs." },
+        { title:"ADAPT", body:"When the business changes, the technology changes with it." }
+      ],
+      scenarioMix:["Infrastructure","Cloud","Il\u00e9Mesh","D\u2019Foundry","Commerce","Assurance"],
+      cases: allCases.slice(0,2),
+      workCases: active === "All" ? allCases : allCases.filter(c => c.filter === active),
+      workFilters: filters.map(f => ({
+        label:f, pressed: active === f ? "true" : "false",
+        ...chip(active === f),
+        pick:() => this.setState({ workFilter:f })
+      })),
+      pillars:[
+        { label:"PURPOSE", body:"To make life and business work better by solving problems people can trust us to solve." },
+        { label:"VISION", body:"To become a trusted company known for making difficult things simpler and better." },
+        { label:"MISSION", body:"We solve problems, build better solutions and stay with our customers every step of the way." },
+        { label:"SERVICE PHILOSOPHY", body:"Leave people better than you found them." }
+      ],
+      values:[
+        { title:"TRUSTED", body:"Human first. Always." },
+        { title:"NEVER ALONE", body:"We stand with you." },
+        { title:"WE FIGURE IT OUT", body:"Complex problems. Clear solutions." },
+        { title:"PROGRESS THAT LASTS", body:"Better outcomes. Together." }
+      ],
+      behaviour:[
+        { stage:"UNDERSTAND", body:"Listen before prescribing." },
+        { stage:"SIMPLIFY", body:"Translate complexity into clear choices." },
+        { stage:"SOLVE", body:"Take ownership of the problem." },
+        { stage:"SUPPORT", body:"Stay involved after delivery." }
+      ],
+      insights:[
+        { kicker:"CONNECTIVITY", title:"Why your Wi-Fi is probably not the problem", body:"Most \u2018Wi-Fi issues\u2019 are design issues. How to tell the difference before you buy anything." },
+        { kicker:"CONTINUITY", title:"What a backup is actually worth", body:"A backup you have never restored from is a theory, not a plan." },
+        { kicker:"BUILDINGS", title:"One building, six systems, no owner", body:"How connected environments quietly become unmanageable." },
+        { kicker:"PROCUREMENT", title:"Buying equipment before the design", body:"The most common and most expensive order of operations." },
+        { kicker:"SOFTWARE", title:"When a spreadsheet stops being enough", body:"Signs a process has outgrown the tool it lives in." },
+        { kicker:"OPERATIONS", title:"Who owns technology in your organisation?", body:"If the answer is \u2018everyone\u2019, it is nobody." }
+      ],
+      orgTypes:["Hospitality","Enterprise","SME","Education","Healthcare","Property developer","Public sector","Individual"].map(o => {
+        const on = this.state.org === o;
+        return {
+          label:o, pressed:on ? "true" : "false",
+          bg: on ? "var(--gold)" : "transparent",
+          fg: on ? "var(--forest)" : "var(--cream)",
+          border: on ? "var(--gold)" : "rgba(245,241,232,0.32)",
+          pick:() => this.setState(s => ({ org: s.org === o ? null : o }))
+        };
+      }),
+      contactDetails:[
+        { label:"EMAIL", value:"[email to be confirmed]" },
+        { label:"TELEPHONE", value:"[number to be confirmed]" },
+        { label:"OFFICE", value:"[address to be confirmed] \u00b7 Nigeria" }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
