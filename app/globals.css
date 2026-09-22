@@ -1,0 +1,193 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand colour tokens */
+  --color-forest: #06382e;
+  --color-progress: #28705a;
+  --color-gold: #d4a637;
+  --color-cream: #f5f1e8;
+  --color-cream-2: #efeadc;
+  --color-charcoal: #1a1a1a;
+  --color-ink: #3a4a44;
+  --color-formdark: #043028;
+
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+
+  --breakpoint-nav: 60rem; /* 960px — mobile nav collapse point, matches prototype */
+}
+
+@keyframes dm-rise {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes dm-float-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(18px, -26px, 0) scale(1.05);
+  }
+}
+@keyframes dm-float-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-24px, 20px, 0) scale(0.95);
+  }
+}
+@keyframes dm-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes dm-spin-rev {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+@keyframes dm-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes dm-dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes dm-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.35);
+  }
+}
+@keyframes dm-drift {
+  0%,
+  100% {
+    border-radius: 58% 42% 47% 53% / 52% 46% 54% 48%;
+  }
+  50% {
+    border-radius: 44% 56% 62% 38% / 44% 58% 42% 56%;
+  }
+}
+
+/*
+ * Wrapped in Tailwind's `base` layer so utility classes (text-*, etc.)
+ * always win the cascade regardless of selector specificity — unlayered
+ * CSS beats layered CSS in the spec, which would otherwise let this `a`
+ * rule silently override every text-color utility applied to a link.
+ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-cream);
+    color: var(--color-charcoal);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  a {
+    color: var(--color-forest);
+    text-decoration: none;
+    transition:
+      color 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+      background 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  button {
+    transition:
+      color 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+      background 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: var(--color-gold);
+    color: var(--color-forest);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Scroll-reveal: elements start hidden, JS (useReveal) flips them visible */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Organic "blob" shapes that slowly morph — decorative only. */
+.dm-blob {
+  animation: dm-drift 18s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dm-blob {
+    animation: none;
+  }
+}
