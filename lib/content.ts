@@ -82,12 +82,12 @@ export const businesses: Business[] = [
   },
   {
     slug: "commerce",
-    name: "Matek Emporium",
+    name: "Matek Source",
     verb: "SUPPLY IT",
     solves: "When the right equipment has to arrive, correctly, on time.",
     scope:
-      "Sourcing, supply, distribution and procurement — specified against the design, not the cheapest catalogue line.",
-    note: "NAMING STILL OPEN — EMPORIUM OR PROVISION",
+      "Sourcing, supply, distribution and procurement — specified against the design, not the cheapest catalogue line. Matek Emporium for retail, Matek Provision for business.",
+    note: "COMMERCE BY D’MATEK — EMPORIUM (RETAIL) · PROVISION (BUSINESS)",
     photo: "goods being checked in, kit staged for a job",
     stat: "[ FIGURE ]",
     statLabel: "Orders fulfilled to specification",
@@ -247,7 +247,7 @@ export const cases: CaseStudy[] = [
     before:
       "Shared connectivity nobody owned, three overlapping support contracts, and a landlord fielding calls they had no way to resolve.",
     did: "Consolidated the infrastructure, put tenant services on a managed platform, and took operational responsibility for the whole stack so the landlord had one number to call.",
-    divisions: "Infrastructure · Cloud · Emporium · Assurance",
+    divisions: "Infrastructure · Cloud · Source · Assurance",
     after:
       "[ REAL OUTCOME TO BE ADDED — tenant retention, complaint volume, or operating cost. ]",
     photo: "Risers, tenant floor and the building entrance.",
