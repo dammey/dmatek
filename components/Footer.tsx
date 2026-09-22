@@ -62,11 +62,17 @@ export default function Footer() {
               LET&rsquo;S TALK
             </Link>
             <p className="text-[15px] leading-[1.8] text-ink">
-              [ PHONE ]
+              <a href="tel:+2347058071768" className="hover:text-forest">
+                +234 705 807 1768
+              </a>
               <br />
-              [ EMAIL ]
+              <a href="mailto:hello@dmatek.ng" className="hover:text-forest">
+                hello@dmatek.ng
+              </a>
               <br />
-              [ SOCIAL LINKS ]
+              <a href="https://www.dmatek.ng" className="hover:text-forest">
+                www.dmatek.ng
+              </a>
             </p>
           </div>
         </div>

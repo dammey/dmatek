@@ -49,8 +49,21 @@ export default function ContactPage() {
             </div>
             <div className="text-[15.5px] leading-[1.9] text-cream/82">
               <p className="m-0">Lagos, Nigeria</p>
-              <p className="m-0">[ PHONE TO BE ADDED ]</p>
-              <p className="m-0">[ EMAIL TO BE ADDED ]</p>
+              <p className="m-0">
+                <a href="tel:+2347058071768" className="hover:text-cream">
+                  +234 705 807 1768
+                </a>
+              </p>
+              <p className="m-0">
+                <a href="mailto:hello@dmatek.ng" className="hover:text-cream">
+                  hello@dmatek.ng
+                </a>
+              </p>
+              <p className="m-0">
+                <a href="https://www.dmatek.ng" className="hover:text-cream">
+                  www.dmatek.ng
+                </a>
+              </p>
             </div>
           </div>
 
