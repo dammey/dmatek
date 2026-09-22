@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import HeroGlow from "@/components/HeroGlow";
 import OrbitDiagram from "@/components/OrbitDiagram";
@@ -131,21 +132,17 @@ export default function HomePage() {
 
           <div
             data-tilt
-            role="img"
-            aria-label="Placeholder for photography of real work on site"
-            className="dm-blob relative flex min-h-[300px] flex-col items-center justify-center p-[clamp(28px,5vw,54px)] text-center aspect-[4/5]"
-            style={{
-              background: "linear-gradient(150deg,#EFEADC,#E6E0CE)",
-              boxShadow: "inset 0 0 0 1px rgba(6,56,46,0.10), 0 30px 60px rgba(6,56,46,0.10)",
-            }}
+            className="dm-blob relative aspect-[4/5] min-h-[300px] overflow-hidden rounded-[clamp(28px,5vw,54px)]"
+            style={{ boxShadow: "inset 0 0 0 1px rgba(6,56,46,0.10), 0 30px 60px rgba(6,56,46,0.10)" }}
           >
-            <p className="mb-3 text-[11.5px] font-bold tracking-[0.16em] text-progress">
-              [ REAL PHOTOGRAPHY REQUIRED ]
-            </p>
-            <p className="m-0 max-w-[22em] text-[15.5px] leading-[1.65] text-ink">
-              Damilola on site, mid-problem. A team setting something up. Not a server rack, not a stock
-              photo.
-            </p>
+            <Image
+              src="/assets/hero-onsite.jpg"
+              alt="D’Matek engineers installing network hardware on site"
+              fill
+              sizes="(min-width: 900px) 44vw, 90vw"
+              className="object-cover"
+              priority
+            />
           </div>
         </div>
 
