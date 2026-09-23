@@ -251,6 +251,7 @@ export const cases: CaseStudy[] = [
     after:
       "[ REAL OUTCOME TO BE ADDED — incident response time, resident satisfaction, or insurance position. ]",
     photo: "Gatehouse and perimeter, before and after.",
+    photoSrc: "/assets/estate-street.jpg",
     quote: "“[ REAL CLIENT QUOTE TO BE ADDED ]”",
     attrib: "[ NAME, ROLE — ESTATE ]",
   },
@@ -266,6 +267,7 @@ export const cases: CaseStudy[] = [
     after:
       "[ REAL OUTCOME TO BE ADDED — tenant retention, complaint volume, or operating cost. ]",
     photo: "Risers, tenant floor and the building entrance.",
+    photoSrc: "/assets/commercial-tower.jpg",
     quote: "“[ REAL CLIENT QUOTE TO BE ADDED ]”",
     attrib: "[ NAME, ROLE — LANDLORD ]",
   },
