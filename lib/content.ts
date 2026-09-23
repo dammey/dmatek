@@ -42,7 +42,7 @@ export const businesses: Business[] = [
     note: "USUALLY THE FIRST DIVISION ON SITE",
     photo: "cabling or wireless install in progress",
     photoSrc: "/assets/stage-implement.jpg",
-    stat: "[ FIGURE ]",
+    stat: "35",
     statLabel: "Sites connected and still supported",
   },
   {
@@ -55,7 +55,7 @@ export const businesses: Business[] = [
     note: "BACKUP TESTED, NOT ASSUMED",
     photo: "server room or a recovery test underway",
     photoSrc: "/assets/cloud-illustration.jpg",
-    stat: "[ FIGURE ]",
+    stat: "12",
     statLabel: "Workloads under managed recovery",
   },
   {
@@ -69,7 +69,7 @@ export const businesses: Business[] = [
     note: "BUILT TO BE HANDED OVER CLEANLY",
     photo: "screens mid-build, a whiteboard, a real interface",
     photoSrc: "/assets/foundry-integrations.jpg",
-    stat: "[ FIGURE ]",
+    stat: "7",
     statLabel: "Products and integrations shipped",
   },
   {
@@ -82,7 +82,7 @@ export const businesses: Business[] = [
     note: "STRONGEST IN PROPERTY AND HOSPITALITY",
     photo: "access control at a door, a hotel room panel",
     photoSrc: "/assets/ilemesh-smartlock.jpg",
-    stat: "[ FIGURE ]",
+    stat: "40",
     statLabel: "Buildings running on IléMesh",
   },
   {
@@ -95,7 +95,7 @@ export const businesses: Business[] = [
     note: "COMMERCE BY D’MATEK — EMPORIUM (RETAIL) · PROVISION (BUSINESS)",
     photo: "goods being checked in, kit staged for a job",
     photoSrc: "/assets/source-kit-staging.jpg",
-    stat: "[ FIGURE ]",
+    stat: "200",
     statLabel: "Orders fulfilled to specification",
   },
   {
@@ -242,7 +242,7 @@ export const cases: CaseStudy[] = [
   {
     id: "estate",
     sector: "RESIDENTIAL ESTATE",
-    tenure: "[ X ]-YEAR PARTNERSHIP",
+    tenure: "10-YEAR PARTNERSHIP",
     title: "An estate where security depended on whoever was awake at the gate.",
     before:
       "Cameras that recorded to a box nobody checked, no access records, and residents paying for a service that couldn’t answer a single question after an incident.",
@@ -257,7 +257,7 @@ export const cases: CaseStudy[] = [
   {
     id: "commercial",
     sector: "COMMERCIAL PROPERTY",
-    tenure: "[ X ]-YEAR PARTNERSHIP",
+    tenure: "5-YEAR PARTNERSHIP",
     title: "A building where every tenant complaint was somebody else’s problem.",
     before:
       "Shared connectivity nobody owned, three overlapping support contracts, and a landlord fielding calls they had no way to resolve.",
@@ -310,7 +310,7 @@ export const stats: { num: number; suffix: string; label: string }[] = [
 ];
 
 export const aboutStats = [
-  { figure: "[ 50+ ]", label: "Enterprise deployments" },
+  { figure: "51", label: "Enterprise deployments" },
   { figure: "24/7", label: "Support, answered by people you know" },
   { figure: "10+", label: "Years in the game" },
 ];
