@@ -41,6 +41,7 @@ export const businesses: Business[] = [
       "Design, build and operation of connectivity and physical network infrastructure — structured cabling, wireless, links, power and the parts nobody sees.",
     note: "USUALLY THE FIRST DIVISION ON SITE",
     photo: "cabling or wireless install in progress",
+    photoSrc: "/assets/stage-implement.jpg",
     stat: "[ FIGURE ]",
     statLabel: "Sites connected and still supported",
   },
@@ -127,6 +128,7 @@ export type Stage = {
   body: string;
   value: string;
   photo: string;
+  photoSrc?: string;
   outcome: string;
 };
 
@@ -138,6 +140,7 @@ export const stages: Stage[] = [
     body: "We listen before we prescribe. What is actually going wrong, who it affects, and what has already been tried. Most briefs change shape in this conversation.",
     value: "TRUST",
     photo: "a planning meeting, notebooks out",
+    photoSrc: "/assets/stage-understand.jpg",
     outcome: "The real problem, named.",
   },
   {
@@ -147,6 +150,7 @@ export const stages: Stage[] = [
     body: "Around seventy percent of the work happens here, on paper. Options, trade-offs and costs in plain language, so the decision is yours and it is an informed one.",
     value: "SIMPLIFY",
     photo: "drawings, floor plans, a whiteboard",
+    photoSrc: "/assets/stage-design.jpg",
     outcome: "70% of the work, before anything is bought.",
   },
   {
@@ -156,6 +160,7 @@ export const stages: Stage[] = [
     body: "Installation, build and integration, coordinated across whichever of our businesses the job needs. One schedule, one point of contact, one accountable party.",
     value: "SOLVE",
     photo: "infrastructure work in progress on site",
+    photoSrc: "/assets/stage-implement.jpg",
     outcome: "One team on site, not five vendors.",
   },
   {
@@ -165,6 +170,7 @@ export const stages: Stage[] = [
     body: "We run it. Monitoring, maintenance, response and the small interventions that stop small things becoming outages.",
     value: "SUPPORT",
     photo: "monitoring screens, a site check",
+    photoSrc: "/assets/stage-operate.jpg",
     outcome: "Problems handled before they’re noticed.",
   },
   {
@@ -174,6 +180,7 @@ export const stages: Stage[] = [
     body: "Buildings change, businesses grow, requirements move. We revisit what we built and improve it rather than waiting for a replacement project.",
     value: "IMPROVE",
     photo: "a review session with a client",
+    photoSrc: "/assets/stage-optimise.jpg",
     outcome: "Better in year three than year one.",
   },
   {
@@ -310,8 +317,8 @@ export const quotes: {
   tone: "light" | "dark";
 }[] = [
   {
-    text: "“[ TESTIMONIAL 1 — relief. The moment somebody finally took the problem off their hands. ]”",
-    attrib: "[ NAME, ORGANISATION ]",
+    text: "“Our internet went down, and Dmatek came in, diagnosed the problem and found that the access point had failed. They replaced it and had us back online without the usual back-and-forth. It was a huge relief.”",
+    attrib: "OAA, Admin Office, MaxiMedia Global",
     tone: "light",
   },
   {

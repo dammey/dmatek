@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import { stages, values } from "@/lib/content";
@@ -66,13 +67,30 @@ export default function ApproachPage() {
                 </span>
               </div>
               <div
-                className="dm-blob mx-auto flex aspect-square w-full max-w-[340px] flex-col items-center justify-center p-[clamp(24px,3.4vw,42px)] text-center text-cream"
-                style={{ background: "radial-gradient(circle at 30% 26%, #0B4B3D, #043028)" }}
+                className="dm-blob relative mx-auto flex aspect-square w-full max-w-[340px] flex-col items-center justify-center overflow-hidden p-[clamp(24px,3.4vw,42px)] text-center text-cream"
+                style={s.photoSrc ? undefined : { background: "radial-gradient(circle at 30% 26%, #0B4B3D, #043028)" }}
               >
-                <p className="m-0 mb-3.5 text-[11px] font-bold tracking-[0.16em] text-gold">
-                  [ PHOTO &mdash; {s.photo} ]
-                </p>
-                <p className="m-0 max-w-[16em] text-[clamp(19px,2.3vw,28px)] font-extrabold leading-[1.18] tracking-[-0.025em]">
+                {s.photoSrc && (
+                  <>
+                    <Image
+                      src={s.photoSrc}
+                      alt={`${s.name} — ${s.photo}`}
+                      fill
+                      sizes="340px"
+                      className="object-cover"
+                    />
+                    <div
+                      className="absolute inset-0"
+                      style={{ background: "linear-gradient(180deg,rgba(6,56,46,0.20),rgba(4,48,40,0.78))" }}
+                    />
+                  </>
+                )}
+                {!s.photoSrc && (
+                  <p className="relative m-0 mb-3.5 text-[11px] font-bold tracking-[0.16em] text-gold">
+                    [ PHOTO &mdash; {s.photo} ]
+                  </p>
+                )}
+                <p className="relative m-0 max-w-[16em] text-[clamp(19px,2.3vw,28px)] font-extrabold leading-[1.18] tracking-[-0.025em]">
                   {s.outcome}
                 </p>
               </div>
