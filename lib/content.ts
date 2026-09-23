@@ -81,6 +81,7 @@ export const businesses: Business[] = [
       "Smart homes and buildings, IoT, CCTV, access control, hotel technology, building automation and connected facilities.",
     note: "STRONGEST IN PROPERTY AND HOSPITALITY",
     photo: "access control at a door, a hotel room panel",
+    photoSrc: "/assets/ilemesh-smartlock.jpg",
     stat: "[ FIGURE ]",
     statLabel: "Buildings running on IléMesh",
   },
