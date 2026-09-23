@@ -12,6 +12,8 @@ export default function BusinessAccordion() {
     <div className="flex flex-col gap-3.5">
       {businesses.map((b, i) => {
         const open = openIndex === i;
+        const hasRealStat = !b.stat.trim().startsWith("[");
+        const showStatOverlay = !b.photoSrc || hasRealStat;
         return (
           <Reveal
             key={b.slug}
@@ -79,24 +81,28 @@ export default function BusinessAccordion() {
                   style={b.photoSrc ? undefined : { background: "rgba(245,241,232,0.07)" }}
                 >
                   {b.photoSrc && (
+                    <Image
+                      src={b.photoSrc}
+                      alt={`${b.name} — ${b.photo}`}
+                      fill
+                      sizes="280px"
+                      className="object-cover"
+                    />
+                  )}
+                  {showStatOverlay && (
                     <>
-                      <Image
-                        src={b.photoSrc}
-                        alt={`${b.name} — ${b.photo}`}
-                        fill
-                        sizes="280px"
-                        className="object-cover"
-                      />
-                      <div
-                        className="absolute inset-0"
-                        style={{ background: "linear-gradient(180deg,rgba(6,56,46,0.15),rgba(4,48,40,0.72))" }}
-                      />
+                      {b.photoSrc && (
+                        <div
+                          className="absolute inset-0"
+                          style={{ background: "linear-gradient(180deg,rgba(6,56,46,0.15),rgba(4,48,40,0.72))" }}
+                        />
+                      )}
+                      <p className="relative m-0 mb-2.5 text-[clamp(28px,3.4vw,44px)] font-extrabold leading-none tracking-[-0.03em] text-gold">
+                        {b.stat}
+                      </p>
+                      <p className="relative m-0 max-w-[14em] text-[14px] leading-[1.55] text-cream/82">{b.statLabel}</p>
                     </>
                   )}
-                  <p className="relative m-0 mb-2.5 text-[clamp(28px,3.4vw,44px)] font-extrabold leading-none tracking-[-0.03em] text-gold">
-                    {b.stat}
-                  </p>
-                  <p className="relative m-0 max-w-[14em] text-[14px] leading-[1.55] text-cream/82">{b.statLabel}</p>
                   {!b.photoSrc && (
                     <p className="relative m-0 mt-3.5 text-[10.5px] font-bold tracking-[0.14em] text-progress">
                       [ PHOTO &mdash; {b.photo} ]

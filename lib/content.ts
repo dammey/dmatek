@@ -54,6 +54,7 @@ export const businesses: Business[] = [
       "Cloud, servers, hosting, storage, backup and disaster recovery — sized for the business rather than the brochure.",
     note: "BACKUP TESTED, NOT ASSUMED",
     photo: "server room or a recovery test underway",
+    photoSrc: "/assets/cloud-illustration.jpg",
     stat: "[ FIGURE ]",
     statLabel: "Workloads under managed recovery",
   },
@@ -215,6 +216,7 @@ export type CaseStudy = {
   divisions: string;
   after: string;
   photo: string;
+  photoSrc?: string;
   quote: string;
   attrib: string;
 };
@@ -232,6 +234,7 @@ export const cases: CaseStudy[] = [
     after:
       "[ REAL OUTCOME TO BE ADDED — uptime, guest satisfaction, or cost against the original separate quotes. ]",
     photo: "Safwah Hotel: the comms room and a guest floor, before and after.",
+    photoSrc: "/assets/safwah-hotel.jpg",
     quote: "“[ REAL CLIENT QUOTE TO BE ADDED ]”",
     attrib: "[ NAME, ROLE — SAFWAH HOTEL ]",
   },
