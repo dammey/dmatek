@@ -25,6 +25,7 @@ export type Business = {
   scope: string;
   note: string;
   photo: string;
+  photoSrc?: string;
   stat: string;
   statLabel: string;
 };
@@ -65,6 +66,7 @@ export const businesses: Business[] = [
       "Custom software, apps, automation, integrations, SaaS and digital products — including QADPAY.",
     note: "BUILT TO BE HANDED OVER CLEANLY",
     photo: "screens mid-build, a whiteboard, a real interface",
+    photoSrc: "/assets/foundry-integrations.jpg",
     stat: "[ FIGURE ]",
     statLabel: "Products and integrations shipped",
   },
@@ -89,6 +91,7 @@ export const businesses: Business[] = [
       "Sourcing, supply, distribution and procurement — specified against the design, not the cheapest catalogue line. Matek Emporium for retail, Matek Provision for business.",
     note: "COMMERCE BY D’MATEK — EMPORIUM (RETAIL) · PROVISION (BUSINESS)",
     photo: "goods being checked in, kit staged for a job",
+    photoSrc: "/assets/source-kit-staging.jpg",
     stat: "[ FIGURE ]",
     statLabel: "Orders fulfilled to specification",
   },
@@ -101,6 +104,7 @@ export const businesses: Business[] = [
       "Managed technology, advisory, cybersecurity and ongoing operational responsibility for what we built.",
     note: "THIS IS WHY CUSTOMERS STAY TEN YEARS",
     photo: "a support conversation, a site visit, a review meeting",
+    photoSrc: "/assets/assurance-support.jpg",
     stat: "24/7",
     statLabel: "Coverage on managed accounts",
   },
