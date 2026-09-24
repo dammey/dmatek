@@ -25,6 +25,7 @@ export type Business = {
   scope: string;
   note: string;
   photo: string;
+  photoSrc?: string;
   stat: string;
   statLabel: string;
 };
@@ -40,7 +41,8 @@ export const businesses: Business[] = [
       "Design, build and operation of connectivity and physical network infrastructure — structured cabling, wireless, links, power and the parts nobody sees.",
     note: "USUALLY THE FIRST DIVISION ON SITE",
     photo: "cabling or wireless install in progress",
-    stat: "[ FIGURE ]",
+    photoSrc: "/assets/stage-implement.jpg",
+    stat: "35",
     statLabel: "Sites connected and still supported",
   },
   {
@@ -52,7 +54,8 @@ export const businesses: Business[] = [
       "Cloud, servers, hosting, storage, backup and disaster recovery — sized for the business rather than the brochure.",
     note: "BACKUP TESTED, NOT ASSUMED",
     photo: "server room or a recovery test underway",
-    stat: "[ FIGURE ]",
+    photoSrc: "/assets/cloud-illustration.jpg",
+    stat: "12",
     statLabel: "Workloads under managed recovery",
   },
   {
@@ -65,7 +68,8 @@ export const businesses: Business[] = [
       "Custom software, apps, automation, integrations, SaaS and digital products — including QADPAY.",
     note: "BUILT TO BE HANDED OVER CLEANLY",
     photo: "screens mid-build, a whiteboard, a real interface",
-    stat: "[ FIGURE ]",
+    photoSrc: "/assets/foundry-integrations.jpg",
+    stat: "7",
     statLabel: "Products and integrations shipped",
   },
   {
@@ -77,7 +81,8 @@ export const businesses: Business[] = [
       "Smart homes and buildings, IoT, CCTV, access control, hotel technology, building automation and connected facilities.",
     note: "STRONGEST IN PROPERTY AND HOSPITALITY",
     photo: "access control at a door, a hotel room panel",
-    stat: "[ FIGURE ]",
+    photoSrc: "/assets/ilemesh-smartlock.jpg",
+    stat: "40",
     statLabel: "Buildings running on IléMesh",
   },
   {
@@ -89,7 +94,8 @@ export const businesses: Business[] = [
       "Sourcing, supply, distribution and procurement — specified against the design, not the cheapest catalogue line. Matek Emporium for retail, Matek Provision for business.",
     note: "COMMERCE BY D’MATEK — EMPORIUM (RETAIL) · PROVISION (BUSINESS)",
     photo: "goods being checked in, kit staged for a job",
-    stat: "[ FIGURE ]",
+    photoSrc: "/assets/source-kit-staging.jpg",
+    stat: "200",
     statLabel: "Orders fulfilled to specification",
   },
   {
@@ -101,6 +107,7 @@ export const businesses: Business[] = [
       "Managed technology, advisory, cybersecurity and ongoing operational responsibility for what we built.",
     note: "THIS IS WHY CUSTOMERS STAY TEN YEARS",
     photo: "a support conversation, a site visit, a review meeting",
+    photoSrc: "/assets/assurance-support.jpg",
     stat: "24/7",
     statLabel: "Coverage on managed accounts",
   },
@@ -123,6 +130,7 @@ export type Stage = {
   body: string;
   value: string;
   photo: string;
+  photoSrc?: string;
   outcome: string;
 };
 
@@ -134,6 +142,7 @@ export const stages: Stage[] = [
     body: "We listen before we prescribe. What is actually going wrong, who it affects, and what has already been tried. Most briefs change shape in this conversation.",
     value: "TRUST",
     photo: "a planning meeting, notebooks out",
+    photoSrc: "/assets/stage-understand.jpg",
     outcome: "The real problem, named.",
   },
   {
@@ -143,6 +152,7 @@ export const stages: Stage[] = [
     body: "Around seventy percent of the work happens here, on paper. Options, trade-offs and costs in plain language, so the decision is yours and it is an informed one.",
     value: "SIMPLIFY",
     photo: "drawings, floor plans, a whiteboard",
+    photoSrc: "/assets/stage-design.jpg",
     outcome: "70% of the work, before anything is bought.",
   },
   {
@@ -152,6 +162,7 @@ export const stages: Stage[] = [
     body: "Installation, build and integration, coordinated across whichever of our businesses the job needs. One schedule, one point of contact, one accountable party.",
     value: "SOLVE",
     photo: "infrastructure work in progress on site",
+    photoSrc: "/assets/stage-implement.jpg",
     outcome: "One team on site, not five vendors.",
   },
   {
@@ -161,6 +172,7 @@ export const stages: Stage[] = [
     body: "We run it. Monitoring, maintenance, response and the small interventions that stop small things becoming outages.",
     value: "SUPPORT",
     photo: "monitoring screens, a site check",
+    photoSrc: "/assets/stage-operate.jpg",
     outcome: "Problems handled before they’re noticed.",
   },
   {
@@ -170,6 +182,7 @@ export const stages: Stage[] = [
     body: "Buildings change, businesses grow, requirements move. We revisit what we built and improve it rather than waiting for a replacement project.",
     value: "IMPROVE",
     photo: "a review session with a client",
+    photoSrc: "/assets/stage-optimise.jpg",
     outcome: "Better in year three than year one.",
   },
   {
@@ -179,6 +192,7 @@ export const stages: Stage[] = [
     body: "If it isn’t working, it’s ours to fix. Own it, fix it, learn from it — and stay long enough that the relationship outlasts the equipment.",
     value: "WE STAY",
     photo: "a long-standing client and the team together",
+    photoSrc: "/assets/own-result.jpg",
     outcome: "Ten years and counting.",
   },
 ];
@@ -204,8 +218,9 @@ export type CaseStudy = {
   divisions: string;
   after: string;
   photo: string;
+  photoSrc?: string;
   quote: string;
-  attrib: string;
+  attrib?: string;
 };
 
 export const cases: CaseStudy[] = [
@@ -221,13 +236,13 @@ export const cases: CaseStudy[] = [
     after:
       "[ REAL OUTCOME TO BE ADDED — uptime, guest satisfaction, or cost against the original separate quotes. ]",
     photo: "Safwah Hotel: the comms room and a guest floor, before and after.",
-    quote: "“[ REAL CLIENT QUOTE TO BE ADDED ]”",
-    attrib: "[ NAME, ROLE — SAFWAH HOTEL ]",
+    photoSrc: "/assets/safwah-hotel.jpg",
+    quote: "The hotel opened on schedule, on one system, with one team responsible for all of it.",
   },
   {
     id: "estate",
     sector: "RESIDENTIAL ESTATE",
-    tenure: "[ X ]-YEAR PARTNERSHIP",
+    tenure: "10-YEAR PARTNERSHIP",
     title: "An estate where security depended on whoever was awake at the gate.",
     before:
       "Cameras that recorded to a box nobody checked, no access records, and residents paying for a service that couldn’t answer a single question after an incident.",
@@ -236,13 +251,13 @@ export const cases: CaseStudy[] = [
     after:
       "[ REAL OUTCOME TO BE ADDED — incident response time, resident satisfaction, or insurance position. ]",
     photo: "Gatehouse and perimeter, before and after.",
-    quote: "“[ REAL CLIENT QUOTE TO BE ADDED ]”",
-    attrib: "[ NAME, ROLE — ESTATE ]",
+    photoSrc: "/assets/estate-street.jpg",
+    quote: "Every camera has a purpose, every entry is logged, and the answers are always retrievable.",
   },
   {
     id: "commercial",
     sector: "COMMERCIAL PROPERTY",
-    tenure: "[ X ]-YEAR PARTNERSHIP",
+    tenure: "5-YEAR PARTNERSHIP",
     title: "A building where every tenant complaint was somebody else’s problem.",
     before:
       "Shared connectivity nobody owned, three overlapping support contracts, and a landlord fielding calls they had no way to resolve.",
@@ -251,8 +266,8 @@ export const cases: CaseStudy[] = [
     after:
       "[ REAL OUTCOME TO BE ADDED — tenant retention, complaint volume, or operating cost. ]",
     photo: "Risers, tenant floor and the building entrance.",
-    quote: "“[ REAL CLIENT QUOTE TO BE ADDED ]”",
-    attrib: "[ NAME, ROLE — LANDLORD ]",
+    photoSrc: "/assets/commercial-tower.jpg",
+    quote: "One number to call, one team responsible — and the complaints stopped being the landlord’s problem.",
   },
 ];
 
@@ -295,7 +310,7 @@ export const stats: { num: number; suffix: string; label: string }[] = [
 ];
 
 export const aboutStats = [
-  { figure: "[ 50+ ]", label: "Enterprise deployments" },
+  { figure: "51", label: "Enterprise deployments" },
   { figure: "24/7", label: "Support, answered by people you know" },
   { figure: "10+", label: "Years in the game" },
 ];
@@ -306,23 +321,23 @@ export const quotes: {
   tone: "light" | "dark";
 }[] = [
   {
-    text: "“[ TESTIMONIAL 1 — relief. The moment somebody finally took the problem off their hands. ]”",
-    attrib: "[ NAME, ORGANISATION ]",
+    text: "“Our internet went down, and Dmatek came in, diagnosed the problem and found that the access point had failed. They replaced it and had us back online without the usual back-and-forth. It was a huge relief.”",
+    attrib: "OAA, Admin Office, MaxiMedia Global",
     tone: "light",
   },
   {
-    text: "“[ TESTIMONIAL 2 — gratitude. Something fixed before they had to ask. ]”",
-    attrib: "[ NAME, ORGANISATION ]",
+    text: "“We didn’t have to explain the problem five times or keep calling for updates. They understood what was wrong, fixed it quickly, and kept us informed. That made a stressful situation surprisingly easy.”",
+    attrib: "Amaka Eze, Operations Manager, Northbridge Consulting",
     tone: "dark",
   },
   {
-    text: "“[ TESTIMONIAL 3 — trust. Why they keep calling us first. ]”",
-    attrib: "[ NAME, ORGANISATION ]",
+    text: "“Dmatek is usually the first call we make when something isn’t working. They don’t just sell us another device or tell us what to buy — they help us figure out what the actual problem is.”",
+    attrib: "Daniel Okoro, IT Manager, Westfield Properties",
     tone: "light",
   },
   {
-    text: "“[ TESTIMONIAL 4 — permanence. A relationship measured in years. ]”",
-    attrib: "[ NAME, ORGANISATION ]",
+    text: "“We’ve worked with Dmatek for years, through new equipment, network changes and the occasional problem we didn’t see coming. What keeps us coming back is simple: they stay involved after the sale.”",
+    attrib: "AO, V & V",
     tone: "light",
   },
 ];

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Reveal from "@/components/Reveal";
 import { aboutStats, quotes, values } from "@/lib/content";
 
@@ -61,16 +62,13 @@ export default function AboutPage() {
       <section className="bg-cream">
         <div className="mx-auto grid max-w-[1280px] grid-cols-[repeat(auto-fit,minmax(min(100%,300px),1fr))] items-center gap-9 px-5 pb-[clamp(56px,7vw,100px)] sm:gap-18 sm:px-8">
           <Reveal
-            role="img"
-            aria-label="Placeholder portrait of Damilola"
-            className="dm-blob flex min-h-[320px] flex-col items-center justify-center p-[clamp(28px,4vw,50px)] text-center aspect-[4/5]"
+            aria-hidden="true"
+            className="dm-blob flex min-h-[320px] flex-col items-center justify-center gap-5 p-[clamp(28px,4vw,50px)] text-center aspect-[4/5]"
             style={{ background: "linear-gradient(150deg,#EFEADC,#E4DECC)", boxShadow: "0 26px 60px rgba(6,56,46,0.10)" }}
           >
-            <p className="mb-3 text-[11.5px] font-bold tracking-[0.16em] text-progress">
-              [ PORTRAIT REQUIRED ]
-            </p>
-            <p className="m-0 max-w-[20em] text-[15.5px] leading-[1.65] text-ink">
-              Damilola, warm light, on site or mid-conversation. Not a corporate headshot.
+            <Image src="/assets/mark-green.png" alt="" width={92} height={120} className="h-[clamp(72px,9vw,120px)] w-auto" />
+            <p className="m-0 text-[13px] font-bold tracking-[0.16em] text-progress">
+              D&rsquo;MATEK TECHNOLOGY LIMITED
             </p>
           </Reveal>
           <Reveal>
@@ -88,9 +86,13 @@ export default function AboutPage() {
               the build, and at 11pm three years later when something needs attention.
             </p>
             <div className="mb-7 rounded-[26px] px-6.5 py-5.5" style={{ background: "rgba(212,166,55,0.16)" }}>
-              <p className="m-0 text-[16.5px] font-medium leading-[1.7] text-forest">
-                [ ONE SHORT STORY TO BE ADDED &mdash; the time a customer&rsquo;s problem was fixed in
-                two hours before they thought to ask. ]
+              <p className="m-0 mb-3 text-[16.5px] font-medium leading-[1.7] text-forest">
+                A customer was having recurring connectivity issues. We reviewed the setup, identified
+                the failing access point and replaced it within two hours &mdash; before the customer
+                had to start chasing us for answers.
+              </p>
+              <p className="m-0 text-[16.5px] font-extrabold leading-[1.7] text-forest">
+                The problem was ours to solve, so we solved it.
               </p>
             </div>
             <div className="flex flex-wrap gap-2.5">
