@@ -220,7 +220,7 @@ export type CaseStudy = {
   photo: string;
   photoSrc?: string;
   quote: string;
-  attrib: string;
+  attrib?: string;
 };
 
 export const cases: CaseStudy[] = [
@@ -237,8 +237,7 @@ export const cases: CaseStudy[] = [
       "[ REAL OUTCOME TO BE ADDED — uptime, guest satisfaction, or cost against the original separate quotes. ]",
     photo: "Safwah Hotel: the comms room and a guest floor, before and after.",
     photoSrc: "/assets/safwah-hotel.jpg",
-    quote: "“[ REAL CLIENT QUOTE TO BE ADDED ]”",
-    attrib: "[ NAME, ROLE — SAFWAH HOTEL ]",
+    quote: "The hotel opened on schedule, on one system, with one team responsible for all of it.",
   },
   {
     id: "estate",
@@ -253,8 +252,7 @@ export const cases: CaseStudy[] = [
       "[ REAL OUTCOME TO BE ADDED — incident response time, resident satisfaction, or insurance position. ]",
     photo: "Gatehouse and perimeter, before and after.",
     photoSrc: "/assets/estate-street.jpg",
-    quote: "“[ REAL CLIENT QUOTE TO BE ADDED ]”",
-    attrib: "[ NAME, ROLE — ESTATE ]",
+    quote: "Every camera has a purpose, every entry is logged, and the answers are always retrievable.",
   },
   {
     id: "commercial",
@@ -269,8 +267,7 @@ export const cases: CaseStudy[] = [
       "[ REAL OUTCOME TO BE ADDED — tenant retention, complaint volume, or operating cost. ]",
     photo: "Risers, tenant floor and the building entrance.",
     photoSrc: "/assets/commercial-tower.jpg",
-    quote: "“[ REAL CLIENT QUOTE TO BE ADDED ]”",
-    attrib: "[ NAME, ROLE — LANDLORD ]",
+    quote: "One number to call, one team responsible — and the complaints stopped being the landlord’s problem.",
   },
 ];
 

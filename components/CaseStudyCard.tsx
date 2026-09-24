@@ -97,12 +97,20 @@ export default function CaseStudyCard({ study }: { study: CaseStudy }) {
             </>
           )}
         </div>
-        <blockquote className="m-0 rounded-[clamp(22px,3vw,36px)] bg-cream p-[clamp(26px,3vw,42px)] shadow-[0_14px_36px_rgba(6,56,46,0.08)]">
-          <p className="mb-5 text-[clamp(18px,2vw,25px)] font-semibold leading-[1.5] tracking-[-0.015em] text-forest text-pretty">
-            {study.quote}
-          </p>
-          <footer className="text-[13px] font-bold tracking-[0.06em] text-progress">{study.attrib}</footer>
-        </blockquote>
+        {study.attrib ? (
+          <blockquote className="m-0 rounded-[clamp(22px,3vw,36px)] bg-cream p-[clamp(26px,3vw,42px)] shadow-[0_14px_36px_rgba(6,56,46,0.08)]">
+            <p className="mb-5 text-[clamp(18px,2vw,25px)] font-semibold leading-[1.5] tracking-[-0.015em] text-forest text-pretty">
+              &ldquo;{study.quote}&rdquo;
+            </p>
+            <footer className="text-[13px] font-bold tracking-[0.06em] text-progress">{study.attrib}</footer>
+          </blockquote>
+        ) : (
+          <div className="m-0 rounded-[clamp(22px,3vw,36px)] bg-cream p-[clamp(26px,3vw,42px)] shadow-[0_14px_36px_rgba(6,56,46,0.08)]">
+            <p className="m-0 text-[clamp(18px,2vw,25px)] font-semibold leading-[1.5] tracking-[-0.015em] text-forest text-pretty">
+              {study.quote}
+            </p>
+          </div>
+        )}
       </div>
     </Reveal>
   );
