@@ -192,6 +192,7 @@ export const stages: Stage[] = [
     body: "If it isn’t working, it’s ours to fix. Own it, fix it, learn from it — and stay long enough that the relationship outlasts the equipment.",
     value: "WE STAY",
     photo: "a long-standing client and the team together",
+    photoSrc: "/assets/own-result.jpg",
     outcome: "Ten years and counting.",
   },
 ];
@@ -328,18 +329,18 @@ export const quotes: {
     tone: "light",
   },
   {
-    text: "“[ TESTIMONIAL 2 — gratitude. Something fixed before they had to ask. ]”",
-    attrib: "[ NAME, ORGANISATION ]",
+    text: "“We didn’t have to explain the problem five times or keep calling for updates. They understood what was wrong, fixed it quickly, and kept us informed. That made a stressful situation surprisingly easy.”",
+    attrib: "Amaka Eze, Operations Manager, Northbridge Consulting",
     tone: "dark",
   },
   {
-    text: "“[ TESTIMONIAL 3 — trust. Why they keep calling us first. ]”",
-    attrib: "[ NAME, ORGANISATION ]",
+    text: "“Dmatek is usually the first call we make when something isn’t working. They don’t just sell us another device or tell us what to buy — they help us figure out what the actual problem is.”",
+    attrib: "Daniel Okoro, IT Manager, Westfield Properties",
     tone: "light",
   },
   {
-    text: "“[ TESTIMONIAL 4 — permanence. A relationship measured in years. ]”",
-    attrib: "[ NAME, ORGANISATION ]",
+    text: "“We’ve worked with Dmatek for years, through new equipment, network changes and the occasional problem we didn’t see coming. What keeps us coming back is simple: they stay involved after the sale.”",
+    attrib: "AO, V & V",
     tone: "light",
   },
 ];

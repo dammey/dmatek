@@ -86,9 +86,13 @@ export default function AboutPage() {
               the build, and at 11pm three years later when something needs attention.
             </p>
             <div className="mb-7 rounded-[26px] px-6.5 py-5.5" style={{ background: "rgba(212,166,55,0.16)" }}>
-              <p className="m-0 text-[16.5px] font-medium leading-[1.7] text-forest">
-                [ ONE SHORT STORY TO BE ADDED &mdash; the time a customer&rsquo;s problem was fixed in
-                two hours before they thought to ask. ]
+              <p className="m-0 mb-3 text-[16.5px] font-medium leading-[1.7] text-forest">
+                A customer was having recurring connectivity issues. We reviewed the setup, identified
+                the failing access point and replaced it within two hours &mdash; before the customer
+                had to start chasing us for answers.
+              </p>
+              <p className="m-0 text-[16.5px] font-extrabold leading-[1.7] text-forest">
+                The problem was ours to solve, so we solved it.
               </p>
             </div>
             <div className="flex flex-wrap gap-2.5">
