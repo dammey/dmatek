@@ -3,7 +3,7 @@
   "private": true,
   "workspaces": [
     "site",
-    "matek-source/*",
+    "d-source/*",
     "packages/*"
   ],
   "scripts": {

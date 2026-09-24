@@ -1,14 +1,14 @@
 # D'Matek monorepo
 
 This repo is an npm-workspaces monorepo for D'Matek Technology Limited and
-its commerce division, Matek Source.
+its commerce division, D'Source.
 
 ## Layout
 
 ```
 dmatek/
 ├── site/                 the Next.js info site for dmatek.com (live)
-├── matek-source/
+├── d-source/
 │   ├── web/              future store frontend → source.dmatek.com (not built)
 │   ├── backend/          future store backend — stack not decided (not built)
 │   └── mobile/           future mobile app (not started)
@@ -25,11 +25,11 @@ dmatek/
 
 - **`site/`** is the marketing/info site only. It has **no backend** beyond
   its own `app/api/contact` route (a contact-form mailer via Resend). It
-  does not talk to Matek Source or any store backend.
-- **Matek Source lives entirely in `matek-source/`.** Anything to do with
+  does not talk to D'Source or any store backend.
+- **D'Source lives entirely in `d-source/`.** Anything to do with
   the store — storefront UI, catalogue/orders/fulfillment backend, or the
-  mobile app — goes in `matek-source/web`, `matek-source/backend`, or
-  `matek-source/mobile` respectively. None of it belongs in `site/`.
+  mobile app — goes in `d-source/web`, `d-source/backend`, or
+  `d-source/mobile` respectively. None of it belongs in `site/`.
 - **`packages/shared`** is for code actually shared across two or more
   workspaces (brand tokens, fonts, common UI). Don't put site-only or
   store-only code here.
@@ -46,8 +46,8 @@ dmatek/
 - Site-specific dependencies, config, and env vars belong in `site/`
   (its own `package.json`, `.env.example`, `next.config.ts`, etc.) —
   don't hoist them to the root beyond what npm workspaces already does.
-- When Matek Source work starts, give each of `matek-source/web`,
-  `matek-source/backend`, and `matek-source/mobile` its own
+- When D'Source work starts, give each of `d-source/web`,
+  `d-source/backend`, and `d-source/mobile` its own
   `package.json` so npm workspaces picks it up.
 
 ## Commands

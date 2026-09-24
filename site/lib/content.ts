@@ -87,7 +87,7 @@ export const businesses: Business[] = [
   },
   {
     slug: "commerce",
-    name: "Matek Source",
+    name: "D’Source",
     verb: "SUPPLY IT",
     solves: "When the right equipment has to arrive, correctly, on time.",
     scope:

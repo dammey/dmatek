@@ -1,6 +1,6 @@
 # D'Matek
 
-Monorepo for D'Matek Technology Limited's public site and Matek Source, its
+Monorepo for D'Matek Technology Limited's public site and D'Source, its
 commerce division.
 
 ## Layout
@@ -8,7 +8,7 @@ commerce division.
 ```
 dmatek/
 ├── site/                 the Next.js info site for dmatek.com
-├── matek-source/
+├── d-source/
 │   ├── web/              future store frontend → source.dmatek.com
 │   ├── backend/          future store backend — stack not decided yet
 │   └── mobile/           future, not started
@@ -31,10 +31,10 @@ npm run dev:site     # starts the site at localhost:3000
 npm run build:site   # production build of the site
 ```
 
-`matek-source/*` and `packages/shared` are placeholders — see the
+`d-source/*` and `packages/shared` are placeholders — see the
 `README.md` in each for status.
 
 ## Workspaces
 
-This repo uses npm workspaces (`site`, `matek-source/*`, `packages/*`).
+This repo uses npm workspaces (`site`, `d-source/*`, `packages/*`).
 Run `npm install` once at the root; it installs and links all workspaces.
