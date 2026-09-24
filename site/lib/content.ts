@@ -91,7 +91,7 @@ export const businesses: Business[] = [
     verb: "SUPPLY IT",
     solves: "When the right equipment has to arrive, correctly, on time.",
     scope:
-      "Sourcing, supply, distribution and procurement — specified against the design, not the cheapest catalogue line. Matek Emporium for retail, Matek Provision for business.",
+      "Sourcing, supply, distribution and procurement — specified against the design, not the cheapest catalogue line. D’Emporium for retail, D’Provision for business.",
     note: "COMMERCE BY D’MATEK — EMPORIUM (RETAIL) · PROVISION (BUSINESS)",
     photo: "goods being checked in, kit staged for a job",
     photoSrc: "/assets/source-kit-staging.jpg",
