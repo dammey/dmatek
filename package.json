@@ -3,11 +3,14 @@
   "private": true,
   "workspaces": [
     "site",
+    "d-foundry",
     "d-source/*",
     "packages/*"
   ],
   "scripts": {
     "dev:site": "npm run dev --workspace=site",
-    "build:site": "npm run build --workspace=site"
+    "build:site": "npm run build --workspace=site",
+    "dev:foundry": "npm run dev --workspace=d-foundry",
+    "build:foundry": "npm run build --workspace=d-foundry"
   }
 }
