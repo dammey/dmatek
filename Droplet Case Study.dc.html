@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Droplet case study · D’Foundry</title>
+<meta name="description" content="How D’Foundry built Droplet, water on demand for Blessed Water.">
+<meta name="theme-color" content="#1A1A1A">
+<meta property="og:image" content="assets/droplet-dash.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'16'%20fill%3D'%2306382E'%2F%3E%3Crect%20x%3D'12'%20y%3D'22'%20width%3D'40'%20height%3D'20'%20rx%3D'10'%20fill%3D'%23D4A637'%2F%3E%3C%2Fsvg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:#1A1A1A;font-family:'Bricolage Grotesque',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:clip}
+a{color:inherit;text-decoration:none}
+a:hover{color:#D4A637}
+</style>
+</helmet>
+<div data-curtain="1" style="position:fixed;inset:0;z-index:500;background:#06382E;display:grid;place-items:center;transform-origin:50% 0">
+  <span style="padding:.08em .42em .14em;border-radius:999px;background:#D4A637;color:#06382E;font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(46px,8vw,140px);line-height:1">Droplet</span>
+</div>
+
+<header style="position:absolute;left:0;right:0;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:22px clamp(18px,3vw,40px);color:#F5F1E8">
+  <a href="DFoundry%20Hero.dc.html" style="font-weight:800;font-size:19px;letter-spacing:-.03em">← D’FOUNDRY</a>
+  <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em">CASE STUDY 01</span>
+</header>
+
+<section data-screen-label="Case hero" style="background:#1A1A1A;color:#F5F1E8;padding:clamp(120px,18vh,180px) clamp(18px,3vw,40px) clamp(48px,8vh,96px)">
+  <div style="max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(32px,5vh,56px)">
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <span style="background:#D4A637;color:#06382E;border-radius:999px;padding:6px 12px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600">LIVE</span>
+      <span style="border:1.5px solid #555;border-radius:999px;padding:5px 12px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;color:#D9D3C4;white-space:nowrap">WEB APP · MOBILE · PAYMENTS</span>
+    </div>
+    <h1 data-in="1" style="margin:0;font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;font-size:clamp(96px,18vw,300px);line-height:.8;letter-spacing:-.03em">Droplet</h1>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(24px,4vw,64px);align-items:end">
+      <p data-in="1" style="margin:0;font-weight:700;font-size:clamp(24px,2.6vw,40px);line-height:1.1;letter-spacing:-.03em;text-wrap:pretty">Water on demand for Blessed Water, live in Lagos and Ibadan.</p>
+      <div data-in="1" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 24px;font-size:15px">
+        <div style="display:flex;flex-direction:column;gap:4px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;color:#BDB6A6">CLIENT</span><span style="font-weight:700">Blessed Water</span></div>
+        <div style="display:flex;flex-direction:column;gap:4px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;color:#BDB6A6">TIMELINE</span><span style="font-weight:700;color:#D4A637">[00 weeks]</span></div>
+        <div style="display:flex;flex-direction:column;gap:4px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;color:#BDB6A6">LAUNCHED</span><span style="font-weight:700;color:#D4A637">[Month 2026]</span></div>
+        <div style="display:flex;flex-direction:column;gap:4px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;color:#BDB6A6">HOSTED ON</span><span style="font-weight:700">D’Matek Cloud</span></div>
+      </div>
+    </div>
+    <div data-in="mask" style="border-radius:24px;overflow:hidden;background:#F5F8FB;box-shadow:0 40px 80px rgba(0,0,0,.45)"><img src="assets/droplet-dash.jpg" alt="Droplet customer home" style="display:block;width:100%;height:auto"></div>
+  </div>
+</section>
+
+<section data-screen-label="Results" style="background:#D4A637;color:#06382E;padding:clamp(64px,10vh,120px) clamp(18px,3vw,40px)">
+  <div style="max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(32px,5vh,56px)">
+    <div style="display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap">
+      <h2 data-in="1" style="margin:0;font-weight:800;font-size:clamp(48px,7vw,120px);line-height:.88;letter-spacing:-.055em">The <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em">results.</span></h2>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em">PLACEHOLDERS · REPLACE WITH REAL NUMBERS</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));border-top:2px solid #06382E">
+      <div data-in="1" style="display:flex;flex-direction:column;gap:10px;padding:28px 24px 28px 0;border-bottom:2px solid #06382E"><span data-count="1" style="font-weight:800;font-size:clamp(64px,7vw,120px);line-height:.9;letter-spacing:-.06em">00%</span><span style="font-size:16px;line-height:1.45;max-width:26ch">of orders are reorders from the one-tap prompt</span></div>
+      <div data-in="1" style="display:flex;flex-direction:column;gap:10px;padding:28px 24px 28px 0;border-bottom:2px solid #06382E"><span data-count="1" style="font-weight:800;font-size:clamp(64px,7vw,120px);line-height:.9;letter-spacing:-.06em">0,000</span><span style="font-size:16px;line-height:1.45;max-width:26ch">customers ordering in the app</span></div>
+      <div data-in="1" style="display:flex;flex-direction:column;gap:10px;padding:28px 24px 28px 0;border-bottom:2px solid #06382E"><span data-count="1" style="font-weight:800;font-size:clamp(64px,7vw,120px);line-height:.9;letter-spacing:-.06em">000</span><span style="font-size:16px;line-height:1.45;max-width:26ch">active delivery subscriptions</span></div>
+      <div data-in="1" style="display:flex;flex-direction:column;gap:10px;padding:28px 24px 28px 0;border-bottom:2px solid #06382E"><span data-count="1" style="font-weight:800;font-size:clamp(64px,7vw,120px);line-height:.9;letter-spacing:-.06em">0,000kg</span><span style="font-size:16px;line-height:1.45;max-width:26ch">of bottles collected through recycling pickups</span></div>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="The problem" style="background:#F5F1E8;color:#06382E;padding:clamp(72px,12vh,140px) clamp(18px,3vw,40px)">
+  <div style="max-width:1400px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:clamp(32px,5vw,80px);align-items:start">
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em">01 · THE PROBLEM</span>
+      <h2 data-in="1" style="margin:0;font-weight:800;font-size:clamp(44px,5.6vw,96px);line-height:.9;letter-spacing:-.055em">Orders came in by <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em">[phone and WhatsApp].</span></h2>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:20px;font-size:clamp(17px,1.4vw,20px);line-height:1.55;padding-top:clamp(0px,4vh,48px)">
+      <p data-in="1" style="margin:0">[How Blessed Water took and tracked orders before Droplet. Who handled them, and what went wrong: missed orders, customers running out, drivers without routes.]</p>
+      <p data-in="1" style="margin:0">[What they asked D’Foundry for, in their own words if possible.]</p>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="What we built" style="background:#1A1A1A;color:#F5F1E8;padding:clamp(72px,12vh,140px) clamp(18px,3vw,40px);overflow:hidden">
+  <div style="max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(56px,10vh,120px)">
+    <div style="display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap">
+      <h2 data-in="1" style="margin:0;font-weight:800;font-size:clamp(48px,7vw,120px);line-height:.88;letter-spacing:-.055em">What we <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em;color:#D4A637">built.</span></h2>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:#BDB6A6">02 · THE PRODUCT</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:clamp(24px,4vw,64px);align-items:center">
+      <div data-in="mask" style="border-radius:20px;overflow:hidden;background:#F5F8FB"><img loading="lazy" src="assets/droplet-home.jpg" alt="Droplet home screen with reorder prompt" style="display:block;width:100%;height:auto"></div>
+      <div style="display:flex;flex-direction:column;gap:14px"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#D4A637">01</span><h3 data-in="1" style="margin:0;font-weight:800;font-size:clamp(32px,3.4vw,56px);line-height:.95;letter-spacing:-.045em">Reorder in one tap</h3><p data-in="1" style="margin:0;font-size:18px;line-height:1.55;color:#D9D3C4;max-width:44ch">Spots when a customer is running low from their order history, and offers their usual.</p></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:clamp(24px,4vw,64px);align-items:center">
+      <div style="display:flex;flex-direction:column;gap:14px"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#D4A637">02</span><h3 data-in="1" style="margin:0;font-weight:800;font-size:clamp(32px,3.4vw,56px);line-height:.95;letter-spacing:-.045em">Subscriptions and a proper shop</h3><p data-in="1" style="margin:0;font-size:18px;line-height:1.55;color:#D9D3C4;max-width:44ch">Scheduled deliveries that keep coming without a new order, with products and delivery zones managed in one place.</p></div>
+      <div data-in="mask" style="border-radius:20px;overflow:hidden;background:#F5F8FB"><img loading="lazy" src="assets/droplet-shop.jpg" alt="Droplet shop with products and delivery zones" style="display:block;width:100%;height:auto"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:clamp(24px,4vw,64px);align-items:center">
+      <div data-in="mask" style="border-radius:20px;overflow:hidden;background:#F5F8FB"><img loading="lazy" src="assets/droplet-rec.jpg" alt="Droplet recycling pickup with points" style="display:block;width:100%;height:auto"></div>
+      <div style="display:flex;flex-direction:column;gap:14px"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#D4A637">03</span><h3 data-in="1" style="margin:0;font-weight:800;font-size:clamp(32px,3.4vw,56px);line-height:.95;letter-spacing:-.045em">Recycling that earns points</h3><p data-in="1" style="margin:0;font-size:18px;line-height:1.55;color:#D9D3C4;max-width:44ch">Customers book pickups for empty bottles and earn points toward their next order.</p></div>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="How we built it" style="background:#06382E;color:#F5F1E8;padding:clamp(72px,12vh,140px) clamp(18px,3vw,40px)">
+  <div style="max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(32px,5vh,56px)">
+    <div style="display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap">
+      <h2 data-in="1" style="margin:0;font-weight:800;font-size:clamp(48px,7vw,120px);line-height:.88;letter-spacing:-.055em">How we <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em;color:#D4A637">built it.</span></h2>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:#A9BBB3">03 · THE PROCESS</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px">
+      <div data-in="deal" style="display:flex;flex-direction:column;gap:14px;background:#F5F1E8;color:#06382E;border-radius:24px;padding:28px;min-height:280px"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600">01 DIAGNOSE</span><span style="font-weight:800;font-size:28px;letter-spacing:-.035em;line-height:1">[What we mapped]</span><span style="font-size:16px;line-height:1.5;color:#28705A">[Who we spoke to, what we learned about how orders really flowed.]</span><span style="margin-top:auto;font-family:'IBM Plex Mono',monospace;font-size:12px">[0 WEEKS]</span></div>
+      <div data-in="deal" style="display:flex;flex-direction:column;gap:14px;background:#D4A637;color:#06382E;border-radius:24px;padding:28px;min-height:280px"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600">02 BUILD</span><span style="font-weight:800;font-size:28px;letter-spacing:-.035em;line-height:1">[The first version]</span><span style="font-size:16px;line-height:1.5">[What went into v1: web app, payments, admin, driver view.]</span><span style="margin-top:auto;font-family:'IBM Plex Mono',monospace;font-size:12px">[0 WEEKS]</span></div>
+      <div data-in="deal" style="display:flex;flex-direction:column;gap:14px;background:#28705A;color:#F5F1E8;border-radius:24px;padding:28px;min-height:280px"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600">03 SHIP</span><span style="font-weight:800;font-size:28px;letter-spacing:-.035em;line-height:1">[The pilot]</span><span style="font-size:16px;line-height:1.5;color:#E4EDE8">[Where it launched first, what changed after real use.]</span><span style="margin-top:auto;font-family:'IBM Plex Mono',monospace;font-size:12px">[0 WEEKS]</span></div>
+      <div data-in="deal" style="display:flex;flex-direction:column;gap:14px;background:#1A1A1A;color:#F5F1E8;border-radius:24px;padding:28px;min-height:280px"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:#D4A637">04 RUN</span><span style="font-weight:800;font-size:28px;letter-spacing:-.035em;line-height:1">Hosted and supported</span><span style="font-size:16px;line-height:1.5;color:#D9D3C4">On D’Matek Cloud, backed up and monitored. [Anything added since launch.]</span><span style="margin-top:auto;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#D4A637">ONGOING</span></div>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="Client quote" style="background:#F5F1E8;color:#06382E;padding:clamp(72px,14vh,160px) clamp(18px,3vw,40px)">
+  <figure style="max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:28px">
+    <blockquote data-in="1" style="margin:0;font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(40px,5.4vw,92px);line-height:1;letter-spacing:-.02em;text-wrap:pretty">“[A short quote from Blessed Water about what changed after Droplet.]”</blockquote>
+    <figcaption style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.1em">[NAME] · [ROLE], BLESSED WATER</figcaption>
+  </figure>
+</section>
+
+<section data-screen-label="Next" style="background:#06382E;color:#F5F1E8;padding:clamp(72px,12vh,140px) clamp(18px,3vw,40px) 32px">
+  <div style="max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(40px,8vh,96px)">
+    <h2 data-in="1" style="margin:0;font-weight:800;font-size:clamp(52px,8vw,140px);line-height:.88;letter-spacing:-.055em">Got a problem <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em;color:#D4A637">like this?</span></h2>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <a href="DFoundry%20Hero.dc.html#start" style="background:#D4A637;color:#06382E;border-radius:999px;padding:18px 28px;font-weight:700;font-size:16px" style-hover="background:#F5F1E8;color:#06382E">Bring us the problem →</a>
+      <a href="https://web-gamma-fawn-29.vercel.app/" target="_blank" rel="noopener" style="border:2px solid #F5F1E8;border-radius:999px;padding:16px 26px;font-weight:700;font-size:16px" style-hover="background:#F5F1E8;color:#06382E">Visit Droplet ↗</a>
+    </div>
+    <footer style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid #28705A;padding-top:22px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;color:#A9BBB3">
+      <a href="DFoundry%20Hero.dc.html">← BACK TO D’FOUNDRY</a>
+      <span>D’FOUNDRY · A D’MATEK BUSINESS</span>
+    </footer>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount(){
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const C = document.querySelector('[data-curtain]');
+    const lift = () => { if (!C) return; C.style.transition = 'transform 1s cubic-bezier(.76,0,.24,1), border-radius 1s cubic-bezier(.76,0,.24,1)'; C.style.borderRadius = '0 0 50% 50% / 0 0 30% 30%'; C.style.transform = 'translateY(-110%)'; setTimeout(() => { C.style.visibility = 'hidden'; }, 1050); };
+    if (reduce && C) C.style.visibility = 'hidden'; else setTimeout(lift, 450);
+    this._nav = e => {
+      const a = e.target.closest && e.target.closest('a[href]'); if (!a || a.target === '_blank' || e.metaKey || e.ctrlKey || !C) return;
+      const h = a.getAttribute('href'); if (!h || h.startsWith('#') || /^https?:/.test(h)) return;
+      e.preventDefault(); C.style.transition = 'none'; C.style.visibility = 'visible'; C.style.borderRadius = '0'; C.style.transform = 'translateY(110%)'; void C.offsetHeight;
+      C.style.transition = 'transform .8s cubic-bezier(.76,0,.24,1)'; C.style.transform = 'translateY(0)'; setTimeout(() => { location.href = a.href; }, 820);
+    };
+    document.addEventListener('click', this._nav, true);
+    const INIT = { '1':{ opacity:'0', transform:'translateY(60px) skewY(4deg)' }, mask:{ clipPath:'inset(100% 0 0 0 round 24px)' }, deal:{ opacity:'0', transform:'translateY(140px) rotate(-8deg) scale(.9)' } };
+    const TR = { '1':'opacity 1s ease, transform 1.2s cubic-bezier(.16,1,.3,1)', mask:'clip-path 1.4s cubic-bezier(.76,0,.24,1)', deal:'opacity .5s ease, transform 1.2s cubic-bezier(.34,1.4,.64,1)' };
+    const DONE = { '1':{ opacity:'1', transform:'none' }, mask:{ clipPath:'inset(0% 0 0 0 round 20px)' }, deal:{ opacity:'1', transform:'none' } };
+    this._iv = setInterval(() => {
+      if (reduce) return;
+      document.querySelectorAll('[data-in]').forEach(el => {
+        const t = el.dataset.in; if (el.dataset.s === '2') return;
+        const i = Array.prototype.indexOf.call(el.parentElement.children, el);
+        if (!el.dataset.s) { Object.assign(el.style, INIT[t]); el.dataset.s = '1'; return; }
+        const r = el.getBoundingClientRect();
+        if (r.top < innerHeight*.9 && r.bottom > 0) { el.style.transition = TR[t]; el.style.transitionDelay = Math.min(i, 6)*100 + 'ms'; Object.assign(el.style, DONE[t]); el.dataset.s = '2'; }
+      });
+    }, 40);
+  }
+  componentWillUnmount(){ clearInterval(this._iv); document.removeEventListener('click', this._nav, true); }
+  renderVals(){ return {}; }
+}
+</script>
+</body>
+</html>

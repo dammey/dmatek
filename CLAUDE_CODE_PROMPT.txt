@@ -1,0 +1,19 @@
+Read design_handoff_dmatek_v3_1/README.md in full, then DFOUNDRY_PORT.md, then dfoundry-source/template.html and dfoundry-source/logic.js.
+
+Build two sites in this project:
+
+1) D'Matek (dmatek.ng) — recreate "Dmatek Website v3.1.dc.html" per README Part 1.
+   - Real routes: /, /solutions, /solutions/[env], /businesses, /work, /about (with #how), /insights, /contact.
+   - Nav: Solutions · Businesses · Work · About · Insights + "Tell us what you need →". No shop button in the header; D'Source, IléMesh and D'Foundry links live in the footer.
+   - Put all copy, the 10 entry points, 10 environments, packages and six businesses in typed content files (lib/content/*.ts) exactly as the README tables list them. Copy is verbatim — do not rewrite.
+   - Build one reusable PilotLabel component and use it for every pilot item, with the standard sentence.
+   - One EnvironmentPage template renders all 10 environments from data.
+   - Contact reads ?topic=&message=&pilot= and pre-fills; pilot enquiries are logged with item + environment.
+   - Hero lines: keep the draw-in, add the travelling-light paths and slow sway (README › Motion). All motion off under prefers-reduced-motion.
+   - Keep every [ BRACKETED ] placeholder visible. Never invent figures, testimonials, case studies, certifications, partner tiers, 24/7 or response-time claims.
+
+2) D'Foundry (dfoundry.dmatek.ng or /foundry route group) — exact replica of "DFoundry Hero.dc.html" and the Droplet case study per DFOUNDRY_PORT.md (markup and engine verbatim). Include the updated Process section (README Part 2). Grep afterwards: "Keep what repeats", "Ship it to many", "Solve it for one client", "then a product" must not appear anywhere.
+
+Wire the cross-site links in the README table.
+
+Work page by page. For each page, run a Playwright comparison against the prototype (serve the handoff folder with `npx serve design_handoff_dmatek_v3_1`) at 1440×900 and 390×844, save paired screenshots to /compare, and fix differences before moving on. Finish only when every D'Matek route and every item in the D'Foundry feature checklist matches.
