@@ -19,7 +19,7 @@ export const tickerItems = ["TRUST", "SOLVE", "CONNECT", "IMPROVE", "WE STAY"];
 // Sister D'Matek sites that live outside this app. Falls back to a
 // placeholder Vercel URL until each is deployed with a real domain.
 export const D_SOURCE_URL = process.env.NEXT_PUBLIC_DSOURCE_URL ?? "/businesses#commerce";
-export const D_FOUNDRY_URL = process.env.NEXT_PUBLIC_DFOUNDRY_URL ?? "https://dfoundry.vercel.app";
+export const D_FOUNDRY_URL = process.env.NEXT_PUBLIC_DFOUNDRY_URL ?? "https://dfoundry-dammey-s-projects.vercel.app";
 
 export type Business = {
   slug: string;

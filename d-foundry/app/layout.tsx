@@ -24,7 +24,7 @@ const plexMono = IBM_Plex_Mono({
   display: "swap",
 });
 
-const siteUrl = "https://dfoundry.vercel.app";
+const siteUrl = "https://dfoundry-dammey-s-projects.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
