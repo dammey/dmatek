@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>D’Foundry: Built for your problem</title>
+<meta name="description" content="D’Foundry builds the software, applications, automations and integrations that solve a specific problem properly. A D’Matek business.">
+<meta name="theme-color" content="#06382E">
+<meta property="og:title" content="D’Foundry: Built for your problem, not for a demo.">
+<meta property="og:description" content="Software, applications, automations and integrations. A D’Matek business.">
+<meta property="og:image" content="assets/dmatek-team.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'16'%20fill%3D'%2306382E'%2F%3E%3Crect%20x%3D'12'%20y%3D'22'%20width%3D'40'%20height%3D'20'%20rx%3D'10'%20fill%3D'%23D4A637'%2F%3E%3C%2Fsvg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/matter-js@0.19.0/build/matter.min.js"></script>
+<script src="./image-slot.js"></script>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:#06382E;font-family:'Bricolage Grotesque',sans-serif;-webkit-font-smoothing:antialiased}
+html,body{overflow-x:clip}
+html{scroll-behavior:smooth}
+a{color:inherit;text-decoration:none}
+a:hover{color:#D4A637}
+button{font-family:inherit;cursor:pointer}
+@media (pointer:fine){html.df-cur,html.df-cur *{cursor:none!important}}
+</style>
+</helmet>
+<div data-loader="1" style="position:fixed;inset:0;z-index:500;background:#06382E;color:#F5F1E8;display:flex;flex-direction:column;justify-content:space-between;padding:22px clamp(18px,3vw,40px);transform-origin:50% 0;will-change:transform">
+  <div style="display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:#A9BBB3"><span style="display:flex;align-items:center;gap:10px"><img src="assets/dfoundry-logo-mark-rev.png" alt="D’Foundry logo" style="height:28px;width:auto;display:block">D’FOUNDRY</span><span>A D’MATEK BUSINESS</span></div>
+  <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(6px,1vw,12px)">
+    <span data-lp="1" style="display:inline-block;opacity:0;transform:translateY(-60vh) rotate(-12deg);padding:.08em .42em .14em;border-radius:999px;background:#D4A637;color:#06382E;font-weight:800;font-size:clamp(40px,8vw,140px);line-height:1;letter-spacing:-.05em">D’</span>
+    <span data-lp="1" style="display:inline-block;opacity:0;transform:translateY(-60vh) rotate(9deg);padding:.08em .42em .14em;border-radius:999px;background:#F5F1E8;color:#06382E;font-weight:800;font-size:clamp(40px,8vw,140px);line-height:1;letter-spacing:-.05em">Foun</span>
+    <span data-lp="1" style="display:inline-block;opacity:0;transform:translateY(-60vh) rotate(-6deg);padding:.02em .42em .1em;border-radius:999px;background:#28705A;color:#F5F1E8;font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(46px,9vw,156px);line-height:1">dry</span>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:end;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:#A9BBB3"><span>CASTING THE PAGE</span><span data-lc="1" style="color:#D4A637">000</span></div>
+</div>
+
+<div data-ctl="1" style="position:fixed;left:50%;top:64px;transform:translateX(-50%);z-index:300;display:flex;gap:6px;mix-blend-mode:difference;color:#F5F1E8">
+  <button onClick="{{ toggleSound }}" aria-label="Toggle sound" style="display:flex;align-items:center;gap:7px;border:0;border-radius:999px;background:transparent;color:inherit;padding:6px 10px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.14em;white-space:nowrap;opacity:.6;transition:opacity .3s" style-hover="opacity:1"><span style="display:flex;align-items:end;gap:2px;height:12px"><span data-bar="1" style="width:2px;height:3px;background:currentColor"></span><span data-bar="1" style="width:2px;height:3px;background:currentColor"></span><span data-bar="1" style="width:2px;height:3px;background:currentColor"></span><span data-bar="1" style="width:2px;height:3px;background:currentColor"></span></span><span>{{ soundLabel }}</span></button>
+  <button data-skip="1" onClick="{{ skipIntro }}" style="border:1px solid currentColor;border-radius:999px;background:transparent;color:inherit;padding:5px 10px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.14em;white-space:nowrap;transition:opacity .4s,transform .4s" style-hover="background:#F5F1E8;color:#000">SKIP INTRO ↓</button>
+</div>
+
+<sc-if value="{{ isA }}" hint-placeholder-val="{{ true }}">
+<div data-v="a" data-screen-label="Hero" style="position:relative;height:100svh;min-height:560px;overflow:hidden;background:#F5F1E8;color:#06382E;user-select:none;touch-action:none">
+  <div style="position:absolute;left:0;right:0;top:0;display:flex;justify-content:space-between;align-items:center;padding:22px clamp(18px,3vw,40px);z-index:5;pointer-events:none">
+    <span style="display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:-.03em"><img src="assets/dfoundry-logo-mark.png" alt="D’Foundry logo" style="height:34px;width:auto;display:block">D’FOUNDRY</span>
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em">A D’MATEK BUSINESS</span>
+  </div>
+  <div data-blk="w" style="position:absolute;left:0;top:0;transform:translate(-9999px,0);padding:.1em .45em .14em;border-radius:999px;background:#06382E;color:#F5F1E8;font-weight:800;font-size:clamp(38px,6.4vw,112px);line-height:1;letter-spacing:-.045em;white-space:nowrap;cursor:grab">Built</div>
+  <div data-blk="w" style="position:absolute;left:0;top:0;transform:translate(-9999px,0);padding:.1em .45em .14em;border-radius:999px;border:4px solid #06382E;color:#06382E;font-weight:800;font-size:clamp(38px,6.4vw,112px);line-height:1;letter-spacing:-.045em;white-space:nowrap;cursor:grab">for</div>
+  <div data-blk="w" style="position:absolute;left:0;top:0;transform:translate(-9999px,0);padding:.1em .45em .14em;border-radius:999px;background:#D4A637;color:#06382E;font-weight:800;font-size:clamp(38px,6.4vw,112px);line-height:1;letter-spacing:-.045em;white-space:nowrap;cursor:grab">your</div>
+  <div data-blk="w" style="position:absolute;left:0;top:0;transform:translate(-9999px,0);padding:.1em .45em .14em;border-radius:22px;background:#28705A;color:#F5F1E8;font-weight:800;font-size:clamp(38px,6.4vw,112px);line-height:1;letter-spacing:-.045em;white-space:nowrap;cursor:grab">problem,</div>
+  <div data-blk="w" style="position:absolute;left:0;top:0;transform:translate(-9999px,0);padding:.02em .4em .1em;border-radius:999px;background:#1A1A1A;color:#F5F1E8;font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(44px,7.4vw,128px);line-height:1;white-space:nowrap;cursor:grab">not</div>
+  <div data-blk="w" style="position:absolute;left:0;top:0;transform:translate(-9999px,0);padding:.1em .45em .14em;border-radius:999px;border:4px solid #06382E;color:#06382E;font-weight:800;font-size:clamp(38px,6.4vw,112px);line-height:1;letter-spacing:-.045em;white-space:nowrap;cursor:grab">for</div>
+  <div data-blk="w" style="position:absolute;left:0;top:0;transform:translate(-9999px,0);padding:.1em .42em .14em;border-radius:999px;background:#D4A637;color:#06382E;font-weight:800;font-size:clamp(38px,6.4vw,112px);line-height:1;letter-spacing:-.045em;white-space:nowrap;cursor:grab">a</div>
+  <div data-blk="w" style="position:absolute;left:0;top:0;transform:translate(-9999px,0);padding:.02em .45em .1em;border-radius:22px;background:#06382E;color:#D4A637;font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(44px,7.4vw,128px);line-height:1;white-space:nowrap;cursor:grab">demo.</div>
+  <div data-blk="t" style="position:absolute;left:0;top:0;transform:translate(-9999px,0);padding:12px 20px;border-radius:999px;background:#F5F1E8;border:1.5px solid #06382E;font-family:'IBM Plex Mono',monospace;font-size:clamp(12px,1.1vw,16px);font-weight:600;white-space:nowrap;cursor:grab">CUSTOM SOFTWARE</div>
+  <div data-blk="t" style="position:absolute;left:0;top:0;transform:translate(-9999px,0);padding:12px 20px;border-radius:999px;background:#F5F1E8;border:1.5px solid #06382E;font-family:'IBM Plex Mono',monospace;font-size:clamp(12px,1.1vw,16px);font-weight:600;white-space:nowrap;cursor:grab">WEB APPS</div>
+  <div data-blk="t" style="position:absolute;left:0;top:0;transform:translate(-9999px,0);padding:12px 20px;border-radius:999px;background:#F5F1E8;border:1.5px solid #06382E;font-family:'IBM Plex Mono',monospace;font-size:clamp(12px,1.1vw,16px);font-weight:600;white-space:nowrap;cursor:grab">AUTOMATION</div>
+  <div data-blk="t" style="position:absolute;left:0;top:0;transform:translate(-9999px,0);padding:12px 20px;border-radius:999px;background:#F5F1E8;border:1.5px solid #06382E;font-family:'IBM Plex Mono',monospace;font-size:clamp(12px,1.1vw,16px);font-weight:600;white-space:nowrap;cursor:grab">INTEGRATION</div>
+  <div data-blk="t" style="position:absolute;left:0;top:0;transform:translate(-9999px,0);padding:12px 20px;border-radius:999px;background:#06382E;color:#D4A637;font-family:'IBM Plex Mono',monospace;font-size:clamp(12px,1.1vw,16px);font-weight:600;white-space:nowrap;cursor:grab">QADPAY</div>
+  <div data-blk="t" style="position:absolute;left:0;top:0;transform:translate(-9999px,0);padding:12px 20px;border-radius:999px;background:#D4A637;color:#06382E;font-family:'IBM Plex Mono',monospace;font-size:clamp(12px,1.1vw,16px);font-weight:600;white-space:nowrap;cursor:grab">DROPLET</div>
+  <div style="position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;padding:22px clamp(18px,3vw,40px);z-index:5;pointer-events:none">
+    <p style="margin:0;max-width:38ch;font-size:clamp(14px,1.2vw,17px);line-height:1.5;font-weight:500">We build the software, applications, automations and integrations that solve a specific problem properly. Grab a piece and throw it. Then scroll.</p>
+    <button onClick="{{ toggleAssemble }}" style="pointer-events:auto;border:0;border-radius:999px;background:#06382E;color:#F5F1E8;padding:16px 24px;font-weight:700;font-size:15px;white-space:nowrap" style-hover="background:#D4A637;color:#06382E">{{ assembleLabel }}</button>
+  </div>
+</div>
+</sc-if>
+
+
+<div data-v="c" data-screen-label="Title sequence" style="position:relative;height:800vh;background:#06382E">
+  <div style="position:sticky;top:0;height:100svh;overflow:hidden">
+    <div data-track="1" style="position:absolute;left:0;top:0;height:100%;width:400vw;display:flex;will-change:transform">
+    <div data-scene="0" style="position:relative;flex:0 0 100vw;height:100%;background:#F5F1E8;color:#06382E;display:grid;place-items:center;overflow:hidden">
+      <span style="position:absolute;left:5vw;top:calc(9vh + 72px);font-family:'IBM Plex Mono',monospace;font-size:clamp(11px,1vw,14px);letter-spacing:.12em">PROBLEM 01 · THE CORE PROCESS STILL RUNS ON PAPER</span>
+      <div data-push="1" style="font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(80px,17vw,300px);line-height:.85;letter-spacing:-.03em;text-align:center"><span data-l="1" style="display:inline-block">P</span><span data-l="1" style="display:inline-block">a</span><span data-l="1" style="display:inline-block">p</span><span data-l="1" style="display:inline-block">e</span><span data-l="1" style="display:inline-block">r</span><br><span data-l="1" style="display:inline-block">f</span><span data-l="1" style="display:inline-block">o</span><span data-l="1" style="display:inline-block">r</span><span data-l="1" style="display:inline-block">m</span><span data-l="1" style="display:inline-block">s</span><span data-l="1" style="display:inline-block">.</span></div>
+    </div>
+    <div data-scene="1" style="position:relative;flex:0 0 100vw;height:100%;background:#1A1A1A;color:#F5F1E8;display:grid;place-items:center;overflow:hidden">
+      <span style="position:absolute;left:5vw;top:calc(9vh + 72px);font-family:'IBM Plex Mono',monospace;font-size:clamp(11px,1vw,14px);letter-spacing:.12em;color:#D4A637">PROBLEM 02 · THREE COPIES, NO SINGLE TRUTH</span>
+      <div data-push="1" style="display:flex;flex-direction:column;align-items:center;font-weight:800;font-size:clamp(40px,11vw,200px);line-height:.86;letter-spacing:-.06em">
+        <span data-row="1">Spreadsheet.</span><span data-row="1" style="color:#D4A637">Spreadsheet.</span><span data-row="1" style="color:transparent;-webkit-text-stroke:2px #F5F1E8">Spreadsheet.</span>
+      </div>
+    </div>
+    <div data-scene="2" style="position:relative;flex:0 0 100vw;height:100%;background:#28705A;color:#F5F1E8;display:grid;place-items:center;overflow:hidden">
+      <span style="position:absolute;left:5vw;top:calc(9vh + 72px);font-family:'IBM Plex Mono',monospace;font-size:clamp(11px,1vw,14px);letter-spacing:.12em;color:#F5D98A">PROBLEM 03 · SOMEONE RE-TYPES EVERYTHING</span>
+      <div data-push="1" style="width:100%;padding:0 5vw;display:flex;flex-direction:column;gap:2vh;font-weight:800;font-size:clamp(56px,10vw,180px);line-height:.9;letter-spacing:-.055em">
+        <span data-split="l">Two systems</span><span data-split="r" style="align-self:flex-end;font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em;color:#F5D98A">that won’t talk.</span>
+      </div>
+    </div>
+    <div data-scene="3" style="position:relative;flex:0 0 100vw;height:100%;background:#E9B940;color:#06382E;display:grid;place-items:center;overflow:hidden">
+      <span style="position:absolute;left:5vw;top:calc(9vh + 72px);font-family:'IBM Plex Mono',monospace;font-size:clamp(11px,1vw,14px);letter-spacing:.12em">PROBLEM 04 · MONTHS OF WORK, NOTHING LIVE</span>
+      <div data-push="1" style="font-weight:800;font-size:clamp(56px,11vw,200px);line-height:.88;letter-spacing:-.06em;text-align:center">A <span style="position:relative;display:inline-block">demo<span data-strike="1" style="position:absolute;left:-4%;right:-4%;top:52%;height:.09em;background:#06382E;transform-origin:0 50%;transform:rotate(-4deg) scaleX(0)"></span></span><br><span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em">that never shipped.</span></div>
+    </div>
+    </div>
+    <div data-scene="4" style="position:absolute;inset:0;background:#06382E;color:#F5F1E8;display:grid;place-items:center;overflow:hidden;visibility:hidden">
+      <h1 data-zh="1" style="margin:0;padding:0 5vw;text-align:center;font-weight:800;font-size:clamp(52px,9.4vw,168px);line-height:.9;letter-spacing:-.055em">Built for your pr<span data-o="1" style="color:#E9B940">o</span>blem, <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em;color:#D4A637">not for a demo.</span></h1>
+    </div>
+    <div data-scene="5" style="position:absolute;inset:0;background:#E9B940;color:#06382E;display:flex;flex-direction:column;justify-content:center;gap:4vh;padding:0 5vw;overflow:hidden;visibility:hidden">
+      <div data-rise="1" style="display:flex;flex-direction:column;gap:4vh;max-width:1200px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.12em">D’FOUNDRY · A D’MATEK BUSINESS</span>
+        <p style="margin:0;font-weight:800;font-size:clamp(34px,5vw,86px);line-height:.98;letter-spacing:-.045em;text-wrap:pretty">We build the software, applications, automations and integrations that solve a specific problem <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400">properly.</span></p>
+        <a href="#start" style="align-self:flex-start;background:#06382E;color:#F5F1E8;border-radius:999px;padding:18px 28px;font-weight:700;font-size:16px">Bring us the problem →</a>
+      </div>
+    </div>
+    <div data-lb="top" style="position:absolute;left:0;right:0;top:0;height:9vh;background:#000;transition:height .8s cubic-bezier(.76,0,.24,1);z-index:3"></div>
+    <div data-lb="bot" style="position:absolute;left:0;right:0;bottom:0;height:9vh;background:#000;transition:height .8s cubic-bezier(.76,0,.24,1);z-index:3;display:flex;justify-content:space-between;align-items:center;padding:0 clamp(18px,3vw,40px);overflow:hidden">
+      <span data-sl="1" style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:#F5F1E8">SCENE 01 · THE PROBLEM</span>
+      <span data-tc="1" style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:#D4A637">00:00:00:00</span>
+    </div>
+    <div data-cue="1" style="position:absolute;left:50%;bottom:13vh;transform:translateX(-50%);z-index:4;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:#06382E;transition:opacity .4s">SCROLL TO PLAY ↓</div>
+  </div>
+</div>
+
+<div data-wipe="1" style="position:relative;height:34vh;background:#06382E;overflow:hidden"><div data-wipe-in="1" style="position:absolute;left:0;right:0;top:0;height:100%;background:#D4A637;transform-origin:50% 0"></div></div>
+<section data-screen-label="Problem → fix" style="background:#06382E;color:#F5F1E8;padding:clamp(24px,4vh,48px) clamp(18px,3vw,40px) clamp(72px,12vh,140px)">
+  <div style="max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(32px,5vh,56px)">
+    <div style="display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap">
+      <h2 data-rv="rise" style="margin:0;font-weight:800;font-size:clamp(44px,7vw,120px);line-height:.9;letter-spacing:-.055em;max-width:12ch">Pick the one that <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em;color:#D4A637">sounds like you.</span></h2>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:#A9BBB3">01 · PROBLEM → FIX</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <sc-for list="{{ problems }}" as="p" hint-placeholder-count="3">
+        <div data-rv="pill"><button onClick="{{ p.pick }}" style="text-align:left;display:flex;align-items:center;gap:20px;border-radius:999px;padding:clamp(16px,2.4vh,26px) clamp(20px,3vw,40px);border:2px solid {{ p.line }};background:{{ p.bg }};color:{{ p.ink }};font-weight:700;font-size:clamp(18px,2.2vw,34px);letter-spacing:-.03em;line-height:1.15;transition:background .35s,color .35s,border-color .35s" style-hover="border-color:#D4A637">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:0">{{ p.n }}</span><span style="flex:1">{{ p.text }}</span><span style="font-size:.9em">{{ p.mark }}</span>
+        </button></div>
+      </sc-for>
+    </div>
+    <div style="background:#F5F1E8;color:#06382E;border-radius:28px;padding:clamp(24px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:clamp(20px,3vw,40px)">
+      <sc-for list="{{ plan }}" as="st" hint-placeholder-count="4">
+        <div data-rv="up" style="display:flex;flex-direction:column;gap:10px">
+          <span style="align-self:flex-start;background:#D4A637;color:#06382E;border-radius:999px;padding:6px 12px;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600">{{ st.step }}</span>
+          <span style="font-weight:800;font-size:clamp(22px,2vw,30px);letter-spacing:-.035em;line-height:1.05">{{ st.title }}</span>
+          <span style="font-size:16px;line-height:1.5;color:#28705A">{{ st.body }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="Services" style="background:#F5F1E8;color:#06382E;padding:clamp(72px,12vh,140px) clamp(18px,3vw,40px)">
+  <div style="max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(32px,5vh,56px)">
+    <div style="display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap">
+      <h2 data-rv="rise" style="margin:0;font-weight:800;font-size:clamp(56px,10vw,180px);line-height:.85;letter-spacing:-.06em">What we <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em;color:#28705A">build.</span></h2>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:#28705A">02 · SERVICES</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <sc-for list="{{ services }}" as="s" hint-placeholder-count="7">
+        <div data-rv="pill"><div style="display:flex;align-items:center;gap:20px;border:2px solid #06382E;border-radius:999px;padding:clamp(14px,2vh,22px) clamp(20px,3vw,36px);transition:background .3s,color .3s,transform .4s cubic-bezier(.34,1.56,.64,1)" style-hover="background:#06382E;color:#F5F1E8;transform:rotate(-1.2deg) scale(1.01)">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600">{{ s.n }}</span>
+          <span style="flex:1;font-weight:700;font-size:clamp(20px,2.6vw,40px);letter-spacing:-.035em;line-height:1.1">{{ s.name }}</span>
+          <span style="font-size:clamp(20px,2vw,30px);color:#D4A637">↗</span>
+        </div></div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="Process" style="background:#28705A;color:#F5F1E8;padding:clamp(72px,12vh,140px) clamp(18px,3vw,40px)">
+  <div style="max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(40px,6vh,72px)">
+    <div style="display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap">
+      <h2 data-rv="rise" style="margin:0;font-weight:800;font-size:clamp(44px,7vw,120px);line-height:.9;letter-spacing:-.055em;max-width:14ch">One client, then a platform, <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em;color:#F5D98A">then a product.</span></h2>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em">03 · HOW A PROJECT GROWS</span>
+    </div>
+    <div data-rv="mask" style="position:relative;aspect-ratio:16/9;border-radius:32px;overflow:hidden;background:#06382E"><img src="assets/dmatek-team.jpg" alt="The D’Matek team working through a plan" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 25%"></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:clamp(16px,2vw,28px)">
+      <sc-for list="{{ stages }}" as="st" hint-placeholder-count="3">
+        <div data-rv="deal" style="display:flex"><div style="display:flex;flex-direction:column;gap:14px;background:#06382E;border-radius:32px;padding:clamp(24px,3vw,40px);transition:transform .5s cubic-bezier(.34,1.56,.64,1)" style-hover="transform:translateY(-10px) rotate(-1deg)">
+          <span style="font-weight:800;font-size:clamp(90px,10vw,160px);line-height:.8;letter-spacing:-.07em;color:#D4A637">{{ st.num }}</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:#F5D98A">{{ st.n }}</span>
+          <span style="font-weight:800;font-size:clamp(24px,2.2vw,32px);letter-spacing:-.035em">{{ st.title }}</span>
+          <span style="font-size:16px;line-height:1.55;color:#D9E5DE">{{ st.body }}</span>
+        </div></div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section id="droplet" data-screen-label="Recent work" style="background:#1A1A1A;color:#F5F1E8;padding:clamp(72px,12vh,140px) clamp(18px,3vw,40px);overflow:hidden">
+  <div style="max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(32px,5vh,56px)">
+    <div style="display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap">
+      <h2 data-rv="rise" style="margin:0;font-weight:800;font-size:clamp(56px,9vw,160px);line-height:.85;letter-spacing:-.06em">Shipped, <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em;color:#D4A637">and running.</span></h2>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:#BDB6A6">04 · RECENT WORK</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:clamp(24px,4vw,64px);align-items:end">
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <span style="align-self:flex-start;background:#D4A637;color:#06382E;border-radius:999px;padding:6px 12px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600">CASE STUDY · LIVE</span>
+        <span style="font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(72px,9vw,150px);line-height:.8;letter-spacing:-.03em">Droplet</span>
+        <p style="margin:0;font-size:18px;line-height:1.55;color:#D9D3C4;max-width:40ch">Water on demand for Blessed Water. Customers order and reorder in a few taps, keep deliveries coming on a subscription, and book recycling pickups that earn points.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap"><a href="Droplet%20Case%20Study.dc.html" style="border:2px solid #F5F1E8;color:#F5F1E8;border-radius:999px;padding:12px 20px;font-weight:700;font-size:15px;white-space:nowrap" style-hover="background:#F5F1E8;color:#1A1A1A">Read the case study →</a><a href="https://web-gamma-fawn-29.vercel.app/" target="_blank" rel="noopener" style="background:#D4A637;color:#06382E;border-radius:999px;padding:14px 22px;font-weight:700;font-size:15px;white-space:nowrap" style-hover="background:#F5F1E8;color:#06382E">Visit Droplet ↗</a></div>
+      </div>
+      <div style="display:flex;flex-direction:column;border-top:1px solid #444">
+        <sc-for list="{{ dropletFeats }}" as="f" hint-placeholder-count="3">
+          <div data-rv="up" style="display:grid;grid-template-columns:48px minmax(0,1fr);gap:12px;padding:16px 0;border-bottom:1px solid #444">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#D4A637">{{ f.n }}</span>
+            <span style="display:flex;flex-direction:column;gap:4px"><span style="font-weight:700;font-size:20px;letter-spacing:-.02em">{{ f.title }}</span><span style="font-size:15px;line-height:1.5;color:#BDB6A6">{{ f.body }}</span></span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <div style="position:relative;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(12px,1.6vw,24px);align-items:start">
+      <div data-rv="mask" style="grid-column:1 / span 8;position:relative;border-radius:24px;overflow:hidden;background:#F5F8FB;box-shadow:0 40px 80px rgba(0,0,0,.45)"><img loading="lazy" src="assets/droplet-dash.jpg" alt="Droplet customer home: reorder prompt, usual order and subscription" style="display:block;width:100%;height:auto"></div>
+      <div data-rv="deal" style="grid-column:8 / span 5;margin-top:clamp(40px,8vw,140px);position:relative;border-radius:20px;overflow:hidden;background:#F5F8FB;box-shadow:0 40px 80px rgba(0,0,0,.5);border:6px solid #1A1A1A"><img loading="lazy" src="assets/droplet-shop.jpg" alt="Droplet shop with products and delivery zones" style="display:block;width:100%;height:auto"></div>
+      <div data-rv="deal" style="grid-column:3 / span 6;margin-top:clamp(-120px,-6vw,-40px);position:relative;border-radius:20px;overflow:hidden;background:#F5F8FB;box-shadow:0 40px 80px rgba(0,0,0,.5);border:6px solid #1A1A1A"><img loading="lazy" src="assets/droplet-rec.jpg" alt="Droplet recycling pickup: materials, points and pickup address" style="display:block;width:100%;height:auto"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;margin-top:clamp(24px,4vh,48px)">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:#BDB6A6">IN THE WORKS</span>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:12px">
+        <sc-for list="{{ cases }}" as="c" hint-placeholder-count="2">
+          <div data-rv="pill" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;border:1.5px solid #444;border-radius:999px;padding:18px 26px">
+            <span style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:800;font-size:clamp(20px,2vw,28px);letter-spacing:-.035em">{{ c.client }}</span><span style="font-size:14px;color:#BDB6A6">{{ c.body }}</span></span>
+            <span style="display:flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;color:#D4A637;white-space:nowrap"><span style="width:8px;height:8px;border-radius:50%;background:#D4A637"></span>IN PROGRESS</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="Products" style="background:#D4A637;color:#06382E;padding:clamp(72px,12vh,140px) clamp(18px,3vw,40px)">
+  <div style="max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(32px,5vh,56px)">
+    <div style="display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap">
+      <h2 data-rv="rise" style="margin:0;font-weight:800;font-size:clamp(56px,9vw,160px);line-height:.85;letter-spacing:-.06em">Our own <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em">products.</span></h2>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em">05 · PRODUCTS</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(20px,3vw,40px)">
+      <div data-rv="deal" style="display:flex;flex-direction:column;gap:18px;background:#06382E;color:#F5F1E8;border-radius:36px;padding:clamp(20px,2.4vw,32px)">
+        <div style="position:relative;aspect-ratio:16/10;border-radius:24px;overflow:hidden;background:#0B4B3D"><div style="position:absolute;inset:0;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:#D4A637">IN THE FOUNDRY · COMING SOON</div></div>
+        <span style="align-self:flex-start;background:#D4A637;color:#06382E;border-radius:999px;padding:6px 12px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600">PRODUCT 01 · IN DEVELOPMENT</span>
+        <span style="font-weight:800;font-size:clamp(56px,7vw,110px);line-height:.85;letter-spacing:-.065em">QADPAY</span>
+        <p style="margin:0;font-size:17px;line-height:1.55;color:#D9E5DE;max-width:44ch">A D’Matek-owned fintech product, currently in development at D’Foundry.</p>
+      </div>
+      <div data-rv="deal" style="display:flex;flex-direction:column;justify-content:space-between;gap:18px;background:#F5F1E8;border-radius:36px;padding:clamp(24px,3vw,40px);min-height:clamp(320px,40vw,520px)">
+        <span style="align-self:flex-start;background:#06382E;color:#F5F1E8;border-radius:999px;padding:6px 12px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600">PRODUCT 02 · LIVE</span>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <span style="font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(80px,11vw,180px);line-height:.8;letter-spacing:-.03em">Droplet</span>
+          <p style="margin:0;font-size:17px;line-height:1.55;color:#28705A;max-width:40ch">Water on demand, built for Blessed Water and live in Lagos and Ibadan.</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap"><a href="https://web-gamma-fawn-29.vercel.app/" target="_blank" rel="noopener" style="background:#06382E;color:#F5F1E8;border-radius:999px;padding:14px 22px;font-weight:700;font-size:15px;white-space:nowrap">Visit Droplet ↗</a><a href="#droplet" style="border:2px solid #06382E;border-radius:999px;padding:12px 20px;font-weight:700;font-size:15px;white-space:nowrap">Read the case study ↑</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="start" data-screen-label="Contact" style="background:#F5F1E8;color:#06382E;padding:clamp(72px,12vh,140px) clamp(18px,3vw,40px) 28px">
+  <div style="max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(32px,5vh,56px)">
+    <h2 data-rv="rise" style="margin:0;font-weight:800;font-size:clamp(72px,14vw,260px);line-height:.82;letter-spacing:-.05em">Bring the <span style="display:block;font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.03em;color:#28705A">problem.</span></h2>
+    <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;max-width:960px">
+        <input placeholder="Describe it in one sentence" style="flex:1;min-width:260px;background:#FFFFFF;border:2px solid #06382E;border-radius:999px;padding:20px 26px;font-family:inherit;font-size:clamp(17px,1.6vw,22px);font-weight:600;color:#06382E;outline:none">
+        <button onClick="{{ send }}" style="background:#06382E;color:#F5F1E8;border:0;border-radius:999px;padding:22px 30px;font-size:16px;font-weight:800;white-space:nowrap;transition:transform .4s cubic-bezier(.34,1.56,.64,1)" style-hover="background:#D4A637;color:#06382E;transform:rotate(-3deg) scale(1.05)">Send it →</button>
+      </div>
+    </sc-if>
+    <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}"><div style="align-self:flex-start;background:#D4A637;border-radius:999px;padding:18px 28px;font-weight:700;font-size:clamp(17px,1.6vw,22px)">Got it. An engineer will reply within two working days.</div></sc-if>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <sc-for list="{{ sisters }}" as="x" hint-placeholder-count="3">
+        <a href="{{ x.href }}" style="display:flex;gap:10px;align-items:center;border:2px solid #06382E;border-radius:999px;padding:12px 20px;font-weight:700;font-size:15px" style-hover="background:#06382E;color:#F5F1E8"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;color:#B08620">{{ x.verb }}</span>{{ x.name }} ↗</a>
+      </sc-for>
+    </div>
+    <footer style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:2px solid #06382E;padding-top:20px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em">
+      <span>D’FOUNDRY IS A D’MATEK BUSINESS</span>
+      <a href="Dmatek%20Website%20v3.dc.html">D’MATEK.COM ↗</a>
+    </footer>
+  </div>
+</section></x-dc>
+<script type="text/x-dc" data-dc-script>
+const clamp = (v,a=0,b=1) => Math.max(a, Math.min(b, v));
+const PROBLEMS = [
+  { text:'A core process still runs on paper and three spreadsheets.', plan:[{ step:'01 DIAGNOSE', title:'Map the paperwork', body:'Who touches each sheet, and when.' },{ step:'02 BUILD', title:'One web app', body:'Roles, approvals and an audit trail.' },{ step:'03 SHIP', title:'Pilot with one team', body:'Rollout after two weeks of real use.' },{ step:'04 RUN', title:'Hosted and supported', body:'On D’Matek Cloud, backed up.' }] },
+  { text:'Two systems we rely on refuse to talk to each other.', plan:[{ step:'01 DIAGNOSE', title:'Map the re-keying', body:'Who copies what between systems.' },{ step:'02 BUILD', title:'One integration', body:'Data moves once, validated.' },{ step:'03 SHIP', title:'Shadow mode', body:'Runs beside the manual process until it matches.' },{ step:'04 RUN', title:'Monitored', body:'Failures alert a person, not a log file.' }] },
+  { text:'We have an idea that needs to become a real product.', plan:[{ step:'01 DIAGNOSE', title:'Find the core', body:'Who pays, for what, and how often.' },{ step:'02 BUILD', title:'The first version', body:'Web and mobile, payments, admin.' },{ step:'03 SHIP', title:'First customers', body:'Measure, fix, repeat.' },{ step:'04 GROW', title:'Into a product', body:'Project, then reusable solution, then product.' }] }
+];
+class Component extends DCLogic {
+  state = { v: 'a', assembled:false, pct:0, done:false };
+  componentDidMount(){
+    window.__hero = this;
+    this.revealEngine();
+    this.loaderAndTransitions();
+    this.extras();
+    if (!window.__heroDog) window.__heroDog = setInterval(() => { const h = window.__hero; if (h) h.tick(); }, 150);
+  }
+  loaderAndTransitions(){
+    const L = document.querySelector('[data-loader]'); if (!L) { window.__loaderDone = true; return; }
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const pills = Array.from(L.querySelectorAll('[data-lp]')), cnt = L.querySelector('[data-lc]');
+    const lift = () => {
+      L.style.transition = 'transform 1s cubic-bezier(.76,0,.24,1), border-radius 1s cubic-bezier(.76,0,.24,1)';
+      L.style.borderRadius = '0 0 50% 50% / 0 0 30% 30%'; L.style.transform = 'translateY(-110%)';
+      setTimeout(() => { window.__loaderDone = true; }, 350);
+      setTimeout(() => { L.style.visibility = 'hidden'; }, 1100);
+    };
+    if (window.__loaderDone || reduce) { window.__loaderDone = true; L.style.visibility = 'hidden'; }
+    else {
+      pills.forEach((p,i) => setTimeout(() => { p.style.transition = 'transform 1s cubic-bezier(.34,1.5,.64,1), opacity .3s'; p.style.opacity = '1'; p.style.transform = 'translateY(0) rotate(' + [-4,3,-2][i] + 'deg)'; }, 150 + i*170));
+      const t0 = Date.now(); let seen = false; try { seen = !!localStorage.getItem('df-seen'); localStorage.setItem('df-seen', '1'); } catch(e){}
+      const dur = seen ? 550 : 1500;
+      const iv = setInterval(() => { const k = Math.min(1, (Date.now() - t0)/dur); if (cnt) cnt.textContent = String(Math.round((1 - Math.pow(1 - k, 3))*100)).padStart(3,'0'); if (k >= 1) { clearInterval(iv); const go = () => lift(); (document.fonts && document.fonts.ready ? Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 1500))]) : Promise.resolve()).then(() => setTimeout(go, 150)); } }, 30);
+    }
+    if (window.__navHook) document.removeEventListener('click', window.__navHook, true);
+    window.__navHook = e => {
+      const a = e.target.closest && e.target.closest('a[href]'); if (!a || a.target === '_blank' || e.metaKey || e.ctrlKey) return;
+      const href = a.getAttribute('href'); if (!href || href.startsWith('#') || /^https?:/.test(href)) return;
+      e.preventDefault();
+      pills.forEach(p => { p.style.transition = 'none'; p.style.opacity = '1'; p.style.transform = 'none'; });
+      if (cnt) cnt.textContent = '→';
+      L.style.transition = 'none'; L.style.visibility = 'visible'; L.style.borderRadius = '0 0 0 0'; L.style.transform = 'translateY(110%)';
+      void L.offsetHeight;
+      L.style.transition = 'transform .8s cubic-bezier(.76,0,.24,1)'; L.style.transform = 'translateY(0)';
+      setTimeout(() => { location.href = a.href; }, 820);
+    };
+    document.addEventListener('click', window.__navHook, true);
+    const onShow = ev => { if (ev.persisted) { L.style.transition = 'none'; L.style.visibility = 'hidden'; } };
+    window.addEventListener('pageshow', onShow);
+  }
+  extras(){
+    if (window.__dfExtras) window.__dfExtras();
+    const offs = []; window.__dfExtras = () => offs.forEach(f => f());
+    const on = (t, e, f, o) => { t.addEventListener(e, f, o); offs.push(() => t.removeEventListener(e, f, o)); };
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, fine = matchMedia('(pointer: fine)').matches;
+    let last = {};
+    window.__sfx = (kind, v = 1) => {
+      const ac = this._ac; if (!ac || !this.state.sound) return;
+      const n = ac.currentTime, gap = { pop:.05, tick:.06, swish:.2 }[kind] || .05;
+      if (last[kind] && n - last[kind] < gap) return; last[kind] = n;
+      const g = ac.createGain(); g.connect(this._out);
+      if (kind === 'swish') {
+        const src = ac.createBufferSource(), f = ac.createBiquadFilter(); src.buffer = this._noise; f.type = 'bandpass'; f.Q.value = 1.2;
+        f.frequency.setValueAtTime(380, n); f.frequency.exponentialRampToValueAtTime(2600, n + .32);
+        g.gain.setValueAtTime(0, n); g.gain.linearRampToValueAtTime(.16, n + .08); g.gain.exponentialRampToValueAtTime(.001, n + .42);
+        src.connect(f); f.connect(g); src.start(n); src.stop(n + .45); return;
+      }
+      const o = ac.createOscillator();
+      if (kind === 'pop') { o.type = 'sine'; o.frequency.setValueAtTime(150 + Math.random()*140, n); o.frequency.exponentialRampToValueAtTime(70, n + .14); g.gain.setValueAtTime(.22*v, n); g.gain.exponentialRampToValueAtTime(.001, n + .16); }
+      else { o.type = 'triangle'; o.frequency.setValueAtTime(1500, n); g.gain.setValueAtTime(.035, n); g.gain.exponentialRampToValueAtTime(.001, n + .04); }
+      o.connect(g); o.start(n); o.stop(n + .2);
+    };
+    on(document, 'pointerover', e => { const t = e.target.closest && e.target.closest('a,button,[data-blk],[data-rv="pill"]'); if (t && !t.contains(e.relatedTarget)) window.__sfx('tick'); });
+    try { if (localStorage.getItem('df-sound') === '1') { const arm = () => { document.removeEventListener('pointerdown', arm); if (!this.state.sound) this.setSound(true); }; document.addEventListener('pointerdown', arm); offs.push(() => document.removeEventListener('pointerdown', arm)); } } catch(e){}
+    const endY = () => { const c = document.querySelector('[data-v="c"]'); return c ? c.getBoundingClientRect().top + scrollY + c.offsetHeight - innerHeight + 2 : 0; };
+    let skipOn = null, skipEl = null;
+    const skipIv = setInterval(() => {
+      const skip = document.querySelector('[data-skip]'); if (!skip) return;
+      const v = scrollY < endY() - innerHeight*.5; if (v === skipOn && skip === skipEl) return; skipOn = v; skipEl = skip;
+      skip.style.opacity = v ? '.6' : '0'; skip.style.transform = v ? 'none' : 'translateY(-12px)'; skip.style.pointerEvents = v ? 'auto' : 'none';
+    }, 120); offs.push(() => clearInterval(skipIv));
+    this._skip = () => {
+      const L = document.querySelector('[data-loader]'), y = endY(), de = document.documentElement;
+      const jump = () => { de.style.scrollBehavior = 'auto'; scrollTo(0, y); de.style.scrollBehavior = ''; };
+      if (!L || reduce) return jump();
+      window.__sfx('swish');
+      L.style.transition = 'none'; L.style.visibility = 'visible'; L.style.borderRadius = '0'; L.style.transform = 'translateY(110%)'; void L.offsetHeight;
+      L.style.transition = 'transform .6s cubic-bezier(.76,0,.24,1)'; L.style.transform = 'translateY(0)';
+      setTimeout(() => { jump(); L.style.transition = 'transform .8s cubic-bezier(.76,0,.24,1), border-radius .8s cubic-bezier(.76,0,.24,1)'; L.style.borderRadius = '0 0 50% 50% / 0 0 30% 30%'; L.style.transform = 'translateY(-110%)'; setTimeout(() => { L.style.visibility = 'hidden'; }, 850); }, 650);
+    };
+    const barIv = setInterval(() => { const t = performance.now(); document.querySelectorAll('[data-bar]').forEach((b,i) => { b.style.height = this.state.sound ? (3 + Math.abs(Math.sin(t/(170 + i*70) + i))*9).toFixed(1) + 'px' : '3px'; }); }, 50); offs.push(() => clearInterval(barIv));
+    if (!fine || reduce) return;
+    document.documentElement.classList.add('df-cur'); offs.push(() => document.documentElement.classList.remove('df-cur'));
+    const mk = css => { const d = document.createElement('div'); Object.assign(d.style, { position:'fixed', left:'0', top:'0', pointerEvents:'none', borderRadius:'999px' }, css); document.body.appendChild(d); offs.push(() => d.remove()); return d; };
+    const ring = mk({ width:'40px', height:'40px', marginLeft:'-20px', marginTop:'-20px', border:'1.5px solid #F5F1E8', mixBlendMode:'difference', zIndex:'600', display:'grid', placeItems:'center', transition:'width .35s cubic-bezier(.34,1.5,.64,1), height .35s cubic-bezier(.34,1.5,.64,1), margin .35s cubic-bezier(.34,1.5,.64,1), background .25s, border-color .25s' });
+    const lab = document.createElement('span'); Object.assign(lab.style, { fontFamily:"'IBM Plex Mono',monospace", fontSize:'11px', fontWeight:'600', letterSpacing:'.12em', color:'#06382E', opacity:'0', transition:'opacity .2s' }); ring.appendChild(lab);
+    const dot = mk({ width:'6px', height:'6px', marginLeft:'-3px', marginTop:'-3px', background:'#F5F1E8', mixBlendMode:'difference', zIndex:'601' });
+    let mx = -100, my = -100, rx = mx, ry = my, mode = '', down = false;
+    const setMode = m => { if (m === mode) return; mode = m; const s = m === 'label' ? 84 : m === 'link' ? 64 : 40;
+      Object.assign(ring.style, { width:s + 'px', height:s + 'px', marginLeft:-s/2 + 'px', marginTop:-s/2 + 'px', background: m === 'label' ? '#D4A637' : 'transparent', borderColor: m === 'label' ? '#D4A637' : '#F5F1E8', mixBlendMode: m === 'label' ? 'normal' : 'difference' });
+      lab.style.opacity = m === 'label' ? '1' : '0'; dot.style.opacity = m === 'label' ? '0' : '1'; };
+    on(window, 'pointermove', e => { mx = e.clientX; my = e.clientY; const t = e.target && e.target.closest ? e.target : null;
+      const blk = t && t.closest('[data-blk]'), lk = t && t.closest('a,button,input,[data-rv="pill"]');
+      if (blk) { lab.textContent = down ? 'WHEE' : 'THROW'; setMode('label'); } else if (lk) setMode('link'); else setMode(''); }, { passive:true });
+    on(window, 'pointerdown', () => { down = true; if (mode === 'label') lab.textContent = 'WHEE'; });
+    on(window, 'pointerup', () => { down = false; if (mode === 'label') lab.textContent = 'THROW'; });
+    on(document, 'pointerleave', () => { mx = my = -100; });
+    let alive = true; offs.push(() => { alive = false; });
+    const loop = () => { if (!alive) return; rx += (mx - rx)*.2; ry += (my - ry)*.2; ring.style.transform = 'translate(' + rx.toFixed(1) + 'px,' + ry.toFixed(1) + 'px)' + (down ? ' scale(.85)' : ''); dot.style.transform = 'translate(' + mx + 'px,' + my + 'px)'; requestAnimationFrame(loop); };
+    requestAnimationFrame(loop);
+  }
+  setSound(on){
+    if (on && !this._ac) { const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
+      const ac = new AC(), out = ac.createGain(); out.gain.value = .9; out.connect(ac.destination);
+      const buf = ac.createBuffer(1, ac.sampleRate*.5, ac.sampleRate), d = buf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random()*2 - 1;
+      this._ac = ac; this._out = out; this._noise = buf; }
+    if (this._ac && this._ac.state === 'suspended') this._ac.resume();
+    this.setState({ sound:on }); try { localStorage.setItem('df-sound', on ? '1' : '0'); } catch(e){}
+    if (on) setTimeout(() => window.__sfx && window.__sfx('pop', .8), 30);
+  }
+  revealEngine(){
+    if (window.__rvIv) clearInterval(window.__rvIv);
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const INIT = {
+      rise: () => ({ opacity:'0', transform:'translateY(70px) skewY(5deg)' }),
+      up: () => ({ opacity:'0', transform:'translateY(50px)' }),
+      pill: (el,i) => ({ opacity:'0', transform:'translateX(' + (i % 2 ? 34 : -34) + 'vw) rotate(' + (i % 2 ? 7 : -7) + 'deg)' }),
+      deal: (el,i) => ({ opacity:'0', transform:'translateY(160px) rotate(' + ((i - 1)*-14) + 'deg) scale(.88)' }),
+      mask: () => ({ clipPath:'inset(100% 0 0 0 round 32px)' })
+    };
+    const DONE = { rise:{ opacity:'1', transform:'none' }, up:{ opacity:'1', transform:'none' }, pill:{ opacity:'1', transform:'none' }, deal:{ opacity:'1', transform:'none' }, mask:{ clipPath:'inset(0% 0 0 0 round 0px)' } };
+    const TR = { rise:'opacity 1s ease, transform 1.2s cubic-bezier(.16,1,.3,1)', up:'opacity .8s ease, transform 1s cubic-bezier(.16,1,.3,1)', pill:'opacity .5s ease, transform 1.1s cubic-bezier(.34,1.45,.64,1)', deal:'opacity .5s ease, transform 1.2s cubic-bezier(.34,1.4,.64,1)', mask:'clip-path 1.4s cubic-bezier(.76,0,.24,1)' };
+    window.__rvIv = setInterval(() => {
+      const vh = innerHeight;
+      document.querySelectorAll('[data-rv]').forEach(el => {
+        const t = el.dataset.rv; if (el.dataset.rvS === '2') return;
+        const i = Array.prototype.indexOf.call(el.parentElement.children, el);
+        if (reduce) { el.dataset.rvS = '2'; return; }
+        if (!el.dataset.rvS) { Object.assign(el.style, INIT[t](el, i)); el.dataset.rvS = '1'; return; }
+        const r = el.getBoundingClientRect();
+        if (r.top < vh*.9 && r.bottom > 0) { el.style.transition = TR[t]; el.style.transitionDelay = (Math.min(i, 8)*(t === 'pill' ? 70 : 120)) + 'ms'; Object.assign(el.style, DONE[t]); el.dataset.rvS = '2'; }
+      });
+      const w = document.querySelector('[data-wipe]'), wi = document.querySelector('[data-wipe-in]');
+      if (w && wi) { const r = w.getBoundingClientRect(), k = clamp((vh*.9 - r.top)/(vh*.9)); const rad = (k*100).toFixed(1); wi.style.transform = 'scaleY(' + (1 - k*.92).toFixed(4) + ')'; wi.style.borderRadius = '0 0 50% 50% / 0 0 ' + rad + '% ' + rad + '%'; }
+    }, 30);
+  }
+  get _offs(){ return window.__heroOffs || (window.__heroOffs = []); }
+  set _offs(v){ window.__heroOffs = v; }
+  tick(){
+      const els = Array.from(document.querySelectorAll('[data-v]'));
+      const act = window.__heroActive || [];
+      const same = els.length === act.length && els.every((e,i) => e === act[i]);
+      if (same || !els.length || els.some(e => e.clientWidth === 0 || e.clientHeight === 0) || !window.Matter || !window.__loaderDone) return;
+      this.teardown(); window.__heroActive = els;
+      els.forEach(el => { const v = el.dataset.v; try { v === 'a' ? this.setupA() : v === 'b' ? this.setupB() : this.setupC(); } catch(e) { console.error('setup ' + v + ': ' + e.message); } });
+  }
+  componentWillUnmount(){ if (window.__rvIv) { clearInterval(window.__rvIv); window.__rvIv = null; } if (window.__hero === this) { this.teardown(); window.__heroActive = null; } }
+  teardown(){ (this._offs || []).forEach(f => { try { f(); } catch(e){} }); this._offs = []; this._assemble = null; this._reset = null; }
+  on(t, ev, fn, o){ t.addEventListener(ev, fn, o); this._offs.push(() => t.removeEventListener(ev, fn, o)); }
+  every(fn){ let alive = true, lr = 0; const run = () => { if (!alive) return; const n = performance.now(); if (n - lr > 12) { lr = n; fn(n); } }; const r = () => { if (!alive) return; run(); requestAnimationFrame(r); }; const iv = setInterval(run, 16); requestAnimationFrame(r); const stop = () => { alive = false; clearInterval(iv); }; this._offs.push(stop); return stop; }
+  setup(){ const v = this.state.v; let n = 0; const go = () => { if (this.state.v !== v) return; const rt = document.querySelector('[data-v="' + v + '"]'); if (rt && rt.clientWidth > 0 && rt.clientHeight > 0 && (v !== 'a' || window.Matter)) { try { v === 'a' ? this.setupA() : v === 'b' ? this.setupB() : this.setupC(); } catch(e) { console.error('setup ' + v + ': ' + e.message); } } else { n++; const id = setTimeout(go, n < 40 ? 50 : 250); this._offs.push(() => clearTimeout(id)); } }; go(); }
+
+  setupA(){
+    let tries = 0;
+    const wait = () => { if (window.Matter && document.querySelector('[data-v="a"]') && document.querySelector('[data-v="a"]').clientWidth > 0) { try { go(); } catch(e) { console.error('setupA: ' + e.message + ' ' + (e.stack||'').split('\n')[1]); } } else if (tries++ < 80) { const id = setTimeout(wait, 100); this._offs.push(() => clearTimeout(id)); } };
+    const go = () => {
+      const M = window.Matter, root = document.querySelector('[data-v="a"]');
+      const W = root.clientWidth, H = root.clientHeight;
+      const engine = M.Engine.create(); engine.gravity.y = 1.15;
+      const wall = (x,y,w,h) => M.Bodies.rectangle(x,y,w,h,{ isStatic:true });
+      M.Composite.add(engine.world, [wall(W/2, H+60, W*4, 120), wall(-60, H/2-1500, 120, H+3000), wall(W+60, H/2-1500, 120, H+3000)]);
+      const els = Array.from(root.querySelectorAll('[data-blk]'));
+      const bodies = els.map((el,i) => {
+        const w = el.offsetWidth, h = el.offsetHeight;
+        const b = M.Bodies.rectangle(W*(.18 + .64*Math.random()), -h - i*95, w, h, { chamfer:{ radius: Math.max(2, Math.min(h/2, w/2) - 2) }, restitution:.3, friction:.35, frictionAir:.012, angle:(Math.random()-.5)*.9 });
+        b._w = w; b._h = h; b._k = el.dataset.blk; return b;
+      });
+      M.Composite.add(engine.world, bodies);
+      M.Events.on(engine, 'collisionStart', ev => { if (!window.__sfx) return; let mx = 0; ev.pairs.forEach(p => { const v = Math.hypot(p.bodyA.velocity.x - p.bodyB.velocity.x, p.bodyA.velocity.y - p.bodyB.velocity.y); if (v > mx) mx = v; }); if (mx > 2.5) window.__sfx('pop', Math.min(1, mx/14)); });
+      let touched = false, drag = null;
+      root.style.touchAction = 'pan-y';
+      els.forEach(el => { el.style.touchAction = 'none'; });
+      const pt = e => { const r = root.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; };
+      const down = e => {
+        const el = e.target.closest && e.target.closest('[data-blk]'); if (!el) return;
+        const b = bodies[els.indexOf(el)]; if (!b) return;
+        e.preventDefault(); touched = true;
+        if (targets && targets.has(b)) { targets.delete(b); M.Body.setStatic(b, false); if (this.state.assembled) this.setState({ assembled:false }); }
+        const p = pt(e), c = M.Constraint.create({ pointA:{ x:p.x, y:p.y }, bodyB:b, pointB:{ x:p.x - b.position.x, y:p.y - b.position.y }, stiffness:.2, damping:.1, length:0 });
+        M.Composite.add(engine.world, c); drag = { c, id:e.pointerId };
+        try { el.setPointerCapture(e.pointerId); } catch(_) {}
+      };
+      const move = e => { if (!drag || e.pointerId !== drag.id) return; const p = pt(e); drag.c.pointA.x = p.x; drag.c.pointA.y = p.y; };
+      const up = e => { if (!drag || (e.pointerId !== undefined && e.pointerId !== drag.id)) return; M.Composite.remove(engine.world, drag.c); drag = null; };
+      this.on(root, 'pointerdown', down); this.on(window, 'pointermove', move); this.on(window, 'pointerup', up); this.on(window, 'pointercancel', up);
+      let targets = null;
+      const layout = () => {
+        const maxW = W*.9, gap = Math.max(10, W*.012), rows = [];
+        const flow = (list, g) => { const lines = [[]]; let lw = 0; list.forEach(b => { if (lw + b._w > maxW && lines[lines.length-1].length) { lines.push([]); lw = 0; } lines[lines.length-1].push(b); lw += b._w + g; }); return lines; };
+        const words = bodies.filter(b => b._k === 'w'), tags = bodies.filter(b => b._k === 't');
+        const wl = flow(words, gap), tl = flow(tags, 10);
+        const hW = wl.reduce((s,l) => s + Math.max(...l.map(b => b._h)) + gap*.6, 0), hT = tl.reduce((s,l) => s + Math.max(...l.map(b => b._h)) + 10, 0);
+        let y = Math.max(80, (H - hW - hT - 36)/2 - 10); const t = new Map();
+        const place = (lines, g, vg) => lines.forEach(l => { const lh = Math.max(...l.map(b => b._h)), tw = l.reduce((s,b) => s + b._w, 0) + g*(l.length-1); let x = (W - tw)/2; l.forEach(b => { t.set(b, { x: x + b._w/2, y: y + lh/2 }); x += b._w + g; }); y += lh + vg; });
+        place(wl, gap, gap*.6); y += 26; place(tl, 10, 10); return t;
+      };
+      this._assemble = on => {
+        if (on) { if (drag) { M.Composite.remove(engine.world, drag.c); drag = null; } targets = layout(); bodies.forEach(b => M.Body.setStatic(b, true)); }
+        else { targets = null; bodies.forEach(b => { M.Body.setStatic(b, false); M.Body.setVelocity(b, { x:(Math.random()-.5)*16, y:-4 - Math.random()*14 }); M.Body.setAngularVelocity(b, (Math.random()-.5)*.35); }); }
+      };
+      const auto = setTimeout(() => { if (!touched && !this.state.assembled) { this.setState({ assembled:true }); this._assemble(true); } }, 3400);
+      let raf = 0, last = performance.now();
+      const loop = now => {
+        if (root.isConnected && root.clientWidth > 0 && (root.clientWidth !== W || Math.abs(root.clientHeight - H) > 140)) { stopA(); onResize(); return; }
+        if (!root.isConnected) { stopA(); return; }
+        if (!els[0].isConnected) { const f = Array.from(root.querySelectorAll('[data-blk]')); if (f.length === els.length) f.forEach((e,i) => els[i] = e); }
+        const el = Math.min(400, now - last); last = now; const steps = Math.max(1, Math.round(el/16)); const lf = 1 - Math.pow(.87, steps);
+        if (targets) bodies.forEach(b => { const tg = targets.get(b); if (!tg) return; M.Body.setPosition(b, { x: b.position.x + (tg.x - b.position.x)*lf, y: b.position.y + (tg.y - b.position.y)*lf }); M.Body.setAngle(b, b.angle*(1 - lf)); });
+        for (let k = 0; k < steps; k++) M.Engine.update(engine, 16);
+        for (let i = 0; i < els.length; i++) { const b = bodies[i]; els[i].style.transform = 'translate(' + (b.position.x - b._w/2).toFixed(1) + 'px,' + (b.position.y - b._h/2).toFixed(1) + 'px) rotate(' + b.angle.toFixed(4) + 'rad)'; }
+      };
+      const stopA = this.every(loop);
+      let rz = 0;
+      const onResize = () => { if (root.clientWidth === W && Math.abs(root.clientHeight - H) <= 140) return; clearTimeout(rz); rz = setTimeout(() => { this.teardown(); window.__heroActive = null; this.setState({ assembled:false }); }, 250); };
+      this.on(window, 'resize', onResize);
+      this._offs.push(() => {
+        clearTimeout(auto); clearTimeout(rz);
+        M.Engine.clear(engine); M.World.clear(engine.world, false);
+      });
+    };
+    wait();
+  }
+
+  setupB(){
+    const root = document.querySelector('[data-v="b"]'); if (!root) return;
+    const cv = root.querySelector('[data-cv]'), ctx = cv.getContext('2d');
+    let W, H, dpr, S, P, fix, baseY, xs;
+    const size = () => {
+      dpr = Math.min(2, devicePixelRatio || 1); W = root.clientWidth; H = root.clientHeight;
+      cv.width = W*dpr; cv.height = H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+      S = W < 700 ? 30 : 48; P = W < 700 ? 60 : 96;
+      fix = new Float32Array(S*P); baseY = []; xs = [];
+      const y0 = H*.14, y1 = H*.56;
+      for (let i = 0; i < S; i++) baseY.push(y0 + (y1 - y0)*i/(S-1));
+      for (let j = 0; j < P; j++) xs.push(-10 + (W + 20)*j/(P-1));
+    };
+    size();
+    let t = 0, done = false, lastPct = -1, lastSet = 0;
+    const amp = () => Math.min(H*.2, 170);
+    const pos = (i, j, out) => {
+      const f = fix[i*P + j], k = (1 - f)*(1 - f), env = .3 + .7*Math.pow(Math.sin(Math.PI*j/(P-1)), .5), A = amp()*env;
+      out.x = xs[j] + k*22*Math.sin(j*.5 + i*3.1 + t*.9);
+      out.y = baseY[i] + k*A*(.6*Math.sin(j*.19 + i*2.1 + t*.7) + .8*Math.sin(j*.071 - i*1.3 + t*.4) + .25*Math.sin(j*.43 + i*.7 - t*1.2));
+      return out;
+    };
+    const tmp = { x:0, y:0 };
+    const comb = (cx, cy, R, s) => {
+      for (let i = 0; i < S; i++) for (let j = 0; j < P; j++) {
+        pos(i, j, tmp); const d = Math.hypot(tmp.x - cx, tmp.y - cy);
+        if (d < R) { const n = i*P + j; fix[n] += (1 - fix[n])*s*(1 - d/R); }
+      }
+    };
+    let px = null, py = null;
+    const onMove = e => {
+      const r = root.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+      if (px === null) { px = x; py = y; }
+      const dist = Math.hypot(x - px, y - py), steps = Math.max(1, Math.ceil(dist/18));
+      for (let s = 1; s <= steps; s++) comb(px + (x - px)*s/steps, py + (y - py)*s/steps, W < 700 ? 70 : 105, .45);
+      px = x; py = y;
+    };
+    const onLeave = () => { px = null; };
+    this.on(root, 'pointermove', onMove); this.on(root, 'pointerleave', onLeave);
+    this._reset = () => { fix.fill(0); done = false; t = 0; this.setState({ done:false, pct:0 }); };
+    let raf = 0, last = performance.now();
+    const loop = now => {
+      if (root.clientWidth === 0 || root.clientHeight === 0) { last = now; return; }
+      if (root.clientWidth !== W || root.clientHeight !== H) { const f1 = done; size(); if (f1) fix.fill(1); }
+      const dt = Math.min(.05, (now - last)/1000); last = now; t += dt;
+      if (t < 2.6 && !done) { const k = t/2.6; comb(W*(.04 + .34*k), H*(.35 + .2*Math.sin(k*Math.PI*3)), 60, .5); }
+      let sum = 0; for (let n = 0; n < fix.length; n++) sum += fix[n];
+      const pct = Math.round(100*sum/fix.length);
+      if (!done && pct >= 55) { done = true; this.setState({ done:true }); }
+      if (done) for (let n = 0; n < fix.length; n++) fix[n] += (1 - fix[n])*.045;
+      if (pct !== lastPct && now - lastSet > 120) { lastPct = pct; lastSet = now; this.setState({ pct }); }
+      ctx.fillStyle = '#06382E'; ctx.fillRect(0, 0, W, H);
+      ctx.lineCap = 'round';
+      const a = { x:0, y:0 }, b = { x:0, y:0 };
+      for (let i = 0; i < S; i++) {
+        pos(i, 0, a);
+        for (let j = 1; j < P; j++) {
+          pos(i, j, b); const f = (fix[i*P + j - 1] + fix[i*P + j])/2;
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+          if (f > .92) { ctx.strokeStyle = '#D4A637'; ctx.lineWidth = 2; }
+          else { ctx.strokeStyle = 'rgba(245,241,232,' + (.22 + .45*f).toFixed(3) + ')'; ctx.lineWidth = 1.2; }
+          ctx.stroke(); a.x = b.x; a.y = b.y;
+        }
+      }
+    };
+    this.every(loop);
+    this.on(window, 'resize', () => { size(); if (done) fix.fill(1); });
+  }
+
+  setupC(){
+    const root = document.querySelector('[data-v="c"]'); if (!root) return;
+    const q = s => root.querySelector(s), scenes = Array.from(root.querySelectorAll('[data-scene]'));
+    const zh = q('[data-zh]'), oo = q('[data-o]'), lbT = q('[data-lb="top"]'), lbB = q('[data-lb="bot"]'), sl = q('[data-sl]'), tc = q('[data-tc]'), cue = q('[data-cue]'), rise = q('[data-rise]');
+    const labels = ['SCENE 01 · THE PROBLEM','SCENE 02 · THE PROBLEM','SCENE 03 · THE PROBLEM','SCENE 04 · THE PROBLEM','SCENE 05 · THE FIX','SCENE 06 · D’FOUNDRY'];
+    let raf = 0, cur = -1;
+    const track = q('[data-track]'), ez = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3)/2;
+    const loop = () => {
+      const r = root.getBoundingClientRect(), vh = innerHeight, p = clamp(-r.top/(r.height - vh));
+      const idx = p < .4 ? Math.min(3, Math.floor(p/.1)) : p < .86 ? 4 : 5;
+      if (idx !== cur) { if (cur !== -1 && window.__sfx) window.__sfx('swish'); cur = idx; track.style.visibility = idx < 4 ? 'visible' : 'hidden'; scenes.forEach((s,i) => { if (i > 3) s.style.visibility = i === idx ? 'visible' : 'hidden'; }); sl.textContent = labels[idx]; const lb = idx < 4 ? '9vh' : idx === 4 ? '5vh' : '0vh'; lbT.style.height = lb; lbB.style.height = lb; }
+      if (idx < 4) {
+        const s = Math.min(p/.1, 3), si = Math.floor(s), g = si < 3 ? ez(clamp((s - si - .6)/.4)) : 0;
+        const pos = si + g, zo = 1 - .22*Math.sin(Math.PI*g);
+        track.style.transformOrigin = (pos*100 + 50).toFixed(3) + 'vw 50%';
+        track.style.transform = 'translate3d(' + (-pos*100).toFixed(3) + 'vw,0,0) scale(' + zo.toFixed(4) + ') skewX(' + (Math.sin(Math.PI*g)*-3).toFixed(2) + 'deg)';
+        track.style.borderRadius = '0'; scenes.slice(0,4).forEach(sc => { sc.style.borderRadius = (Math.sin(Math.PI*g)*40).toFixed(1) + 'px'; });
+      }
+      if (idx < 4) for (let idx = 0; idx < 4; idx++) { const k = clamp((p - idx*.1)/.1), el = scenes[idx].querySelector('[data-push]'); if (el) el.style.transform = 'scale(' + (1.3 - .3*ez(k)).toFixed(4) + ')';
+        const sc = scenes[idx];
+        if (idx === 0) sc.querySelectorAll('[data-l]').forEach((l,i) => { const f = 1 - clamp(k*1.7); l.style.transform = 'translate(' + (Math.sin(i*1.3)*50*f).toFixed(1) + 'px,' + (Math.cos(i*1.9)*110*f).toFixed(1) + 'px) rotate(' + (Math.sin(i*2.3)*34*f).toFixed(1) + 'deg)'; });
+        if (idx === 1) sc.querySelectorAll('[data-row]').forEach((r,i) => { const f = 1 - clamp(k*3 - i*.55); r.style.transform = 'translateX(' + ((i % 2 ? 1 : -1)*f*70).toFixed(2) + 'vw)'; });
+        if (idx === 2) { const f = clamp(k*1.4); const l = sc.querySelector('[data-split="l"]'), rr = sc.querySelector('[data-split="r"]'); if (l) l.style.transform = 'translateX(' + (-f*9).toFixed(2) + 'vw)'; if (rr) rr.style.transform = 'translateX(' + (f*9).toFixed(2) + 'vw)'; }
+        if (idx === 3) { const st = sc.querySelector('[data-strike]'); if (st) st.style.transform = 'rotate(-4deg) scaleX(' + clamp(k*2.2 - .25).toFixed(3) + ')'; }
+      }
+      cue.style.opacity = p < .03 ? '1' : '0';
+      const secs = p*48, ss = Math.floor(secs), ff = Math.floor((secs - ss)*24);
+      tc.textContent = '00:00:' + String(ss).padStart(2,'0') + ':' + String(ff).padStart(2,'0');
+      const k = clamp((p - .56)/.3);
+      if (k <= 0) {
+        zh.style.transform = 'none';
+        const hr = zh.getBoundingClientRect(), or = oo.getBoundingClientRect();
+        zh.style.transformOrigin = (or.left - hr.left + or.width*.12).toFixed(1) + 'px ' + (or.top - hr.top + or.height*.6).toFixed(1) + 'px';
+      } else zh.style.transform = 'scale(' + (1 + Math.pow(k, 3.2)*160).toFixed(3) + ')';
+      const rk = clamp((p - .86)/.08);
+      rise.style.opacity = rk.toFixed(3); rise.style.transform = 'translateY(' + ((1 - rk)*60).toFixed(1) + 'px)';
+    };
+    this.every(loop);
+  }
+
+  renderVals(){
+    window.__hero = this;
+    const sfxVals = { soundLabel: this.state.sound ? 'SOUND ON' : 'SOUND OFF', toggleSound: () => this.setSound(!this.state.sound), skipIntro: () => this._skip && this._skip() };
+    const s = this.state;
+    const T = [['a','2a Pieces'],['b','2b Untangle'],['c','2c Title sequence']];
+    return {
+      ...sfxVals,
+      tabs: T.map(([k,label]) => ({ label, bg: s.v === k ? '#D4A637' : 'transparent', ink: s.v === k ? '#06382E' : '#F5F1E8', go: () => { if (s.v !== k) { try { localStorage.setItem('dfd-hero', k); } catch(e){} this.setState({ v:k, assembled:false, pct:0, done:false }); } } })),
+      isA: s.v === 'a', isB: s.v === 'b', isC: s.v === 'c',
+      assembleLabel: s.assembled ? 'Break it up' : 'Put it together',
+      toggleAssemble: () => { const n = !this.state.assembled; this.setState({ assembled:n }); if (this._assemble) this._assemble(n); },
+      pct: s.pct, aOp: s.done ? 0 : 1, bOp: s.done ? 1 : 0, aY: s.done ? '-30px' : '0px', bY: s.done ? '0px' : '30px',
+      hint: s.done ? 'THAT’S THE JOB. WE DO IT IN SOFTWARE.' : 'DRAG ACROSS THE LINES TO COMB THEM STRAIGHT',
+      retangle: () => { if (this._reset) this._reset(); },
+      problems: PROBLEMS.map((x,i) => { const on = i === (s.p || 0); return { n:'0' + (i+1), text:x.text, bg: on ? '#D4A637' : 'transparent', ink: on ? '#06382E' : '#F5F1E8', line: on ? '#D4A637' : '#28705A', mark: on ? '●' : '○', pick: () => this.setState({ p:i }) }; }),
+      plan: PROBLEMS[s.p || 0].plan,
+      services: ['Custom software development','Web development and web applications','Business application development','System integration','Automation and integration work','Digital solution development','QADPAY: D’Matek-owned fintech venture'].map((name,i) => ({ name, n:String(i+1).padStart(2,'0') })),
+      stages: [
+        { num:'1', n:'CUSTOMER PROJECT', title:'Solve it for one client', body:'Built around a specific problem, with the people who live with it every day.' },
+        { num:'2', n:'REUSABLE SOLUTION', title:'Keep what repeats', body:'The parts every client needs become platforms we maintain and reuse.' },
+        { num:'3', n:'PRODUCT', title:'Ship it to many', body:'Some platforms become products of their own, like QADPAY and Droplet.' }
+      ],
+      dropletFeats: [
+        { n:'01', title:'Reorder in one tap', body:'Spots when a customer is running low from their order history, and offers their usual.' },
+        { n:'02', title:'Subscriptions', body:'Scheduled deliveries that keep coming without a new order.' },
+        { n:'03', title:'Recycling for points', body:'Customers book a pickup for their empties by material and earn points for it.' }
+      ],
+      cases: [
+        { client:'Omatek', body:'Website revamp, with company email on D’Matek Cloud.' },
+        { client:'Valour and Valiant', body:'New website, with business email on D’Matek Cloud.' }
+      ],
+      sisters: [{ verb:'RUN IT', name:'D’Matek Cloud', href:'DMatek%20Cloud%20Home%20v3.dc.html' }, { verb:'CONNECT IT', name:'D’Matek Infrastructure', href:'DMatek%20Infrastructure%20Hero.dc.html' }],
+      notSent: !s.sent, sent: !!s.sent, send: () => this.setState({ sent:true })
+    };
+  }
+}
+</script>
+</body>
+</html>
