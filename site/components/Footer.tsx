@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { businesses, navItems, D_SOURCE_URL } from "@/lib/content";
+import { businesses, navItems, D_SOURCE_URL, D_FOUNDRY_URL, ILEMESH_HREF } from "@/lib/content";
 
 export default function Footer() {
   return (
@@ -26,25 +26,15 @@ export default function Footer() {
           <div>
             <p className="mb-4.5 text-[11.5px] font-bold tracking-[0.16em] text-progress">THE SIX BUSINESSES</p>
             <div className="flex flex-col items-start gap-2">
-              {businesses.map((b) =>
-                b.site ? (
-                  <a
-                    key={b.slug}
-                    href={b.site}
-                    className="rounded-full px-3.5 py-1.5 text-[15px] font-medium text-charcoal hover:bg-forest/[0.07] hover:text-forest"
-                  >
-                    {b.name}
-                  </a>
-                ) : (
-                  <Link
-                    key={b.slug}
-                    href="/businesses"
-                    className="rounded-full px-3.5 py-1.5 text-[15px] font-medium text-charcoal hover:bg-forest/[0.07] hover:text-forest"
-                  >
-                    {b.name}
-                  </Link>
-                ),
-              )}
+              {businesses.map((b) => (
+                <Link
+                  key={b.id}
+                  href={`/businesses#${b.id}`}
+                  className="rounded-full px-3.5 py-1.5 text-[15px] font-medium text-charcoal hover:bg-forest/[0.07] hover:text-forest"
+                >
+                  {b.name}
+                </Link>
+              ))}
             </div>
           </div>
 
@@ -69,27 +59,35 @@ export default function Footer() {
               href="/contact"
               className="mb-5 inline-block rounded-full bg-gold px-6 py-4 text-[14px] font-bold tracking-[0.04em] text-forest transition-transform hover:-translate-y-0.5 hover:bg-forest hover:text-cream"
             >
-              LET&rsquo;S TALK
+              Tell us what you need &rarr;
             </Link>
             <p className="mb-5 text-[15px] leading-[1.8] text-ink">
-              <a href="tel:+2347058071768" className="hover:text-forest">
-                +234 705 807 1768
-              </a>
+              [ PHONE ]
               <br />
-              <a href="mailto:hello@dmatek.ng" className="hover:text-forest">
-                hello@dmatek.ng
-              </a>
+              [ EMAIL ]
               <br />
-              <a href="https://www.dmatek.ng" className="hover:text-forest">
-                www.dmatek.ng
-              </a>
+              [ SOCIAL LINKS ]
             </p>
-            <a
-              href={D_SOURCE_URL}
-              className="inline-flex items-center gap-2 rounded-full border border-forest/22 px-5.5 py-3.5 text-[14px] font-bold tracking-[0.04em] text-forest hover:bg-forest hover:text-cream"
-            >
-              D&rsquo;SOURCE &mdash; SHOP<span className="text-[11px] opacity-75">↗</span>
-            </a>
+            <div className="flex flex-col items-start gap-2.5">
+              <a
+                href={D_SOURCE_URL}
+                className="inline-flex items-center gap-2 rounded-full border border-forest/22 px-5.5 py-3.5 text-[14px] font-bold tracking-[0.04em] text-forest hover:bg-forest hover:text-cream"
+              >
+                Shop D&rsquo;Source &rarr;
+              </a>
+              <Link
+                href={ILEMESH_HREF}
+                className="rounded-full px-3.5 py-2 text-[14px] font-bold text-forest hover:bg-forest/[0.07]"
+              >
+                Explore Il&eacute;Mesh &rarr;
+              </Link>
+              <a
+                href={D_FOUNDRY_URL}
+                className="rounded-full px-3.5 py-2 text-[14px] font-bold text-forest hover:bg-forest/[0.07]"
+              >
+                Explore D&rsquo;Foundry &rarr;
+              </a>
+            </div>
           </div>
         </div>
 

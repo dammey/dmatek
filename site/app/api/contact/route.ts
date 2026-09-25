@@ -21,12 +21,16 @@ export async function POST(request: Request) {
   }
 
   const name = typeof body.name === "string" ? body.name.trim() : "";
-  const email = typeof body.email === "string" ? body.email.trim() : "";
+  const contact = typeof body.contact === "string" ? body.contact.trim() : "";
+  const org = typeof body.org === "string" ? body.org.trim() : "";
+  const location = typeof body.location === "string" ? body.location.trim() : "";
   const problem = typeof body.problem === "string" ? body.problem.trim() : "";
   const message = typeof body.message === "string" ? body.message.trim() : "";
+  const outcome = typeof body.outcome === "string" ? body.outcome.trim() : "";
+  const pilotAsk = typeof body.pilotAsk === "string" ? body.pilotAsk.trim() : "";
 
-  if (!name || !email) {
-    return NextResponse.json({ error: "Name and email are required." }, { status: 400 });
+  if (!name || !contact) {
+    return NextResponse.json({ error: "Name and email or phone are required." }, { status: 400 });
   }
 
   const apiKey = process.env.RESEND_API_KEY;
@@ -44,18 +48,32 @@ export async function POST(request: Request) {
 
   const resend = new Resend(apiKey);
 
+  // Pilot demand log: every enquiry that arrived carrying pilot interest is
+  // recorded by item + closest starting point (the "environment" pre-fill),
+  // per the pilot demand log requirement in the v3.1 handoff.
+  if (pilotAsk) {
+    console.log("Pilot enquiry:", { items: pilotAsk, closestStartingPoint: problem || null, name });
+  }
+
   try {
     const { error } = await resend.emails.send({
       from: "D’Matek Website <noreply@dmatek.ng>",
       to: toEmail,
-      replyTo: email,
-      subject: `New enquiry from ${name} — D’Matek website`,
+      replyTo: contact.includes("@") ? contact : undefined,
+      subject: pilotAsk
+        ? `New pilot enquiry from ${name} — D’Matek website`
+        : `New enquiry from ${name} — D’Matek website`,
       html: `
         <p><strong>Name:</strong> ${escapeHtml(name)}</p>
-        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+        <p><strong>Email or phone:</strong> ${escapeHtml(contact)}</p>
+        <p><strong>Organisation type:</strong> ${escapeHtml(org || "—")}</p>
+        <p><strong>Location:</strong> ${escapeHtml(location || "—")}</p>
         <p><strong>Closest starting point:</strong> ${escapeHtml(problem || "—")}</p>
-        <p><strong>What's happening:</strong></p>
+        ${pilotAsk ? `<p><strong>Pilot interest:</strong> ${escapeHtml(pilotAsk)}</p>` : ""}
+        <p><strong>What they're trying to solve:</strong></p>
         <p>${escapeHtml(message || "—").replace(/\n/g, "<br>")}</p>
+        <p><strong>What a good outcome looks like:</strong></p>
+        <p>${escapeHtml(outcome || "—").replace(/\n/g, "<br>")}</p>
       `,
     });
 

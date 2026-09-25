@@ -164,8 +164,8 @@ button{font-family:inherit;cursor:pointer}
 <section data-screen-label="Process" style="background:#28705A;color:#F5F1E8;padding:clamp(72px,12vh,140px) clamp(18px,3vw,40px)">
   <div style="max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(40px,6vh,72px)">
     <div style="display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap">
-      <h2 data-rv="rise" style="margin:0;font-weight:800;font-size:clamp(44px,7vw,120px);line-height:.9;letter-spacing:-.055em;max-width:14ch">One client, then a platform, <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em;color:#F5D98A">then a product.</span></h2>
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em">03 · HOW A PROJECT GROWS</span>
+      <h2 data-rv="rise" style="margin:0;font-weight:800;font-size:clamp(44px,7vw,120px);line-height:.9;letter-spacing:-.055em;max-width:14ch">Built around you, <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em;color:#F5D98A">on proven foundations.</span></h2>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em">03 · HOW WE BUILD</span>
     </div>
     <div data-rv="mask" style="position:relative;aspect-ratio:16/9;border-radius:32px;overflow:hidden;background:#06382E"><img src="assets/dmatek-team.jpg" alt="The D’Matek team working through a plan" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 25%"></div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:clamp(16px,2vw,28px)">
@@ -627,9 +627,9 @@ class Component extends DCLogic {
       plan: PROBLEMS[s.p || 0].plan,
       services: ['Custom software development','Web development and web applications','Business application development','System integration','Automation and integration work','Digital solution development','QADPAY: D’Matek-owned fintech venture'].map((name,i) => ({ name, n:String(i+1).padStart(2,'0') })),
       stages: [
-        { num:'1', n:'CUSTOMER PROJECT', title:'Solve it for one client', body:'Built around a specific problem, with the people who live with it every day.' },
-        { num:'2', n:'REUSABLE SOLUTION', title:'Keep what repeats', body:'The parts every client needs become platforms we maintain and reuse.' },
-        { num:'3', n:'PRODUCT', title:'Ship it to many', body:'Some platforms become products of their own, like QADPAY and Droplet.' }
+        { num:'1', n:'YOUR PROBLEM', title:'Built around your problem', body:'Designed with the people who live with it every day.' },
+        { num:'2', n:'PROVEN FOUNDATIONS', title:'Started on tested ground', body:'Your project begins on components we have already tested, so it moves faster and breaks less.' },
+        { num:'3', n:'YOURS TO OWN', title:'Yours to own', body:'What we build for you is yours, and we maintain it for as long as you need.' }
       ],
       dropletFeats: [
         { n:'01', title:'Reorder in one tap', body:'Spots when a customer is running low from their order history, and offers their usual.' },

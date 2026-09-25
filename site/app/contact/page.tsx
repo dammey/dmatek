@@ -8,7 +8,11 @@ export const metadata: Metadata = {
     "Let’s figure it out together. Tell us the problem in your own words — you don’t need to know which technology it needs.",
 };
 
-export default function ContactPage() {
+type SearchParams = { topic?: string; message?: string; pilot?: string };
+
+export default async function ContactPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
+  const { topic, message, pilot } = await searchParams;
+
   return (
     <div className="bg-cream px-5 py-[clamp(24px,3vw,44px)] pb-[clamp(56px,7vw,96px)] sm:px-5">
       <div
@@ -26,7 +30,7 @@ export default function ContactPage() {
               className="mb-6 inline-block rounded-full px-4.5 py-2.25 text-[11.5px] font-bold tracking-[0.2em] text-gold"
               style={{ background: "rgba(212,166,55,0.14)" }}
             >
-              CONTACT
+              TELL US WHAT YOU NEED
             </p>
             <h1 className="mb-6.5 text-[clamp(38px,5vw,70px)] font-extrabold leading-none tracking-[-0.035em] text-balance">
               Let&rsquo;s figure it out together.
@@ -49,25 +53,12 @@ export default function ContactPage() {
             </div>
             <div className="text-[15.5px] leading-[1.9] text-cream/82">
               <p className="m-0">Lagos, Nigeria</p>
-              <p className="m-0">
-                <a href="tel:+2347058071768" className="hover:text-cream">
-                  +234 705 807 1768
-                </a>
-              </p>
-              <p className="m-0">
-                <a href="mailto:hello@dmatek.ng" className="hover:text-cream">
-                  hello@dmatek.ng
-                </a>
-              </p>
-              <p className="m-0">
-                <a href="https://www.dmatek.ng" className="hover:text-cream">
-                  www.dmatek.ng
-                </a>
-              </p>
+              <p className="m-0">[ PHONE TO BE ADDED ]</p>
+              <p className="m-0">[ EMAIL TO BE ADDED ]</p>
             </div>
           </div>
 
-          <ContactForm />
+          <ContactForm initialTopic={topic} initialMessage={message} initialPilot={pilot} />
         </div>
       </div>
     </div>

@@ -34,8 +34,8 @@ export default function BusinessesPage() {
             className="max-w-[36em] text-[clamp(17px,1.7vw,20px)] leading-[1.7] text-ink"
             style={{ animation: "dm-rise .8s cubic-bezier(.2,.8,.2,1) .2s both" }}
           >
-            A hotel needs connectivity, cameras, cloud backup, a booking integration and someone to run
-            all of it. That is five of our businesses and one conversation with us.
+            A hotel needs Wi-Fi, cameras, room technology, power, backup and someone to run all of it.
+            That is several of our businesses and one conversation with us.
           </p>
         </div>
       </section>
@@ -43,7 +43,7 @@ export default function BusinessesPage() {
       <section className="bg-cream">
         <div className="mx-auto max-w-[1280px] px-5 pt-[clamp(24px,3vw,44px)] pb-[clamp(64px,7vw,110px)] sm:px-8">
           <p className="mb-5 text-[11.5px] font-bold tracking-[0.18em] text-progress sm:mb-8">
-            A TYPICAL PROJECT PATH
+            HOW EVERY PROJECT RUNS
           </p>
           <div className="relative mb-11 sm:mb-20">
             <svg viewBox="0 0 1200 80" preserveAspectRatio="none" aria-hidden="true" className="pointer-events-none absolute left-0 top-1/2 h-[80px] w-full -translate-y-1/2">

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Reveal from "@/components/Reveal";
-import { aboutStats, quotes, values } from "@/lib/content";
+import { stages, values } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "About",
@@ -62,13 +61,20 @@ export default function AboutPage() {
       <section className="bg-cream">
         <div className="mx-auto grid max-w-[1280px] grid-cols-[repeat(auto-fit,minmax(min(100%,300px),1fr))] items-center gap-9 px-5 pb-[clamp(56px,7vw,100px)] sm:gap-18 sm:px-8">
           <Reveal
-            aria-hidden="true"
-            className="dm-blob flex min-h-[320px] flex-col items-center justify-center gap-5 p-[clamp(28px,4vw,50px)] text-center aspect-[4/5]"
-            style={{ background: "linear-gradient(150deg,#EFEADC,#E4DECC)", boxShadow: "0 26px 60px rgba(6,56,46,0.10)" }}
+            className="flex min-h-[320px] flex-col items-center justify-center gap-3 p-[clamp(28px,4vw,50px)] text-center"
+            style={{
+              background: "linear-gradient(150deg,#EFEADC,#E4DECC)",
+              borderRadius: "56% 44% 50% 50% / 48% 46% 54% 52%",
+              animation: "dm-drift 17s ease-in-out infinite",
+              boxShadow: "0 26px 60px rgba(6,56,46,0.10)",
+              aspectRatio: "4/5",
+            }}
+            role="img"
+            aria-label="Placeholder portrait of Damilola"
           >
-            <Image src="/assets/mark-green.png" alt="" width={92} height={120} className="h-[clamp(72px,9vw,120px)] w-auto" />
-            <p className="m-0 text-[13px] font-bold tracking-[0.16em] text-progress">
-              D&rsquo;MATEK TECHNOLOGY LIMITED
+            <p className="m-0 text-[11.5px] font-bold tracking-[0.16em] text-progress">[ PORTRAIT REQUIRED ]</p>
+            <p className="m-0 max-w-[20em] text-[15.5px] leading-[1.65] text-ink">
+              Damilola, warm light, on site or mid-conversation. Not a corporate headshot.
             </p>
           </Reveal>
           <Reveal>
@@ -83,69 +89,70 @@ export default function AboutPage() {
             </h2>
             <p className="mb-5.5 max-w-[32em] text-[17px] leading-[1.8] text-ink">
               You don&rsquo;t get a ticket system. You get Damilola &mdash; in the first meeting, during
-              the build, and at 11pm three years later when something needs attention.
+              the build, and after handover.
             </p>
-            <div className="mb-7 rounded-[26px] px-6.5 py-5.5" style={{ background: "rgba(212,166,55,0.16)" }}>
-              <p className="m-0 mb-3 text-[16.5px] font-medium leading-[1.7] text-forest">
-                A customer was having recurring connectivity issues. We reviewed the setup, identified
-                the failing access point and replaced it within two hours &mdash; before the customer
-                had to start chasing us for answers.
+            <div className="rounded-[26px] px-6.5 py-5.5" style={{ background: "rgba(212,166,55,0.16)" }}>
+              <p className="m-0 text-[16.5px] font-medium leading-[1.7] text-forest">
+                [ ONE SHORT STORY TO BE ADDED &mdash; the time a customer&rsquo;s problem was fixed in
+                two hours before they thought to ask. ]
               </p>
-              <p className="m-0 text-[16.5px] font-extrabold leading-[1.7] text-forest">
-                The problem was ours to solve, so we solved it.
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-2.5">
-              {aboutStats.map((s) => (
-                <div key={s.label} className="flex-[1_1_150px] rounded-full bg-cream-2 px-6.5 py-5">
-                  <p className="mb-2 text-[clamp(23px,2.6vw,31px)] font-extrabold leading-none tracking-[-0.03em] text-gold">
-                    {s.figure}
-                  </p>
-                  <p className="m-0 text-[13px] leading-[1.5] text-ink">{s.label}</p>
-                </div>
-              ))}
             </div>
           </Reveal>
         </div>
       </section>
 
       <section className="bg-cream">
-        <div className="mx-auto max-w-[1280px] px-5 pb-[clamp(64px,7vw,110px)] sm:px-8">
-          <Reveal className="mb-7.5 max-w-[36em] sm:mb-12">
+        <div id="how" className="mx-auto flex max-w-[1280px] scroll-mt-28 flex-col gap-6 px-5 pt-[clamp(28px,4vw,56px)] pb-[clamp(64px,7vw,110px)] sm:gap-8.5 sm:px-8">
+          <Reveal className="max-w-[36em]">
             <p
               className="mb-5.5 inline-block rounded-full px-4.5 py-2.25 text-[11.5px] font-bold tracking-[0.2em] text-forest"
               style={{ background: "rgba(40,112,90,0.10)" }}
             >
-              WHY CLIENTS STICK AROUND
+              HOW WE WORK
             </p>
             <h2 className="m-0 text-[clamp(30px,4vw,54px)] font-extrabold leading-[1.04] tracking-[-0.03em] text-forest text-balance">
-              Relief, then gratitude, then trust.
+              Six steps, one continuous relationship.
             </h2>
           </Reveal>
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] gap-4">
-            {quotes.map((q, i) => (
-              <Reveal
-                key={i}
-                as="blockquote"
-                className="m-0 rounded-[clamp(24px,3vw,40px)] p-[clamp(26px,3vw,36px)] shadow-[0_14px_36px_rgba(6,56,46,0.08)] transition-transform hover:-translate-y-1.5 hover:shadow-[0_26px_54px_rgba(6,56,46,0.16)]"
+          {stages.map((s, i) => (
+            <Reveal
+              key={s.id}
+              id={s.id}
+              className="relative grid scroll-mt-28 grid-cols-[repeat(auto-fit,minmax(min(100%,280px),1fr))] items-center gap-7 overflow-hidden rounded-[clamp(28px,4vw,56px)] p-[clamp(30px,4vw,60px)] shadow-[0_18px_50px_rgba(6,56,46,0.07)] sm:gap-14"
+              style={{ background: i % 2 === 0 ? "linear-gradient(150deg,#EFEADC,#E9E3D2)" : "linear-gradient(150deg,#F1ECE0,#E6E0CE)" }}
+            >
+              <div>
+                <div className="mb-4.5 flex items-baseline gap-4">
+                  <span className="text-[13px] font-bold tracking-[0.14em] text-gold">{s.num}</span>
+                  <h2 className="m-0 text-[clamp(28px,3.4vw,46px)] font-extrabold leading-[1.05] tracking-[-0.03em] text-forest">
+                    {s.name}
+                  </h2>
+                </div>
+                <p className="mb-6 max-w-[34em] text-[17.5px] leading-[1.75] text-ink">{s.body}</p>
+                <span
+                  className="inline-block rounded-full px-5 py-2.75 text-[13px] font-bold tracking-[0.14em] text-forest"
+                  style={{ background: "rgba(212,166,55,0.28)" }}
+                >
+                  {s.value}
+                </span>
+              </div>
+              <div
+                className="relative mx-auto flex aspect-square w-full max-w-[340px] flex-col items-center justify-center p-[clamp(24px,3.4vw,42px)] text-center text-cream"
                 style={{
-                  background:
-                    q.tone === "dark"
-                      ? "radial-gradient(120% 130% at 20% 0%, #0B4B3D, #06382E 60%)"
-                      : "linear-gradient(160deg,#EFEADC,#E8E2D0)",
-                  color: q.tone === "dark" ? "#F5F1E8" : "#1A1A1A",
+                  background: "radial-gradient(circle at 30% 26%, #0B4B3D, #043028)",
+                  borderRadius: "54% 46% 48% 52% / 44% 54% 46% 56%",
+                  animation: "dm-drift 21s ease-in-out infinite",
                 }}
               >
-                <p className="mb-4.5 text-[17px] font-medium leading-[1.7] text-pretty">{q.text}</p>
-                <footer
-                  className="text-[13px] font-bold tracking-[0.06em]"
-                  style={{ color: q.tone === "dark" ? "#D4A637" : "#28705A" }}
-                >
-                  {q.attrib}
-                </footer>
-              </Reveal>
-            ))}
-          </div>
+                <p className="relative m-0 mb-3.5 text-[11px] font-bold tracking-[0.16em] text-gold">
+                  [ PHOTO &mdash; {s.photo} ]
+                </p>
+                <p className="relative m-0 max-w-[16em] text-[clamp(19px,2.3vw,28px)] font-extrabold leading-[1.18] tracking-[-0.025em]">
+                  {s.outcome}
+                </p>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </section>
     </div>

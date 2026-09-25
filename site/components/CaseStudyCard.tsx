@@ -1,16 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Reveal from "@/components/Reveal";
 import type { CaseStudy } from "@/lib/content";
 
 type Facet = "before" | "did" | "after";
 
 const FACET_LABELS: Record<Facet, string> = {
-  before: "BEFORE",
+  before: "PROBLEM",
   did: "WHAT WE DID",
-  after: "AFTER",
+  after: "WHAT CHANGED",
 };
 
 export default function CaseStudyCard({ study }: { study: CaseStudy }) {
@@ -77,40 +76,24 @@ export default function CaseStudyCard({ study }: { study: CaseStudy }) {
 
       <div className="grid items-center gap-6 sm:grid-cols-2 sm:gap-11">
         <div
-          className="dm-blob relative mx-auto flex aspect-square w-full max-w-[320px] flex-col items-center justify-center overflow-hidden p-[clamp(24px,3vw,40px)] text-center text-cream"
-          style={study.photoSrc ? undefined : { background: "radial-gradient(circle at 30% 26%, #0B4B3D, #043028)" }}
+          className="relative mx-auto flex aspect-square w-full max-w-[320px] flex-col items-center justify-center p-[clamp(24px,3vw,40px)] text-center text-cream"
+          style={{
+            background: "radial-gradient(circle at 30% 26%, #0B4B3D, #043028)",
+            borderRadius: "50% 50% 42% 58% / 46% 50% 50% 54%",
+            animation: "dm-drift 20s ease-in-out infinite",
+          }}
+          role="img"
+          aria-label="Placeholder installation photograph"
         >
-          {study.photoSrc ? (
-            <Image
-              src={study.photoSrc}
-              alt={study.photo}
-              fill
-              sizes="320px"
-              className="object-cover"
-            />
-          ) : (
-            <>
-              <p className="m-0 mb-3 text-[11px] font-bold tracking-[0.16em] text-gold">
-                [ BEFORE / AFTER PHOTOS REQUIRED ]
-              </p>
-              <p className="m-0 max-w-[16em] text-[15px] leading-[1.6] text-cream/86">{study.photo}</p>
-            </>
-          )}
+          <p className="m-0 mb-3 text-[11px] font-bold tracking-[0.16em] text-gold">[ BEFORE / AFTER PHOTOS REQUIRED ]</p>
+          <p className="m-0 max-w-[16em] text-[15px] leading-[1.6] text-cream/86">{study.photo}</p>
         </div>
-        {study.attrib ? (
-          <blockquote className="m-0 rounded-[clamp(22px,3vw,36px)] bg-cream p-[clamp(26px,3vw,42px)] shadow-[0_14px_36px_rgba(6,56,46,0.08)]">
-            <p className="mb-5 text-[clamp(18px,2vw,25px)] font-semibold leading-[1.5] tracking-[-0.015em] text-forest text-pretty">
-              &ldquo;{study.quote}&rdquo;
-            </p>
-            <footer className="text-[13px] font-bold tracking-[0.06em] text-progress">{study.attrib}</footer>
-          </blockquote>
-        ) : (
-          <div className="m-0 rounded-[clamp(22px,3vw,36px)] bg-cream p-[clamp(26px,3vw,42px)] shadow-[0_14px_36px_rgba(6,56,46,0.08)]">
-            <p className="m-0 text-[clamp(18px,2vw,25px)] font-semibold leading-[1.5] tracking-[-0.015em] text-forest text-pretty">
-              {study.quote}
-            </p>
-          </div>
-        )}
+        <blockquote className="m-0 rounded-[clamp(22px,3vw,36px)] bg-cream p-[clamp(26px,3vw,42px)] shadow-[0_14px_36px_rgba(6,56,46,0.08)]">
+          <p className="mb-5 text-[clamp(18px,2vw,25px)] font-semibold leading-[1.5] tracking-[-0.015em] text-forest text-pretty">
+            {study.quote}
+          </p>
+          <footer className="text-[13px] font-bold tracking-[0.06em] text-progress">{study.attrib}</footer>
+        </blockquote>
       </div>
     </Reveal>
   );

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { businesses, orbitPositions } from "@/lib/content";
 
-/** "One D'Matek. Many specialists." auto-rotating orbit on the homepage. */
+/** "One customer. Six specialists." auto-rotating orbit on the homepage. */
 export default function OrbitDiagram() {
   const router = useRouter();
   const [hoverBiz, setHoverBiz] = useState<number | null>(null);
@@ -47,7 +47,7 @@ export default function OrbitDiagram() {
           {hovered ? hovered.name : "One customer"}
         </p>
         <p className="m-0 max-w-[16em] text-[clamp(9.5px,1.05vw,13px)] leading-[1.5] text-cream/74">
-          {hovered ? hovered.solves : "Six specialists behind one conversation."}
+          {hovered ? hovered.solves : "Six specialists. One team accountable for the result."}
         </p>
       </div>
 
@@ -56,11 +56,11 @@ export default function OrbitDiagram() {
           const [x, y] = orbitPositions[i];
           const shortName = b.name.replace("D’Matek ", "");
           return (
-            <div key={b.slug} style={{ left: x, top: y }} className="absolute aspect-square w-[23%] -translate-x-1/2 -translate-y-1/2">
+            <div key={b.id} style={{ left: x, top: y }} className="absolute aspect-square w-[23%] -translate-x-1/2 -translate-y-1/2">
               <div className="h-full w-full" style={{ animation: "dm-spin-rev 90s linear infinite" }}>
                 <button
                   type="button"
-                  onClick={() => (b.site ? (window.location.href = b.site) : router.push("/businesses"))}
+                  onClick={() => (b.site ? (window.location.href = b.site) : router.push(`/businesses#${b.id}`))}
                   onMouseEnter={() => setHoverBiz(i)}
                   onMouseLeave={() => setHoverBiz(null)}
                   onFocus={() => setHoverBiz(i)}

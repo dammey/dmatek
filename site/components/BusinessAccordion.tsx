@@ -1,24 +1,41 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
+import { useEffect, useState } from "react";
 import Reveal from "@/components/Reveal";
 import { businesses } from "@/lib/content";
 
 export default function BusinessAccordion() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  // Deep-link support: /businesses#<id> (footer, orbit, other pages) opens
+  // that business; otherwise the first business is open by default.
+  const [openIndex, setOpenIndex] = useState<number | null>(() => {
+    if (typeof window === "undefined") return 0;
+    const hash = window.location.hash.replace("#", "");
+    const i = businesses.findIndex((b) => b.id === hash);
+    return i === -1 ? 0 : i;
+  });
+
+  useEffect(() => {
+    if (openIndex === null) return;
+    const hash = window.location.hash.replace("#", "");
+    if (businesses[openIndex]?.id !== hash) return;
+    requestAnimationFrame(() => {
+      document.getElementById(businesses[openIndex].id)?.scrollIntoView({ block: "start" });
+    });
+    // Only scroll on the initial hash-driven open, not on later user toggles.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="flex flex-col gap-3.5">
       {businesses.map((b, i) => {
         const open = openIndex === i;
-        const hasRealStat = !b.stat.trim().startsWith("[");
-        const showStatOverlay = !b.photoSrc || hasRealStat;
+        const pilotItems = b.pilot ? b.pilot.split(" · ") : [];
         return (
           <Reveal
-            key={b.slug}
+            key={b.id}
             as="article"
-            className="overflow-hidden rounded-[clamp(26px,3.4vw,44px)] shadow-[0_16px_44px_rgba(6,56,46,0.08)]"
+            id={b.id}
+            className="scroll-mt-28 overflow-hidden rounded-[clamp(26px,3.4vw,44px)] shadow-[0_16px_44px_rgba(6,56,46,0.08)]"
             style={{
               background: open
                 ? "radial-gradient(120% 140% at 8% 0%, #0B4B3D, #06382E 60%)"
@@ -65,14 +82,13 @@ export default function BusinessAccordion() {
                 style={{ animation: "dm-rise .45s cubic-bezier(.2,.8,.2,1) both" }}
               >
                 <div>
-                  {b.prop && (
-                    <p
-                      className="mb-5 max-w-[24em] text-[clamp(21px,2.4vw,30px)] font-extrabold leading-[1.2] tracking-[-0.025em] text-balance"
-                      style={{ color: "#D4A637" }}
-                    >
-                      {b.prop}
-                    </p>
-                  )}
+                  <p
+                    className="mb-5 max-w-[24em] text-[clamp(21px,2.4vw,30px)] font-extrabold leading-[1.2] tracking-[-0.025em] text-balance"
+                    style={{ color: "#D4A637" }}
+                  >
+                    {b.prop}
+                  </p>
+                  <p className="mb-2.5 text-[11px] font-bold tracking-[0.16em] text-gold">AVAILABLE NOW</p>
                   <p className="mb-5 max-w-[36em] text-[16px] leading-[1.75] text-cream/82">{b.scope}</p>
                   <p className="m-0 text-[12.5px] font-bold tracking-[0.12em] text-gold">{b.note}</p>
                   {b.site && (
@@ -85,37 +101,22 @@ export default function BusinessAccordion() {
                   )}
                 </div>
                 <div
-                  className="dm-blob relative mx-auto flex aspect-square w-full max-w-[280px] flex-col items-center justify-center overflow-hidden p-[clamp(26px,3vw,40px)] text-center"
-                  style={b.photoSrc ? undefined : { background: "rgba(245,241,232,0.07)" }}
+                  className="relative mx-auto flex aspect-square w-full max-w-[280px] flex-col items-center justify-center p-[clamp(26px,3vw,40px)] text-center"
+                  style={{
+                    background: "rgba(245,241,232,0.07)",
+                    borderRadius: "50% 50% 44% 56% / 48% 44% 56% 52%",
+                    animation: "dm-drift 18s ease-in-out infinite",
+                  }}
                 >
-                  {b.photoSrc && (
-                    <Image
-                      src={b.photoSrc}
-                      alt={`${b.name} — ${b.photo}`}
-                      fill
-                      sizes="280px"
-                      className="object-cover"
-                    />
-                  )}
-                  {showStatOverlay && (
-                    <>
-                      {b.photoSrc && (
-                        <div
-                          className="absolute inset-0"
-                          style={{ background: "linear-gradient(180deg,rgba(6,56,46,0.15),rgba(4,48,40,0.72))" }}
-                        />
-                      )}
-                      <p className="relative m-0 mb-2.5 text-[clamp(28px,3.4vw,44px)] font-extrabold leading-none tracking-[-0.03em] text-gold">
-                        {b.stat}
-                      </p>
-                      <p className="relative m-0 max-w-[14em] text-[14px] leading-[1.55] text-cream/82">{b.statLabel}</p>
-                    </>
-                  )}
-                  {!b.photoSrc && (
-                    <p className="relative m-0 mt-3.5 text-[10.5px] font-bold tracking-[0.14em] text-progress">
-                      [ PHOTO &mdash; {b.photo} ]
-                    </p>
-                  )}
+                  <p className="m-0 mb-3 text-[11px] font-bold tracking-[0.16em] text-gold">
+                    {b.pilot ? "AVAILABLE AS A PILOT" : "ALL AVAILABLE NOW"}
+                  </p>
+                  <p className="m-0 mb-3.5 max-w-[16em] text-[14px] leading-[1.55] text-cream/82">
+                    {pilotItems.length > 0 ? pilotItems.join(" · ") : "Everything listed here can be provided today."}
+                  </p>
+                  <p className="relative m-0 text-[10.5px] font-bold tracking-[0.14em] text-progress">
+                    [ PHOTO &mdash; {b.photo} ]
+                  </p>
                 </div>
               </div>
             )}
