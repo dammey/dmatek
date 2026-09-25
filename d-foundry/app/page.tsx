@@ -1,4 +1,4 @@
-import Hero from "@/components/Hero";
+import HeroEngine from "@/components/HeroEngine";
 import ProblemFix from "@/components/ProblemFix";
 import Services from "@/components/Services";
 import Process from "@/components/Process";
@@ -9,7 +9,7 @@ import ContactSection from "@/components/ContactSection";
 export default function Home() {
   return (
     <>
-      <Hero />
+      <HeroEngine />
       <ProblemFix />
       <Services />
       <Process />

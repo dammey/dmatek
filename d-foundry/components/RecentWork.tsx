@@ -1,86 +1,95 @@
-import Image from "next/image";
-import Link from "next/link";
-import Reveal from "./Reveal";
-import { dropletFeats, inProgressCases, DROPLET_URL } from "@/lib/content";
+"use client";
+
+const FEATS = [
+  { n: "01", title: "Reorder in one tap", body: "Spots when a customer is running low from their order history, and offers their usual." },
+  { n: "02", title: "Subscriptions", body: "Scheduled deliveries that keep coming without a new order." },
+  { n: "03", title: "Recycling for points", body: "Customers book a pickup for their empties by material and earn points for it." },
+];
+
+const CASES = [
+  { client: "Omatek", body: "Website revamp, with company email on D’Matek Cloud." },
+  { client: "Valour and Valiant", body: "New website, with business email on D’Matek Cloud." },
+];
+
+const DROPLET_URL = "https://web-gamma-fawn-29.vercel.app/";
 
 export default function RecentWork() {
   return (
-    <section id="droplet" className="overflow-hidden bg-casedark px-[clamp(18px,3vw,40px)] py-[clamp(72px,12vh,140px)] text-cream">
-      <div className="mx-auto flex max-w-[1400px] flex-col gap-[clamp(32px,5vh,56px)]">
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <Reveal as="h2" variant="rise" className="m-0 text-[clamp(56px,9vw,160px)] font-extrabold leading-[.85] tracking-[-.06em]">
-            Shipped, <span className="font-serif italic font-normal text-gold">and running.</span>
-          </Reveal>
-          <span className="font-mono text-xs tracking-[.12em] text-warmmute">04 &middot; RECENT WORK</span>
+    <section id="droplet" data-screen-label="Recent work" style={{ background: "#1A1A1A", color: "#F5F1E8", padding: "clamp(72px,12vh,140px) clamp(18px,3vw,40px)", overflow: "hidden" }}>
+      <div style={{ maxWidth: 1400, margin: "0 auto", display: "flex", flexDirection: "column", gap: "clamp(32px,5vh,56px)" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", gap: 24, flexWrap: "wrap" }}>
+          <h2 data-rv="rise" style={{ margin: 0, fontWeight: 800, fontSize: "clamp(56px,9vw,160px)", lineHeight: 0.85, letterSpacing: "-.06em" }}>
+            Shipped, <span style={{ fontFamily: "var(--font-instrument),serif", fontStyle: "italic", fontWeight: 400, letterSpacing: "-.02em", color: "#D4A637" }}>and running.</span>
+          </h2>
+          <span style={{ fontFamily: "var(--font-plex-mono),monospace", fontSize: 12, letterSpacing: ".12em", color: "#BDB6A6" }}>04 &middot; RECENT WORK</span>
         </div>
-
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] items-end gap-[clamp(24px,4vw,64px)]">
-          <div className="flex flex-col gap-[18px]">
-            <span className="self-start rounded-full bg-gold px-3 py-1.5 font-mono text-[11px] font-semibold text-forest">CASE STUDY &middot; LIVE</span>
-            <span className="font-serif text-[clamp(72px,9vw,150px)] italic leading-[.8] tracking-[-.03em]">Droplet</span>
-            <p className="m-0 max-w-[40ch] text-lg leading-relaxed text-warmmute">
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,340px),1fr))", gap: "clamp(24px,4vw,64px)", alignItems: "end" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+            <span style={{ alignSelf: "flex-start", background: "#D4A637", color: "#06382E", borderRadius: 999, padding: "6px 12px", fontFamily: "var(--font-plex-mono),monospace", fontSize: 11, fontWeight: 600 }}>CASE STUDY &middot; LIVE</span>
+            <span style={{ fontFamily: "var(--font-instrument),serif", fontStyle: "italic", fontSize: "clamp(72px,9vw,150px)", lineHeight: 0.8, letterSpacing: "-.03em" }}>Droplet</span>
+            <p style={{ margin: 0, fontSize: 18, lineHeight: 1.55, color: "#D9D3C4", maxWidth: "40ch" }}>
               Water on demand for Blessed Water. Customers order and reorder in a few taps, keep deliveries coming on a subscription, and book recycling pickups that earn points.
             </p>
-            <div className="flex flex-wrap gap-2.5">
-              <Link href="/work/droplet" className="rounded-full border-2 border-cream px-5 py-3 font-bold text-cream transition-colors hover:bg-cream hover:text-casedark">
-                Read the case study →
-              </Link>
-              <a href={DROPLET_URL} target="_blank" rel="noopener" className="rounded-full bg-gold px-[22px] py-3.5 font-bold text-forest transition-colors hover:bg-cream">
-                Visit Droplet ↗
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+              <a href="/work/droplet" className="df-outline-btn" style={{ border: "2px solid #F5F1E8", color: "#F5F1E8", borderRadius: 999, padding: "12px 20px", fontWeight: 700, fontSize: 15, whiteSpace: "nowrap" }}>
+                Read the case study &rarr;
+              </a>
+              <a href={DROPLET_URL} target="_blank" rel="noopener" className="df-gold-btn" style={{ background: "#D4A637", color: "#06382E", borderRadius: 999, padding: "14px 22px", fontWeight: 700, fontSize: 15, whiteSpace: "nowrap" }}>
+                Visit Droplet &#8599;
               </a>
             </div>
           </div>
-          <div className="flex flex-col border-t border-rule">
-            {dropletFeats.map((f, i) => (
-              <Reveal key={f.n} variant="up" delayMs={i * 80} className="grid grid-cols-[48px_minmax(0,1fr)] gap-3 border-b border-rule py-4">
-                <span className="font-mono text-xs text-gold">{f.n}</span>
-                <span className="flex flex-col gap-1">
-                  <span className="text-xl font-bold tracking-[-.02em]">{f.title}</span>
-                  <span className="text-[15px] leading-relaxed text-warmmute">{f.body}</span>
+          <div style={{ display: "flex", flexDirection: "column", borderTop: "1px solid #444" }}>
+            {FEATS.map((f) => (
+              <div key={f.n} data-rv="up" style={{ display: "grid", gridTemplateColumns: "48px minmax(0,1fr)", gap: 12, padding: "16px 0", borderBottom: "1px solid #444" }}>
+                <span style={{ fontFamily: "var(--font-plex-mono),monospace", fontSize: 12, color: "#D4A637" }}>{f.n}</span>
+                <span style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                  <span style={{ fontWeight: 700, fontSize: 20, letterSpacing: "-.02em" }}>{f.title}</span>
+                  <span style={{ fontSize: 15, lineHeight: 1.5, color: "#BDB6A6" }}>{f.body}</span>
                 </span>
-              </Reveal>
+              </div>
             ))}
           </div>
         </div>
-
-        <div className="relative grid grid-cols-12 items-start gap-[clamp(12px,1.6vw,24px)]">
-          <Reveal variant="mask" className="relative col-span-8 overflow-hidden rounded-3xl bg-[#F5F8FB] shadow-[0_40px_80px_rgba(0,0,0,.45)]">
-            <Image src="/assets/droplet-dash.jpg" alt="Droplet customer home: reorder prompt, usual order and subscription" width={1200} height={900} className="block h-auto w-full" />
-          </Reveal>
-          <Reveal
-            variant="deal"
-            delayMs={100}
-            className="relative col-span-5 col-start-8 mt-[clamp(40px,8vw,140px)] overflow-hidden rounded-[20px] border-[6px] border-casedark bg-[#F5F8FB] shadow-[0_40px_80px_rgba(0,0,0,.5)]"
-          >
-            <Image src="/assets/droplet-shop.jpg" alt="Droplet shop with products and delivery zones" width={900} height={1400} className="block h-auto w-full" />
-          </Reveal>
-          <Reveal
-            variant="deal"
-            delayMs={180}
-            className="relative col-span-6 col-start-3 -mt-10 overflow-hidden rounded-[20px] border-[6px] border-casedark bg-[#F5F8FB] shadow-[0_40px_80px_rgba(0,0,0,.5)] md:-mt-16"
-          >
-            <Image src="/assets/droplet-rec.jpg" alt="Droplet recycling pickup: materials, points and pickup address" width={1000} height={1000} className="block h-auto w-full" />
-          </Reveal>
+        <div style={{ position: "relative", display: "grid", gridTemplateColumns: "repeat(12,minmax(0,1fr))", gap: "clamp(12px,1.6vw,24px)", alignItems: "start" }}>
+          <div data-rv="mask" style={{ gridColumn: "1 / span 8", position: "relative", borderRadius: 24, overflow: "hidden", background: "#F5F8FB", boxShadow: "0 40px 80px rgba(0,0,0,.45)" }}>
+            <img loading="lazy" src="/assets/droplet-dash.jpg" alt="Droplet customer home: reorder prompt, usual order and subscription" style={{ display: "block", width: "100%", height: "auto" }} />
+          </div>
+          <div data-rv="deal" style={{ gridColumn: "8 / span 5", marginTop: "clamp(40px,8vw,140px)", position: "relative", borderRadius: 20, overflow: "hidden", background: "#F5F8FB", boxShadow: "0 40px 80px rgba(0,0,0,.5)", border: "6px solid #1A1A1A" }}>
+            <img loading="lazy" src="/assets/droplet-shop.jpg" alt="Droplet shop with products and delivery zones" style={{ display: "block", width: "100%", height: "auto" }} />
+          </div>
+          <div data-rv="deal" style={{ gridColumn: "3 / span 6", marginTop: "clamp(-120px,-6vw,-40px)", position: "relative", borderRadius: 20, overflow: "hidden", background: "#F5F8FB", boxShadow: "0 40px 80px rgba(0,0,0,.5)", border: "6px solid #1A1A1A" }}>
+            <img loading="lazy" src="/assets/droplet-rec.jpg" alt="Droplet recycling pickup: materials, points and pickup address" style={{ display: "block", width: "100%", height: "auto" }} />
+          </div>
         </div>
-
-        <div className="mt-[clamp(24px,4vh,48px)] flex flex-col gap-3.5">
-          <span className="font-mono text-xs tracking-[.12em] text-warmmute">IN THE WORKS</span>
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] gap-3">
-            {inProgressCases.map((c) => (
-              <Reveal key={c.client} variant="pill" className="flex flex-wrap items-center justify-between gap-4 rounded-full border-[1.5px] border-rule px-[26px] py-[18px]">
-                <span className="flex flex-col gap-0.5">
-                  <span className="text-[clamp(20px,2vw,28px)] font-extrabold tracking-[-.035em]">{c.client}</span>
-                  <span className="text-sm text-warmmute">{c.body}</span>
+        <div style={{ display: "flex", flexDirection: "column", gap: 14, marginTop: "clamp(24px,4vh,48px)" }}>
+          <span style={{ fontFamily: "var(--font-plex-mono),monospace", fontSize: 12, letterSpacing: ".12em", color: "#BDB6A6" }}>IN THE WORKS</span>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,320px),1fr))", gap: 12 }}>
+            {CASES.map((c) => (
+              <div key={c.client} data-rv="pill" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, flexWrap: "wrap", border: "1.5px solid #444", borderRadius: 999, padding: "18px 26px" }}>
+                <span style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                  <span style={{ fontWeight: 800, fontSize: "clamp(20px,2vw,28px)", letterSpacing: "-.035em" }}>{c.client}</span>
+                  <span style={{ fontSize: 14, color: "#BDB6A6" }}>{c.body}</span>
                 </span>
-                <span className="flex items-center gap-2 whitespace-nowrap font-mono text-[11px] font-semibold text-gold">
-                  <span className="h-2 w-2 rounded-full bg-gold" />
+                <span style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: "var(--font-plex-mono),monospace", fontSize: 11, fontWeight: 600, color: "#D4A637", whiteSpace: "nowrap" }}>
+                  <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#D4A637" }} />
                   IN PROGRESS
                 </span>
-              </Reveal>
+              </div>
             ))}
           </div>
         </div>
       </div>
+      <style jsx global>{`
+        .df-outline-btn:hover {
+          background: #f5f1e8;
+          color: #1a1a1a;
+        }
+        .df-gold-btn:hover {
+          background: #f5f1e8;
+          color: #06382e;
+        }
+      `}</style>
     </section>
   );
 }

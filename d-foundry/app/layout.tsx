@@ -1,28 +1,14 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Instrument_Serif, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
-const bricolage = Bricolage_Grotesque({
-  variable: "--font-bricolage",
-  subsets: ["latin"],
-  weight: ["500", "700", "800"],
-  display: "swap",
-});
-
-const instrument = Instrument_Serif({
-  variable: "--font-instrument",
-  subsets: ["latin"],
-  weight: ["400"],
-  style: ["italic", "normal"],
-  display: "swap",
-});
-
-const plexMono = IBM_Plex_Mono({
-  variable: "--font-plex-mono",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  display: "swap",
-});
+// Loaded via the exact Google Fonts CSS2 URL from the source <helmet> (not next/font/google):
+// next/font serves Bricolage Grotesque as static per-weight instances with no variable axes,
+// which drops its opsz (optical size) axis. At the title sequence's large display sizes that
+// changes character widths enough to shift line-wrapping versus the source -- confirmed via
+// side-by-side screenshot comparison. The literal Google Fonts URL preserves opsz 12..96
+// exactly like the reference, so glyph metrics match at every size.
+const FONTS_URL =
+  "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&display=swap";
 
 const siteUrl = "https://dfoundry-dammey-s-projects.vercel.app";
 
@@ -51,23 +37,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${bricolage.variable} ${instrument.variable} ${plexMono.variable} h-full`}>
+    <html lang="en">
       <head>
-        <noscript>
-          <style>{`[data-rv]{opacity:1 !important;transform:none !important;clip-path:none !important;}`}</style>
-        </noscript>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="stylesheet" href={FONTS_URL} />
       </head>
-      <body className="flex min-h-full flex-col overflow-x-clip bg-forest text-cream antialiased">
-        <a
-          href="#main"
-          className="absolute left-[-9999px] top-2 z-[200] rounded-full bg-gold px-5 py-3 text-forest focus:left-2"
-        >
-          Skip to content
-        </a>
-        <main id="main" className="flex-1">
-          {children}
-        </main>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

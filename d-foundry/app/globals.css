@@ -1,118 +1,43 @@
 @import "tailwindcss";
 
-@theme {
-  --color-forest: #06382e;
-  --color-cream: #f5f1e8;
-  --color-gold: #d4a637;
-  --color-midgreen: #28705a;
-  --color-sage: #a9bbb3;
-  --color-warmmute: #d9d3c4;
-  --color-casedark: #1a1a1a;
-  --color-rule: #444444;
-
-  --font-sans: var(--font-bricolage), system-ui, sans-serif;
-  --font-serif: var(--font-instrument), Georgia, serif;
-  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+:root {
+  --font-bricolage: "Bricolage Grotesque";
+  --font-instrument: "Instrument Serif";
+  --font-plex-mono: "IBM Plex Mono";
 }
 
-@layer base {
-  html {
-    scroll-behavior: smooth;
-  }
-
-  body {
-    margin: 0;
-    background: var(--color-forest);
-    color: var(--color-cream);
-    font-family: var(--font-sans);
-    -webkit-font-smoothing: antialiased;
-  }
-
-  * {
-    box-sizing: border-box;
-  }
-
-  a {
-    color: inherit;
-    text-decoration: none;
-    transition: color 0.25s ease;
-  }
-
-  a:hover {
-    color: var(--color-gold);
-  }
-
-  button {
-    font-family: inherit;
-    cursor: pointer;
-  }
-
-  a:focus-visible,
-  button:focus-visible,
-  input:focus-visible,
-  textarea:focus-visible {
-    outline: 2px solid var(--color-gold);
-    outline-offset: 3px;
-  }
-
-  ::selection {
-    background: var(--color-gold);
-    color: var(--color-forest);
-  }
+/* Verbatim from DFoundry Hero.dc.html's <helmet><style> block. */
+* {
+  box-sizing: border-box;
 }
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    transition: none !important;
-    animation: none !important;
-    scroll-behavior: auto !important;
-  }
+html,
+body {
+  margin: 0;
+  background: #06382e;
+  font-family: "Bricolage Grotesque", sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
-
-/*
- * Scroll-reveal variants, mirroring the design's data-rv rise/pill/up/mask/deal.
- * All variants use only opacity + transform (never clip-path): clip-path on the
- * observed element itself shrinks its intersection rect to zero, which permanently
- * deadlocks IntersectionObserver (it can never detect the element entering the
- * viewport, since the element self-reports as having no visible area to intersect).
- */
-[data-rv] {
-  transition:
-    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+html,
+body {
+  overflow-x: clip;
 }
-
-[data-rv="rise"] {
-  opacity: 0;
-  transform: translateY(50px);
+html {
+  scroll-behavior: smooth;
 }
-[data-rv="up"] {
-  opacity: 0;
-  transform: translateY(36px);
+a {
+  color: inherit;
+  text-decoration: none;
 }
-[data-rv="pill"] {
-  opacity: 0;
-  transform: translateY(24px);
+a:hover {
+  color: #d4a637;
 }
-[data-rv="deal"] {
-  opacity: 0;
-  transform: translateY(60px) scale(0.94);
+button {
+  font-family: inherit;
+  cursor: pointer;
 }
-[data-rv="mask"] {
-  opacity: 0;
-  transform: translateY(40px) scale(0.97);
-}
-
-[data-rv].is-visible {
-  opacity: 1;
-  transform: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-rv] {
-    opacity: 1;
-    transform: none;
+@media (pointer: fine) {
+  html.df-cur,
+  html.df-cur * {
+    cursor: none !important;
   }
 }

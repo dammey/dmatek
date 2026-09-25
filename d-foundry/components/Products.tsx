@@ -1,43 +1,39 @@
-import Link from "next/link";
-import Reveal from "./Reveal";
-import { DROPLET_URL } from "@/lib/content";
+const DROPLET_URL = "https://web-gamma-fawn-29.vercel.app/";
 
 export default function Products() {
   return (
-    <section className="bg-gold px-[clamp(18px,3vw,40px)] py-[clamp(72px,12vh,140px)] text-forest">
-      <div className="mx-auto flex max-w-[1400px] flex-col gap-[clamp(32px,5vh,56px)]">
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <Reveal as="h2" variant="rise" className="m-0 text-[clamp(56px,9vw,160px)] font-extrabold leading-[.85] tracking-[-.06em]">
-            Our own <span className="font-serif italic font-normal">products.</span>
-          </Reveal>
-          <span className="font-mono text-xs tracking-[.12em]">05 &middot; PRODUCTS</span>
+    <section data-screen-label="Products" style={{ background: "#D4A637", color: "#06382E", padding: "clamp(72px,12vh,140px) clamp(18px,3vw,40px)" }}>
+      <div style={{ maxWidth: 1400, margin: "0 auto", display: "flex", flexDirection: "column", gap: "clamp(32px,5vh,56px)" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", gap: 24, flexWrap: "wrap" }}>
+          <h2 data-rv="rise" style={{ margin: 0, fontWeight: 800, fontSize: "clamp(56px,9vw,160px)", lineHeight: 0.85, letterSpacing: "-.06em" }}>
+            Our own <span style={{ fontFamily: "var(--font-instrument),serif", fontStyle: "italic", fontWeight: 400, letterSpacing: "-.02em" }}>products.</span>
+          </h2>
+          <span style={{ fontFamily: "var(--font-plex-mono),monospace", fontSize: 12, letterSpacing: ".12em" }}>05 &middot; PRODUCTS</span>
         </div>
-
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] gap-[clamp(20px,3vw,40px)]">
-          <Reveal variant="deal" className="flex flex-col gap-4.5 rounded-[36px] bg-forest p-[clamp(20px,2.4vw,32px)] text-cream">
-            <div className="relative flex aspect-[16/10] items-center justify-center rounded-3xl bg-[#0B4B3D]">
-              <span className="font-mono text-xs tracking-[.14em] text-gold">IN THE FOUNDRY &middot; COMING SOON</span>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,420px),1fr))", gap: "clamp(20px,3vw,40px)" }}>
+          <div data-rv="deal" style={{ display: "flex", flexDirection: "column", gap: 18, background: "#06382E", color: "#F5F1E8", borderRadius: 36, padding: "clamp(20px,2.4vw,32px)" }}>
+            <div style={{ position: "relative", aspectRatio: "16/10", borderRadius: 24, overflow: "hidden", background: "#0B4B3D" }}>
+              <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", fontFamily: "var(--font-plex-mono),monospace", fontSize: 12, letterSpacing: ".14em", color: "#D4A637" }}>IN THE FOUNDRY &middot; COMING SOON</div>
             </div>
-            <span className="self-start rounded-full bg-gold px-3 py-1.5 font-mono text-[11px] font-semibold text-forest">PRODUCT 01 &middot; IN DEVELOPMENT</span>
-            <span className="text-[clamp(56px,7vw,110px)] font-extrabold leading-[.85] tracking-[-.065em]">QADPAY</span>
-            <p className="m-0 max-w-[44ch] text-[17px] leading-relaxed text-warmmute">A D&rsquo;Matek-owned fintech product, currently in development at D&rsquo;Foundry.</p>
-          </Reveal>
-
-          <Reveal variant="deal" delayMs={100} className="flex min-h-[clamp(320px,40vw,520px)] flex-col justify-between gap-4.5 rounded-[36px] bg-cream p-[clamp(24px,3vw,40px)]">
-            <span className="self-start rounded-full bg-forest px-3 py-1.5 font-mono text-[11px] font-semibold text-cream">PRODUCT 02 &middot; LIVE</span>
-            <div className="flex flex-col gap-4">
-              <span className="font-serif text-[clamp(80px,11vw,180px)] italic leading-[.8] tracking-[-.03em]">Droplet</span>
-              <p className="m-0 max-w-[40ch] text-[17px] leading-relaxed text-midgreen">Water on demand, built for Blessed Water and live in Lagos and Ibadan.</p>
-              <div className="flex flex-wrap gap-2.5">
-                <a href={DROPLET_URL} target="_blank" rel="noopener" className="rounded-full bg-forest px-[22px] py-3.5 font-bold text-cream">
-                  Visit Droplet ↗
+            <span style={{ alignSelf: "flex-start", background: "#D4A637", color: "#06382E", borderRadius: 999, padding: "6px 12px", fontFamily: "var(--font-plex-mono),monospace", fontSize: 11, fontWeight: 600 }}>PRODUCT 01 &middot; IN DEVELOPMENT</span>
+            <span style={{ fontWeight: 800, fontSize: "clamp(56px,7vw,110px)", lineHeight: 0.85, letterSpacing: "-.065em" }}>QADPAY</span>
+            <p style={{ margin: 0, fontSize: 17, lineHeight: 1.55, color: "#D9E5DE", maxWidth: "44ch" }}>A D&rsquo;Matek-owned fintech product, currently in development at D&rsquo;Foundry.</p>
+          </div>
+          <div data-rv="deal" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 18, background: "#F5F1E8", borderRadius: 36, padding: "clamp(24px,3vw,40px)", minHeight: "clamp(320px,40vw,520px)" }}>
+            <span style={{ alignSelf: "flex-start", background: "#06382E", color: "#F5F1E8", borderRadius: 999, padding: "6px 12px", fontFamily: "var(--font-plex-mono),monospace", fontSize: 11, fontWeight: 600 }}>PRODUCT 02 &middot; LIVE</span>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              <span style={{ fontFamily: "var(--font-instrument),serif", fontStyle: "italic", fontSize: "clamp(80px,11vw,180px)", lineHeight: 0.8, letterSpacing: "-.03em" }}>Droplet</span>
+              <p style={{ margin: 0, fontSize: 17, lineHeight: 1.55, color: "#28705A", maxWidth: "40ch" }}>Water on demand, built for Blessed Water and live in Lagos and Ibadan.</p>
+              <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                <a href={DROPLET_URL} target="_blank" rel="noopener" style={{ background: "#06382E", color: "#F5F1E8", borderRadius: 999, padding: "14px 22px", fontWeight: 700, fontSize: 15, whiteSpace: "nowrap" }}>
+                  Visit Droplet &#8599;
                 </a>
-                <Link href="/work/droplet" className="rounded-full border-2 border-forest px-5 py-3 font-bold text-forest">
-                  Read the case study ↑
-                </Link>
+                <a href="/work/droplet" style={{ border: "2px solid #06382E", borderRadius: 999, padding: "12px 20px", fontWeight: 700, fontSize: 15, whiteSpace: "nowrap" }}>
+                  Read the case study &#8593;
+                </a>
               </div>
             </div>
-          </Reveal>
+          </div>
         </div>
       </div>
     </section>

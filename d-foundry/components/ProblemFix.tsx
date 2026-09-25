@@ -1,53 +1,97 @@
 "use client";
 
 import { useState } from "react";
-import Reveal from "./Reveal";
-import { problems } from "@/lib/content";
+
+const PROBLEMS = [
+  {
+    text: "A core process still runs on paper and three spreadsheets.",
+    plan: [
+      { step: "01 DIAGNOSE", title: "Map the paperwork", body: "Who touches each sheet, and when." },
+      { step: "02 BUILD", title: "One web app", body: "Roles, approvals and an audit trail." },
+      { step: "03 SHIP", title: "Pilot with one team", body: "Rollout after two weeks of real use." },
+      { step: "04 RUN", title: "Hosted and supported", body: "On D’Matek Cloud, backed up." },
+    ],
+  },
+  {
+    text: "Two systems we rely on refuse to talk to each other.",
+    plan: [
+      { step: "01 DIAGNOSE", title: "Map the re-keying", body: "Who copies what between systems." },
+      { step: "02 BUILD", title: "One integration", body: "Data moves once, validated." },
+      { step: "03 SHIP", title: "Shadow mode", body: "Runs beside the manual process until it matches." },
+      { step: "04 RUN", title: "Monitored", body: "Failures alert a person, not a log file." },
+    ],
+  },
+  {
+    text: "We have an idea that needs to become a real product.",
+    plan: [
+      { step: "01 DIAGNOSE", title: "Find the core", body: "Who pays, for what, and how often." },
+      { step: "02 BUILD", title: "The first version", body: "Web and mobile, payments, admin." },
+      { step: "03 SHIP", title: "First customers", body: "Measure, fix, repeat." },
+      { step: "04 GROW", title: "Into a product", body: "Project, then reusable solution, then product." },
+    ],
+  },
+];
 
 export default function ProblemFix() {
-  const [active, setActive] = useState(0);
-  const plan = problems[active].plan;
+  const [p, setP] = useState(0);
 
   return (
-    <section id="problem-fix" className="bg-forest px-[clamp(18px,3vw,40px)] py-[clamp(24px,4vh,48px)] pb-[clamp(72px,12vh,140px)] text-cream">
-      <div className="mx-auto flex max-w-[1400px] flex-col gap-[clamp(32px,5vh,56px)]">
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <Reveal as="h2" variant="rise" className="m-0 max-w-[12ch] text-[clamp(44px,7vw,120px)] font-extrabold leading-[.9] tracking-[-.055em]">
-            Pick the one that <span className="font-serif italic font-normal text-gold">sounds like you.</span>
-          </Reveal>
-          <span className="font-mono text-xs tracking-[.12em] text-sage">01 &middot; PROBLEM → FIX</span>
+    <section data-screen-label="Problem → fix" style={{ background: "#06382E", color: "#F5F1E8", padding: "clamp(24px,4vh,48px) clamp(18px,3vw,40px) clamp(72px,12vh,140px)" }}>
+      <div style={{ maxWidth: 1400, margin: "0 auto", display: "flex", flexDirection: "column", gap: "clamp(32px,5vh,56px)" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", gap: 24, flexWrap: "wrap" }}>
+          <h2 data-rv="rise" style={{ margin: 0, fontWeight: 800, fontSize: "clamp(44px,7vw,120px)", lineHeight: 0.9, letterSpacing: "-.055em", maxWidth: "12ch" }}>
+            Pick the one that <span style={{ fontFamily: "var(--font-instrument),serif", fontStyle: "italic", fontWeight: 400, letterSpacing: "-.02em", color: "#D4A637" }}>sounds like you.</span>
+          </h2>
+          <span style={{ fontFamily: "var(--font-plex-mono),monospace", fontSize: 12, letterSpacing: ".12em", color: "#A9BBB3" }}>01 &middot; PROBLEM &rarr; FIX</span>
         </div>
-
-        <div className="flex flex-col gap-3">
-          {problems.map((p, i) => {
-            const on = i === active;
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          {PROBLEMS.map((x, i) => {
+            const on = i === p;
             return (
-              <Reveal key={p.text} variant="pill" delayMs={i * 70}>
+              <div key={i} data-rv="pill">
                 <button
-                  onClick={() => setActive(i)}
-                  className={`flex w-full items-center gap-5 rounded-full border-2 px-[clamp(20px,3vw,40px)] py-[clamp(16px,2.4vh,26px)] text-left text-[clamp(18px,2.2vw,34px)] font-bold leading-[1.15] tracking-[-.03em] transition-colors hover:border-gold ${
-                    on ? "border-gold bg-gold text-forest" : "border-midgreen bg-transparent text-cream"
-                  }`}
+                  onClick={() => setP(i)}
+                  className="df-problem-btn"
+                  style={{
+                    textAlign: "left",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 20,
+                    borderRadius: 999,
+                    padding: "clamp(16px,2.4vh,26px) clamp(20px,3vw,40px)",
+                    border: `2px solid ${on ? "#D4A637" : "#28705A"}`,
+                    background: on ? "#D4A637" : "transparent",
+                    color: on ? "#06382E" : "#F5F1E8",
+                    fontWeight: 700,
+                    fontSize: "clamp(18px,2.2vw,34px)",
+                    letterSpacing: "-.03em",
+                    lineHeight: 1.15,
+                    transition: "background .35s,color .35s,border-color .35s",
+                  }}
                 >
-                  <span className="font-mono text-[13px] font-semibold">{String(i + 1).padStart(2, "0")}</span>
-                  <span className="flex-1">{p.text}</span>
-                  <span className="text-[.9em]">{on ? "●" : "○"}</span>
+                  <span style={{ fontFamily: "var(--font-plex-mono),monospace", fontSize: 13, fontWeight: 600 }}>{String(i + 1).padStart(2, "0")}</span>
+                  <span style={{ flex: 1 }}>{x.text}</span>
+                  <span style={{ fontSize: ".9em" }}>{on ? "●" : "○"}</span>
                 </button>
-              </Reveal>
+              </div>
             );
           })}
         </div>
-
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,220px),1fr))] gap-[clamp(20px,3vw,40px)] rounded-[28px] bg-cream p-[clamp(24px,4vw,48px)] text-forest">
-          {plan.map((st) => (
-            <div key={st.step} className="flex flex-col gap-[10px]">
-              <span className="self-start rounded-full bg-gold px-3 py-1.5 font-mono text-xs font-semibold text-forest">{st.step}</span>
-              <span className="text-[clamp(22px,2vw,30px)] font-extrabold leading-[1.05] tracking-[-.035em]">{st.title}</span>
-              <span className="text-base leading-relaxed text-midgreen">{st.body}</span>
+        <div style={{ background: "#F5F1E8", color: "#06382E", borderRadius: 28, padding: "clamp(24px,4vw,48px)", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,220px),1fr))", gap: "clamp(20px,3vw,40px)" }}>
+          {PROBLEMS[p].plan.map((st, i) => (
+            <div key={i} data-rv="up" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              <span style={{ alignSelf: "flex-start", background: "#D4A637", color: "#06382E", borderRadius: 999, padding: "6px 12px", fontFamily: "var(--font-plex-mono),monospace", fontSize: 12, fontWeight: 600 }}>{st.step}</span>
+              <span style={{ fontWeight: 800, fontSize: "clamp(22px,2vw,30px)", letterSpacing: "-.035em", lineHeight: 1.05 }}>{st.title}</span>
+              <span style={{ fontSize: 16, lineHeight: 1.5, color: "#28705A" }}>{st.body}</span>
             </div>
           ))}
         </div>
       </div>
+      <style jsx global>{`
+        .df-problem-btn:hover {
+          border-color: #d4a637;
+        }
+      `}</style>
     </section>
   );
 }

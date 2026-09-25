@@ -1,63 +1,67 @@
 "use client";
 
 import { useState } from "react";
-import Reveal from "./Reveal";
-import { sisters, DMATEK_URL } from "@/lib/content";
+
+const DMATEK_URL = process.env.NEXT_PUBLIC_DMATEK_URL ?? "https://dmatek-website.vercel.app";
+const SISTERS = [
+  { verb: "RUN IT", name: "D’Matek Cloud", href: `${DMATEK_URL}/businesses` },
+  { verb: "CONNECT IT", name: "D’Matek Infrastructure", href: `${DMATEK_URL}/businesses` },
+];
 
 export default function ContactSection() {
   const [sent, setSent] = useState(false);
 
   return (
-    <section id="start" className="bg-cream px-[clamp(18px,3vw,40px)] pb-7 pt-[clamp(72px,12vh,140px)] text-forest">
-      <div className="mx-auto flex max-w-[1400px] flex-col gap-[clamp(32px,5vh,56px)]">
-        <Reveal as="h2" variant="rise" className="m-0 text-[clamp(72px,14vw,260px)] font-extrabold leading-[.82] tracking-[-.05em]">
-          Bring the <span className="block font-serif italic font-normal text-midgreen">problem.</span>
-        </Reveal>
-
-        {!sent ? (
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              setSent(true);
-            }}
-            className="flex max-w-[960px] flex-wrap items-center gap-3"
-          >
+    <section id="start" data-screen-label="Contact" style={{ background: "#F5F1E8", color: "#06382E", padding: "clamp(72px,12vh,140px) clamp(18px,3vw,40px) 28px" }}>
+      <div style={{ maxWidth: 1400, margin: "0 auto", display: "flex", flexDirection: "column", gap: "clamp(32px,5vh,56px)" }}>
+        <h2 data-rv="rise" style={{ margin: 0, fontWeight: 800, fontSize: "clamp(72px,14vw,260px)", lineHeight: 0.82, letterSpacing: "-.05em" }}>
+          Bring the{" "}
+          <span style={{ display: "block", fontFamily: "var(--font-instrument),serif", fontStyle: "italic", fontWeight: 400, letterSpacing: "-.03em", color: "#28705A" }}>problem.</span>
+        </h2>
+        {!sent && (
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center", maxWidth: 960 }}>
             <input
-              required
               placeholder="Describe it in one sentence"
-              className="min-w-[260px] flex-1 rounded-full border-2 border-forest bg-white px-[26px] py-5 text-[clamp(17px,1.6vw,22px)] font-semibold text-forest outline-none"
+              style={{ flex: 1, minWidth: 260, background: "#FFFFFF", border: "2px solid #06382E", borderRadius: 999, padding: "20px 26px", fontFamily: "inherit", fontSize: "clamp(17px,1.6vw,22px)", fontWeight: 600, color: "#06382E", outline: "none" }}
             />
             <button
-              type="submit"
-              className="rounded-full bg-forest px-[30px] py-[22px] text-base font-extrabold text-cream transition-transform duration-[400ms] ease-[cubic-bezier(.34,1.56,.64,1)] hover:-rotate-3 hover:scale-105 hover:bg-gold hover:text-forest"
+              onClick={() => setSent(true)}
+              className="df-send-btn"
+              style={{ background: "#06382E", color: "#F5F1E8", border: 0, borderRadius: 999, padding: "22px 30px", fontSize: 16, fontWeight: 800, whiteSpace: "nowrap", transition: "transform .4s cubic-bezier(.34,1.56,.64,1)" }}
             >
-              Send it →
+              Send it &rarr;
             </button>
-          </form>
-        ) : (
-          <div className="self-start rounded-full bg-gold px-7 py-[18px] text-[clamp(17px,1.6vw,22px)] font-bold text-forest">
+          </div>
+        )}
+        {sent && (
+          <div style={{ alignSelf: "flex-start", background: "#D4A637", borderRadius: 999, padding: "18px 28px", fontWeight: 700, fontSize: "clamp(17px,1.6vw,22px)" }}>
             Got it. An engineer will reply within two working days.
           </div>
         )}
-
-        <div className="flex flex-wrap gap-2.5">
-          {sisters.map((s) => (
-            <a
-              key={s.name}
-              href={s.href}
-              className="flex items-center gap-2.5 rounded-full border-2 border-forest px-5 py-3 font-bold transition-colors hover:bg-forest hover:text-cream"
-            >
-              <span className="font-mono text-[11px] font-semibold text-[#B08620]">{s.verb}</span>
-              {s.name} ↗
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+          {SISTERS.map((x) => (
+            <a key={x.name} href={x.href} className="df-sister-link" style={{ display: "flex", gap: 10, alignItems: "center", border: "2px solid #06382E", borderRadius: 999, padding: "12px 20px", fontWeight: 700, fontSize: 15 }}>
+              <span style={{ fontFamily: "var(--font-plex-mono),monospace", fontSize: 11, fontWeight: 600, color: "#B08620" }}>{x.verb}</span>
+              {x.name} &#8599;
             </a>
           ))}
         </div>
-
-        <footer className="flex flex-wrap justify-between gap-4 border-t-2 border-forest pt-5 font-mono text-xs tracking-[.1em]">
+        <footer style={{ display: "flex", justifyContent: "space-between", gap: 16, flexWrap: "wrap", borderTop: "2px solid #06382E", paddingTop: 20, fontFamily: "var(--font-plex-mono),monospace", fontSize: 12, letterSpacing: ".1em" }}>
           <span>D&rsquo;FOUNDRY IS A D&rsquo;MATEK BUSINESS</span>
-          <a href={DMATEK_URL}>D&rsquo;MATEK.COM ↗</a>
+          <a href={DMATEK_URL}>D&rsquo;MATEK.COM &#8599;</a>
         </footer>
       </div>
+      <style jsx global>{`
+        .df-send-btn:hover {
+          background: #d4a637;
+          color: #06382e;
+          transform: rotate(-3deg) scale(1.05);
+        }
+        .df-sister-link:hover {
+          background: #06382e;
+          color: #f5f1e8;
+        }
+      `}</style>
     </section>
   );
 }
