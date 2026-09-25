@@ -1,9 +1,9 @@
 "use client";
 
 const STAGES = [
-  { num: "1", n: "CUSTOMER PROJECT", title: "Solve it for one client", body: "Built around a specific problem, with the people who live with it every day." },
-  { num: "2", n: "REUSABLE SOLUTION", title: "Keep what repeats", body: "The parts every client needs become platforms we maintain and reuse." },
-  { num: "3", n: "PRODUCT", title: "Ship it to many", body: "Some platforms become products of their own, like QADPAY and Droplet." },
+  { num: "1", n: "YOUR PROBLEM", title: "Built around your problem", body: "Designed with the people who live with it every day." },
+  { num: "2", n: "PROVEN FOUNDATIONS", title: "Started on tested ground", body: "Your project begins on components we have already tested, so it moves faster and breaks less." },
+  { num: "3", n: "YOURS TO OWN", title: "Yours to own", body: "What we build for you is yours, and we maintain it for as long as you need." },
 ];
 
 export default function Process() {
@@ -12,9 +12,9 @@ export default function Process() {
       <div style={{ maxWidth: 1400, margin: "0 auto", display: "flex", flexDirection: "column", gap: "clamp(40px,6vh,72px)" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", gap: 24, flexWrap: "wrap" }}>
           <h2 data-rv="rise" style={{ margin: 0, fontWeight: 800, fontSize: "clamp(44px,7vw,120px)", lineHeight: 0.9, letterSpacing: "-.055em", maxWidth: "14ch" }}>
-            One client, then a platform, <span style={{ fontFamily: "var(--font-instrument),serif", fontStyle: "italic", fontWeight: 400, letterSpacing: "-.02em", color: "#F5D98A" }}>then a product.</span>
+            Built around you, <span style={{ fontFamily: "var(--font-instrument),serif", fontStyle: "italic", fontWeight: 400, letterSpacing: "-.02em", color: "#F5D98A" }}>on proven foundations.</span>
           </h2>
-          <span style={{ fontFamily: "var(--font-plex-mono),monospace", fontSize: 12, letterSpacing: ".12em" }}>03 &middot; HOW A PROJECT GROWS</span>
+          <span style={{ fontFamily: "var(--font-plex-mono),monospace", fontSize: 12, letterSpacing: ".12em" }}>03 &middot; HOW WE BUILD</span>
         </div>
         <div data-rv="mask" style={{ position: "relative", aspectRatio: "16/9", borderRadius: 32, overflow: "hidden", background: "#06382E" }}>
           <img src="/assets/dmatek-team.jpg" alt="The D’Matek team working through a plan" loading="lazy" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 25%" }} />

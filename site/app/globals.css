@@ -93,6 +93,23 @@
     border-radius: 44% 56% 62% 38% / 44% 58% 42% 56%;
   }
 }
+@keyframes dmFlow {
+  from {
+    stroke-dashoffset: 2400;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes dmSway {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(-14px, 12px, 0);
+  }
+}
 
 /*
  * Wrapped in Tailwind's `base` layer so utility classes (text-*, etc.)

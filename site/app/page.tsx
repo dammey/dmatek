@@ -36,6 +36,7 @@ export default function HomePage() {
           preserveAspectRatio="none"
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 h-full w-full"
+          style={{ animation: "dmSway 11s ease-in-out 3s infinite" }}
         >
           <path
             d="M-20 560 C 260 560, 420 470, 640 350 S 1050 130, 1500 40"
@@ -48,6 +49,16 @@ export default function HomePage() {
             style={{ animation: "dm-dash 2.6s cubic-bezier(.2,.8,.2,1) .3s forwards" }}
           />
           <path
+            d="M-20 560 C 260 560, 420 470, 640 350 S 1050 130, 1500 40"
+            fill="none"
+            stroke="#D4A637"
+            strokeWidth={3.5}
+            strokeLinecap="round"
+            strokeDasharray="140 2260"
+            strokeDashoffset={2400}
+            style={{ animation: "dmFlow 6s linear 2.4s infinite" }}
+          />
+          <path
             d="M-20 620 C 320 600, 520 540, 760 420 S 1180 220, 1500 160"
             fill="none"
             stroke="#28705A"
@@ -56,6 +67,17 @@ export default function HomePage() {
             strokeDasharray={2200}
             strokeDashoffset={2200}
             style={{ animation: "dm-dash 3.4s cubic-bezier(.2,.8,.2,1) .6s forwards" }}
+          />
+          <path
+            d="M-20 620 C 320 600, 520 540, 760 420 S 1180 220, 1500 160"
+            fill="none"
+            stroke="#28705A"
+            strokeWidth={2.4}
+            opacity={0.6}
+            strokeLinecap="round"
+            strokeDasharray="90 2310"
+            strokeDashoffset={2400}
+            style={{ animation: "dmFlow 8s linear 3.6s infinite" }}
           />
         </svg>
 
