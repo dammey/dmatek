@@ -75,6 +75,14 @@ export default function BusinessAccordion() {
                   )}
                   <p className="mb-5 max-w-[36em] text-[16px] leading-[1.75] text-cream/82">{b.scope}</p>
                   <p className="m-0 text-[12.5px] font-bold tracking-[0.12em] text-gold">{b.note}</p>
+                  {b.site && (
+                    <a
+                      href={b.site}
+                      className="mt-5.5 inline-flex items-center gap-2 rounded-full bg-gold px-5.5 py-3.5 text-[14px] font-bold tracking-[0.04em] text-forest hover:bg-cream"
+                    >
+                      {b.siteLabel}
+                    </a>
+                  )}
                 </div>
                 <div
                   className="dm-blob relative mx-auto flex aspect-square w-full max-w-[280px] flex-col items-center justify-center overflow-hidden p-[clamp(26px,3vw,40px)] text-center"

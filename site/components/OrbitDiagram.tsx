@@ -60,7 +60,7 @@ export default function OrbitDiagram() {
               <div className="h-full w-full" style={{ animation: "dm-spin-rev 90s linear infinite" }}>
                 <button
                   type="button"
-                  onClick={() => router.push("/businesses")}
+                  onClick={() => (b.site ? (window.location.href = b.site) : router.push("/businesses"))}
                   onMouseEnter={() => setHoverBiz(i)}
                   onMouseLeave={() => setHoverBiz(null)}
                   onFocus={() => setHoverBiz(i)}

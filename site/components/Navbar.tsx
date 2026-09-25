@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { navItems } from "@/lib/content";
+import { navItems, D_SOURCE_URL } from "@/lib/content";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -62,9 +62,15 @@ export default function Navbar() {
                 </Link>
               );
             })}
+            <a
+              href={D_SOURCE_URL}
+              className="ml-2.5 flex items-center gap-2 rounded-full border border-forest/22 px-5 py-3.5 text-[13px] font-bold tracking-[0.04em] text-forest hover:border-forest hover:bg-forest hover:text-cream"
+            >
+              SHOP<span className="text-[11px] opacity-75">↗</span>
+            </a>
             <Link
               href="/contact"
-              className="ml-3.5 rounded-full bg-gold px-6 py-3.5 text-[13px] font-bold tracking-[0.04em] text-forest transition-transform hover:-translate-y-0.5 hover:bg-forest hover:text-cream hover:shadow-[0_12px_26px_rgba(6,56,46,0.22)]"
+              className="ml-2 rounded-full bg-gold px-6 py-3.5 text-[13px] font-bold tracking-[0.04em] text-forest transition-transform hover:-translate-y-0.5 hover:bg-forest hover:text-cream hover:shadow-[0_12px_26px_rgba(6,56,46,0.22)]"
             >
               LET&rsquo;S TALK
             </Link>
@@ -113,9 +119,19 @@ export default function Navbar() {
               </Link>
             ))}
           </div>
+          <a
+            href={D_SOURCE_URL}
+            className="mt-5.5 flex items-center justify-between gap-3.5 rounded-[26px] border border-cream/28 px-6 py-5 text-[22px] font-bold tracking-[-0.015em] text-cream hover:border-gold hover:bg-gold hover:text-forest"
+          >
+            <span>
+              D&rsquo;Source
+              <span className="mt-1.5 block text-[12.5px] font-bold tracking-[0.14em] text-gold">SHOP THE STORE</span>
+            </span>
+            <span className="text-base">↗</span>
+          </a>
           <Link
             href="/contact"
-            className="mt-9 rounded-full bg-gold px-6 py-5 text-center text-[15px] font-bold tracking-[0.05em] text-forest"
+            className="mt-4.5 rounded-full bg-gold px-6 py-5 text-center text-[15px] font-bold tracking-[0.05em] text-forest"
           >
             LET&rsquo;S TALK &rarr;
           </Link>

@@ -16,6 +16,11 @@ export const navItems: { label: string; href: string; key: NavKey }[] = [
 
 export const tickerItems = ["TRUST", "SOLVE", "CONNECT", "IMPROVE", "WE STAY"];
 
+// Sister D'Matek sites that live outside this app. Falls back to a
+// placeholder Vercel URL until each is deployed with a real domain.
+export const D_SOURCE_URL = process.env.NEXT_PUBLIC_DSOURCE_URL ?? "/businesses#commerce";
+export const D_FOUNDRY_URL = process.env.NEXT_PUBLIC_DFOUNDRY_URL ?? "https://dfoundry.vercel.app";
+
 export type Business = {
   slug: string;
   name: string;
@@ -28,6 +33,9 @@ export type Business = {
   photoSrc?: string;
   stat: string;
   statLabel: string;
+  /** External site this business links out to (e.g. D'Foundry's own site), if any. */
+  site?: string;
+  siteLabel?: string;
 };
 
 export const businesses: Business[] = [
@@ -71,6 +79,8 @@ export const businesses: Business[] = [
     photoSrc: "/assets/foundry-integrations.jpg",
     stat: "7",
     statLabel: "Products and integrations shipped",
+    site: D_FOUNDRY_URL,
+    siteLabel: "Visit D’Foundry ↗",
   },
   {
     slug: "ilemesh",
