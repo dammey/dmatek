@@ -1,0 +1,20 @@
+Read design_handoff_dmatek_v3_4/README.md in full, then DFOUNDRY_PORT.md, then dfoundry-source/template.html and dfoundry-source/logic.js. Open "Dmatek Website v3.4.dc.html" and read its logic class (buildLine, updateLine, updateHotel, setupMotion) before building motion.
+
+Build two sites in this project:
+
+1) D'Matek (dmatek.ng) — recreate "Dmatek Website v3.4.dc.html" per README Part 1.
+   - Real routes: /, /solutions, /solutions/[env], /businesses, /work, /about (with #how), /insights, /contact.
+   - Nav: Solutions · Businesses · Work · About · Insights + "Tell us what you need →". No shop button in the header.
+   - All copy, the 10 entry points, 10 environments, packages and six businesses in typed content files (lib/content/*.ts) exactly as the README tables list them. Copy is verbatim.
+   - Shared components: PilotLabel, SignalRings, CableDivider, AdireBand (variants: specialists-with-cable, strip, footer), SignatureLine (Home), HotelMoment. Values exactly as README › "v3.4 signature systems".
+   - Eyebrows are gold top-rule labels (not pills); chips/tags are 4px radius; buttons stay 999px.
+   - One EnvironmentPage template renders all 10 environments from data; image optional with the [ REAL PHOTOGRAPHY REQUIRED ] fallback.
+   - Contact reads ?topic=&message=&pilot= and pre-fills; pilot enquiries are logged with item + environment.
+   - Site config flag adire (default true). All motion off under prefers-reduced-motion (line fully drawn, hotel rows all active, no rings/flows).
+   - Keep every [ BRACKETED ] placeholder. Never invent figures, testimonials, case studies, certifications, partner tiers, 24/7 or response-time claims.
+
+2) D'Foundry (dfoundry.dmatek.ng or /foundry route group) — exact replica of "DFoundry Hero.dc.html" and the Droplet case study per DFOUNDRY_PORT.md (markup and engine verbatim). Do not build the "Pending D'Foundry v2 improvements" — they are not designed yet.
+
+Wire the cross-site links in the README table.
+
+Work page by page. For each page, run a Playwright comparison against the prototype (serve with `npx serve design_handoff_dmatek_v3_4`) at 1440×900 and 390×844, save paired screenshots to /compare, and fix differences before moving on. On Home also capture scroll positions at each signature-line node and at 0/50/100% through the hotel moment. Finish only when every D'Matek route and every item in the D'Foundry feature checklist matches.
