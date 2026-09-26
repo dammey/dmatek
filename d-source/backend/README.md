@@ -1,73 +1,89 @@
 # D'Source — backend
 
-The backend for D'Source: catalogue, accounts, ordering, and fulfillment
-for both D'Emporium (retail) and D'Provision (business/procurement).
+A Node/Express API, deployed on Railway, fronting the D'Source Postgres
+database (Supabase project `d-source-backend`, ref `yawvfjolibpsvftkgwwt`).
+Both the storefront (`d-source/web`) and admin (`d-source/admin`) apps talk
+to this API only — neither talks to Supabase directly. That's why every
+table has RLS enabled with **no policies**: this API holds the one
+service-role key that can read/write, and access control is enforced here
+(staff auth + `role_permissions`, customer auth for account-only routes)
+rather than in Postgres policies.
 
-**Stack:** Postgres via Supabase (project `d-source-backend`, ref
-`yawvfjolibpsvftkgwwt`). Most reads and simple writes go straight through
-Supabase's auto-generated REST API against Postgres + row-level security —
-no separate API server for CRUD. Custom business logic (quote pricing,
-quote → order conversion, payment webhooks) will live in Supabase Edge
-Functions once that logic is defined. This keeps the backend to "schema +
-RLS policies + a handful of functions" rather than a hand-rolled server,
-and is easy to swap out later if that stops being enough.
+## Running locally
 
-## Why two order paths
+```
+cp .env.example .env   # fill in SUPABASE_SERVICE_ROLE_KEY from the Supabase dashboard
+npm install
+npm run dev
+```
 
-D'Emporium (retail) is a straight catalogue → cart → checkout flow.
-D'Provision (business) is procurement — customers specify a requirement,
-D'Source prices it against the design, and only then does it become an
-order. So there are two entry points that both land in the same `orders`
-table:
+## Deploying
 
-- **Emporium:** `products` → `orders` + `order_lines` directly.
-- **Provision:** `products`/custom spec → `quotes` + `quote_lines` →
-  (on acceptance) `orders` + `order_lines`, with `orders.quote_id` linking
-  back to the originating quote.
+This repo is **not yet linked to a Railway project** — that step needs
+either a `RAILWAY_TOKEN` or someone running the Railway CLI by hand:
 
-## Schema (applied as the `initial_schema` migration)
+```
+npm install -g @railway/cli
+railway login
+railway link            # or: railway init, to create a new project
+railway up
+```
 
-**Accounts**
-- `customers` — `type` (`retail`/`business`), contact info, and
-  business-only fields (`company_name`, `tax_id`, `credit_terms_days`)
-- `addresses` — shipping/billing, linked to a customer
+Set the env vars from `.env.example` in the Railway project dashboard
+(`SUPABASE_SERVICE_ROLE_KEY` especially — get it from Supabase's Project
+Settings → API, never commit it). `railway.json` in this folder tells
+Railway to run `npm run build` then `npm start`.
 
-**Catalogue**
-- `categories` — hierarchical (`parent_id`)
-- `products` — sku, name, `specs` (jsonb), `images` (jsonb)
-- `product_prices` — separate `retail`/`business` unit price per product
-- `suppliers` / `product_suppliers` — sourcing side, not customer-facing
-- `inventory` — quantity on hand/reserved per product per location
+## Structure
 
-**Provision quote/RFQ**
-- `quotes` — `draft` → `submitted` → `priced` → `accepted`/`rejected`/`expired`
-- `quote_lines` — catalogue or custom-spec line items; `unit_price` is
-  null until D'Source prices the quote
+- `src/env.ts` — required env vars, fails fast if missing
+- `src/supabase.ts` — the one service-role Supabase client every route uses
+- `src/auth/middleware.ts` — `withCustomer` (optional, populates `req.customer` for signed-in shoppers) and `requireStaff(module?)` (401/403, checks `role_permissions` for non-Owner roles)
+- `src/payments/` — `PaymentProvider` interface with `paystack.ts` and `flutterwave.ts` adapters, selected by `PAYMENT_PROVIDER`. Both run in **sandbox mode** (order created, no actual charge) until real secret keys are set — there are no live merchant accounts yet.
+- `src/routes/` — storefront-facing: `catalogue`, `cart`, `checkout`, `quotes`, `account`, `reviews`, `surveys`, `enquiries`, `track`, `zones`
+- `src/routes/admin/` — staff-only, one file per Admin module (dashboard, orders, quotes, payments, invoices, customers, jobs/installations, repairs, surveys, suppliers, products, categories, kits, discounts, content, reviews, zones, notifications, accounts, enquiries, staff, settings, reports)
 
-**Ordering**
-- `orders` — `channel` (`emporium`/`provision`), optional `quote_id`,
-  `status` (`pending` → `confirmed` → `fulfilling` → `shipped` →
-  `completed`, or `cancelled`)
-- `order_lines` — `line_total` is a generated column (`quantity * unit_price`)
-- `payments` — `method` (`card`/`transfer`/`invoice_terms` for business
-  credit terms), `status`
+## Schema
 
-**Fulfillment**
-- `shipments` — carrier, tracking, status per order
+Two generations, both applied as migrations via the Supabase MCP:
 
-All tables have RLS **enabled with no policies yet** — everything is
-locked down by default until the auth strategy (who logs in as what,
-retail customer vs business account vs staff) is decided. Don't ship
-against this schema assuming open access; policies are the next piece of
-work, not an afterthought.
+**Original catalogue/order schema** (`customers`, `addresses`, `categories`,
+`products`, `product_prices`, `product_suppliers`, `suppliers`,
+`inventory`, `quotes`, `quote_lines`, `orders`, `order_lines`, `payments`,
+`shipments`) — reused as-is, with `orders.ref`/`quotes.ref` (human-readable
+`DS-XXXXXX`/`DQ-XXXXXX` references), `orders.internal_note`, and
+`customers.auth_user_id`/`account_status`/`expected_activity`/`applied_at`
+added on top for the storefront/admin build.
 
-## Not decided yet
+**Storefront + Admin extension** (`kits`, `kit_items`, `reviews`,
+`site_surveys`, `enquiries`, `staff`, `role_permissions`, `jobs` (engineer
+schedule), `repairs`, `purchase_orders`, `po_lines`, `delivery_zones`,
+`notification_templates`, `notification_log`, `discounts`,
+`storefront_content` (a small CMS key/value table for hero words,
+best-seller slots, help text), `carts`, `cart_items`) — added to support
+every module in README Part 4 and every flow in Part 3.
 
-- Auth (Supabase Auth email/password? magic link? separate staff role?)
-- Payment provider integration (Paystack/Flutterwave are the common
-  Nigeria-facing options, unconfirmed)
-- Whether `product_prices`/quoting need multi-currency beyond NGN
+`delivery_zones` is seeded with the named zones from the README
+(Lagos/Abuja (FCT)/Rivers/Oyo/Kano/Enugu/Other — fees and times still need
+filling in via Admin → Delivery zones). `role_permissions` is seeded with
+the Owner-sees-everything default plus the Sales/Warehouse/Engineer/Support
+defaults from README Part 4's permission table.
 
-**Not built yet** beyond the schema above — no Edge Functions, no auth
-policies. This README documents what exists so the storefront/mobile work
-can be planned against it.
+## Auth
+
+Both customer and staff accounts use Supabase Auth (email/password),
+signed in directly from the Next.js apps against Supabase's auth API (this
+backend never handles passwords). After sign-up/sign-in, the frontend
+calls `POST /account/link` (customer) or `POST /admin/staff/link` (staff,
+for a staff member accepting an invite) with the Supabase session token,
+which attaches `auth.users.id` to the right `customers`/`staff` row.
+Every subsequent request carries `Authorization: Bearer <token>`.
+
+## Not done yet
+
+- Actual Railway deployment (see above)
+- Paystack/Flutterwave merchant accounts (sandbox mode covers development)
+- Webhook endpoints for async payment confirmation (currently polling
+  `GET /checkout/verify/:reference` from the storefront after redirect —
+  fine for now, but a webhook is more reliable for transfer/USSD)
+- `product_prices`/quoting beyond NGN
