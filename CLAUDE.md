@@ -14,7 +14,7 @@ dmatek/
 │   ├── backend/          store backend — Supabase Postgres, schema drafted (not built out)
 │   └── mobile/           future mobile app (not started)
 ├── packages/
-│   └── shared/           brand tokens, fonts, shared UI (empty for now)
+│   └── brand/            @dmatek/brand — shared tokens, fonts, AdireBand, PilotLabel
 ├── docs/
 │   ├── chats/            design-handoff chat transcripts
 │   └── project/          Claude Design handoff bundle (.dc.html prototypes, assets)
@@ -37,9 +37,12 @@ dmatek/
   the store — storefront UI, catalogue/orders/fulfillment backend, or the
   mobile app — goes in `d-source/web`, `d-source/backend`, or
   `d-source/mobile` respectively. None of it belongs in `site/`.
-- **`packages/shared`** is for code actually shared across two or more
-  workspaces (brand tokens, fonts, common UI). Don't put site-only or
-  store-only code here.
+- **`packages/brand`** (`@dmatek/brand`) is for code actually shared across
+  two or more workspaces — currently colour/radius tokens, the shared
+  Manrope font config, `AdireBand` and `PilotLabel`. Don't put site-only or
+  store-only code here. Consuming apps need `@dmatek/brand` in their
+  `package.json` dependencies and `"@dmatek/brand"` in their
+  `next.config.ts`'s `transpilePackages`.
 - **`docs/`** is reference material from the original Claude Design
   handoff (chat transcripts + the `.dc.html` prototypes/assets they
   produced). It documents design intent; it is not application code and
