@@ -10,8 +10,9 @@ dmatek/
 ├── site/                 the Next.js info site for dmatek.com (live)
 ├── d-foundry/            D'Foundry's own site (BUILD IT) — its own Next.js app (live)
 ├── d-source/
-│   ├── web/              future store frontend → source.dmatek.com (not built)
-│   ├── backend/          store backend — Supabase Postgres, schema drafted (not built out)
+│   ├── web/              storefront → source.dmatek.com — Next.js app (live)
+│   ├── backend/          Express API on Railway, fronting Supabase Postgres (built, not deployed)
+│   ├── admin/            internal staff tool → not built yet
 │   └── mobile/           future mobile app (not started)
 ├── packages/
 │   └── brand/            @dmatek/brand — shared tokens, fonts, AdireBand, PilotLabel
@@ -34,9 +35,14 @@ dmatek/
   `NEXT_PUBLIC_DFOUNDRY_URL` env var in `site/`, and links back to
   `site/` via `NEXT_PUBLIC_DMATEK_URL` in `d-foundry/`.
 - **D'Source lives entirely in `d-source/`.** Anything to do with
-  the store — storefront UI, catalogue/orders/fulfillment backend, or the
-  mobile app — goes in `d-source/web`, `d-source/backend`, or
-  `d-source/mobile` respectively. None of it belongs in `site/`.
+  the store — storefront UI, admin tool, catalogue/orders/fulfillment
+  backend, or the mobile app — goes in `d-source/web`, `d-source/admin`,
+  `d-source/backend`, or `d-source/mobile` respectively. None of it
+  belongs in `site/`. The storefront and admin never talk to Supabase
+  directly — both only ever call `d-source/backend`'s API (that's why
+  every D'Source table has RLS enabled with no policies: the backend's
+  service-role key is the sole access path, and it enforces auth/roles
+  itself rather than via Postgres policies).
 - **`packages/brand`** (`@dmatek/brand`) is for code actually shared across
   two or more workspaces — currently colour/radius tokens, the shared
   Manrope font config, `AdireBand` and `PilotLabel`. Don't put site-only or
@@ -56,9 +62,8 @@ dmatek/
 - Site-specific dependencies, config, and env vars belong in `site/`
   (its own `package.json`, `.env.example`, `next.config.ts`, etc.) —
   don't hoist them to the root beyond what npm workspaces already does.
-- When D'Source work starts, give each of `d-source/web`,
-  `d-source/backend`, and `d-source/mobile` its own
-  `package.json` so npm workspaces picks it up.
+- Each of `d-source/web`, `d-source/backend`, `d-source/admin` and
+  `d-source/mobile` gets its own `package.json` so npm workspaces picks it up.
 
 ## Commands
 
@@ -68,6 +73,10 @@ Run from the repo root (after `npm install`):
 - `npm run build:site` — production build of the site
 - `npm run dev:foundry` — start D'Foundry's Next.js dev server
 - `npm run build:foundry` — production build of D'Foundry
+- `npm run dev:dsource-web` — start the D'Source storefront's Next.js dev server
+- `npm run build:dsource-web` — production build of the D'Source storefront
+- `npm run dev:dsource-backend` — start the D'Source backend API (tsx watch)
+- `npm run build:dsource-backend` — compile the D'Source backend API
 
 Or work inside a workspace directly, e.g. `cd site && npm run dev`.
 
