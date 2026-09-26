@@ -1,8 +1,14 @@
-# packages/shared
+# @dmatek/brand
 
-Shared brand tokens, fonts, and UI components meant to be reused across
-`site/` and `d-source/*` (colors, type scale, logo assets, common
-React components, etc.).
+Shared brand package for the D'Matek family (D'Matek, D'Foundry, D'Source
+storefront, D'Source Admin): colour tokens, the shared Manrope font config,
+and the two cross-product components — `AdireBand` and `PilotLabel`.
 
-**Empty for now.** Nothing has been factored out here yet — pull shared
-code into this package only once a second workspace actually needs it.
+Source-only (no build step) — consumed via each app's own `transpilePackages`
+config in `next.config.ts`.
+
+- `tokens.ts` — `brand.color.*`, `brand.radius.*`
+- `fonts.ts` — `manrope` (D'Matek, D'Source storefront, D'Source Admin; D'Foundry has its own fonts)
+- `AdireBand.tsx` — the Adire-inspired tile band (`strip` / `footer` / `specialists-with-cable` variants)
+- `PilotLabel.tsx` — the "AVAILABLE AS A PILOT" panel + standard sentence (`pilotNote`)
+- `keyframes.css` — `dmFlow`, needed by `AdireBand`'s travelling light (import only if your app doesn't already define it)

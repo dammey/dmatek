@@ -1,0 +1,11 @@
+/* Motion required by @dmatek/brand components (AdireBand's travelling light).
+   site/ and d-foundry/ already define this locally — only apps new to the
+   family (D'Source storefront, D'Source Admin) need to import this file. */
+@keyframes dmFlow {
+  from {
+    stroke-dashoffset: 2400;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}

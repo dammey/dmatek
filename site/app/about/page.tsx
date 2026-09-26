@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import AdireBand from "@/components/AdireBand";
+import { AdireBand } from "@dmatek/brand";
 import Eyebrow from "@/components/Eyebrow";
 import Reveal from "@/components/Reveal";
 import SignalRings from "@/components/SignalRings";

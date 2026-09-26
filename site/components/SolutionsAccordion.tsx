@@ -1,8 +1,8 @@
 "use client";
 
+import { PilotLabel } from "@dmatek/brand";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import PilotLabel from "@/components/PilotLabel";
 import Reveal from "@/components/Reveal";
 import { D_FOUNDRY_URL, D_SOURCE_URL, entryPoints } from "@/lib/content";
 
@@ -99,7 +99,12 @@ export default function SolutionsAccordion() {
                       ))}
                     </div>
                   </div>
-                  <PilotLabel items={e.pilot} topic={e.title} tone="dark" compact />
+                  <PilotLabel
+                    items={e.pilot}
+                    href={`/contact?topic=${encodeURIComponent(e.title)}&pilot=${encodeURIComponent(e.pilot.join(", "))}`}
+                    tone="dark"
+                    compact
+                  />
                 </div>
                 <div className="flex flex-wrap gap-3">
                   <Link

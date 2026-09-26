@@ -1,5 +1,5 @@
 import Link from "next/link";
-import AdireBand from "@/components/AdireBand";
+import { AdireBand } from "@dmatek/brand";
 import CableDivider from "@/components/CableDivider";
 import Eyebrow from "@/components/Eyebrow";
 import HeroGlow from "@/components/HeroGlow";

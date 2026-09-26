@@ -1,0 +1,15 @@
+{
+  "name": "@dmatek/brand",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./index.tsx",
+  "exports": {
+    ".": "./index.tsx",
+    "./keyframes.css": "./keyframes.css"
+  },
+  "peerDependencies": {
+    "next": "*",
+    "react": "*"
+  }
+}

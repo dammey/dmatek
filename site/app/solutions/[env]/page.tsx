@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import AdireBand from "@/components/AdireBand";
+import { AdireBand, PilotLabel } from "@dmatek/brand";
 import Eyebrow from "@/components/Eyebrow";
-import PilotLabel from "@/components/PilotLabel";
 import Reveal from "@/components/Reveal";
 import SignalRings from "@/components/SignalRings";
 import { environments, packages, pathSteps } from "@/lib/content";
@@ -122,7 +121,7 @@ export default async function EnvironmentPage({ params }: { params: Promise<{ en
       <section className="bg-cream">
         <div className="mx-auto grid max-w-[1280px] items-stretch gap-4 px-5 pb-[clamp(40px,5vw,72px)] sm:grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] sm:gap-6 sm:px-8">
           <Reveal>
-            <PilotLabel items={env.pilot} topic={env.name} tone="cream" />
+            <PilotLabel items={env.pilot} href={`/contact?topic=${encodeURIComponent(env.name)}&pilot=${encodeURIComponent(env.pilot.join(", "))}`} tone="cream" />
           </Reveal>
           {env.pkgs.map((pkgName) => {
             const pkg = packages[pkgName];

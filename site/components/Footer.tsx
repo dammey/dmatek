@@ -1,6 +1,6 @@
+import { AdireBand } from "@dmatek/brand";
 import Image from "next/image";
 import Link from "next/link";
-import AdireBand from "@/components/AdireBand";
 import { businesses, navItems, D_SOURCE_URL, D_FOUNDRY_URL, ILEMESH_HREF } from "@/lib/content";
 import { siteConfig } from "@/lib/siteConfig";
 
