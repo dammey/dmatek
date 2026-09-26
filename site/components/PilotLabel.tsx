@@ -23,7 +23,7 @@ export default function PilotLabel({ items, topic, tone = "cream", compact = fal
       style={{ border: `1px dashed ${dark ? "rgba(212,166,55,0.5)" : "rgba(6,56,46,0.35)"}` }}
     >
       <span
-        className="inline-flex items-center gap-2 rounded-full px-3.5 py-2 text-[11px] font-bold tracking-[0.16em]"
+        className="inline-flex items-center gap-2 rounded-[4px] px-3.5 py-2 text-[11px] font-bold tracking-[0.16em]"
         style={{
           color: dark ? "#D4A637" : "#06382E",
           border: `1px dashed ${dark ? "rgba(212,166,55,0.6)" : "rgba(6,56,46,0.45)"}`,
@@ -35,7 +35,7 @@ export default function PilotLabel({ items, topic, tone = "cream", compact = fal
         {items.map((item) => (
           <span
             key={item}
-            className="rounded-full px-4 py-2.5 text-[14px] font-semibold"
+            className="rounded-[4px] px-4 py-2.5 text-[14px] font-semibold"
             style={{
               color: dark ? "rgba(245,241,232,0.86)" : "#06382E",
               border: `1px solid ${dark ? "rgba(245,241,232,0.2)" : "rgba(6,56,46,0.18)"}`,

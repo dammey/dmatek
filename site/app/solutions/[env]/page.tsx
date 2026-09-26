@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import AdireBand from "@/components/AdireBand";
+import Eyebrow from "@/components/Eyebrow";
 import PilotLabel from "@/components/PilotLabel";
 import Reveal from "@/components/Reveal";
+import SignalRings from "@/components/SignalRings";
 import { environments, packages, pathSteps } from "@/lib/content";
+import { siteConfig } from "@/lib/siteConfig";
 
 export function generateStaticParams() {
   return environments.map((v) => ({ env: v.id }));
@@ -27,19 +31,13 @@ export default async function EnvironmentPage({ params }: { params: Promise<{ en
   return (
     <div>
       <section className="relative overflow-hidden bg-cream">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -right-[10%] -top-[22%] aspect-square w-[min(50vw,600px)] rounded-full"
-          style={{ background: "radial-gradient(circle,rgba(40,112,90,0.14),rgba(245,241,232,0) 70%)", animation: "dm-float-b 21s ease-in-out infinite" }}
-        />
+        <SignalRings tone="green" className="pointer-events-none" style={{ top: "-22%", right: "-10%", width: "min(50vw,600px)" }} />
         <div className="relative mx-auto grid max-w-[1280px] grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] items-center gap-9 px-5 py-[clamp(36px,5vw,72px)] pb-[clamp(36px,5vw,64px)] sm:gap-18 sm:px-8">
           <div>
             <Link href="/solutions#env" className="mb-5.5 inline-block text-[14px] font-bold text-progress hover:text-forest">
               &larr; Solutions &middot; Your environment
             </Link>
-            <p className="mb-5.5 inline-block w-max rounded-full px-4.5 py-2.25 text-[11.5px] font-bold tracking-[0.2em] text-forest" style={{ background: "rgba(40,112,90,0.10)" }}>
-              {env.sol}
-            </p>
+            <Eyebrow style={{ display: "block", width: "max-content" }}>{env.sol}</Eyebrow>
             <h1
               className="mb-6 text-[clamp(36px,5vw,68px)] font-extrabold leading-[1.02] tracking-[-0.035em] text-forest text-balance"
               style={{ animation: "dm-rise .8s cubic-bezier(.2,.8,.2,1) .1s both" }}
@@ -78,11 +76,11 @@ export default async function EnvironmentPage({ params }: { params: Promise<{ en
         </div>
       </section>
 
+      {siteConfig.adire && env.id === "home" && <AdireBand variant="strip" />}
+
       <section className="bg-cream">
         <div className="mx-auto max-w-[1280px] px-5 pt-[clamp(20px,3vw,40px)] pb-[clamp(40px,5vw,72px)] sm:px-8">
-          <p className="mb-5.5 inline-block rounded-full px-4.5 py-2.25 text-[11.5px] font-bold tracking-[0.2em] text-forest" style={{ background: "rgba(40,112,90,0.10)" }}>
-            WHAT GETS IN THE WAY
-          </p>
+          <Eyebrow>WHAT GETS IN THE WAY</Eyebrow>
           <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] gap-3.5">
             {env.problems.map((p, i) => (
               <Reveal key={p} className="rounded-[clamp(24px,3vw,38px)] p-[clamp(26px,3vw,36px)]" style={{ background: "linear-gradient(160deg,#EFEADC,#E8E2D0)" }}>
@@ -101,12 +99,10 @@ export default async function EnvironmentPage({ params }: { params: Promise<{ en
           className="mx-auto max-w-[1280px] rounded-[clamp(32px,5vw,64px)] p-[clamp(36px,5vw,72px)] text-cream"
           style={{ background: "radial-gradient(120% 140% at 8% 0%, #0B4B3D, #06382E 60%)" }}
         >
-          <p className="mb-5.5 inline-block rounded-full px-4.5 py-2.25 text-[11.5px] font-bold tracking-[0.2em] text-gold" style={{ background: "rgba(212,166,55,0.14)" }}>
-            WHAT WE SOLVE NOW
-          </p>
+          <Eyebrow color="#D4A637">WHAT WE SOLVE NOW</Eyebrow>
           <div className="flex flex-wrap gap-2.5">
             {env.now.map((n) => (
-              <span key={n} className="rounded-full px-5 py-3.25 text-[15.5px] font-semibold text-cream" style={{ background: "rgba(245,241,232,0.08)" }}>
+              <span key={n} className="rounded-[4px] px-5 py-3.25 text-[15.5px] font-semibold text-cream" style={{ background: "rgba(245,241,232,0.08)" }}>
                 {n}
               </span>
             ))}
@@ -114,7 +110,7 @@ export default async function EnvironmentPage({ params }: { params: Promise<{ en
           <p className="mb-3.5 mt-9 text-[11px] font-bold tracking-[0.16em] text-gold sm:mt-12">HOW IT WORKS</p>
           <div className="flex flex-wrap gap-2">
             {pathSteps.map((s) => (
-              <span key={s.n} className="flex-[1_1_130px] rounded-full px-4.5 py-3.5 text-[15px] font-bold text-forest" style={{ background: "#F5F1E8" }}>
+              <span key={s.n} className="flex-[1_1_130px] rounded-[4px] px-4.5 py-3.5 text-[15px] font-bold text-forest" style={{ background: "#F5F1E8" }}>
                 <span className="mr-2 text-[11px] tracking-[0.12em] text-progress">{s.n}</span>
                 {s.name}
               </span>
@@ -136,7 +132,7 @@ export default async function EnvironmentPage({ params }: { params: Promise<{ en
                 className="flex flex-col gap-3.5 rounded-[clamp(26px,3.4vw,44px)] p-[clamp(26px,3vw,40px)] shadow-[0_18px_46px_rgba(6,56,46,0.08)]"
                 style={{ background: "linear-gradient(150deg,#EFEADC,#E6E0CE)" }}
               >
-                <span className="w-max rounded-full px-4 py-2 text-[11px] font-bold tracking-[0.16em] text-forest" style={{ background: "rgba(212,166,55,0.3)" }}>
+                <span className="w-max rounded-[4px] px-4 py-2 text-[11px] font-bold tracking-[0.16em] text-forest" style={{ background: "rgba(212,166,55,0.3)" }}>
                   PACKAGE
                 </span>
                 <p className="m-0 text-[clamp(24px,2.6vw,32px)] font-extrabold leading-[1.1] tracking-[-0.025em] text-forest">{pkgName}</p>

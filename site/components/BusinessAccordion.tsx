@@ -69,7 +69,7 @@ export default function BusinessAccordion() {
                 </span>
               </span>
               <span
-                className="rounded-full px-4.5 py-2.25 text-[11.5px] font-bold tracking-[0.18em] text-gold"
+                className="rounded-[4px] px-4.5 py-2.25 text-[11.5px] font-bold tracking-[0.18em] text-gold"
                 style={{ background: "rgba(212,166,55,0.16)" }}
               >
                 {b.verb}
@@ -101,12 +101,8 @@ export default function BusinessAccordion() {
                   )}
                 </div>
                 <div
-                  className="relative mx-auto flex aspect-square w-full max-w-[280px] flex-col items-center justify-center p-[clamp(26px,3vw,40px)] text-center"
-                  style={{
-                    background: "rgba(245,241,232,0.07)",
-                    borderRadius: "50% 50% 44% 56% / 48% 44% 56% 52%",
-                    animation: "dm-drift 18s ease-in-out infinite",
-                  }}
+                  className="mx-auto flex w-full max-w-[280px] flex-col items-center justify-center rounded-[44px] p-[clamp(22px,2.6vw,32px)] text-center"
+                  style={{ background: open ? "rgba(245,241,232,0.07)" : "rgba(6,56,46,0.06)" }}
                 >
                   <p className="m-0 mb-3 text-[11px] font-bold tracking-[0.16em] text-gold">
                     {b.pilot ? "AVAILABLE AS A PILOT" : "ALL AVAILABLE NOW"}
@@ -114,9 +110,14 @@ export default function BusinessAccordion() {
                   <p className="m-0 mb-3.5 max-w-[16em] text-[14px] leading-[1.55] text-cream/82">
                     {pilotItems.length > 0 ? pilotItems.join(" · ") : "Everything listed here can be provided today."}
                   </p>
-                  <p className="relative m-0 text-[10.5px] font-bold tracking-[0.14em] text-progress">
-                    [ PHOTO &mdash; {b.photo} ]
-                  </p>
+                  <div
+                    className="mt-1 flex w-full flex-col items-center justify-center p-3 text-center"
+                    style={{ aspectRatio: "4/3", background: "rgba(6,56,46,0.06)", borderRadius: "50% 50% 44% 56% / 48% 44% 56% 52%" }}
+                  >
+                    <p className="relative m-0 text-[10.5px] font-bold tracking-[0.14em] text-progress">
+                      [ PHOTO &mdash; {b.photo} ]
+                    </p>
+                  </div>
                 </div>
               </div>
             )}

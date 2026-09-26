@@ -1,5 +1,5 @@
 // "How we work" six stages — Home's stage picker and About's #how section.
-// Copy verbatim from Dmatek Website v3.1.dc.html (const stageData).
+// Copy verbatim from Dmatek Website v3.4.dc.html (const stageData).
 
 export type Stage = {
   id: string;
@@ -9,6 +9,8 @@ export type Stage = {
   value: string;
   photo: string;
   outcome: string;
+  /** Optional per v3.4 photography — omit until a rights-cleared photo exists; falls back to the bracketed placeholder. */
+  img?: string;
 };
 
 export const stages: Stage[] = [

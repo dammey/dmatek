@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import ContactForm from "@/components/ContactForm";
+import Eyebrow from "@/components/Eyebrow";
+import SignalRings from "@/components/SignalRings";
 import { badges } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -19,19 +21,12 @@ export default async function ContactPage({ searchParams }: { searchParams: Prom
         className="relative mx-auto max-w-[1280px] overflow-hidden rounded-[clamp(32px,5vw,72px)] p-[clamp(40px,6vw,88px)] text-cream"
         style={{ background: "radial-gradient(130% 130% at 10% 0%, #0B4B3D, #06382E 58%)" }}
       >
-        <div
-          aria-hidden="true"
-          className="dm-blob pointer-events-none absolute -right-[10%] -top-[20%] aspect-square w-[min(46vw,520px)] rounded-full"
-          style={{ background: "radial-gradient(circle,rgba(212,166,55,0.20),rgba(6,56,46,0) 68%)", animation: "dm-float-a 18s ease-in-out infinite" }}
-        />
+        <SignalRings tone="gold" className="pointer-events-none" style={{ top: "-20%", right: "-10%", width: "min(46vw,520px)" }} />
         <div className="relative grid grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] items-start gap-9 sm:gap-18">
           <div>
-            <p
-              className="mb-6 inline-block rounded-full px-4.5 py-2.25 text-[11.5px] font-bold tracking-[0.2em] text-gold"
-              style={{ background: "rgba(212,166,55,0.14)" }}
-            >
+            <Eyebrow color="#D4A637" className="mb-6">
               TELL US WHAT YOU NEED
-            </p>
+            </Eyebrow>
             <h1 className="mb-6.5 text-[clamp(38px,5vw,70px)] font-extrabold leading-none tracking-[-0.035em] text-balance">
               Let&rsquo;s figure it out together.
             </h1>
@@ -43,7 +38,7 @@ export default async function ContactPage({ searchParams }: { searchParams: Prom
               {badges.map((b) => (
                 <span
                   key={b}
-                  className="inline-flex items-center gap-2.5 rounded-full px-5 py-3.25 text-[14.5px] font-semibold text-cream"
+                  className="inline-flex items-center gap-2.5 rounded-[4px] px-5 py-3.25 text-[14.5px] font-semibold text-cream"
                   style={{ background: "rgba(245,241,232,0.08)" }}
                 >
                   <span className="h-1.75 w-1.75 rounded-full bg-gold" style={{ animation: "dm-pulse 2.8s ease-in-out infinite" }} />

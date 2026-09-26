@@ -20,7 +20,7 @@ export default function WorkTeaserCard({ id, sector, title, problem, tenure }: W
       style={{ background: "linear-gradient(160deg,#EFEADC,#E8E2D0)" }}
     >
       <span
-        className="self-start rounded-full px-4 py-2 text-[11px] font-bold tracking-[0.16em] text-forest"
+        className="self-start rounded-[4px] px-4 py-2 text-[11px] font-bold tracking-[0.16em] text-forest"
         style={{ background: "rgba(212,166,55,0.3)" }}
       >
         {sector}

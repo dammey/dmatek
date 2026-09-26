@@ -1,6 +1,6 @@
 // Everything else: Home's ticker/problem-panel/hotel-capability copy, About's
 // values, Work's case placeholders, Contact's badges/options, Insights topics.
-// Copy verbatim from Dmatek Website v3.1.dc.html and docs/project/v3.1/README.md.
+// Copy verbatim from Dmatek Website v3.4.dc.html and docs/project/v3.4/README.md.
 
 export const tickerItems = ["DISCOVER", "UNDERSTAND", "SOLVE", "DELIVER", "SUPPORT", "IMPROVE", "WE STAY"];
 
@@ -13,13 +13,13 @@ export const problemLines: { a: string; b: string }[] = [
 ];
 
 export const hotelCaps = [
-  "Connectivity and guest Wi-Fi",
-  "Security and operations",
-  "Guest room technology",
-  "Power",
-  "Conference technology",
-  "Managed IT",
-].map((name, i) => ({ n: String(i + 1).padStart(2, "0"), name }));
+  ["Connectivity and guest Wi-Fi", "INFRASTRUCTURE"],
+  ["Security and operations", "ILÉMESH"],
+  ["Guest room technology", "ILÉMESH"],
+  ["Power", "ILÉMESH"],
+  ["Conference technology", "ILÉMESH"],
+  ["Managed IT", "ASSURANCE"],
+].map(([name, spec], i) => ({ n: String(i + 1).padStart(2, "0"), name, spec }));
 
 export const stayWords = ["Support.", "Management.", "Improvement.", "Problem-solving."];
 

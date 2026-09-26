@@ -61,7 +61,7 @@ export default function StagePicker() {
           </div>
           <p className="mb-6 max-w-[34em] text-[17.5px] leading-[1.75] text-ink">{s.body}</p>
           <span
-            className="inline-block rounded-full px-5 py-2.75 text-[13px] font-bold tracking-[0.14em] text-forest"
+            className="inline-block rounded-[4px] px-5 py-2.75 text-[13px] font-bold tracking-[0.14em] text-forest"
             style={{ background: "rgba(212,166,55,0.28)" }}
           >
             {s.value}

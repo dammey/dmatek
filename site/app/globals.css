@@ -110,6 +110,36 @@
     transform: translate3d(-14px, 12px, 0);
   }
 }
+@keyframes dm-ring {
+  0% {
+    transform: scale(0.12);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+/* v3.4: the hotel moment is scroll-driven above 760px; below that (or under
+ * prefers-reduced-motion, handled by the reduced-motion rule further down)
+ * it lays out normally with every row already active. */
+@media (max-width: 760px) {
+  [data-hotel] {
+    height: auto !important;
+  }
+  [data-hotel] > div {
+    position: relative !important;
+    height: auto !important;
+  }
+  [data-hotel] [data-cap] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
 
 /*
  * Wrapped in Tailwind's `base` layer so utility classes (text-*, etc.)

@@ -93,7 +93,7 @@ export default function SolutionsAccordion() {
                     <p className="mb-3.5 text-[11px] font-bold tracking-[0.16em] text-gold">AVAILABLE NOW</p>
                     <div className="flex flex-wrap gap-2">
                       {now.map((n) => (
-                        <span key={n} className="rounded-full px-4.5 py-2.75 text-[14.5px] font-semibold text-cream" style={{ background: "rgba(245,241,232,0.08)" }}>
+                        <span key={n} className="rounded-[4px] px-4.5 py-2.75 text-[14.5px] font-semibold text-cream" style={{ background: "rgba(245,241,232,0.08)" }}>
                           {n}
                         </span>
                       ))}

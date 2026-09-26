@@ -1,5 +1,5 @@
 // The six specialist businesses — Home orbit + Businesses accordion.
-// Copy verbatim from Dmatek Website v3.1.dc.html (const bizData).
+// Copy verbatim from Dmatek Website v3.4.dc.html (const bizData).
 
 import { D_FOUNDRY_URL, D_SOURCE_URL } from "./navigation";
 
@@ -15,6 +15,8 @@ export type Business = {
   photo: string;
   site?: string;
   siteLabel?: string;
+  /** Optional per v3.4 photography — omit until a rights-cleared photo exists; falls back to the bracketed placeholder. */
+  img?: string;
 };
 
 export const businesses: Business[] = [

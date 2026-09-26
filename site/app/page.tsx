@@ -1,33 +1,46 @@
 import Link from "next/link";
+import AdireBand from "@/components/AdireBand";
+import CableDivider from "@/components/CableDivider";
+import Eyebrow from "@/components/Eyebrow";
 import HeroGlow from "@/components/HeroGlow";
+import HotelMoment from "@/components/HotelMoment";
 import OrbitDiagram from "@/components/OrbitDiagram";
 import Reveal from "@/components/Reveal";
+import SignalRings from "@/components/SignalRings";
+import SignatureLine from "@/components/SignatureLine";
 import StagePicker from "@/components/StagePicker";
 import WorkTeaserCard from "@/components/WorkTeaserCard";
 import { caseTeasers, entryPoints, hotelCaps, problemLines, stayWords, tickerItems } from "@/lib/content";
+import { siteConfig } from "@/lib/siteConfig";
+
+const HERO_TO_TICKER = {
+  fillPath: "M0 100 H268 Q280 100 280 88 V32 Q280 20 292 20 H888 Q900 20 900 32 V58 Q900 70 912 70 H1440 V120 H0 Z",
+  edgePath: "M0 100 H268 Q280 100 280 88 V32 Q280 20 292 20 H888 Q900 20 900 32 V58 Q900 70 912 70 H1440",
+};
+const PROBLEM_TO_HOW = {
+  fillPath: "M0 50 H420 Q432 50 432 62 V98 Q432 110 444 110 H1060 Q1072 110 1072 98 V42 Q1072 30 1084 30 H1440 V120 H0 Z",
+  edgePath: "M0 50 H420 Q432 50 432 62 V98 Q432 110 444 110 H1060 Q1072 110 1072 98 V42 Q1072 30 1084 30 H1440",
+};
+const SPECIALISTS_TOP_CABLE = "M0 30 H300 V14 H760 V34 H1140 V18 H1440";
+const SPECIALISTS_TOP_FALLBACK = {
+  fillPath: "M0 70 H300 Q312 70 312 82 V88 Q312 100 324 100 H1000 Q1012 100 1012 88 V52 Q1012 40 1024 40 H1440 V0 H0 Z",
+  edgePath: "M0 70 H300 Q312 70 312 82 V88 Q312 100 324 100 H1000 Q1012 100 1012 88 V52 Q1012 40 1024 40 H1440",
+};
+const SPECIALISTS_BOTTOM_CABLE = "M0 16 H240 V34 H620 V14 H1060 V32 H1440";
+const SPECIALISTS_BOTTOM_FALLBACK = {
+  fillPath: "M0 34 H236 Q248 34 248 46 V96 Q248 108 260 108 H1180 Q1192 108 1192 96 V64 Q1192 52 1204 52 H1440 V120 H0 Z",
+  edgePath: "M0 34 H236 Q248 34 248 46 V96 Q248 108 260 108 H1180 Q1192 108 1192 96 V64 Q1192 52 1204 52 H1440",
+};
 
 export default function HomePage() {
   return (
-    <div>
+    <div data-home className="relative">
+      <SignatureLine />
+
       {/* 01 — HERO */}
       <section aria-labelledby="hero-h" className="relative overflow-hidden bg-cream">
-        <div
-          aria-hidden="true"
-          className="dm-blob pointer-events-none absolute -right-[10%] -top-[14%] aspect-square w-[min(58vw,720px)] rounded-full"
-          style={{
-            background:
-              "radial-gradient(circle at 35% 35%, rgba(40,112,90,0.16), rgba(212,166,55,0.10) 60%, rgba(245,241,232,0) 72%)",
-            animation: "dm-float-a 17s ease-in-out infinite",
-          }}
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -bottom-[26%] -left-[14%] aspect-square w-[min(46vw,560px)] rounded-full"
-          style={{
-            background: "radial-gradient(circle at 60% 40%, rgba(212,166,55,0.20), rgba(245,241,232,0) 70%)",
-            animation: "dm-float-b 21s ease-in-out infinite",
-          }}
-        />
+        <SignalRings tone="green" className="pointer-events-none" style={{ top: "-14%", right: "-10%", width: "min(58vw,720px)" }} />
+        <SignalRings tone="green" className="pointer-events-none" style={{ bottom: "-26%", left: "-14%", width: "min(46vw,560px)" }} />
         <HeroGlow />
         <svg
           viewBox="0 0 1440 620"
@@ -82,8 +95,9 @@ export default function HomePage() {
         <div className="relative mx-auto grid max-w-[1280px] grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] items-center gap-10 px-5 py-[clamp(56px,7vw,112px)] pb-[clamp(64px,7vw,104px)] sm:gap-14 sm:px-8">
           <div>
             <p
-              className="mb-7 inline-flex items-center gap-2.5 rounded-full px-4.5 py-2.5 text-[11.5px] font-bold tracking-[0.2em] text-forest"
-              style={{ background: "rgba(40,112,90,0.10)", animation: "dm-rise .7s cubic-bezier(.2,.8,.2,1) both" }}
+              data-node="01"
+              className="mb-7 inline-flex items-center gap-2.5 text-[11.5px] font-bold tracking-[0.2em] text-forest"
+              style={{ animation: "dm-rise .7s cubic-bezier(.2,.8,.2,1) both" }}
             >
               <span className="h-1.75 w-1.75 rounded-full bg-gold" style={{ animation: "dm-pulse 2.4s ease-in-out infinite" }} />
               D&rsquo;MATEK TECHNOLOGY LIMITED
@@ -153,7 +167,7 @@ export default function HomePage() {
           <div
             data-tilt
             className="dm-blob relative flex aspect-[4/5] min-h-[300px] flex-col items-center justify-center gap-3 p-[clamp(28px,5vw,54px)] text-center"
-            style={{ boxShadow: "inset 0 0 0 1px rgba(6,56,46,0.10), 0 30px 60px rgba(6,56,46,0.10)" }}
+            style={{ boxShadow: "inset 0 0 0 1px rgba(6,56,46,0.10), 0 30px 60px rgba(6,56,46,0.14)" }}
             role="img"
             aria-label="Placeholder for photography of real work on site"
           >
@@ -164,9 +178,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        <svg viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true" className="-mb-px block h-[clamp(56px,7vw,110px)] w-full">
-          <path d="M0 120 C 260 20, 620 0, 900 44 C 1140 82, 1300 96, 1440 60 L1440 120 Z" fill="#06382E" />
-        </svg>
+        <CableDivider {...HERO_TO_TICKER} viewBoxHeight={120} fill="#06382E" heightClamp="clamp(84px,8vw,120px)" flowDuration="8s" flowDelay="0.8s" className="-mb-px" />
       </section>
 
       {/* TICKER */}
@@ -185,12 +197,7 @@ export default function HomePage() {
       <section aria-labelledby="prob-h" className="relative overflow-hidden bg-forest text-cream">
         <div className="relative mx-auto grid max-w-[1280px] grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] items-start gap-8 px-5 py-[clamp(48px,6vw,96px)] pb-[clamp(40px,5vw,72px)] sm:gap-18 sm:px-8">
           <Reveal>
-            <p
-              className="mb-5.5 inline-block rounded-full px-4.5 py-2.25 text-[11.5px] font-bold tracking-[0.2em] text-gold"
-              style={{ background: "rgba(212,166,55,0.14)" }}
-            >
-              02 &middot; THE PROBLEM
-            </p>
+            <Eyebrow node="02" color="#D4A637">02 &middot; THE PROBLEM</Eyebrow>
             <h2 id="prob-h" className="m-0 text-[clamp(30px,4vw,54px)] font-extrabold leading-[1.04] tracking-[-0.03em] text-balance">
               Technology is rarely one problem.
             </h2>
@@ -225,21 +232,14 @@ export default function HomePage() {
             </div>
           </Reveal>
         </div>
-        <svg viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true" className="-mb-px block h-[clamp(56px,7vw,110px)] w-full">
-          <path d="M0 60 C 200 110, 540 130, 820 80 C 1090 32, 1280 10, 1440 46 L1440 120 L0 120 Z" fill="#F5F1E8" />
-        </svg>
+        <CableDivider {...PROBLEM_TO_HOW} viewBoxHeight={120} fill="#F5F1E8" heightClamp="clamp(84px,8vw,120px)" flowDuration="9s" flowDelay="1.6s" className="-mb-px" />
       </section>
 
       {/* 03 — HOW WE WORK */}
       <section aria-labelledby="own-h" className="overflow-hidden bg-cream">
         <div className="mx-auto px-5 pt-[clamp(20px,3vw,44px)] pb-[clamp(64px,7vw,110px)] sm:px-8" style={{ maxWidth: 1280 }}>
           <Reveal className="mb-9 max-w-[40em] sm:mb-14">
-            <p
-              className="mb-5.5 inline-block rounded-full px-4.5 py-2.25 text-[11.5px] font-bold tracking-[0.2em] text-forest"
-              style={{ background: "rgba(40,112,90,0.10)" }}
-            >
-              03 &middot; HOW WE WORK
-            </p>
+            <Eyebrow node="03">03 &middot; HOW WE WORK</Eyebrow>
             <h2 id="own-h" className="mb-5 text-[clamp(30px,4vw,54px)] font-extrabold leading-[1.04] tracking-[-0.03em] text-forest text-balance">
               We don&rsquo;t hand over and walk away.
             </h2>
@@ -266,19 +266,15 @@ export default function HomePage() {
 
       {/* 04 — ONE D'MATEK, SIX SPECIALISTS */}
       <section aria-labelledby="eco-h" className="relative overflow-hidden bg-forest text-cream">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -left-[12%] top-[8%] aspect-square w-[min(50vw,600px)] rounded-full"
-          style={{ background: "radial-gradient(circle,rgba(212,166,55,0.14),rgba(6,56,46,0) 70%)", animation: "dm-float-b 24s ease-in-out infinite" }}
-        />
+        {siteConfig.adire ? (
+          <AdireBand variant="specialists-with-cable" cablePath={SPECIALISTS_TOP_CABLE} />
+        ) : (
+          <CableDivider {...SPECIALISTS_TOP_FALLBACK} viewBoxHeight={110} fill="#F5F1E8" heightClamp="clamp(80px,7.5vw,110px)" flowDuration="10s" flowDelay="2.4s" />
+        )}
+        <SignalRings tone="gold" className="pointer-events-none" style={{ top: "8%", left: "-12%", width: "min(50vw,600px)" }} />
         <div className="relative mx-auto max-w-[1280px] px-5 py-[clamp(56px,7vw,110px)] pb-[clamp(64px,7vw,120px)] sm:px-8">
           <Reveal className="mb-10 max-w-[46em] sm:mb-16">
-            <p
-              className="mb-5.5 inline-block rounded-full px-4.5 py-2.25 text-[11.5px] font-bold tracking-[0.2em] text-gold"
-              style={{ background: "rgba(212,166,55,0.14)" }}
-            >
-              04 &middot; ONE D&rsquo;MATEK, SIX SPECIALISTS
-            </p>
+            <Eyebrow node="04" color="#D4A637">04 &middot; ONE D&rsquo;MATEK, SIX SPECIALISTS</Eyebrow>
             <h2 id="eco-h" className="mb-5 text-[clamp(30px,4vw,54px)] font-extrabold leading-[1.04] tracking-[-0.03em] text-balance">
               One customer. Six specialists.
             </h2>
@@ -300,67 +296,22 @@ export default function HomePage() {
             </Link>
           </p>
         </div>
-        <svg viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true" className="-mb-px block h-[clamp(56px,7vw,110px)] w-full">
-          <path d="M0 60 C 200 110, 540 130, 820 80 C 1090 32, 1280 10, 1440 46 L1440 120 L0 120 Z" fill="#F5F1E8" />
-        </svg>
+        {siteConfig.adire ? (
+          <AdireBand variant="specialists-with-cable" cablePath={SPECIALISTS_BOTTOM_CABLE} />
+        ) : (
+          <CableDivider {...SPECIALISTS_BOTTOM_FALLBACK} viewBoxHeight={120} fill="#F5F1E8" heightClamp="clamp(84px,8vw,120px)" flowDuration="11s" flowDelay="3.2s" className="-mb-px" />
+        )}
       </section>
 
-      {/* 05 — THE COMPLEXITY WE ABSORB */}
-      <section aria-labelledby="hotel-h" className="bg-cream">
-        <div className="mx-auto grid max-w-[1280px] grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] items-center gap-9 px-5 pt-[clamp(20px,3vw,44px)] pb-[clamp(64px,7vw,110px)] sm:gap-18 sm:px-8">
-          <Reveal>
-            <p
-              className="mb-5.5 inline-block rounded-full px-4.5 py-2.25 text-[11.5px] font-bold tracking-[0.2em] text-forest"
-              style={{ background: "rgba(40,112,90,0.10)" }}
-            >
-              05 &middot; THE COMPLEXITY WE ABSORB
-            </p>
-            <h2 id="hotel-h" className="mb-5 text-[clamp(30px,4vw,54px)] font-extrabold leading-[1.04] tracking-[-0.03em] text-forest text-balance">
-              &ldquo;We&rsquo;re opening a hotel.&rdquo;
-            </h2>
-            <p className="mb-7.5 text-[clamp(21px,2.3vw,30px)] font-extrabold leading-[1.25] tracking-[-0.02em] text-forest">
-              One problem. One team. <span className="text-gold">Many capabilities.</span>
-            </p>
-            <Link
-              href="/solutions/hospitality"
-              className="inline-block rounded-full border border-forest/22 px-7.5 py-4.25 text-[15px] font-bold text-forest transition-transform hover:-translate-y-1 hover:border-gold hover:bg-gold"
-            >
-              See Connected Hotel &rarr;
-            </Link>
-          </Reveal>
-          <Reveal
-            className="relative rounded-[clamp(28px,4vw,52px)] p-[clamp(28px,3.4vw,48px)]"
-            style={{ background: "linear-gradient(150deg,#EFEADC,#E6E0CE)", boxShadow: "0 24px 60px rgba(6,56,46,0.10)" }}
-          >
-            <div className="relative flex flex-col gap-3">
-              {hotelCaps.map((c) => (
-                <div
-                  key={c.n}
-                  className="flex items-center gap-4 rounded-full py-3.5 pl-3.5 pr-5.5 shadow-[0_8px_20px_rgba(6,56,46,0.06)] transition-transform hover:translate-x-1.5"
-                  style={{ background: "#F5F1E8" }}
-                >
-                  <span className="flex h-8.5 w-8.5 flex-none items-center justify-center rounded-full bg-forest text-[12px] font-extrabold text-gold">
-                    {c.n}
-                  </span>
-                  <span className="text-[16.5px] font-bold text-forest">{c.name}</span>
-                </div>
-              ))}
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      {/* 05 — THE COMPLEXITY WE ABSORB (scroll-driven hotel moment) */}
+      <HotelMoment caps={hotelCaps} />
 
       {/* 06 — PROOF */}
       <section aria-labelledby="work-teaser-h" className="bg-cream">
         <div className="mx-auto max-w-[1280px] px-5 pb-[clamp(64px,7vw,110px)] sm:px-8">
           <Reveal className="mb-8 flex flex-wrap items-end justify-between gap-5 sm:mb-13">
             <div className="max-w-[30em]">
-              <p
-                className="mb-5.5 inline-block rounded-full px-4.5 py-2.25 text-[11.5px] font-bold tracking-[0.2em] text-forest"
-                style={{ background: "rgba(40,112,90,0.10)" }}
-              >
-                06 &middot; PROOF
-              </p>
+              <Eyebrow node="06">06 &middot; PROOF</Eyebrow>
               <h2 id="work-teaser-h" className="m-0 text-[clamp(30px,4vw,54px)] font-extrabold leading-[1.04] tracking-[-0.03em] text-forest text-balance">
                 Problem. What we did. What changed.
               </h2>
@@ -384,12 +335,7 @@ export default function HomePage() {
       <section aria-labelledby="stay-h" className="relative overflow-hidden bg-cream">
         <div className="mx-auto grid max-w-[1280px] grid-cols-[repeat(auto-fit,minmax(min(100%,300px),1fr))] items-center gap-9 px-5 pb-[clamp(64px,7vw,110px)] sm:gap-18 sm:px-8">
           <Reveal>
-            <p
-              className="mb-5.5 inline-block rounded-full px-4.5 py-2.25 text-[11.5px] font-bold tracking-[0.2em] text-forest"
-              style={{ background: "rgba(40,112,90,0.10)" }}
-            >
-              07 &middot; WE STAY
-            </p>
+            <Eyebrow node="07">07 &middot; WE STAY</Eyebrow>
             <h2 id="stay-h" className="mb-5 text-[clamp(30px,4vw,54px)] font-extrabold leading-[1.04] tracking-[-0.03em] text-forest text-balance">
               WE STAY.
             </h2>

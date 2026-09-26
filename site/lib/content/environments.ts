@@ -1,5 +1,5 @@
 // The 10 environments, rendered by the single EnvironmentPage template at
-// /solutions/[env]. Copy verbatim from Dmatek Website v3.1.dc.html (const ENV, PKG).
+// /solutions/[env]. Copy verbatim from Dmatek Website v3.4.dc.html (const ENV, PKG).
 
 export type Environment = {
   id: string;
@@ -13,6 +13,8 @@ export type Environment = {
   pkgs: string[];
   cta: string;
   photo: string;
+  /** Optional per v3.4 photography — omit until a rights-cleared photo exists; falls back to the bracketed placeholder. */
+  img?: string;
 };
 
 export const environments: Environment[] = [

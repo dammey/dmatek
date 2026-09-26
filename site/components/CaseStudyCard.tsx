@@ -26,13 +26,13 @@ export default function CaseStudyCard({ study }: { study: CaseStudy }) {
     >
       <div className="mb-5.5 flex flex-wrap gap-2.5">
         <span
-          className="rounded-full px-4.5 py-2.25 text-[11px] font-bold tracking-[0.16em] text-forest"
+          className="rounded-[4px] px-4.5 py-2.25 text-[11px] font-bold tracking-[0.16em] text-forest"
           style={{ background: "rgba(40,112,90,0.14)" }}
         >
           {study.sector}
         </span>
         <span
-          className="rounded-full px-4.5 py-2.25 text-[11px] font-bold tracking-[0.16em] text-forest"
+          className="rounded-[4px] px-4.5 py-2.25 text-[11px] font-bold tracking-[0.16em] text-forest"
           style={{ background: "rgba(212,166,55,0.3)" }}
         >
           {study.tenure}

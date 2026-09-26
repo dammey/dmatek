@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import EnvironmentCard from "@/components/EnvironmentCard";
+import Eyebrow from "@/components/Eyebrow";
 import Reveal from "@/components/Reveal";
+import SignalRings from "@/components/SignalRings";
 import SolutionsAccordion from "@/components/SolutionsAccordion";
 import { environments } from "@/lib/content";
 
@@ -14,18 +16,11 @@ export default function SolutionsPage() {
   return (
     <div>
       <section className="relative overflow-hidden bg-cream">
-        <div
-          aria-hidden="true"
-          className="dm-blob pointer-events-none absolute -right-[10%] -top-[22%] aspect-square w-[min(50vw,600px)] rounded-full"
-          style={{ background: "radial-gradient(circle,rgba(212,166,55,0.16),rgba(245,241,232,0) 70%)", animation: "dm-float-a 19s ease-in-out infinite" }}
-        />
+        <SignalRings tone="green" className="pointer-events-none" style={{ top: "-22%", right: "-10%", width: "min(50vw,600px)" }} />
         <div className="relative mx-auto max-w-[1280px] px-5 py-[clamp(52px,7vw,104px)] pb-[clamp(36px,5vw,60px)] sm:px-8">
-          <p
-            className="mb-6 inline-block rounded-full px-4.5 py-2.25 text-[11.5px] font-bold tracking-[0.2em] text-forest"
-            style={{ background: "rgba(40,112,90,0.10)", animation: "dm-rise .7s cubic-bezier(.2,.8,.2,1) both" }}
-          >
+          <Eyebrow className="mb-6" style={{ animation: "dm-rise .7s cubic-bezier(.2,.8,.2,1) both" }}>
             SOLUTIONS
-          </p>
+          </Eyebrow>
           <h1
             className="mb-6.5 max-w-[18em] text-[clamp(38px,5.4vw,76px)] font-extrabold leading-none tracking-[-0.035em] text-forest text-balance"
             style={{ animation: "dm-rise .8s cubic-bezier(.2,.8,.2,1) .1s both" }}
@@ -43,12 +38,7 @@ export default function SolutionsPage() {
 
       <section className="bg-cream">
         <div id="need" className="mx-auto max-w-[1280px] scroll-mt-28 px-5 pt-[clamp(20px,3vw,40px)] pb-[clamp(48px,6vw,88px)] sm:px-8">
-          <p
-            className="mb-5.5 inline-block rounded-full px-4.5 py-2.25 text-[11.5px] font-bold tracking-[0.2em] text-forest"
-            style={{ background: "rgba(40,112,90,0.10)" }}
-          >
-            WHAT DO YOU NEED?
-          </p>
+          <Eyebrow>WHAT DO YOU NEED?</Eyebrow>
           <SolutionsAccordion />
         </div>
       </section>
@@ -56,12 +46,7 @@ export default function SolutionsPage() {
       <section className="bg-cream">
         <div id="env" className="mx-auto max-w-[1280px] scroll-mt-28 px-5 pb-[clamp(64px,7vw,110px)] sm:px-8">
           <Reveal className="mb-7 max-w-[36em] sm:mb-11">
-            <p
-              className="mb-5.5 inline-block rounded-full px-4.5 py-2.25 text-[11.5px] font-bold tracking-[0.2em] text-forest"
-              style={{ background: "rgba(40,112,90,0.10)" }}
-            >
-              YOUR ENVIRONMENT
-            </p>
+            <Eyebrow>YOUR ENVIRONMENT</Eyebrow>
             <h2 className="m-0 text-[clamp(30px,4vw,54px)] font-extrabold leading-[1.04] tracking-[-0.03em] text-forest text-balance">
               Or start with where you work.
             </h2>
