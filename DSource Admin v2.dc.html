@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>D’Source Admin</title>
+<meta name="theme-color" content="#06382E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:#F5F1E8;-webkit-font-smoothing:antialiased}
+a{color:#06382E;text-decoration:none}
+a:hover{color:#28705A}
+button,input,select,textarea{font-family:inherit}
+button{cursor:pointer}
+@keyframes dsIn{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
+</style>
+</helmet>
+
+<div style="font-family:'Manrope',sans-serif;background:#F5F1E8;color:#06382E;min-height:100vh;display:flex">
+
+<aside style="flex:0 0 244px;background:#06382E;color:#F5F1E8;min-height:100vh;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;padding:20px 14px;gap:18px;overflow-y:auto">
+  <div style="display:flex;flex-direction:column;gap:4px;padding:4px 10px 14px;border-bottom:1px solid rgba(245,241,232,.14)">
+    <span style="font-weight:800;font-size:21px;letter-spacing:-.04em">D’Source</span>
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.18em;color:#D4A637">ADMIN</span>
+  </div>
+  <nav style="display:flex;flex-direction:column;gap:14px">
+    <sc-for list="{{ navGroups }}" as="g" hint-placeholder-count="6">
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.18em;color:rgba(245,241,232,.45);padding:0 12px 4px">{{ g.label }}</span>
+        <sc-for list="{{ g.items }}" as="m" hint-placeholder-count="4">
+          <button onClick="{{ m.go }}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;border:0;border-radius:10px;padding:9px 12px;background:{{ m.bg }};color:{{ m.ink }};font-size:14px;font-weight:{{ m.fw }};text-align:left" style-hover="background:rgba(245,241,232,.08)">
+            <span>{{ m.label }}</span>
+            <sc-if value="{{ m.hasBadge }}" hint-placeholder-val="{{ false }}"><span style="min-width:22px;height:22px;padding:0 7px;border-radius:999px;background:{{ m.badgeBg }};color:#06382E;font-size:11.5px;font-weight:800;display:grid;place-items:center">{{ m.badge }}</span></sc-if>
+          </button>
+        </sc-for>
+      </div>
+    </sc-for>
+  </nav>
+  <div style="margin-top:auto;display:flex;flex-direction:column;gap:10px;padding:14px 10px 0;border-top:1px solid rgba(245,241,232,.14)">
+    <a href="DSource%20v7.4.dc.html" style="color:#D4A637;font-weight:700;font-size:14px">View storefront ↗</a>
+    <span style="font-size:12.5px;color:rgba(245,241,232,.6)">Signed in as [ ADMIN NAME ]</span>
+  </div>
+</aside>
+
+<div style="flex:1;min-width:0;display:flex;flex-direction:column">
+  <header style="position:sticky;top:0;z-index:20;background:rgba(245,241,232,.94);backdrop-filter:blur(12px);border-bottom:1px solid rgba(6,56,46,.1)">
+    <div style="padding:14px clamp(18px,2.4vw,36px);display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <div style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:220px">
+        <h1 style="margin:0;font-weight:800;font-size:26px;letter-spacing:-.035em">{{ title }}</h1>
+        <span style="font-size:13.5px;color:#5E6E68">{{ subtitle }}</span>
+      </div>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.14em;background:#EFEADC;border:1px dashed rgba(6,56,46,.3);padding:6px 10px;border-radius:4px;white-space:nowrap;flex:0 0 auto">SAMPLE DATA</span>
+      <input value="{{ q }}" onChange="{{ qCh }}" placeholder="{{ qPh }}" style="flex:0 1 280px;min-width:180px;border:1px solid rgba(6,56,46,.18);border-radius:999px;padding:11px 16px;font-size:14px;background:#fff;color:#06382E;outline:none">
+    </div>
+  </header>
+
+  <main style="padding:clamp(18px,2.4vw,32px) clamp(18px,2.4vw,36px) 64px;display:flex;flex-direction:column;gap:22px">
+
+    <!-- DASHBOARD -->
+    <sc-if value="{{ isDash }}" hint-placeholder-val="{{ true }}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:12px">
+        <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="6">
+          <button onClick="{{ k.go }}" style="text-align:left;border:1px solid rgba(6,56,46,.1);background:#fff;color:#06382E;border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:6px" style-hover="box-shadow:0 14px 34px rgba(6,56,46,.1)">
+            <span style="font-size:11px;font-weight:700;letter-spacing:.14em;color:#28705A">{{ k.label }}</span>
+            <span style="font-weight:800;font-size:34px;letter-spacing:-.04em;color:{{ k.ink }}">{{ k.value }}</span>
+            <span style="font-size:13px;color:#5E6E68">{{ k.sub }}</span>
+          </button>
+        </sc-for>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px;align-items:start">
+        <section style="background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:4px">
+          <span style="font-weight:800;font-size:18px;margin-bottom:8px">Needs attention</span>
+          <sc-for list="{{ attention }}" as="a" hint-placeholder-count="5">
+            <button onClick="{{ a.go }}" style="display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;border:0;border-top:1px solid #EEEAE2;background:transparent;padding:12px 0;text-align:left;color:#06382E">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.12em;padding:4px 8px;border-radius:4px;background:{{ a.tagBg }};color:{{ a.tagInk }};white-space:nowrap">{{ a.tag }}</span>
+              <span style="font-size:14.5px;font-weight:600">{{ a.text }}</span>
+              <span style="font-weight:800;color:#28705A">→</span>
+            </button>
+          </sc-for>
+        </section>
+        <section style="background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:4px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-weight:800;font-size:18px">Recent orders</span><button onClick="{{ goOrders }}" style="border:0;background:transparent;font-weight:800;font-size:13.5px;color:#06382E;border-bottom:2px solid #D4A637;padding:0 0 2px">All orders →</button></div>
+          <sc-for list="{{ recent }}" as="o" hint-placeholder-count="5">
+            <button onClick="{{ o.open }}" style="display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:12px;align-items:center;border:0;border-top:1px solid #EEEAE2;background:transparent;padding:12px 0;text-align:left;color:#06382E">
+              <span style="display:flex;flex-direction:column;gap:2px;min-width:0"><span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px">{{ o.ref }}</span><span style="font-size:13.5px;color:#5E6E68;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ o.customer }} · {{ o.city }}</span></span>
+              <span style="font-size:11.5px;font-weight:800;padding:5px 10px;border-radius:999px;background:{{ o.stBg }};color:{{ o.stInk }};white-space:nowrap">{{ o.status }}</span>
+              <span style="font-weight:800;white-space:nowrap">{{ o.totalF }}</span>
+            </button>
+          </sc-for>
+        </section>
+      </div>
+    </sc-if>
+
+    <!-- ORDERS -->
+    <sc-if value="{{ isOrders }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <sc-for list="{{ oChips }}" as="c" hint-placeholder-count="7"><button onClick="{{ c.go }}" style="border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.ink }};border-radius:999px;padding:8px 14px;font-size:13px;font-weight:700;white-space:nowrap">{{ c.label }}</button></sc-for>
+      </div>
+      <div style="background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:22px;overflow-x:auto">
+        <div style="min-width:860px">
+          <div style="display:grid;grid-template-columns:130px 100px minmax(160px,1fr) 100px 70px 120px 140px 130px 70px;gap:12px;padding:12px 18px;font-size:11px;font-weight:700;letter-spacing:.12em;color:#5E6E68;border-bottom:1px solid #EEEAE2"><span>REFERENCE</span><span>DATE</span><span>CUSTOMER</span><span>STORE</span><span>ITEMS</span><span>TOTAL</span><span>PAYMENT</span><span>STATUS</span><span></span></div>
+          <sc-for list="{{ orderRows }}" as="o" hint-placeholder-count="6">
+            <div style="display:grid;grid-template-columns:130px 100px minmax(160px,1fr) 100px 70px 120px 140px 130px 70px;gap:12px;padding:13px 18px;align-items:center;border-bottom:1px solid #F3F0E9;font-size:14px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px">{{ o.ref }}</span>
+              <span style="color:#5E6E68">{{ o.date }}</span>
+              <span style="display:flex;flex-direction:column;min-width:0"><span style="font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ o.customer }}</span><span style="font-size:12.5px;color:#5E6E68">{{ o.city }}</span></span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.1em;padding:4px 8px;border-radius:4px;background:{{ o.tagBg }};color:{{ o.tagInk }};justify-self:start">{{ o.store }}</span>
+              <span>{{ o.items }}</span>
+              <span style="font-weight:800">{{ o.totalF }}</span>
+              <span style="color:#3A4A44">{{ o.pay }}</span>
+              <span style="font-size:11.5px;font-weight:800;padding:5px 10px;border-radius:999px;background:{{ o.stBg }};color:{{ o.stInk }};justify-self:start;white-space:nowrap">{{ o.status }}</span>
+              <button onClick="{{ o.open }}" style="border:1px solid rgba(6,56,46,.2);background:#fff;color:#06382E;border-radius:999px;padding:7px 12px;font-size:13px;font-weight:700">Open</button>
+            </div>
+          </sc-for>
+          <sc-if value="{{ noOrders }}" hint-placeholder-val="{{ false }}"><div style="padding:28px 18px;color:#5E6E68">No orders match.</div></sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- QUOTES -->
+    <sc-if value="{{ isQuotes }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#EFEADC;border-radius:16px;padding:14px 18px;font-size:14px;color:#3A4A44">The storefront promises a reply <strong>within {{ sla }} working hours</strong>. Quotes turn red when they pass it.</div>
+      <div style="background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:22px;overflow-x:auto">
+        <div style="min-width:820px">
+          <div style="display:grid;grid-template-columns:120px minmax(180px,1fr) 80px 120px 160px 110px 70px;gap:12px;padding:12px 18px;font-size:11px;font-weight:700;letter-spacing:.12em;color:#5E6E68;border-bottom:1px solid #EEEAE2"><span>REFERENCE</span><span>ORGANISATION</span><span>LINES</span><span>ESTIMATE</span><span>REPLY DUE</span><span>STATUS</span><span></span></div>
+          <sc-for list="{{ quoteRows }}" as="o" hint-placeholder-count="5">
+            <div style="display:grid;grid-template-columns:120px minmax(180px,1fr) 80px 120px 160px 110px 70px;gap:12px;padding:13px 18px;align-items:center;border-bottom:1px solid #F3F0E9;font-size:14px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px">{{ o.ref }}</span>
+              <span style="display:flex;flex-direction:column;min-width:0"><span style="font-weight:700">{{ o.org }}</span><span style="font-size:12.5px;color:#5E6E68">{{ o.contact }}</span></span>
+              <span>{{ o.lines }}</span>
+              <span style="font-weight:800">{{ o.totalF }}</span>
+              <span style="font-weight:800;color:{{ o.dueInk }}">{{ o.due }}</span>
+              <span style="font-size:11.5px;font-weight:800;padding:5px 10px;border-radius:999px;background:{{ o.stBg }};color:{{ o.stInk }};justify-self:start">{{ o.status }}</span>
+              <button onClick="{{ o.open }}" style="border:1px solid rgba(6,56,46,.2);background:#fff;color:#06382E;border-radius:999px;padding:7px 12px;font-size:13px;font-weight:700">Open</button>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- PRODUCTS -->
+    <sc-if value="{{ isProducts }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <select value="{{ pCat }}" onChange="{{ pCatCh }}" style="border:1px solid rgba(6,56,46,.18);border-radius:999px;padding:10px 14px;font-size:14px;background:#fff;color:#06382E"><sc-for list="{{ pCatOpts }}" as="c" hint-placeholder-count="10"><option value="{{ c.v }}">{{ c.l }}</option></sc-for></select>
+        <span style="font-size:13.5px;color:#5E6E68;flex:1">{{ pCount }}</span>
+        <button onClick="{{ addProduct }}" style="border:0;background:#06382E;color:#F5F1E8;border-radius:999px;padding:12px 20px;font-weight:800;font-size:14px">Add product</button>
+      </div>
+      <div style="background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:22px;overflow-x:auto">
+        <div style="min-width:900px">
+          <div style="display:grid;grid-template-columns:52px minmax(200px,1fr) 110px 130px 120px 80px 100px 100px 70px;gap:12px;padding:12px 18px;font-size:11px;font-weight:700;letter-spacing:.12em;color:#5E6E68;border-bottom:1px solid #EEEAE2"><span></span><span>PRODUCT</span><span>STORE</span><span>CATEGORY</span><span>PRICE</span><span>STOCK</span><span>SET-UP</span><span>LIVE</span><span></span></div>
+          <sc-for list="{{ productRows }}" as="p" hint-placeholder-count="8">
+            <div style="display:grid;grid-template-columns:52px minmax(200px,1fr) 110px 130px 120px 80px 100px 100px 70px;gap:12px;padding:10px 18px;align-items:center;border-bottom:1px solid #F3F0E9;font-size:14px">
+              <span style="width:44px;height:44px;position:relative;border-radius:10px;overflow:hidden;background:#F6F4EF;display:block"><image-slot id="{{ p.img }}" shape="rect" placeholder=""></image-slot></span>
+              <span style="display:flex;flex-direction:column;min-width:0"><span style="font-weight:700">{{ p.name }}</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#5E6E68">{{ p.brand }} · {{ p.spec }}</span></span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.1em;padding:4px 8px;border-radius:4px;background:{{ p.tagBg }};color:{{ p.tagInk }};justify-self:start">{{ p.store }}</span>
+              <span style="color:#3A4A44">{{ p.cat }}</span>
+              <span style="font-weight:800">{{ p.priceF }}</span>
+              <span style="font-weight:800;color:{{ p.stockInk }}">{{ p.stock }}</span>
+              <span style="font-size:12.5px;font-weight:700;color:{{ p.freeInk }}">{{ p.freeLabel }}</span>
+              <button onClick="{{ p.toggleLive }}" aria-label="Toggle live" style="width:44px;height:26px;border-radius:999px;border:0;background:{{ p.liveBg }};position:relative;padding:0"><span style="position:absolute;top:4px;left:{{ p.liveX }};width:18px;height:18px;border-radius:50%;background:#fff;transition:left .25s ease"></span></button>
+              <button onClick="{{ p.edit }}" style="border:1px solid rgba(6,56,46,.2);background:#fff;color:#06382E;border-radius:999px;padding:7px 12px;font-size:13px;font-weight:700">Edit</button>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- CATEGORIES -->
+    <sc-if value="{{ isCats }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:16px;align-items:start">
+        <sc-for list="{{ catGroups }}" as="g" hint-placeholder-count="2">
+          <section style="background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:4px">
+            <span style="font-weight:800;font-size:18px;margin-bottom:6px">{{ g.title }}</span>
+            <sc-for list="{{ g.rows }}" as="c" hint-placeholder-count="6">
+              <div style="display:grid;grid-template-columns:28px minmax(0,1fr) auto auto;gap:12px;align-items:center;border-top:1px solid #EEEAE2;padding:11px 0">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#5E6E68">{{ c.n }}</span>
+                <span style="display:flex;flex-direction:column"><span style="font-weight:700;font-size:15px;opacity:{{ c.op }}">{{ c.label }}</span><span style="font-size:12.5px;color:#5E6E68">{{ c.count }}</span></span>
+                <span style="display:flex;gap:4px"><button onClick="{{ c.up }}" aria-label="Move up" style="width:32px;height:32px;border-radius:8px;border:1px solid rgba(6,56,46,.18);background:#fff;color:#06382E">↑</button><button onClick="{{ c.down }}" aria-label="Move down" style="width:32px;height:32px;border-radius:8px;border:1px solid rgba(6,56,46,.18);background:#fff;color:#06382E">↓</button></span>
+                <button onClick="{{ c.toggle }}" style="border:1px solid rgba(6,56,46,.2);background:{{ c.visBg }};color:{{ c.visInk }};border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:700;white-space:nowrap">{{ c.visLabel }}</button>
+              </div>
+            </sc-for>
+            <div style="display:flex;gap:8px;border-top:1px solid #EEEAE2;padding-top:12px;margin-top:4px"><input value="{{ g.newVal }}" onChange="{{ g.newCh }}" placeholder="New category name" style="flex:1;border:1px solid rgba(6,56,46,.18);border-radius:999px;padding:10px 14px;font-size:14px;background:#fff;color:#06382E"><button onClick="{{ g.add }}" style="border:0;background:#06382E;color:#F5F1E8;border-radius:999px;padding:10px 16px;font-weight:800;font-size:13.5px">Add</button></div>
+          </section>
+        </sc-for>
+      </div>
+      <p style="margin:0;font-size:13.5px;color:#5E6E68">Order here is the order on the storefront category bar and the All categories page. Hidden categories stay in the catalogue but don’t show to customers.</p>
+    </sc-if>
+
+    <!-- REVIEWS -->
+    <sc-if value="{{ isReviews }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;gap:6px;flex-wrap:wrap"><sc-for list="{{ rChips }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.go }}" style="border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.ink }};border-radius:999px;padding:8px 14px;font-size:13px;font-weight:700">{{ c.label }}</button></sc-for></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,360px),1fr));gap:12px">
+        <sc-for list="{{ reviewCards }}" as="r" hint-placeholder-count="4">
+          <article style="background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><span style="font-weight:800;font-size:15.5px">{{ r.product }}</span><span style="color:#D4A637;letter-spacing:2px">{{ r.stars }}</span></div>
+            <span style="font-weight:700;font-size:15px">{{ r.title }}</span>
+            <span style="font-size:14.5px;line-height:1.55;color:#3A4A44">{{ r.text }}</span>
+            <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;font-size:12.5px;color:#5E6E68"><span>{{ r.name }} · {{ r.date }}</span><span style="font-weight:800;color:{{ r.vInk }}">{{ r.verified }}</span></div>
+            <sc-if value="{{ r.pending }}" hint-placeholder-val="{{ true }}"><div style="display:flex;gap:8px;margin-top:4px"><button onClick="{{ r.approve }}" style="flex:1;border:0;background:#06382E;color:#F5F1E8;border-radius:999px;padding:11px;font-weight:800;font-size:13.5px">Approve</button><button onClick="{{ r.reject }}" style="flex:1;border:1px solid rgba(6,56,46,.2);background:#fff;color:#06382E;border-radius:999px;padding:10px;font-weight:700;font-size:13.5px">Reject</button></div></sc-if>
+          </article>
+        </sc-for>
+      </div>
+      <sc-if value="{{ noReviewCards }}" hint-placeholder-val="{{ false }}"><div style="background:#fff;border-radius:20px;padding:24px;color:#5E6E68">Nothing here.</div></sc-if>
+    </sc-if>
+
+    <!-- ACCOUNTS -->
+    <sc-if value="{{ isAccounts }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,380px),1fr));gap:12px">
+        <sc-for list="{{ accountCards }}" as="a" hint-placeholder-count="3">
+          <article style="background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;justify-content:space-between;gap:10px;align-items:center"><span style="font-weight:800;font-size:17px">{{ a.company }}</span><span style="font-size:11.5px;font-weight:800;padding:5px 10px;border-radius:999px;background:{{ a.stBg }};color:{{ a.stInk }}">{{ a.status }}</span></div>
+            <div style="display:grid;grid-template-columns:120px minmax(0,1fr);gap:6px 12px;font-size:13.5px"><span style="color:#5E6E68">CAC</span><span style="font-family:'IBM Plex Mono',monospace">{{ a.cac }}</span><span style="color:#5E6E68">Accounts contact</span><span>{{ a.contact }}</span><span style="color:#5E6E68">Expected orders</span><span>{{ a.expected }}</span><span style="color:#5E6E68">Applied</span><span>{{ a.date }}</span></div>
+            <sc-if value="{{ a.pending }}" hint-placeholder-val="{{ true }}">
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:11px;font-weight:700;letter-spacing:.14em">CREDIT LIMIT (₦)<input placeholder="e.g. 5,000,000" style="border:1px solid rgba(6,56,46,.2);border-radius:12px;padding:11px;font-size:14px;background:#fff;color:#06382E"></label>
+              <div style="display:flex;gap:8px"><button onClick="{{ a.approve }}" style="flex:1;border:0;background:#06382E;color:#F5F1E8;border-radius:999px;padding:11px;font-weight:800;font-size:13.5px">Approve · 30-day invoice</button><button onClick="{{ a.decline }}" style="flex:0 0 auto;border:1px solid rgba(6,56,46,.2);background:#fff;color:#06382E;border-radius:999px;padding:10px 16px;font-weight:700;font-size:13.5px">Decline</button></div>
+            </sc-if>
+          </article>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <!-- SURVEYS -->
+    <sc-if value="{{ isSurveys }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:22px;overflow-x:auto">
+        <div style="min-width:900px">
+          <div style="display:grid;grid-template-columns:110px minmax(160px,1fr) 130px minmax(160px,1fr) 150px 150px 110px;gap:12px;padding:12px 18px;font-size:11px;font-weight:700;letter-spacing:.12em;color:#5E6E68;border-bottom:1px solid #EEEAE2"><span>REFERENCE</span><span>ORGANISATION</span><span>SITE</span><span>ADDRESS</span><span>PREFERRED</span><span>ENGINEER</span><span>STATUS</span></div>
+          <sc-for list="{{ surveyRows }}" as="s" hint-placeholder-count="3">
+            <div style="display:grid;grid-template-columns:110px minmax(160px,1fr) 130px minmax(160px,1fr) 150px 150px 110px;gap:12px;padding:12px 18px;align-items:center;border-bottom:1px solid #F3F0E9;font-size:14px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px">{{ s.ref }}</span>
+              <span style="font-weight:700">{{ s.org }}</span>
+              <span style="color:#3A4A44">{{ s.site }}</span>
+              <span style="color:#3A4A44">{{ s.address }}</span>
+              <span>{{ s.when }}</span>
+              <select style="border:1px solid rgba(6,56,46,.18);border-radius:10px;padding:8px;font-size:13px;background:#fff;color:#06382E"><option>Unassigned</option><option>[ ENGINEER 1 ]</option><option>[ ENGINEER 2 ]</option></select>
+              <button onClick="{{ s.advance }}" style="border:0;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:800;background:{{ s.stBg }};color:{{ s.stInk }};white-space:nowrap">{{ s.status }}</button>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <p style="margin:0;font-size:13.5px;color:#5E6E68">Tap a status to move it on: Requested → Date confirmed → Surveyed → Quote sent.</p>
+    </sc-if>
+
+    <!-- ENQUIRIES -->
+    <sc-if value="{{ isEnquiries }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;gap:6px;flex-wrap:wrap"><sc-for list="{{ eChips }}" as="c" hint-placeholder-count="5"><button onClick="{{ c.go }}" style="border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.ink }};border-radius:999px;padding:8px 14px;font-size:13px;font-weight:700;white-space:nowrap">{{ c.label }}</button></sc-for></div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <sc-for list="{{ enquiryRows }}" as="e" hint-placeholder-count="4">
+          <article style="background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:18px;padding:16px 18px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:center;opacity:{{ e.op }}">
+            <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+              <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.12em;padding:4px 8px;border-radius:4px;background:{{ e.tagBg }};color:{{ e.tagInk }}">{{ e.type }}</span><span style="font-weight:800;font-size:15px">{{ e.from }}</span><span style="font-size:12.5px;color:#5E6E68">{{ e.when }}</span></div>
+              <span style="font-size:14.5px;line-height:1.55;color:#3A4A44">{{ e.msg }}</span>
+            </div>
+            <button onClick="{{ e.toggle }}" style="border:1px solid rgba(6,56,46,.2);background:{{ e.btnBg }};color:{{ e.btnInk }};border-radius:999px;padding:9px 14px;font-size:13px;font-weight:800;white-space:nowrap">{{ e.btn }}</button>
+          </article>
+        </sc-for>
+      </div>
+      <p style="margin:0;font-size:13.5px;color:#5E6E68">Pilot interest is the pilot demand log: every “join the pilot” request from the storefront lands here with the pilot it’s for.</p>
+    </sc-if>
+
+
+    <sc-if value="{{ isGeneric }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <div style="display:flex;gap:6px;flex-wrap:wrap;flex:1"><sc-for list="{{ gChips }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.go }}" style="border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.ink }};border-radius:999px;padding:8px 14px;font-size:13px;font-weight:700;white-space:nowrap">{{ c.label }}</button></sc-for></div>
+        <sc-for list="{{ gActions }}" as="a" hint-placeholder-count="1"><button onClick="{{ a.go }}" style="border:0;background:#06382E;color:#F5F1E8;border-radius:999px;padding:11px 18px;font-weight:800;font-size:14px;white-space:nowrap">{{ a.label }}</button></sc-for>
+      </div>
+      <sc-if value="{{ gHasNote }}" hint-placeholder-val="{{ false }}"><div style="background:#EFEADC;border-radius:16px;padding:14px 18px;font-size:14px;line-height:1.55;color:#3A4A44">{{ gNote }}</div></sc-if>
+      <sc-if value="{{ gHasTiles }}" hint-placeholder-val="{{ false }}"><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:12px"><sc-for list="{{ gTiles }}" as="k" hint-placeholder-count="4"><div style="background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:22px;padding:16px 18px;display:flex;flex-direction:column;gap:4px"><span style="font-size:11px;font-weight:700;letter-spacing:.14em;color:#28705A">{{ k.label }}</span><span style="font-weight:800;font-size:28px;letter-spacing:-.03em;color:{{ k.ink }}">{{ k.value }}</span><span style="font-size:12.5px;color:#5E6E68">{{ k.sub }}</span></div></sc-for></div></sc-if>
+      <div style="background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:22px;overflow-x:auto">
+        <div style="min-width:{{ gMinW }}">
+          <div style="display:grid;grid-template-columns:{{ gCols }};gap:12px;padding:12px 18px;font-size:11px;font-weight:700;letter-spacing:.12em;color:#5E6E68;border-bottom:1px solid #EEEAE2"><sc-for list="{{ gHead }}" as="h" hint-placeholder-count="6"><span>{{ h }}</span></sc-for></div>
+          <sc-for list="{{ gRows }}" as="r" hint-placeholder-count="6">
+            <div style="display:grid;grid-template-columns:{{ gCols }};gap:12px;padding:12px 18px;align-items:center;border-bottom:1px solid #F3F0E9;font-size:14px;opacity:{{ r.op }}">
+              <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="6"><span style="justify-self:start;max-width:100%;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:{{ c.ws }};font-weight:{{ c.fw }};color:{{ c.ink }};background:{{ c.bg }};padding:{{ c.pad }};border-radius:{{ c.rad }};font-family:{{ c.ff }};font-size:{{ c.fs }};letter-spacing:{{ c.ls }}">{{ c.t }}</span></sc-for>
+              <sc-if value="{{ r.hasBtn }}" hint-placeholder-val="{{ false }}"><button onClick="{{ r.go }}" style="border:1px solid rgba(6,56,46,.2);background:#fff;color:#06382E;border-radius:999px;padding:7px 12px;font-size:13px;font-weight:700;white-space:nowrap;justify-self:end">{{ r.btn }}</button></sc-if>
+            </div>
+          </sc-for>
+          <sc-if value="{{ gEmpty }}" hint-placeholder-val="{{ false }}"><div style="padding:28px 18px;color:#5E6E68;font-size:14.5px">{{ gEmptyText }}</div></sc-if>
+        </div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ isSchedule }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:#3A4A44"><sc-for list="{{ calLegend }}" as="l" hint-placeholder-count="4"><span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:3px;background:{{ l.bg }};border:1px solid rgba(6,56,46,.3)"></span>{{ l.t }}</span></sc-for></div>
+      <div style="background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:22px;overflow-x:auto">
+        <div style="min-width:1080px">
+          <div style="display:grid;grid-template-columns:170px repeat(7,minmax(120px,1fr));gap:12px;padding:12px 18px;font-size:11px;font-weight:700;letter-spacing:.12em;color:#5E6E68;border-bottom:1px solid #EEEAE2"><span>ENGINEER</span><sc-for list="{{ calDays }}" as="d" hint-placeholder-count="7"><span>{{ d }}</span></sc-for></div>
+          <sc-for list="{{ calRows }}" as="r" hint-placeholder-count="3">
+            <div style="display:grid;grid-template-columns:170px repeat(7,minmax(120px,1fr));gap:12px;padding:12px 18px;border-bottom:1px solid #F3F0E9;min-height:96px">
+              <span style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:800;font-size:14px">{{ r.eng }}</span><span style="font-size:12px;color:#5E6E68">{{ r.load }}</span></span>
+              <sc-for list="{{ r.days }}" as="d" hint-placeholder-count="7"><div style="display:flex;flex-direction:column;gap:6px;background:{{ d.bg }};border-radius:10px;padding:4px"><sc-for list="{{ d.jobs }}" as="j" hint-placeholder-count="1"><button onClick="{{ j.go }}" style="border:0;text-align:left;background:{{ j.bg }};color:{{ j.ink }};border-radius:8px;padding:7px 8px;font-size:12px;font-weight:700;line-height:1.3">{{ j.time }} · {{ j.t }}<span style="display:block;font-weight:500;opacity:.8">{{ j.where }}</span></button></sc-for></div></sc-for>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <section style="background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:22px;padding:18px 20px;display:flex;flex-direction:column;gap:6px"><span style="font-weight:800;font-size:17px">Not yet scheduled</span>
+        <sc-for list="{{ unassigned }}" as="u" hint-placeholder-count="2"><div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;border-top:1px solid #EEEAE2;padding:10px 0"><span style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:700">{{ u.t }}</span><span style="font-size:13px;color:#5E6E68">{{ u.where }} · {{ u.ref }}</span></span><button onClick="{{ u.assign }}" style="border:0;background:#06382E;color:#F5F1E8;border-radius:999px;padding:9px 14px;font-weight:800;font-size:13px;white-space:nowrap">Assign · {{ u.slot }}</button></div></sc-for>
+        <sc-if value="{{ noUnassigned }}" hint-placeholder-val="{{ false }}"><span style="font-size:14px;color:#5E6E68">Everything is scheduled.</span></sc-if>
+      </section>
+    </sc-if>
+    <sc-if value="{{ isReports }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:12px"><sc-for list="{{ repTiles }}" as="k" hint-placeholder-count="4"><div style="background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:22px;padding:18px;display:flex;flex-direction:column;gap:4px"><span style="font-size:11px;font-weight:700;letter-spacing:.14em;color:#28705A">{{ k.label }}</span><span style="font-weight:800;font-size:32px;letter-spacing:-.04em">{{ k.value }}</span><span style="font-size:12.5px;color:#5E6E68">{{ k.sub }}</span></div></sc-for></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px;align-items:start">
+        <sc-for list="{{ charts }}" as="c" hint-placeholder-count="4">
+          <section style="background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:800;font-size:17px">{{ c.title }}</span><span style="font-size:12.5px;color:#5E6E68">{{ c.sub }}</span></div>
+            <sc-for list="{{ c.bars }}" as="b" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:minmax(90px,150px) minmax(0,1fr) auto;gap:10px;align-items:center;font-size:13.5px"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ b.label }}</span><span style="height:12px;border-radius:6px;background:#F3F0E9;overflow:hidden"><span style="display:block;height:100%;width:{{ b.w }};background:{{ b.col }};border-radius:6px"></span></span><span style="font-weight:800;white-space:nowrap">{{ b.v }}</span></div></sc-for>
+          </section>
+        </sc-for>
+      </div>
+    </sc-if>
+    <sc-if value="{{ isRoles }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"><div style="display:flex;gap:6px;flex:1;flex-wrap:wrap"><sc-for list="{{ roleTabs }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.go }}" style="border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.ink }};border-radius:999px;padding:8px 14px;font-size:13px;font-weight:700;white-space:nowrap">{{ c.label }}</button></sc-for></div><button onClick="{{ inviteStaff }}" style="border:0;background:#06382E;color:#F5F1E8;border-radius:999px;padding:11px 18px;font-weight:800;font-size:14px">Invite staff member</button></div>
+      <sc-if value="{{ rUsers }}" hint-placeholder-val="{{ true }}">
+        <div style="background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:22px;overflow-x:auto"><div style="min-width:760px">
+          <div style="display:grid;grid-template-columns:minmax(180px,1fr) 180px 140px 120px;gap:12px;padding:12px 18px;font-size:11px;font-weight:700;letter-spacing:.12em;color:#5E6E68;border-bottom:1px solid #EEEAE2"><span>NAME</span><span>ROLE</span><span>LAST ACTIVE</span><span>STATUS</span></div>
+          <sc-for list="{{ staffRows }}" as="u" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:minmax(180px,1fr) 180px 140px 120px;gap:12px;padding:12px 18px;align-items:center;border-bottom:1px solid #F3F0E9;font-size:14px"><span style="font-weight:700">{{ u.name }}</span><select value="{{ u.role }}" onChange="{{ u.roleCh }}" style="border:1px solid rgba(6,56,46,.2);border-radius:12px;padding:10px 12px;font-size:14px;background:#fff;color:#06382E;padding:8px 10px"><sc-for list="{{ roleOpts }}" as="o" hint-placeholder-count="5"><option value="{{ o }}">{{ o }}</option></sc-for></select><span style="color:#5E6E68">{{ u.last }}</span><button onClick="{{ u.toggle }}" style="border:0;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:800;background:{{ u.stBg }};color:{{ u.stInk }};justify-self:start">{{ u.status }}</button></div></sc-for>
+        </div></div>
+      </sc-if>
+      <sc-if value="{{ rPerms }}" hint-placeholder-val="{{ false }}">
+        <div style="background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:22px;overflow-x:auto"><div style="min-width:820px">
+          <div style="display:grid;grid-template-columns:minmax(180px,1fr) repeat(5,110px);gap:12px;padding:12px 18px;font-size:11px;font-weight:700;letter-spacing:.12em;color:#5E6E68;border-bottom:1px solid #EEEAE2"><span>SECTION</span><sc-for list="{{ roleOpts }}" as="o" hint-placeholder-count="5"><span style="text-align:center">{{ o }}</span></sc-for></div>
+          <sc-for list="{{ permRows }}" as="p" hint-placeholder-count="10"><div style="display:grid;grid-template-columns:minmax(180px,1fr) repeat(5,110px);gap:12px;padding:10px 18px;align-items:center;border-bottom:1px solid #F3F0E9;font-size:14px"><span style="font-weight:700">{{ p.label }}</span><sc-for list="{{ p.cells }}" as="c" hint-placeholder-count="5"><button onClick="{{ c.go }}" aria-label="{{ c.aria }}" style="justify-self:center;width:30px;height:30px;border-radius:8px;border:1px solid {{ c.border }};background:{{ c.bg }};color:#F5F1E8;font-size:14px;font-weight:800">{{ c.tick }}</button></sc-for></div></sc-for>
+        </div></div>
+        <p style="margin:0;font-size:13.5px;color:#5E6E68">Owner access can’t be removed. Changes apply the next time a staff member signs in.</p>
+      </sc-if>
+      <sc-if value="{{ rLog }}" hint-placeholder-val="{{ false }}">
+        <div style="background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:22px;padding:6px 20px"><sc-for list="{{ logRows }}" as="l" hint-placeholder-count="6"><div style="display:grid;grid-template-columns:110px minmax(0,1fr) 180px;gap:12px;padding:12px 0;border-bottom:1px solid #F3F0E9;font-size:14px"><span style="color:#5E6E68">{{ l.when }}</span><span style="font-weight:600">{{ l.t }}</span><span style="color:#5E6E68;text-align:right">{{ l.who }}</span></div></sc-for></div>
+      </sc-if>
+    </sc-if>
+    <sc-if value="{{ isKits }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start">
+        <nav style="flex:0 1 240px;min-width:200px;background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:22px;padding:8px;display:flex;flex-direction:column;gap:2px"><sc-for list="{{ kitList }}" as="k" hint-placeholder-count="10"><button onClick="{{ k.go }}" style="display:flex;justify-content:space-between;align-items:center;gap:8px;border:0;border-radius:12px;padding:10px 12px;background:{{ k.bg }};color:#06382E;font-size:14px;font-weight:{{ k.fw }};text-align:left"><span>{{ k.name }}</span><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;color:{{ k.stInk }}">{{ k.st }}</span></button></sc-for></nav>
+        <section style="flex:1 1 560px;min-width:0;background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><span style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:800;font-size:22px;letter-spacing:-.03em">{{ kd.name }}</span><span style="font-size:13px;color:#5E6E68">{{ kd.store }} · {{ kd.totalF }}</span></span><span style="display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700">Live <button onClick="{{ kd.toggleLive }}" style="width:44px;height:26px;border-radius:999px;border:0;background:{{ kd.liveBg }};position:relative;padding:0;flex:0 0 auto"><span style="position:absolute;top:4px;left:{{ kd.liveX }};width:18px;height:18px;border-radius:50%;background:#fff;transition:left .25s ease"></span></button></span></div>
+          <div onClick="{{ kd.place }}" style="position:relative;aspect-ratio:4/3;border-radius:20px;overflow:hidden;background:#EFEADC;cursor:crosshair">
+            <image-slot id="{{ kd.slot }}" shape="rect" placeholder="Drop the room photo for this kit"></image-slot>
+            <sc-for list="{{ kd.pins }}" as="p" hint-placeholder-count="4"><span style="position:absolute;left:{{ p.x }};top:{{ p.y }};width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;border:3px solid {{ p.ring }};background:{{ p.bg }};color:#06382E;font-weight:800;font-size:14px;display:grid;place-items:center;z-index:2;pointer-events:none;box-shadow:0 6px 16px rgba(0,0,0,.2)">{{ p.n }}</span></sc-for>
+          </div>
+          <span style="font-size:13px;color:#5E6E68">{{ kd.hint }}</span>
+          <div style="display:flex;flex-direction:column;border-top:1px solid #EEEAE2"><sc-for list="{{ kd.items }}" as="i" hint-placeholder-count="4"><div style="display:grid;grid-template-columns:30px minmax(0,1fr) auto auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid #F3F0E9;font-size:14px"><span style="width:26px;height:26px;border-radius:50%;background:#D4A637;display:grid;place-items:center;font-weight:800;font-size:12px">{{ i.n }}</span><span style="display:flex;flex-direction:column"><span style="font-weight:700">{{ i.name }}</span><span style="font-size:12.5px;color:#5E6E68">{{ i.note }} · pin {{ i.pos }}</span></span><span style="font-weight:800">{{ i.priceF }}</span><button onClick="{{ i.pick }}" style="border:1px solid {{ i.border }};background:{{ i.bg }};color:{{ i.ink }};border-radius:999px;padding:7px 12px;font-size:12.5px;font-weight:800;white-space:nowrap">{{ i.btn }}</button></div></sc-for></div>
+        </section>
+      </div>
+    </sc-if>
+    <sc-if value="{{ isContent }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:16px;align-items:start">
+        <section style="background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:12px"><span style="font-weight:800;font-size:18px">Hero · “Sourced for the ___”</span><span style="font-size:13px;color:#5E6E68">Words rotate every 2.3 seconds. Each opens the kit with the same name.</span>
+          <div style="display:flex;gap:6px;flex-wrap:wrap"><sc-for list="{{ heroWords }}" as="w" hint-placeholder-count="8"><span style="display:flex;align-items:center;gap:6px;background:#F5F1E8;border-radius:999px;padding:7px 8px 7px 14px;font-weight:700;font-size:13.5px">{{ w.t }}<button onClick="{{ w.remove }}" aria-label="Remove" style="width:22px;height:22px;border-radius:50%;border:0;background:#fff;color:#06382E;font-size:12px">✕</button></span></sc-for></div>
+          <div style="display:flex;gap:8px"><input value="{{ heroNew }}" onChange="{{ heroNewCh }}" placeholder="e.g. pharmacy." style="border:1px solid rgba(6,56,46,.2);border-radius:12px;padding:10px 12px;font-size:14px;background:#fff;color:#06382E;flex:1"><button onClick="{{ heroAdd }}" style="border:0;background:#06382E;color:#F5F1E8;border-radius:999px;padding:10px 16px;font-weight:800;font-size:13.5px">Add</button></div>
+        </section>
+        <section style="background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:12px"><span style="font-weight:800;font-size:18px">Best sellers on the front page</span>
+          <sc-for list="{{ bestSlots }}" as="b" hint-placeholder-count="4"><label style="display:flex;flex-direction:column;gap:6px;font-size:11px;font-weight:700;letter-spacing:.14em">{{ b.label }}<select value="{{ b.value }}" onChange="{{ b.ch }}" style="border:1px solid rgba(6,56,46,.2);border-radius:12px;padding:10px 12px;font-size:14px;background:#fff;color:#06382E"><sc-for list="{{ prodOpts }}" as="o" hint-placeholder-count="10"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select></label></sc-for>
+        </section>
+        <sc-for list="{{ contentFields }}" as="g" hint-placeholder-count="2">
+          <section style="background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:12px"><span style="font-weight:800;font-size:18px">{{ g.title }}</span><sc-for list="{{ g.fields }}" as="f" hint-placeholder-count="2"><label style="display:flex;flex-direction:column;gap:6px;font-size:11px;font-weight:700;letter-spacing:.14em">{{ f.label }}<textarea rows="3" value="{{ f.value }}" onChange="{{ f.ch }}" style="border:1px solid rgba(6,56,46,.2);border-radius:12px;padding:10px 12px;font-size:14px;background:#fff;color:#06382E;font-size:14.5px;line-height:1.5;letter-spacing:0;font-weight:500;resize:vertical"></textarea></label></sc-for></section>
+        </sc-for>
+      </div>
+      <button onClick="{{ saveContent }}" style="align-self:flex-start;border:0;background:#06382E;color:#F5F1E8;border-radius:999px;padding:15px 26px;font-weight:800;font-size:15px">Publish content</button>
+    </sc-if>
+    <sc-if value="{{ isZones }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:22px;overflow-x:auto"><div style="min-width:860px">
+        <div style="display:grid;grid-template-columns:minmax(160px,1fr) 150px minmax(180px,1fr) 120px 120px 50px;gap:12px;padding:12px 18px;font-size:11px;font-weight:700;letter-spacing:.12em;color:#5E6E68;border-bottom:1px solid #EEEAE2"><span>ZONE</span><span>FEE (₦)</span><span>DELIVERY TIME</span><span>PAY ON DELIVERY</span><span>INSTALLATION</span><span></span></div>
+        <sc-for list="{{ zoneRows }}" as="z" hint-placeholder-count="6"><div style="display:grid;grid-template-columns:minmax(160px,1fr) 150px minmax(180px,1fr) 120px 120px 50px;gap:12px;padding:10px 18px;align-items:center;border-bottom:1px solid #F3F0E9;font-size:14px"><input value="{{ z.name }}" onChange="{{ z.nameCh }}" style="border:1px solid rgba(6,56,46,.2);border-radius:12px;padding:10px 12px;font-size:14px;background:#fff;color:#06382E;font-weight:700"><input value="{{ z.fee }}" onChange="{{ z.feeCh }}" placeholder="[ FEE ]" inputMode="numeric" style="border:1px solid rgba(6,56,46,.2);border-radius:12px;padding:10px 12px;font-size:14px;background:#fff;color:#06382E"><input value="{{ z.time }}" onChange="{{ z.timeCh }}" placeholder="e.g. 1–2 working days" style="border:1px solid rgba(6,56,46,.2);border-radius:12px;padding:10px 12px;font-size:14px;background:#fff;color:#06382E"><button onClick="{{ z.podGo }}" style="width:44px;height:26px;border-radius:999px;border:0;background:{{ z.podBg }};position:relative;padding:0;flex:0 0 auto"><span style="position:absolute;top:4px;left:{{ z.podX }};width:18px;height:18px;border-radius:50%;background:#fff;transition:left .25s ease"></span></button><button onClick="{{ z.insGo }}" style="width:44px;height:26px;border-radius:999px;border:0;background:{{ z.insBg }};position:relative;padding:0;flex:0 0 auto"><span style="position:absolute;top:4px;left:{{ z.insX }};width:18px;height:18px;border-radius:50%;background:#fff;transition:left .25s ease"></span></button><button onClick="{{ z.remove }}" aria-label="Remove zone" style="width:34px;height:34px;border-radius:50%;border:1px solid rgba(6,56,46,.18);background:#fff;color:#06382E">✕</button></div></sc-for>
+      </div></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap"><button onClick="{{ addZone }}" style="border:1px solid rgba(6,56,46,.2);background:#fff;color:#06382E;border-radius:999px;padding:12px 20px;font-weight:800;font-size:14px">Add zone</button><button onClick="{{ saveZones }}" style="border:0;background:#06382E;color:#F5F1E8;border-radius:999px;padding:12px 20px;font-weight:800;font-size:14px">Save and publish</button></div>
+      <p style="margin:0;font-size:13.5px;color:#5E6E68">Checkout picks the zone from the delivery address and shows its fee before payment. Pay on delivery only appears where it’s switched on.</p>
+    </sc-if>
+    <sc-if value="{{ isNotify }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;gap:6px;flex-wrap:wrap"><sc-for list="{{ nChips }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.go }}" style="border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.ink }};border-radius:999px;padding:8px 14px;font-size:13px;font-weight:700;white-space:nowrap">{{ c.label }}</button></sc-for></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,400px),1fr));gap:12px">
+        <sc-for list="{{ notifyCards }}" as="n" hint-placeholder-count="6">
+          <article style="background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:22px;padding:18px;display:flex;flex-direction:column;gap:10px;opacity:{{ n.op }}">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span style="display:flex;flex-direction:column;gap:4px"><span style="font-weight:800;font-size:16px">{{ n.name }}</span><span style="font-size:12.5px;color:#5E6E68">When: {{ n.trigger }}</span></span><button onClick="{{ n.toggle }}" style="width:44px;height:26px;border-radius:999px;border:0;background:{{ n.onBg }};position:relative;padding:0;flex:0 0 auto"><span style="position:absolute;top:4px;left:{{ n.onX }};width:18px;height:18px;border-radius:50%;background:#fff;transition:left .25s ease"></span></button></div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap"><sc-for list="{{ n.channels }}" as="c" hint-placeholder-count="2"><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.12em;padding:4px 8px;border-radius:4px;background:{{ c.bg }};color:{{ c.ink }}">{{ c.t }}</span></sc-for></div>
+            <textarea rows="4" value="{{ n.body }}" onChange="{{ n.ch }}" style="border:1px solid rgba(6,56,46,.2);border-radius:12px;padding:10px 12px;font-size:14px;background:#fff;color:#06382E;font-size:14px;line-height:1.5;resize:vertical"></textarea>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5E6E68">{{ n.vars }}</span><button onClick="{{ n.test }}" style="border:1px solid rgba(6,56,46,.2);background:#fff;color:#06382E;border-radius:999px;padding:7px 12px;font-size:12.5px;font-weight:800">Send test</button></div>
+          </article>
+        </sc-for>
+      </div>
+    </sc-if>
+    <sc-if value="{{ isBulk }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px;align-items:start">
+        <section style="border:2px dashed rgba(6,56,46,.3);border-radius:22px;background:#fff;padding:28px;display:flex;flex-direction:column;gap:12px;align-items:flex-start">
+          <span style="font-weight:800;font-size:20px">Upload a spreadsheet</span>
+          <span style="font-size:14px;line-height:1.55;color:#3A4A44">CSV or Excel. One row per product. New products are added as hidden until you check them; existing products (same SKU) get the new price and stock.</span>
+          <input type="file" accept=".csv,.xlsx,.xls" onChange="{{ bulkFile }}" style="font-size:14px">
+          <button onClick="{{ bulkSample }}" style="border:1px solid rgba(6,56,46,.2);background:#fff;color:#06382E;border-radius:999px;padding:10px 16px;font-weight:800;font-size:13.5px">Load a sample file</button>
+        </section>
+        <section style="background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:10px"><span style="font-weight:800;font-size:18px">Columns</span><div style="display:flex;gap:6px;flex-wrap:wrap"><sc-for list="{{ bulkCols }}" as="c" hint-placeholder-count="8"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;background:#F5F1E8;border-radius:4px;padding:6px 10px">{{ c }}</span></sc-for></div><span style="font-size:13px;color:#5E6E68">Store is “home” or “business”. Free set-up is yes or no.</span></section>
+      </div>
+      <sc-if value="{{ bulkHas }}" hint-placeholder-val="{{ false }}">
+        <div style="background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:22px;overflow-x:auto"><div style="min-width:820px">
+          <div style="display:grid;grid-template-columns:110px minmax(180px,1fr) 110px 130px 120px 80px 160px;gap:12px;padding:12px 18px;font-size:11px;font-weight:700;letter-spacing:.12em;color:#5E6E68;border-bottom:1px solid #EEEAE2"><span>SKU</span><span>NAME</span><span>STORE</span><span>CATEGORY</span><span>PRICE</span><span>STOCK</span><span>CHECK</span></div>
+          <sc-for list="{{ bulkRows }}" as="b" hint-placeholder-count="6"><div style="display:grid;grid-template-columns:110px minmax(180px,1fr) 110px 130px 120px 80px 160px;gap:12px;padding:11px 18px;align-items:center;border-bottom:1px solid #F3F0E9;font-size:14px"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px">{{ b.sku }}</span><span style="font-weight:700">{{ b.name }}</span><span>{{ b.store }}</span><span>{{ b.cat }}</span><span>{{ b.priceF }}</span><span>{{ b.stock }}</span><span style="font-size:12px;font-weight:800;padding:5px 10px;border-radius:999px;background:{{ b.stBg }};color:{{ b.stInk }};justify-self:start">{{ b.check }}</span></div></sc-for>
+        </div></div>
+        <button onClick="{{ bulkImport }}" style="align-self:flex-start;border:0;background:#06382E;color:#F5F1E8;border-radius:999px;padding:14px 24px;font-weight:800;font-size:14.5px">{{ bulkImportLabel }}</button>
+      </sc-if>
+    </sc-if>
+    <sc-if value="{{ isEngineer }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start">
+        <div style="width:390px;max-width:100%;height:780px;border-radius:44px;background:#0C1411;padding:12px;box-shadow:0 30px 70px rgba(6,56,46,.25)">
+          <div style="width:100%;height:100%;border-radius:34px;background:#F5F1E8;overflow-y:auto;display:flex;flex-direction:column">
+            <div style="background:#06382E;color:#F5F1E8;padding:22px 20px 18px;display:flex;flex-direction:column;gap:4px"><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:#D4A637">D’SOURCE · ENGINEER</span><span style="font-weight:800;font-size:22px;letter-spacing:-.03em">Today · {{ engName }}</span><span style="font-size:13px;color:rgba(245,241,232,.75)">{{ engSummary }}</span></div>
+            <div style="padding:14px;display:flex;flex-direction:column;gap:12px">
+              <sc-for list="{{ engJobs }}" as="j" hint-placeholder-count="3">
+                <article style="background:#fff;border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:10px;border:2px solid {{ j.border }}">
+                  <div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><span style="font-weight:800;font-size:15px">{{ j.time }} · {{ j.type }}</span><span style="font-size:11px;font-weight:800;padding:4px 9px;border-radius:999px;background:{{ j.stBg }};color:{{ j.stInk }}">{{ j.status }}</span></div>
+                  <span style="font-size:13.5px;color:#3A4A44">{{ j.cust }} · {{ j.addr }}</span>
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#5E6E68">{{ j.ref }}</span>
+                  <div style="display:flex;flex-direction:column;gap:6px"><sc-for list="{{ j.checks }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.go }}" style="display:flex;align-items:center;gap:10px;border:0;background:transparent;padding:0;min-height:36px;font-size:14px;color:#06382E;text-align:left"><span style="flex:0 0 auto;width:24px;height:24px;border-radius:7px;border:2px solid #06382E;background:{{ c.bg }};color:#F5F1E8;display:grid;place-items:center;font-size:12px">{{ c.tick }}</span>{{ c.t }}</button></sc-for></div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><button onClick="{{ j.call }}" style="min-height:46px;border-radius:999px;border:1px solid rgba(6,56,46,.2);background:#fff;color:#06382E;font-weight:800;font-size:14px">Call customer</button><button onClick="{{ j.go }}" style="min-height:46px;border-radius:999px;border:0;background:{{ j.btnBg }};color:{{ j.btnInk }};font-weight:800;font-size:14px">{{ j.btn }}</button></div>
+                </article>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        <div style="flex:1 1 320px;max-width:520px;display:flex;flex-direction:column;gap:12px"><span style="font-weight:800;font-size:20px">The engineer’s phone view</span><p style="margin:0;font-size:15px;line-height:1.65;color:#3A4A44">Engineers see only today’s jobs, the address, the checklist for that job type and a button to call the customer. Completing a job moves the order to “Installed” and sends the customer a review request.</p><label style="display:flex;flex-direction:column;gap:6px;font-size:11px;font-weight:700;letter-spacing:.14em">PREVIEW AS<select value="{{ engPick }}" onChange="{{ engPickCh }}" style="border:1px solid rgba(6,56,46,.2);border-radius:12px;padding:10px 12px;font-size:14px;background:#fff;color:#06382E"><sc-for list="{{ engOpts }}" as="o" hint-placeholder-count="3"><option value="{{ o }}">{{ o }}</option></sc-for></select></label></div>
+      </div>
+    </sc-if>
+    <!-- SETTINGS -->
+    <sc-if value="{{ isSettings }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#EFEADC;border-radius:16px;padding:14px 18px;font-size:14px;color:#3A4A44">These fill every <strong>[ TO CONFIRM ]</strong> on the storefront. Saving publishes them to help pages, checkout and product pages.</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px;align-items:start">
+        <sc-for list="{{ setGroups }}" as="g" hint-placeholder-count="4">
+          <section style="background:#fff;border:1px solid rgba(6,56,46,.1);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:12px">
+            <span style="font-weight:800;font-size:18px">{{ g.title }}</span>
+            <sc-for list="{{ g.fields }}" as="f" hint-placeholder-count="3">
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:11px;font-weight:700;letter-spacing:.14em">{{ f.label }}<input value="{{ f.value }}" onChange="{{ f.ch }}" placeholder="{{ f.ph }}" style="border:1px solid rgba(6,56,46,.2);border-radius:12px;padding:12px;font-size:14.5px;letter-spacing:0;font-weight:500;background:#fff;color:#06382E"></label>
+            </sc-for>
+          </section>
+        </sc-for>
+      </div>
+      <button onClick="{{ saveSettings }}" style="align-self:flex-start;border:0;background:#06382E;color:#F5F1E8;border-radius:999px;padding:15px 26px;font-weight:800;font-size:15px">Save and publish</button>
+    </sc-if>
+
+  </main>
+</div>
+
+<!-- DRAWER -->
+<sc-if value="{{ drawerOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;z-index:100;display:flex;justify-content:flex-end">
+  <div onClick="{{ closeDrawer }}" style="position:absolute;inset:0;background:rgba(6,56,46,.4)"></div>
+  <aside style="position:relative;width:min(560px,100%);height:100%;background:#FFFFFF;color:#06382E;display:flex;flex-direction:column;animation:dsIn .3s cubic-bezier(.2,.8,.2,1) both">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-bottom:1px solid #EEEAE2">
+      <span style="display:flex;flex-direction:column;gap:2px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;color:#28705A">{{ dKick }}</span><span style="font-weight:800;font-size:22px;letter-spacing:-.03em">{{ dTitle }}</span></span>
+      <button onClick="{{ closeDrawer }}" aria-label="Close" style="width:42px;height:42px;border-radius:50%;border:1px solid rgba(6,56,46,.2);background:#fff;color:#06382E">✕</button>
+    </div>
+    <div style="flex:1;overflow-y:auto;padding:20px 22px;display:flex;flex-direction:column;gap:18px">
+
+      <sc-if value="{{ dOrder }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid;grid-template-columns:130px minmax(0,1fr);gap:8px 12px;font-size:14px"><sc-for list="{{ od.meta }}" as="m" hint-placeholder-count="5"><span style="color:#5E6E68">{{ m.k }}</span><span style="font-weight:700">{{ m.v }}</span></sc-for></div>
+        <div style="border-top:1px solid #EEEAE2"><sc-for list="{{ od.items }}" as="i" hint-placeholder-count="2"><div style="display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #F3F0E9;font-size:14px"><span><strong>{{ i.qty }} ×</strong> {{ i.name }}</span><span style="font-weight:700">{{ i.lineF }}</span></div></sc-for><div style="display:flex;justify-content:space-between;padding:12px 0;font-weight:800"><span>Total</span><span>{{ od.totalF }}</span></div></div>
+        <div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:11px;font-weight:700;letter-spacing:.14em;color:#28705A">STATUS</span>
+          <div style="display:flex;flex-direction:column;gap:6px"><sc-for list="{{ od.steps }}" as="s" hint-placeholder-count="6"><button onClick="{{ s.set }}" style="display:flex;align-items:center;gap:10px;border:1px solid {{ s.border }};background:{{ s.bg }};color:#06382E;border-radius:12px;padding:10px 12px;font-size:14px;font-weight:{{ s.fw }};text-align:left"><span style="width:16px;height:16px;border-radius:50%;background:{{ s.dot }};border:2px solid {{ s.ring }}"></span>{{ s.label }}</button></sc-for></div>
+        </div>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:11px;font-weight:700;letter-spacing:.14em">INSTALLATION ENGINEER<select style="border:1px solid rgba(6,56,46,.2);border-radius:12px;padding:12px;font-size:14px;background:#fff;color:#06382E"><option>Not needed</option><option>[ ENGINEER 1 ]</option><option>[ ENGINEER 2 ]</option></select></label>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:11px;font-weight:700;letter-spacing:.14em">INTERNAL NOTE<textarea rows="3" style="border:1px solid rgba(6,56,46,.2);border-radius:12px;padding:12px;font-size:14px;background:#fff;color:#06382E;resize:vertical"></textarea></label>
+        <button onClick="{{ od.notify }}" style="align-self:flex-start;border:1px solid rgba(6,56,46,.2);background:#fff;color:#06382E;border-radius:999px;padding:11px 18px;font-weight:800;font-size:14px">Send status update to customer</button>
+      </sc-if>
+
+      <sc-if value="{{ dQuote }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid;grid-template-columns:130px minmax(0,1fr);gap:8px 12px;font-size:14px"><sc-for list="{{ qd.meta }}" as="m" hint-placeholder-count="4"><span style="color:#5E6E68">{{ m.k }}</span><span style="font-weight:700">{{ m.v }}</span></sc-for></div>
+        <div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:11px;font-weight:700;letter-spacing:.14em;color:#28705A">LINES · UNIT PRICE EX. VAT</span>
+          <sc-for list="{{ qd.lines }}" as="l" hint-placeholder-count="3"><div style="display:grid;grid-template-columns:minmax(0,1fr) 60px 130px;gap:8px;align-items:center;font-size:14px"><span style="font-weight:700">{{ l.name }}</span><span style="text-align:center">× {{ l.qty }}</span><input value="{{ l.unit }}" onChange="{{ l.ch }}" inputMode="numeric" style="border:1px solid rgba(6,56,46,.2);border-radius:10px;padding:9px;font-size:14px;text-align:right;background:#fff;color:#06382E"></div></sc-for>
+        </div>
+        <label style="display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:14px;font-weight:700">Volume discount %<input value="{{ qd.disc }}" onChange="{{ qd.discCh }}" inputMode="numeric" style="width:90px;border:1px solid rgba(6,56,46,.2);border-radius:10px;padding:9px;font-size:14px;text-align:right;background:#fff;color:#06382E"></label>
+        <div style="background:#F5F1E8;border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;font-size:14px"><sc-for list="{{ qd.sums }}" as="r" hint-placeholder-count="4"><div style="display:flex;justify-content:space-between"><span style="color:#3A4A44">{{ r.k }}</span><span style="font-weight:{{ r.fw }}">{{ r.v }}</span></div></sc-for></div>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:11px;font-weight:700;letter-spacing:.14em">NOTE TO CUSTOMER<textarea rows="3" placeholder="Delivery, installation, validity" style="border:1px solid rgba(6,56,46,.2);border-radius:12px;padding:12px;font-size:14px;background:#fff;color:#06382E;resize:vertical"></textarea></label>
+        <button onClick="{{ qd.send }}" style="align-self:flex-start;border:0;background:#06382E;color:#F5F1E8;border-radius:999px;padding:13px 22px;font-weight:800;font-size:14.5px">{{ qd.sendLabel }}</button>
+      </sc-if>
+
+      <sc-if value="{{ dGen }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid;grid-template-columns:140px minmax(0,1fr);gap:8px 12px;font-size:14px"><sc-for list="{{ gd.meta }}" as="m" hint-placeholder-count="5"><span style="color:#5E6E68">{{ m.k }}</span><span style="font-weight:700">{{ m.v }}</span></sc-for></div>
+        <sc-if value="{{ gd.hasLines }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;border-top:1px solid #EEEAE2"><span style="font-size:11px;font-weight:700;letter-spacing:.14em;color:#28705A;padding:12px 0 4px">{{ gd.linesTitle }}</span><sc-for list="{{ gd.lines }}" as="l" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #F3F0E9;font-size:14px"><span>{{ l.a }}</span><span style="font-weight:700;text-align:right">{{ l.b }}</span></div></sc-for></div></sc-if>
+        <sc-for list="{{ gd.fields }}" as="f" hint-placeholder-count="0"><label style="display:flex;flex-direction:column;gap:6px;font-size:11px;font-weight:700;letter-spacing:.14em">{{ f.label }}<input placeholder="{{ f.ph }}" style="border:1px solid rgba(6,56,46,.2);border-radius:12px;padding:12px;font-size:14.5px;letter-spacing:0;font-weight:500;background:#fff;color:#06382E"></label></sc-for>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><sc-for list="{{ gd.actions }}" as="a" hint-placeholder-count="2"><button onClick="{{ a.go }}" style="border:{{ a.border }};background:{{ a.bg }};color:{{ a.ink }};border-radius:999px;padding:12px 20px;font-weight:800;font-size:14px;white-space:nowrap">{{ a.label }}</button></sc-for></div>
+      </sc-if>
+      <sc-if value="{{ dProduct }}" hint-placeholder-val="{{ false }}">
+        <div style="position:relative;aspect-ratio:16/10;border-radius:18px;overflow:hidden;background:#F6F4EF"><image-slot id="{{ pd.img }}" shape="rect" placeholder="Drop the main product photo"></image-slot></div>
+        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
+          <sc-for list="{{ pd.fields }}" as="f" hint-placeholder-count="5"><label style="display:flex;flex-direction:column;gap:6px;font-size:11px;font-weight:700;letter-spacing:.14em;grid-column:{{ f.span }}">{{ f.label }}<input value="{{ f.value }}" onChange="{{ f.ch }}" style="border:1px solid rgba(6,56,46,.2);border-radius:12px;padding:12px;font-size:14.5px;letter-spacing:0;font-weight:500;background:#fff;color:#06382E"></label></sc-for>
+          <label style="display:flex;flex-direction:column;gap:6px;font-size:11px;font-weight:700;letter-spacing:.14em;grid-column:1/-1">CATEGORY<select value="{{ pd.catKey }}" onChange="{{ pd.catCh }}" style="border:1px solid rgba(6,56,46,.2);border-radius:12px;padding:12px;font-size:14.5px;background:#fff;color:#06382E"><sc-for list="{{ pd.catOpts }}" as="c" hint-placeholder-count="10"><option value="{{ c.v }}">{{ c.l }}</option></sc-for></select></label>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <sc-for list="{{ pd.toggles }}" as="x" hint-placeholder-count="2"><button onClick="{{ x.go }}" style="display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid #EEEAE2;background:#fff;border-radius:14px;padding:12px 14px;font-size:14.5px;font-weight:700;color:#06382E;text-align:left"><span>{{ x.label }}</span><span style="width:44px;height:26px;border-radius:999px;background:{{ x.bg }};position:relative"><span style="position:absolute;top:4px;left:{{ x.x }};width:18px;height:18px;border-radius:50%;background:#fff;transition:left .25s ease"></span></span></button></sc-for>
+        </div>
+        <div style="display:flex;gap:8px"><button onClick="{{ pd.save }}" style="border:0;background:#06382E;color:#F5F1E8;border-radius:999px;padding:13px 22px;font-weight:800;font-size:14.5px">Save product</button><button onClick="{{ closeDrawer }}" style="border:1px solid rgba(6,56,46,.2);background:#fff;color:#06382E;border-radius:999px;padding:12px 20px;font-weight:700;font-size:14.5px">Cancel</button></div>
+      </sc-if>
+
+    </div>
+  </aside>
+</div>
+</sc-if>
+
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}"><div style="position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:200;background:#06382E;color:#F5F1E8;border-radius:999px;padding:12px 20px;font-size:14px;font-weight:700;box-shadow:0 14px 40px rgba(0,0,0,.2)">{{ toast }}</div></sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const fmt = n => '₦' + Math.round(n || 0).toLocaleString('en-NG');
+const EMP = {
+  Laptops:[['APPLE','MacBook Air 13″','M-series · 16GB · 256GB',1650000],['LENOVO','IdeaPad Slim 5','Ryzen 5 · 16GB · 512GB',720000],['DELL','XPS 14','Core Ultra 7 · OLED',1480000],['HP','OMEN 16','RTX 4060 · 165Hz',1390000],['ASUS','Vivobook 15','Core i5 · 8GB · 512GB',560000],['APPLE','MacBook Pro 14″','M-series Pro · 18GB',2950000]],
+  Phones:[['SAMSUNG','Galaxy S-series','256GB',1350000],['APPLE','iPhone','128GB',1420000],['SAMSUNG','Galaxy A-series','128GB',385000],['SAMSUNG','Galaxy Tab S9','Wi-Fi · 128GB',640000],['TECNO','Camon series','256GB · dual SIM',290000],['INFINIX','Note series','256GB · fast charge',245000]],
+  Networking:[['TP-LINK','Deco X55 Mesh (3-pack)','Wi-Fi 6 · 3–4 bed home',265000],['TP-LINK','Archer AX55','Wi-Fi 6 router',95000],['TP-LINK','Deco X20 (2-pack)','Wi-Fi 6 · apartment',148000],['TP-LINK','Omada EAP610','Ceiling access point',120000],['TP-LINK','Deco BE65 (2-pack)','Wi-Fi 7 · large home',420000],['TP-LINK','RE705X extender','Wi-Fi 6 · one room',68000]],
+  'TV & Audio':[['SAMSUNG','65″ Neo QLED 4K','Mini LED · 120Hz',1250000],['SAMSUNG','55″ Crystal UHD','4K · Smart TV',520000],['SAMSUNG','Q-series Soundbar','5.1.2 · Atmos',480000],['SAMSUNG','The Freestyle','Portable projector',690000],['LG','65″ OLED evo','4K · 120Hz',2150000],['JBL','Bar 500','5.1 soundbar',520000]],
+  Power:[['HOME POWER','3.5kVA inverter + battery','Home backup',1150000],['HOME POWER','1.5kVA UPS','Desk and router backup',180000],['HOME POWER','Solar panel set','Sized to your load',950000],['HOME POWER','20,000mAh power bank','Phone and laptop',45000],['HOME POWER','5kVA inverter + lithium battery','Whole-home backup',2450000],['HOME POWER','Portable power station','1kWh · outages and trips',690000]],
+  Security:[['HIKVISION','4-camera ColorVu kit','Night colour · phone viewing',480000],['SECURITY','Video doorbell','See who’s at the gate',120000],['SECURITY','Smart gate lock','Open from your phone',210000],['SECURITY','Floodlight camera','Driveway coverage',150000],['HIKVISION','8-camera NVR kit','Night colour · 2TB',890000],['SECURITY','Indoor Wi-Fi camera','Two-way talk',45000]]
+};
+const PROV = {
+  Networking:[['TP-LINK','Omada 28-port PoE+ switch','TL-SG3428MP',572000],['TP-LINK','Omada Wi-Fi 6 ceiling AP','EAP670',196000],['TP-LINK','Omada gateway','ER7206',210000],['TP-LINK','Omada controller','OC300',145000],['TP-LINK','Omada outdoor AP','EAP610-Outdoor',165000],['TP-LINK','Omada 8-port PoE switch','SG2210MP',145000]],
+  Computing:[['DELL','Latitude 5550','Core Ultra 5 · 16GB',1090000],['LENOVO','ThinkCentre M70q','Tiny desktop',640000],['APPLE','MacBook Air for teams','MDM enrolled',1520000],['HP','EliteBook 840','Core Ultra 7',1260000],['DELL','OptiPlex Micro','Core i5 · 16GB',720000],['LENOVO','ThinkPad E14','Core i5 · 16GB',980000]],
+  Security:[['HIKVISION','16-channel NVR','DS-7616NI',352000],['HIKVISION','ColorVu turret camera','4MP',78000],['HIKVISION','Access control terminal','Face + card',295000],['HIKVISION','PTZ camera','25× zoom',640000],['HIKVISION','Dome camera','4MP · indoor',65000],['HIKVISION','Video intercom kit','Door station + monitor',310000]],
+  Displays:[['SAMSUNG','55″ QBC signage','16/7',835000],['SAMSUNG','Flip interactive board','65″',2400000],['SAMSUNG','Smart Monitor M8','32″',520000],['SAMSUNG','Video wall panel','55″ · 1.7mm bezel',1950000],['SAMSUNG','43″ QBC signage','16/7',540000],['LG','Meeting room display','75″ 4K',1850000]]
+};
+const ELABEL = { Laptops:'Laptops', Phones:'Phones', Networking:'Wi-Fi', 'TV & Audio':'TV & Audio', Power:'Power', Security:'Security' };
+const STAGES = ['Received','Confirmed','Packed','Out for delivery','Delivered','Installed'];
+const ST_COL = [['#EFEADC','#06382E'],['#FFF1CC','#7A5B00'],['#E3EEE8','#1F5E48'],['#DCEBFF','#1B4A8A'],['#D9F0E3','#1F7A5A'],['#06382E','#D4A637']];
+const buildProducts = () => { const out = []; [['emporium', EMP, 'H'], ['provision', PROV, 'B']].forEach(([store, SRC, L]) => Object.keys(SRC).forEach(cat => SRC[cat].forEach((d, i) => { const [brand, name, spec, price] = d, emp = store === 'emporium';
+  out.push({ id:(emp ? 'e' : 'p') + '-' + cat.replace(/\W/g,'').toLowerCase() + '-' + i, store, cat, brand, name, spec, price, stock:(i*7 + cat.length*3) % 23, live:true, free: emp && (cat === 'Laptops' || cat === 'Phones' || (cat === 'TV & Audio' && i < 2)), img: emp ? 'v5-deal-H-' + cat.replace(/\W/g,'') + '-' + i : 'v5-deal-B-' + cat + '-' + i }); }))); return out; };
+const ORDERS = [
+  ['DS-8K2Q1M','26 Sep','Adaeze O.','Lekki, Lagos','emporium',[['MacBook Air 13″',1,1650000]],'Card · Paystack',0],
+  ['DS-7TR4XA','26 Sep','Brightfield Schools','Ibadan, Oyo','provision',[['Latitude 5550',12,1090000],['Omada Wi-Fi 6 ceiling AP',6,196000]],'30-day invoice',1],
+  ['DS-5NW9PZ','25 Sep','Tunde A.','Wuse, Abuja','emporium',[['55″ Crystal UHD',1,520000],['Q-series Soundbar',1,480000]],'Pay on delivery',2],
+  ['DS-3HJ6LE','25 Sep','Chika N.','Enugu','emporium',[['Deco X55 Mesh (3-pack)',1,265000]],'USSD',3],
+  ['DS-2MV8QD','24 Sep','Harbour View Hotel','Port Harcourt','provision',[['55″ QBC signage',4,835000]],'Bank transfer',4],
+  ['DS-9PL3RK','23 Sep','Folake B.','Ikeja, Lagos','emporium',[['3.5kVA inverter + battery',1,1150000]],'Card · Flutterwave',5],
+  ['DS-6XC1WN','23 Sep','Musa I.','Kano','emporium',[['Galaxy A-series',2,385000]],'Bank transfer',1]
+].map(([ref,date,customer,city,store,items,pay,stage]) => ({ ref, date, customer, city, store, items:items.map(([name,qty,unit]) => ({ name, qty, unit })), pay, stage }));
+const QUOTES = [
+  ['DQ-4RT8NS','Greenway Clinic','Dr. Bello · clinic@[ email ]',[['Reception PC',3,0],['Wi-Fi access point',2,0],['Backup inverter',1,0]],35,'New'],
+  ['DQ-9ZP2KC','Lagoon Offices Ltd','Operations · +234 [ ]',[['Omada 28-port PoE+ switch',2,0],['Omada Wi-Fi 6 ceiling AP',14,0]],170,'New'],
+  ['DQ-1MX7HD','St. Anne’s College','Bursar',[['Flip interactive board',6,0],['Short-throw projector',4,0]],262,'New'],
+  ['DQ-6QW3BV','Cedar Estate','Facility manager',[['16-channel NVR',2,0],['ColorVu turret camera',24,0]],20,'Sent'],
+  ['DQ-8LT5FE','Office in a Box enquiry','New business · Yaba',[],95,'New']
+].map(([ref,org,contact,lines,ago,status]) => ({ ref, org, contact, lines:lines.map(([name,qty,unit]) => ({ name, qty, unit })), ago, status, disc:0 }));
+const REVIEWS = [
+  ['MacBook Air 13″',5,'Set up before it arrived','The engineer moved all my files across and showed me the basics.','Ngozi E.','24 Sep','DS-4KD2QA'],
+  ['Deco X55 Mesh (3-pack)',4,'Signal in every room','Upstairs finally works. Took a second visit to place the third unit.','Kelechi O.','23 Sep','DS-7PQ1RT'],
+  ['55″ Crystal UHD',5,'Mounted the same day','Clean wall mount, cables hidden.','Amina S.','22 Sep',''],
+  ['Galaxy A-series',3,'Good phone','Delivery took longer than I expected.','Ibrahim K.','21 Sep','DS-2LM8QW']
+].map(([product,stars,title,text,name,date,order],i) => ({ id:'r' + i, product, stars, title, text, name, date, order, state:'pending' }));
+const ACCOUNTS = [
+  ['Brightfield Schools Ltd','RC 1234567','Mrs. Adebayo · accounts@[ ]','Project-based','20 Sep','approved'],
+  ['Lagoon Offices Ltd','RC 7654321','Finance desk · +234 [ ]','Monthly','25 Sep','pending'],
+  ['Harbour View Hotel','RC 2468013','Purchasing · purchasing@[ ]','Occasional','26 Sep','pending']
+].map(([company,cac,contact,expected,date,status],i) => ({ id:'a' + i, company, cac, contact, expected, date, status }));
+const SURVEYS = [
+  ['SV-2KQ8LM','Lagoon Offices Ltd','Office','Plot [ ], Victoria Island, Lagos','30 Sep · Morning',0],
+  ['SV-7PD3XN','Cedar Estate','Estate or building','Cedar Estate, Lokogoma, Abuja','1 Oct · Either',1],
+  ['SV-4WE9RA','Greenway Clinic','Clinic','[ Address ], Surulere, Lagos','2 Oct · Afternoon',0]
+].map(([ref,org,site,address,when,st]) => ({ ref, org, site, address, when, st }));
+const ENQUIRIES = [
+  ['Repair collection','Seun A.','2h ago','Repair — please collect my device: laptop won’t charge. Ikeja.'],
+  ['Pilot interest','Adaeze O.','5h ago','I’d like to talk about joining the device care plan pilot. (Pilot: Device care plan)'],
+  ['General','Emeka J.','Yesterday','Do you deliver to Asaba, and how long does it take?'],
+  ['WhatsApp order','+234 [ ]','Yesterday','Hello D’Emporium, I’d like to order: 1 × Deco X55 Mesh (3-pack).'],
+  ['Pilot interest','Brightfield Schools','2 days ago','Interested in the device care plan pilot for 40 student laptops. (Pilot: Device care plan)']
+].map(([type,from,when,msg],i) => ({ id:'e' + i, type, from, when, msg, done:false }));
+const SLA = 240;
+const K = {
+  home:{ name:'Home', store:'emporium', items:[['Mesh Wi-Fi, 3-pack','Covers a 3–4 bed home',265000,22,28],['55″ 4K smart TV','Wall-mounted',690000,56,40],['Soundbar with sub','Under the TV',210000,58,68],['3.5kVA inverter','Keeps it all on through outages',1150000,86,74]] },
+  gate:{ name:'Front gate', store:'emporium', items:[['4-camera CCTV kit','Night vision, phone viewing',480000,18,22],['Video doorbell','See who’s at the gate',120000,62,46],['Smart gate lock','Open from your phone',210000,70,58],['Floodlight camera','Lights up the driveway',150000,40,18]] },
+  away:{ name:'Weekend away', store:'emporium', items:[['Action camera','4K, waterproof',380000,30,40],['20,000mAh power bank','Charges a phone 4 times',45000,56,62],['Noise-cancelling earbuds','For the drive',150000,70,34],['Portable speaker','Beach-proof',95000,44,76]] },
+  weekendIn:{ name:'Weekend at home', store:'emporium', items:[['Game console','Two controllers',720000,50,62],['Wireless earbuds','Movies without waking anyone',150000,28,44],['Mesh Wi-Fi, 2-pack','No buffering upstairs',185000,78,24],['Streaming stick','Every app on the old TV',55000,62,38]] },
+  hostel:{ name:'Student hostel', store:'emporium', items:[['Room router','Share with roommates',65000,76,20],['Study laptop','Light, all-day battery',520000,40,58],['Power bank','Through the outages',45000,58,70],['Earbuds','For lectures and calls',80000,24,40]] },
+  office:{ name:'Office', store:'provision', items:[['Business laptop','16GB',1120000,40,56],['Laser printer','Duplex, network',310000,78,50],['Ceiling access point','One per 25 people',145000,52,10],['1.5kVA UPS','Saves work when power drops',180000,20,78]] },
+  classroom:{ name:'Classroom', store:'provision', items:[['Short-throw projector','Bright enough for daytime',540000,50,16],['Student laptop','Ruggedised, per seat',520000,34,70],['Classroom Wi-Fi','Handles 40 devices',145000,84,14],['Speaker system','Clear to the back row',260000,14,30]] },
+  clinic:{ name:'Clinic', store:'provision', items:[['Reception PC','Records and billing',650000,40,52],['Receipt printer','For payments',110000,58,58],['Backup inverter','Keeps fridges and PCs on',1150000,86,70],['Wi-Fi access point','Staff and patient networks',145000,50,10]] },
+  restaurant:{ name:'Restaurant', store:'provision', items:[['POS terminal','Card, transfer, USSD',380000,34,56],['Menu screen','Update prices in seconds',420000,66,22],['Guest Wi-Fi','Separate from the till',145000,86,12],['Kitchen printer','Orders straight to the pass',140000,16,40]] },
+  lobby:{ name:'Hotel lobby', store:'provision', items:[['55″ signage screen','Welcome and events',820000,70,30],['Guest Wi-Fi access point','Login page with your logo',145000,44,10],['Dome camera','Covers the desk and door',95000,16,14],['Check-in PC','Runs your hotel software',650000,40,60]] },
+  hall:{ name:'Event hall', store:'provision', items:[['PA system','Up to 500 guests',1250000,20,50],['LED screen wall','Quoted to your stage',0,50,30],['Wireless mics, 4-pack','Two handheld, two lapel',320000,60,62],['Projector','For side screens',540000,84,20]] },
+  building:{ name:'Whole building', store:'provision', items:[['Server rack, fitted','Wired and labelled',1900000,20,60],['Core network switch','48 ports, managed',680000,24,40],['Solar and battery','Sized to your load',3400000,70,12],['Building CCTV + NVR','16 cameras',520000,84,64]] }
+};
+const CUSTOMERS = [['Adaeze O.','Home','Lekki, Lagos',3,2105000,'26 Sep','—'],['Brightfield Schools','Business','Ibadan, Oyo',4,18450000,'26 Sep','Approved · 30-day'],['Tunde A.','Home','Wuse, Abuja',1,1000000,'25 Sep','—'],['Chika N.','Home','Enugu',2,410000,'25 Sep','—'],['Harbour View Hotel','Business','Port Harcourt',2,3340000,'24 Sep','To review'],['Folake B.','Home','Ikeja, Lagos',1,1150000,'23 Sep','—'],['Musa I.','Home','Kano',1,770000,'23 Sep','—'],['Lagoon Offices Ltd','Business','Victoria Island, Lagos',0,0,'—','To review']].map(([name,type,city,orders,spent,last,acct],i) => ({ id:'c' + i, name, type, city, orders, spent, last, acct }));
+const PAYSTAT = { 'DS-8K2Q1M':'Paid', 'DS-7TR4XA':'On invoice', 'DS-5NW9PZ':'Pay on delivery', 'DS-3HJ6LE':'Paid', 'DS-2MV8QD':'Awaiting transfer', 'DS-9PL3RK':'Paid', 'DS-6XC1WN':'Failed' };
+const INVOICES = [['INV-0142','Brightfield Schools','DS-7TR4XA',14256000,'26 Sep','26 Oct','Open'],['INV-0138','Brightfield Schools','DS-1QK2AB',4194000,'20 Aug','19 Sep','Overdue'],['INV-0131','Harbour View Hotel','DS-9WQ1EE',1670000,'10 Aug','9 Sep','Paid']].map(([ref,co,order,amt,issued,due,st]) => ({ ref, co, order, amt, issued, due, st }));
+const RSTAGES = ['Requested','Collected','Diagnosing','Fixing','Ready','Returned'];
+const REPAIRS = [['RP-2041','Seun A.','HP laptop · won’t charge','Repair','We collect',0],['RP-2038','Ngozi E.','Galaxy A-series · cracked screen','Repair','Courier',2],['RP-2035','Kelechi O.','Deco X55 unit · no power','Return','We collect',3],['RP-2030','Amina S.','55″ Crystal UHD · dead pixels','Return','We collect',5]].map(([ref,cust,dev,type,how,st]) => ({ ref, cust, dev, type, how, st }));
+const SUPPLIERS = [['[ SUPPLIER A ]','Laptops and desktops','Dell, HP, Lenovo, Apple','3–5 days'],['[ SUPPLIER B ]','Networking','TP-Link Deco and Omada','2–4 days'],['[ SUPPLIER C ]','TVs and displays','Samsung, LG','5–7 days'],['[ SUPPLIER D ]','Power','Inverters, batteries, solar','3–5 days'],['[ SUPPLIER E ]','Security','Hikvision','4–6 days']];
+const POS = [['PO-0311','[ SUPPLIER A ]','12 × Latitude 5550',11400000,'30 Sep','Ordered'],['PO-0309','[ SUPPLIER B ]','20 × Omada EAP670',3200000,'27 Sep','Received'],['PO-0305','[ SUPPLIER C ]','4 × 55″ QBC signage',2900000,'2 Oct','Draft']].map(([ref,sup,items,val,exp,st]) => ({ ref, sup, items, val, exp, st }));
+const ROLES = ['Owner','Sales','Warehouse','Engineer','Support'];
+const STAFF = [['[ OWNER NAME ]','Owner','Now'],['[ SALES LEAD ]','Sales','12 min ago'],['[ WAREHOUSE LEAD ]','Warehouse','1h ago'],['[ ENGINEER 1 ]','Engineer','Today'],['[ ENGINEER 2 ]','Engineer','Yesterday'],['[ SUPPORT ]','Support','Today']].map(([name,role,last],i) => ({ id:'s' + i, name, role, last, active:true }));
+const ENGS = ['[ ENGINEER 1 ]','[ ENGINEER 2 ]','[ ENGINEER 3 ]'];
+const DAYS = ['Mon 29','Tue 30','Wed 1','Thu 2','Fri 3','Sat 4','Sun 5'];
+const JOBS = [[0,0,'9:00','TV wall mount','Wuse, Abuja','DS-5NW9PZ','install'],[0,0,'12:30','Mesh Wi-Fi set-up','Enugu','DS-3HJ6LE','install'],[0,1,'10:00','Site survey','Victoria Island','SV-2KQ8LM','survey'],[1,1,'9:30','Office in a Box','Yaba, Lagos','DQ-8LT5FE','oib'],[1,2,'11:00','Signage install ×4','Port Harcourt','DS-2MV8QD','install'],[2,3,'10:00','Site survey','Lokogoma, Abuja','SV-7PD3XN','survey'],[2,0,'14:00','Repair collection','Ikeja','RP-2041','repair'],[0,4,'9:00','Laptop imaging ×12','Ibadan','DS-7TR4XA','install']].map(([e,d,time,t,where,ref,kind],i) => ({ id:'j' + i, e, d, time, t, where, ref, kind }));
+const UNASSIGNED = [['Site survey','Surulere, Lagos','SV-4WE9RA','survey'],['Inverter install','Ikeja, Lagos','DS-9PL3RK','install']].map(([t,where,ref,kind],i) => ({ id:'u' + i, t, where, ref, kind }));
+const JOBCOL = { install:['#E3EEE8','#1F5E48'], survey:['#DCEBFF','#1B4A8A'], oib:['#FFF1CC','#7A5B00'], repair:['#FDE7E4','#B42318'] };
+const ZONES = [['Lagos',true,true],['Abuja (FCT)',true,true],['Rivers',false,true],['Oyo',false,true],['Kano',false,false],['Enugu',false,false],['Other states',false,false]].map(([name,pod,ins],i) => ({ id:'z' + i, name, fee:'', time:'', pod, ins }));
+const NOTIFY = [
+  ['Order confirmed','Customer places an order',['WHATSAPP','SMS'],'Hi {name}, thanks for your D’Source order {ref}. We’ll call to confirm delivery and set-up.','{name} {ref}','customer'],
+  ['Out for delivery','Order moves to “Out for delivery”',['WHATSAPP','SMS'],'Hi {name}, order {ref} is on its way to {city} today.','{name} {ref} {city}','customer'],
+  ['Installation booked','Engineer assigned to an order',['WHATSAPP'],'Hi {name}, {engineer} will install your order on {date} at {time}.','{name} {engineer} {date} {time}','customer'],
+  ['Quote sent','Quote sent from Quotes',['EMAIL'],'Hello {contact}, your D’Source quote {ref} is attached. It’s valid for 14 days.','{contact} {ref}','customer'],
+  ['Invoice reminder','7 days before an invoice is due',['EMAIL'],'Invoice {ref} for {amount} is due on {due}.','{ref} {amount} {due}','customer'],
+  ['Review request','Order marked Delivered or Installed',['WHATSAPP','EMAIL'],'Hi {name}, how is your {product}? Tell other buyers: {link}','{name} {product} {link}','customer'],
+  ['Quote near deadline','A quote is 1 hour from the reply promise',['EMAIL','IN-APP'],'Quote {ref} from {org} is due in 1 hour.','{ref} {org}','staff'],
+  ['Low stock','Live product drops below its reorder level',['IN-APP'],'{product} is down to {stock}. Reorder level {level}.','{product} {stock} {level}','staff']
+].map(([name,trigger,ch,body,vars,aud],i) => ({ id:'n' + i, name, trigger, ch, body, vars, aud, on:true }));
+const PERM_MODS = ['Dashboard','Reports','Orders','Quotes','Payments','Invoices','Customers','Installations','Returns and repairs','Site surveys','Inventory','Suppliers and POs','Products','Categories','Kits','Bulk upload','Discounts','Content','Reviews','Delivery zones','Notifications','Business accounts','Enquiries','Staff and roles','Settings'];
+const PERM_DEFAULT = { Sales:['Dashboard','Orders','Quotes','Customers','Business accounts','Enquiries','Site surveys','Reports'], Warehouse:['Dashboard','Orders','Inventory','Suppliers and POs','Products','Returns and repairs'], Engineer:['Installations','Site surveys','Returns and repairs'], Support:['Dashboard','Orders','Customers','Returns and repairs','Reviews','Enquiries'] };
+const BULK_SAMPLE = [['EMP-LAP-07','Acer Swift Go 14','home','Laptops',780000,8,''],['EMP-PHN-07','Redmi Note series','home','Phones',265000,20,''],['PRV-NET-07','Omada 16-port switch','business','Networking',98000,15,''],['EMP-TV-07','43″ Smart TV','home','TV & Audio',0,6,'Missing price'],['PRV-XYZ-01','Barcode scanner','business','Retail',85000,10,'Unknown category'],['EMP-LAP-01','MacBook Air 13″','home','Laptops',1620000,9,'Updates existing']];
+
+class Component extends DCLogic {
+  state = { customers:CUSTOMERS, invoices:INVOICES, repairs:REPAIRS, pos:POS, staff:STAFF, jobs:JOBS, unassigned:UNASSIGNED, zones:ZONES, notify:NOTIFY, perms:null, kits:Object.fromEntries(Object.keys(K).map(k => [k, { ...K[k], live:true, items:K[k].items.map(x => x.slice()) }])), kitSel:'home', kitPin:null, heroWords:['home.','front gate.','weekend.','office.','classroom.','clinic.','restaurant.','hotel lobby.','event hall.','student hostel.','whole building.'], heroNew:'', best:['e-laptops-0','e-networking-0','e-tvaudio-1','p-networking-1'], content:{ promo:'Genuine, warranty-backed devices. Delivered nationwide.', helpDelivery:'We deliver anywhere in Nigeria. After you order, we call to confirm the delivery date and any set-up you’ve booked.', about:'Genuine devices and equipment, set up and supported.' }, payStat:PAYSTAT, bulk:null, supTab:'sup', roleTab:'users', nFilter:'all', engPick:ENGS[0], engState:{}, discounts:[], log:[{ t:'Approved Brightfield Schools for 30-day invoice', who:'[ OWNER NAME ]', when:'20 Sep' }, { t:'Changed price: MacBook Air 13″', who:'[ SALES LEAD ]', when:'19 Sep' }, { t:'Received PO-0309 into stock', who:'[ WAREHOUSE LEAD ]', when:'27 Sep' }], mod:'dash', q:'', oFilter:-1, rFilter:'pending', eFilter:'all', pCat:'all', products:buildProducts(), orders:ORDERS, quotes:QUOTES, reviews:REVIEWS, accounts:ACCOUNTS, surveys:SURVEYS, enquiries:ENQUIRIES, cats:null, newCat:{ emporium:'', provision:'' }, drawer:null, edit:null, toast:'',
+    settings:{ feeLagos:'', feeAbuja:'', feeOther:'', times:'', pod:'', returns:'', phone:'', email:'', whatsapp:'', address:'', sla:'4', invoiceDays:'30', reviewTime:'' } };
+  componentDidMount(){ const perms = {}; PERM_MODS.forEach(pm => { perms[pm] = { Owner:true }; ['Sales','Warehouse','Engineer','Support'].forEach(r => perms[pm][r] = PERM_DEFAULT[r].includes(pm)); }); this.setState({ perms }); const cats = { emporium:Object.keys(EMP).map(k => ({ key:k, label:ELABEL[k], vis:true })), provision:Object.keys(PROV).map(k => ({ key:k, label:k, vis:true })) }; this.setState({ cats }); }
+  say(m){ this.setState(x => ({ toast:m, log:[{ t:m, who:'[ OWNER NAME ]', when:'Just now' }].concat(x.log).slice(0,40) })); clearTimeout(this._t); this._t = setTimeout(() => this.setState({ toast:'' }), 2200); }
+  componentWillUnmount(){ clearTimeout(this._t); }
+  upd(list, id, fn, key){ this.setState(s => ({ [list]: s[list].map(x => (x[key || 'id'] === id ? fn({ ...x }) : x)) })); }
+  renderVals(){
+    const s = this.state, q = s.q.trim().toLowerCase(), m = s.mod;
+    const pend = { quotes:s.quotes.filter(x => x.status === 'New').length, reviews:s.reviews.filter(x => x.state === 'pending').length, accounts:s.accounts.filter(x => x.status === 'pending').length, surveys:s.surveys.filter(x => x.st === 0).length, enquiries:s.enquiries.filter(x => !x.done).length, orders:s.orders.filter(x => x.stage < 2).length };
+    const MODS_OLD = [['dash','Dashboard'],['orders','Orders',pend.orders],['quotes','Quotes',pend.quotes],['products','Products'],['cats','Categories'],['reviews','Reviews',pend.reviews],['accounts','Business accounts',pend.accounts],['surveys','Site surveys',pend.surveys],['enquiries','Enquiries',pend.enquiries],['settings','Settings']];
+    const go = id => () => this.setState({ mod:id, q:'', drawer:null });
+    const unpaid = s.invoices.filter(x => x.st === 'Overdue').length, awaitPay = Object.values(s.payStat).filter(v => v === 'Awaiting transfer' || v === 'Failed').length, openRep = s.repairs.filter(r => r.st < 5).length;
+    const lowInv = s.products.filter(p => p.stock < 3 && p.live).length;
+    const GROUPS = [['OVERVIEW',[['dash','Dashboard'],['reports','Reports']]],['SALES',[['orders','Orders',pend.orders],['quotes','Quotes',pend.quotes],['payments','Payments',awaitPay],['invoices','Invoices',unpaid],['customers','Customers']]],['OPERATIONS',[['schedule','Installations',s.unassigned.length],['repairs','Returns and repairs',openRep],['surveys','Site surveys',pend.surveys],['inventory','Inventory',lowInv],['suppliers','Suppliers and POs'],['engineer','Engineer app']]],['CATALOGUE',[['products','Products'],['cats','Categories'],['kits','Kits'],['bulk','Bulk upload'],['discounts','Discounts']]],['STOREFRONT',[['content','Content'],['reviews','Reviews',pend.reviews],['zones','Delivery zones'],['notify','Notifications']]],['PEOPLE',[['accounts','Business accounts',pend.accounts],['enquiries','Enquiries',pend.enquiries],['roles','Staff and roles']]],['SYSTEM',[['settings','Settings']]]];
+    const T = { reports:['Reports','Sample data until the order system is connected'], payments:['Payments','Confirm transfers and pay on delivery, refund when needed'], invoices:['Invoices','Business accounts on 30-day invoice'], customers:['Customers','Everyone who has bought, quoted or applied'], schedule:['Installations','Engineer calendar for set-ups, surveys and collections'], repairs:['Returns and repairs','From collection to returned'], inventory:['Inventory','Stock on hand, reserved, and reorder levels'], suppliers:['Suppliers and POs','Where stock comes from'], engineer:['Engineer app','What engineers see on their phones'], kits:['Kits','Place kits on the storefront'], bulk:['Bulk upload','Add or update products from a spreadsheet'], discounts:['Discounts','Only for real offers'], content:['Content','Front page words, best sellers and help text'], zones:['Delivery zones','Fees, times and pay on delivery by zone'], notify:['Notifications','Messages to customers and alerts to staff'], roles:['Staff and roles','Who can see and change what'], dash:['Dashboard','What needs you today'], orders:['Orders','Home orders and business orders on account'], quotes:['Quotes','Reply within the promised working hours'], products:['Products','The catalogue on D’Emporium and D’Provision'], cats:['Categories','What customers see in the category bar'], reviews:['Reviews','Check each review against a real purchase'], accounts:['Business accounts','Approve accounts for 30-day invoice'], surveys:['Site surveys','Free surveys booked from the storefront'], enquiries:['Enquiries','Repairs, pilot interest, WhatsApp and general'], settings:['Settings','Delivery, payment, policies and contact details'] }[m];
+    const stPill = i => ({ status:STAGES[i], stBg:ST_COL[i][0], stInk:ST_COL[i][1] });
+    const tag = st => st === 'emporium' ? { store:'D’EMPORIUM', tagBg:'#0C1411', tagInk:'#A6F000' } : { store:'D’PROVISION', tagBg:'#06382E', tagInk:'#D4A637' };
+    const oTotal = o => o.items.reduce((a,x) => a + x.qty*x.unit, 0);
+    const openOrder = ref => () => this.setState({ drawer:{ t:'order', id:ref } });
+    const orderRow = o => ({ ref:o.ref, date:o.date, customer:o.customer, city:o.city, ...tag(o.store), items:String(o.items.reduce((a,x) => a + x.qty, 0)), totalF:fmt(oTotal(o)), pay:o.pay, ...stPill(o.stage), open:openOrder(o.ref) });
+    const due = x => { const left = SLA - x.ago; if (x.status !== 'New') return ['Replied', '#1F7A5A']; if (left < 0) return ['Overdue by ' + Math.floor(-left/60) + 'h ' + (-left % 60) + 'm', '#B42318']; return ['Due in ' + Math.floor(left/60) + 'h ' + (left % 60) + 'm', left < 60 ? '#B25E00' : '#06382E']; };
+    const qTotal = x => { const sub = x.lines.reduce((a,l) => a + l.qty*(l.unit || 0), 0); return sub*(1 - (x.disc || 0)/100); };
+    const chip = (label, on, g) => ({ label, go:g, bg: on ? '#06382E' : '#fff', ink: on ? '#F5F1E8' : '#06382E', border: on ? '#06382E' : 'rgba(6,56,46,.18)' });
+    const cats = s.cats || { emporium:[], provision:[] };
+    const catLabel = (st, k) => { const c = (cats[st] || []).find(x => x.key === k); return c ? c.label : k; };
+
+    const out = {
+      navGroups: GROUPS.map(([label, items]) => ({ label, items: items.map(([id,l2,b]) => ({ label:l2, go:go(id), bg: m === id ? 'rgba(212,166,55,.22)' : 'transparent', ink: m === id ? '#F5F1E8' : 'rgba(245,241,232,.82)', fw: m === id ? 800 : 600, hasBadge: !!b, badge:String(b || ''), badgeBg: id === 'quotes' || id === 'invoices' ? '#D4A637' : '#E3EEE8' })) })),
+      mods: MODS_OLD.map(([id,label,b]) => ({ label, go:go(id), bg: m === id ? 'rgba(212,166,55,.22)' : 'transparent', ink: m === id ? '#F5F1E8' : 'rgba(245,241,232,.82)', fw: m === id ? 800 : 600, hasBadge: !!b, badge:String(b || ''), badgeBg: id === 'quotes' ? '#D4A637' : '#E3EEE8' })),
+      title:T[0], subtitle:T[1], q:s.q, qCh:e => this.setState({ q:e.target.value }), qPh: m === 'products' ? 'Search products…' : m === 'orders' ? 'Search orders, customers…' : 'Search…',
+      isDash: m === 'dash', isOrders: m === 'orders', isQuotes: m === 'quotes', isProducts: m === 'products', isCats: m === 'cats', isReviews: m === 'reviews', isAccounts: m === 'accounts', isSurveys: m === 'surveys', isEnquiries: m === 'enquiries', isSettings: m === 'settings',
+      goOrders:go('orders'), sla:s.settings.sla || '4',
+      hasToast:!!s.toast, toast:s.toast
+    };
+    // dashboard
+    const overdue = s.quotes.filter(x => x.status === 'New' && x.ago > SLA).length, soon = s.quotes.filter(x => x.status === 'New' && x.ago <= SLA && SLA - x.ago < 60).length;
+    const lowStock = s.products.filter(p => p.stock < 3 && p.live).length;
+    out.kpis = [
+      { label:'ORDERS TO CONFIRM', value:String(s.orders.filter(x => x.stage === 0).length), sub:'Call to confirm delivery', ink:'#06382E', go:go('orders') },
+      { label:'QUOTES OPEN', value:String(pend.quotes), sub: overdue ? overdue + ' past ' + (s.settings.sla || 4) + ' hours' : soon + ' due within the hour', ink: overdue ? '#B42318' : '#06382E', go:go('quotes') },
+      { label:'REVIEWS TO CHECK', value:String(pend.reviews), sub:'Match against purchases', ink:'#06382E', go:go('reviews') },
+      { label:'ACCOUNTS TO APPROVE', value:String(pend.accounts), sub:'30-day invoice', ink:'#06382E', go:go('accounts') },
+      { label:'SURVEYS TO SCHEDULE', value:String(pend.surveys), sub:'Free site surveys', ink:'#06382E', go:go('surveys') },
+      { label:'LOW STOCK', value:String(lowStock), sub:'Live products under 3', ink: lowStock ? '#B25E00' : '#06382E', go:go('products') }
+    ];
+    const att = [];
+    s.quotes.filter(x => x.status === 'New').sort((a,b) => b.ago - a.ago).slice(0,3).forEach(x => { const [d] = due(x); att.push({ tag:'QUOTE', text:x.org + ' · ' + d, tagBg:'#D4A637', tagInk:'#06382E', go:() => this.setState({ mod:'quotes', drawer:{ t:'quote', id:x.ref } }) }); });
+    s.orders.filter(x => x.stage === 0).forEach(o => att.push({ tag:'ORDER', text:o.customer + ' · ' + o.ref + ' · call to confirm', tagBg:'#EFEADC', tagInk:'#06382E', go:() => this.setState({ mod:'orders', drawer:{ t:'order', id:o.ref } }) }));
+    s.enquiries.filter(x => !x.done && x.type === 'Repair collection').forEach(e => att.push({ tag:'REPAIR', text:e.from + ' · collection requested', tagBg:'#DCEBFF', tagInk:'#1B4A8A', go:go('enquiries') }));
+    if (!Object.values(s.settings).slice(0,10).every(Boolean)) att.push({ tag:'SETTINGS', text:'Storefront still shows [ TO CONFIRM ] details', tagBg:'#FDE7E4', tagInk:'#B42318', go:go('settings') });
+    out.attention = att.slice(0,6);
+    out.recent = s.orders.slice(0,5).map(orderRow);
+    // orders
+    let ol = s.orders.filter(o => s.oFilter < 0 || o.stage === s.oFilter);
+    if (q) ol = ol.filter(o => (o.ref + ' ' + o.customer + ' ' + o.city).toLowerCase().includes(q));
+    out.oChips = [chip('All (' + s.orders.length + ')', s.oFilter < 0, () => this.setState({ oFilter:-1 }))].concat(STAGES.map((l,i) => chip(l + ' (' + s.orders.filter(o => o.stage === i).length + ')', s.oFilter === i, () => this.setState({ oFilter:i }))));
+    out.orderRows = ol.map(orderRow); out.noOrders = !ol.length;
+    // quotes
+    out.quoteRows = s.quotes.filter(x => !q || (x.ref + ' ' + x.org).toLowerCase().includes(q)).map(x => { const [d, ink] = due(x); return { ref:x.ref, org:x.org, contact:x.contact, lines: x.lines.length ? String(x.lines.length) : 'Described', totalF: qTotal(x) ? fmt(qTotal(x)) : 'To price', due:d, dueInk:ink, status:x.status, stBg: x.status === 'New' ? '#FFF1CC' : '#D9F0E3', stInk: x.status === 'New' ? '#7A5B00' : '#1F7A5A', open:() => this.setState({ drawer:{ t:'quote', id:x.ref } }) }; });
+    // products
+    const allCats = [{ v:'all', l:'All categories' }].concat(Object.keys(EMP).map(k => ({ v:'emporium|' + k, l:'Home · ' + catLabel('emporium', k) })), Object.keys(PROV).map(k => ({ v:'provision|' + k, l:'Business · ' + catLabel('provision', k) })));
+    let pl = s.products.filter(p => s.pCat === 'all' || p.store + '|' + p.cat === s.pCat);
+    if (q) pl = pl.filter(p => (p.name + ' ' + p.brand + ' ' + p.spec).toLowerCase().includes(q));
+    out.pCatOpts = allCats; out.pCat = s.pCat; out.pCatCh = e => this.setState({ pCat:e.target.value }); out.pCount = pl.length + ' products';
+    out.productRows = pl.map(p => ({ img:p.img, name:p.name, brand:p.brand, spec:p.spec, ...tag(p.store), cat:catLabel(p.store, p.cat), priceF:fmt(p.price), stock:String(p.stock), stockInk: p.stock < 3 ? '#B42318' : '#06382E', freeLabel: p.free ? 'Free' : 'Paid add-on', freeInk: p.free ? '#1F7A5A' : '#5E6E68', liveBg: p.live ? '#1F7A5A' : '#D9D4C8', liveX: p.live ? '22px' : '4px',
+      toggleLive:() => this.upd('products', p.id, x => ({ ...x, live:!x.live })), edit:() => this.setState({ drawer:{ t:'product', id:p.id }, edit:{ ...p } }) }));
+    out.addProduct = () => { const id = 'new-' + Date.now(); const np = { id, store:'emporium', cat:'Laptops', brand:'', name:'', spec:'', price:0, stock:0, live:false, free:false, img:'v7-admin-' + id }; this.setState(x => ({ products:[np].concat(x.products), drawer:{ t:'product', id }, edit:{ ...np } })); };
+    // categories
+    out.catGroups = ['emporium','provision'].map(st => ({ title: st === 'emporium' ? 'D’Emporium · Home' : 'D’Provision · Business', newVal:s.newCat[st], newCh:e => { const v = e.target.value; this.setState(x => ({ newCat:{ ...x.newCat, [st]:v } })); },
+      add:() => { const v = s.newCat[st].trim(); if (!v) return; this.setState(x => ({ cats:{ ...x.cats, [st]:x.cats[st].concat([{ key:v, label:v, vis:false }]) }, newCat:{ ...x.newCat, [st]:'' } })); this.say(v + ' added (hidden until it has products)'); },
+      rows:(cats[st] || []).map((c,i,arr) => { const mv = d => () => this.setState(x => { const a = x.cats[st].slice(); const j = i + d; if (j < 0 || j >= a.length) return null; [a[i], a[j]] = [a[j], a[i]]; return { cats:{ ...x.cats, [st]:a } }; });
+        return { n:String(i + 1).padStart(2,'0'), label:c.label, count:s.products.filter(p => p.store === st && p.cat === c.key).length + ' products', op: c.vis ? 1 : .45, up:mv(-1), down:mv(1), visLabel: c.vis ? 'Visible' : 'Hidden', visBg: c.vis ? '#E3EEE8' : '#fff', visInk:'#06382E',
+          toggle:() => this.setState(x => ({ cats:{ ...x.cats, [st]:x.cats[st].map((y,k) => k === i ? { ...y, vis:!y.vis } : y) } })) }; }) }));
+    // reviews
+    out.rChips = [['pending','To check'],['approved','Approved'],['rejected','Rejected']].map(([id,l]) => chip(l + ' (' + s.reviews.filter(r => r.state === id).length + ')', s.rFilter === id, () => this.setState({ rFilter:id })));
+    const rl = s.reviews.filter(r => r.state === s.rFilter);
+    out.reviewCards = rl.map(r => ({ product:r.product, stars:'★'.repeat(r.stars) + '☆'.repeat(5 - r.stars), title:r.title, text:r.text, name:r.name, date:r.date, verified: r.order ? 'Verified purchase · ' + r.order : 'No matching order', vInk: r.order ? '#1F7A5A' : '#B42318', pending: r.state === 'pending',
+      approve:() => { this.upd('reviews', r.id, x => ({ ...x, state:'approved' })); this.say('Review approved and published'); }, reject:() => { this.upd('reviews', r.id, x => ({ ...x, state:'rejected' })); this.say('Review rejected'); } }));
+    out.noReviewCards = !rl.length;
+    // accounts
+    out.accountCards = s.accounts.map(a => ({ ...a, pending: a.status === 'pending', status: a.status === 'pending' ? 'To review' : a.status === 'approved' ? 'Approved' : 'Declined', stBg: a.status === 'pending' ? '#FFF1CC' : a.status === 'approved' ? '#D9F0E3' : '#FDE7E4', stInk: a.status === 'pending' ? '#7A5B00' : a.status === 'approved' ? '#1F7A5A' : '#B42318',
+      approve:() => { this.upd('accounts', a.id, x => ({ ...x, status:'approved' })); this.say(a.company + ' approved for 30-day invoice'); }, decline:() => { this.upd('accounts', a.id, x => ({ ...x, status:'declined' })); this.say(a.company + ' declined'); } }));
+    // surveys
+    const SV = [['Requested','#FFF1CC','#7A5B00'],['Date confirmed','#DCEBFF','#1B4A8A'],['Surveyed','#E3EEE8','#1F5E48'],['Quote sent','#06382E','#D4A637']];
+    out.surveyRows = s.surveys.map(x => ({ ...x, status:SV[x.st][0], stBg:SV[x.st][1], stInk:SV[x.st][2], advance:() => this.upd('surveys', x.ref, y => ({ ...y, st:Math.min(3, y.st + 1) }), 'ref') }));
+    // enquiries
+    const TYPES = ['Repair collection','Pilot interest','WhatsApp order','General'], TC = { 'Repair collection':['#DCEBFF','#1B4A8A'], 'Pilot interest':['#FFF1CC','#7A5B00'], 'WhatsApp order':['#DCF8C6','#1F5E2E'], General:['#EFEADC','#06382E'] };
+    out.eChips = [chip('All (' + s.enquiries.length + ')', s.eFilter === 'all', () => this.setState({ eFilter:'all' }))].concat(TYPES.map(tp => chip(tp + ' (' + s.enquiries.filter(e => e.type === tp).length + ')', s.eFilter === tp, () => this.setState({ eFilter:tp }))));
+    out.enquiryRows = s.enquiries.filter(e => (s.eFilter === 'all' || e.type === s.eFilter) && (!q || (e.from + ' ' + e.msg).toLowerCase().includes(q))).map(e => ({ ...e, type:e.type.toUpperCase(), tagBg:TC[e.type][0], tagInk:TC[e.type][1], op: e.done ? .55 : 1, btn: e.done ? 'Handled ✓' : 'Mark handled', btnBg: e.done ? '#E3EEE8' : '#fff', btnInk:'#06382E', toggle:() => this.upd('enquiries', e.id, x => ({ ...x, done:!x.done })) }));
+    // settings
+    const F = (key, label, ph) => ({ label, value:s.settings[key], ph, ch:e => { const v = e.target.value; this.setState(x => ({ settings:{ ...x.settings, [key]:v } })); } });
+    out.setGroups = [
+      { title:'Delivery', fields:[F('feeLagos','FEE · LAGOS','e.g. ₦5,000'), F('feeAbuja','FEE · ABUJA','e.g. ₦8,000'), F('feeOther','FEE · OTHER STATES','e.g. from ₦10,000'), F('times','DELIVERY TIMES','e.g. Lagos 1–2 days, other states 3–5 working days')] },
+      { title:'Payment and policies', fields:[F('pod','PAY ON DELIVERY AREAS','e.g. Lagos and Abuja'), F('returns','RETURNS POLICY (SUMMARY)','e.g. 7 days, unopened, with receipt'), F('reviewTime','BUSINESS ACCOUNT CHECK TIME','e.g. 2 working days')] },
+      { title:'Contact details', fields:[F('phone','PHONE','+234 …'), F('email','EMAIL','hello@…'), F('whatsapp','WHATSAPP NUMBER','+234 …'), F('address','ADDRESS','Street, city')] },
+      { title:'Promises shown on the storefront', fields:[F('sla','QUOTE REPLY (WORKING HOURS)','4'), F('invoiceDays','INVOICE TERMS (DAYS)','30')] }
+    ];
+    out.saveSettings = () => this.say('Saved. The storefront will show these details.');
+    // drawer
+    const d = s.drawer; out.drawerOpen = !!d; out.closeDrawer = () => this.setState({ drawer:null, edit:null });
+    out.dOrder = false; out.dQuote = false; out.dProduct = false; out.dKick = ''; out.dTitle = '';
+    out.od = { meta:[], items:[], totalF:'', steps:[], notify:null }; out.qd = { meta:[], lines:[], sums:[], disc:'', discCh:null, send:null, sendLabel:'' }; out.pd = { img:'', fields:[], catKey:'', catOpts:[], catCh:null, toggles:[], save:null };
+    if (d && d.t === 'order') { const o = s.orders.find(x => x.ref === d.id); if (o) { out.dOrder = true; out.dKick = o.ref; out.dTitle = o.customer;
+      out.od = { meta:[{ k:'Placed', v:o.date }, { k:'Store', v: o.store === 'emporium' ? 'D’Emporium · Home' : 'D’Provision · Business' }, { k:'Deliver to', v:o.city }, { k:'Payment', v:o.pay }, { k:'Phone', v:'[ CUSTOMER PHONE ]' }],
+        items:o.items.map(i => ({ ...i, lineF:fmt(i.qty*i.unit) })), totalF:fmt(oTotal(o)),
+        steps:STAGES.map((l,i) => ({ label:l, set:() => { this.upd('orders', o.ref, x => ({ ...x, stage:i }), 'ref'); this.say(o.ref + ' → ' + l); }, bg: i === o.stage ? '#F5F1E8' : '#fff', border: i === o.stage ? '#D4A637' : '#EEEAE2', fw: i === o.stage ? 800 : 600, dot: i <= o.stage ? '#D4A637' : '#fff', ring: i <= o.stage ? '#D4A637' : '#D9D4C8' })),
+        notify:() => this.say('Update sent: “' + STAGES[o.stage] + '”') }; } }
+    if (d && d.t === 'quote') { const x = s.quotes.find(y => y.ref === d.id); if (x) { out.dQuote = true; out.dKick = x.ref; out.dTitle = x.org; const sub = x.lines.reduce((a,l) => a + l.qty*(l.unit || 0), 0), disc = sub*(x.disc || 0)/100, net = sub - disc, vat = net*0.075;
+      out.qd = { meta:[{ k:'Contact', v:x.contact }, { k:'Received', v:Math.floor(x.ago/60) + 'h ' + (x.ago % 60) + 'm ago (working time)' }, { k:'Reply', v:due(x)[0] }, { k:'Status', v:x.status }],
+        lines: x.lines.length ? x.lines.map((l,i) => ({ name:l.name, qty:l.qty, unit: l.unit ? String(l.unit) : '', ch:e => { const v = parseInt(e.target.value.replace(/\D/g,''), 10) || 0; this.upd('quotes', x.ref, y => ({ ...y, lines:y.lines.map((z,k) => k === i ? { ...z, unit:v } : z) }), 'ref'); } })) : [{ name:'No list — customer described the need. Price after the site survey.', qty:'—', unit:'', ch:() => {} }],
+        disc:String(x.disc || ''), discCh:e => { const v = Math.min(50, parseInt(e.target.value.replace(/\D/g,''), 10) || 0); this.upd('quotes', x.ref, y => ({ ...y, disc:v }), 'ref'); },
+        sums:[{ k:'Subtotal', v:fmt(sub), fw:600 }, { k:'Volume discount', v:'− ' + fmt(disc), fw:600 }, { k:'VAT 7.5%', v:fmt(vat), fw:600 }, { k:'Total', v:fmt(net + vat), fw:800 }],
+        sendLabel: x.status === 'Sent' ? 'Resend quote' : 'Send quote to customer', send:() => { this.upd('quotes', x.ref, y => ({ ...y, status:'Sent' }), 'ref'); this.say('Quote ' + x.ref + ' sent'); } }; } }
+    if (d && d.t === 'product' && s.edit) { const e = s.edit; out.dProduct = true; out.dKick = e.store === 'emporium' ? 'D’EMPORIUM' : 'D’PROVISION'; out.dTitle = e.name || 'New product';
+      const EF = (key, label, span, num) => ({ label, span, value: String(e[key] ?? ''), ch:ev => { const v = num ? (parseInt(ev.target.value.replace(/\D/g,''), 10) || 0) : ev.target.value; this.setState(x => ({ edit:{ ...x.edit, [key]:v } })); } });
+      out.pd = { img:e.img, fields:[EF('name','PRODUCT NAME','1/-1'), EF('brand','BRAND','auto'), EF('spec','KEY SPEC','auto'), EF('price','PRICE (₦)','auto', true), EF('stock','STOCK','auto', true)],
+        catKey:e.store + '|' + e.cat, catOpts:allCats.slice(1), catCh:ev => { const [st, c] = ev.target.value.split('|'); this.setState(x => ({ edit:{ ...x.edit, store:st, cat:c } })); },
+        toggles:[{ label:'Free set-up', go:() => this.setState(x => ({ edit:{ ...x.edit, free:!x.edit.free } })), bg: e.free ? '#1F7A5A' : '#D9D4C8', x: e.free ? '22px' : '4px' }, { label:'Live on the storefront', go:() => this.setState(x => ({ edit:{ ...x.edit, live:!x.edit.live } })), bg: e.live ? '#1F7A5A' : '#D9D4C8', x: e.live ? '22px' : '4px' }],
+        save:() => { this.setState(x => ({ products:x.products.map(p => p.id === e.id ? { ...e } : p), drawer:null, edit:null })); this.say((e.name || 'Product') + ' saved'); } }; }
+    const C0 = x => ({ t:String(x), fw:500, ink:'#3A4A44', bg:'transparent', pad:'0', rad:'0', ff:'inherit', fs:'14px', ls:'0', ws:'nowrap' });
+    const cT = x => C0(x), cB = x => ({ ...C0(x), fw:800, ink:'#06382E' }), cM = x => ({ ...C0(x), ff:"'IBM Plex Mono',monospace", fs:'12.5px', ink:'#06382E' }), cW = x => ({ ...C0(x), ws:'normal' });
+    const cP = (x, bg, ink) => ({ ...C0(x), fw:800, fs:'11.5px', bg, ink, pad:'5px 10px', rad:'999px' });
+    const cTag = st => st === 'emporium' || st === 'Home' ? { ...C0('D’EMPORIUM'), ff:"'IBM Plex Mono',monospace", fs:'10px', ls:'.1em', fw:600, bg:'#0C1411', ink:'#A6F000', pad:'4px 8px', rad:'4px' } : { ...C0('D’PROVISION'), ff:"'IBM Plex Mono',monospace", fs:'10px', ls:'.1em', fw:600, bg:'#06382E', ink:'#D4A637', pad:'4px 8px', rad:'4px' };
+    const row = (cells, btn, g) => ({ cells, hasBtn:!!btn, btn:btn || '', go:g || null, op:1 });
+    const gen = { chips:[], actions:[], note:'', tiles:[], cols:'1fr', head:[], rows:[], minW:'700px', empty:'Nothing here yet.' };
+    const openG = (mod, id) => () => this.setState({ drawer:{ t:'g', mod, id } });
+    const PST = { Paid:['#D9F0E3','#1F7A5A'], 'On invoice':['#EFEADC','#06382E'], 'Pay on delivery':['#FFF1CC','#7A5B00'], 'Awaiting transfer':['#FFF1CC','#7A5B00'], Failed:['#FDE7E4','#B42318'], Refunded:['#E6E2D8','#3A4A44'] };
+    if (m === 'payments') { const rows = s.orders.map(o => ({ o, st:s.payStat[o.ref] || 'Paid' })).filter(({ o }) => !q || (o.ref + o.customer).toLowerCase().includes(q));
+      Object.assign(gen, { note:'Card payments confirm themselves through Paystack or Flutterwave. Bank transfers and pay on delivery need a person to confirm the money has arrived.', tiles:[{ label:'AWAITING TRANSFER', value:String(rows.filter(r => r.st === 'Awaiting transfer').length), sub:'Check the bank account', ink:'#7A5B00' }, { label:'PAY ON DELIVERY', value:String(rows.filter(r => r.st === 'Pay on delivery').length), sub:'Collect at the door', ink:'#06382E' }, { label:'FAILED', value:String(rows.filter(r => r.st === 'Failed').length), sub:'Contact the customer', ink:'#B42318' }],
+        cols:'130px minmax(160px,1fr) 150px 130px 150px', head:['ORDER','CUSTOMER','METHOD','AMOUNT','STATUS',''], minW:'820px', rows: rows.map(({ o, st }) => row([cM(o.ref), cB(o.customer), cT(o.pay), cB(fmt(oTotal(o))), cP(st, PST[st][0], PST[st][1])], 'Manage', openG('payments', o.ref))) }); }
+    if (m === 'invoices') { const IST = { Open:['#EFEADC','#06382E'], Overdue:['#FDE7E4','#B42318'], Paid:['#D9F0E3','#1F7A5A'] };
+      Object.assign(gen, { chips:['All','Open','Overdue','Paid'].map(x => chip(x, (s.invFilter || 'All') === x, () => this.setState({ invFilter:x }))), tiles:[{ label:'OUTSTANDING', value:fmt(s.invoices.filter(i => i.st !== 'Paid').reduce((a,i) => a + i.amt, 0)), sub:'Open and overdue', ink:'#06382E' }, { label:'OVERDUE', value:String(s.invoices.filter(i => i.st === 'Overdue').length), sub:'Past 30 days', ink:'#B42318' }],
+        cols:'110px minmax(160px,1fr) 120px 130px 100px 100px 100px', head:['INVOICE','COMPANY','ORDER','AMOUNT','ISSUED','DUE','STATUS',''], minW:'900px', rows: s.invoices.filter(i => !s.invFilter || s.invFilter === 'All' || i.st === s.invFilter).map(i => row([cM(i.ref), cB(i.co), cM(i.order), cB(fmt(i.amt)), cT(i.issued), cT(i.due), cP(i.st, IST[i.st][0], IST[i.st][1])], 'Open', openG('invoices', i.ref))) }); }
+    if (m === 'customers') { const cl = s.customers.filter(c => (!s.custFilter || s.custFilter === 'All' || c.type === s.custFilter) && (!q || (c.name + c.city).toLowerCase().includes(q)));
+      Object.assign(gen, { chips:['All','Home','Business'].map(x => chip(x, (s.custFilter || 'All') === x, () => this.setState({ custFilter:x }))), cols:'minmax(180px,1fr) 110px minmax(140px,1fr) 80px 140px 100px 150px', head:['NAME','TYPE','LOCATION','ORDERS','SPENT','LAST ORDER','ACCOUNT',''], minW:'960px', rows: cl.map(c => row([cB(c.name), cTag(c.type), cT(c.city), cT(c.orders), cB(fmt(c.spent)), cT(c.last), cT(c.acct)], 'Open', openG('customers', c.id))) }); }
+    if (m === 'repairs') { const RC = [['#FFF1CC','#7A5B00'],['#DCEBFF','#1B4A8A'],['#E3EEE8','#1F5E48'],['#E3EEE8','#1F5E48'],['#D9F0E3','#1F7A5A'],['#06382E','#D4A637']];
+      Object.assign(gen, { chips:[chip('All', !s.repFilter, () => this.setState({ repFilter:null }))].concat(RSTAGES.map(l2 => chip(l2, s.repFilter === l2, () => this.setState({ repFilter:l2 })))), note:'Customers choose: we collect from them, or they send by courier. Returns follow the returns policy set in Settings.',
+        cols:'100px minmax(140px,1fr) minmax(200px,1.4fr) 90px 110px 130px', head:['REF','CUSTOMER','DEVICE AND FAULT','TYPE','HOW','STAGE',''], minW:'960px',
+        rows: s.repairs.filter(r => !s.repFilter || RSTAGES[r.st] === s.repFilter).map(r => row([cM(r.ref), cB(r.cust), cW(r.dev), cT(r.type), cT(r.how), cP(RSTAGES[r.st], RC[r.st][0], RC[r.st][1])], r.st < 5 ? 'Next stage' : 'Open', r.st < 5 ? () => { this.setState(x => ({ repairs:x.repairs.map(y => y.ref === r.ref ? { ...y, st:y.st + 1 } : y) })); this.say(r.ref + ' → ' + RSTAGES[r.st + 1]); } : openG('repairs', r.ref))) }); }
+    if (m === 'inventory') { const il = s.products.filter(p => (!q || (p.name + p.brand).toLowerCase().includes(q)) && (!s.invLow || (p.stock < 3 && p.live))).slice().sort((a,b) => a.stock - b.stock);
+      Object.assign(gen, { chips:[chip('All', !s.invLow, () => this.setState({ invLow:false })), chip('Low stock (' + lowInv + ')', !!s.invLow, () => this.setState({ invLow:true }))], actions:[{ label:'Receive stock', go:() => this.setState({ mod:'suppliers', supTab:'po' }) }],
+        cols:'minmax(200px,1fr) 110px 90px 90px 100px 100px', head:['PRODUCT','STORE','ON HAND','RESERVED','REORDER AT','SERIALS',''], minW:'860px',
+        rows: il.map((p,i) => { const ser = ['Laptops','Phones','TV & Audio','Computing','Displays'].includes(p.cat); return row([cB(p.name), cTag(p.store), { ...cB(String(p.stock)), ink: p.stock < 3 ? '#B42318' : '#06382E' }, cT((p.stock + i) % 3), cT(3), cT(ser ? 'Tracked' : '—')], 'Adjust', openG('inventory', p.id)); }) }); }
+    if (m === 'suppliers') { const POC = { Draft:['#EFEADC','#06382E'], Ordered:['#FFF1CC','#7A5B00'], Received:['#D9F0E3','#1F7A5A'] }; const tabs = on => [chip('Suppliers', on === 'sup', () => this.setState({ supTab:'sup' })), chip('Purchase orders', on === 'po', () => this.setState({ supTab:'po' }))];
+      if (s.supTab === 'sup') Object.assign(gen, { chips:tabs('sup'), actions:[{ label:'Add supplier', go:openG('suppliers', 'new') }], cols:'minmax(160px,1fr) minmax(160px,1fr) minmax(180px,1fr) 110px', head:['SUPPLIER','SUPPLIES','BRANDS','LEAD TIME',''], minW:'820px', rows: SUPPLIERS.map((x,i) => row([cB(x[0]), cT(x[1]), cT(x[2]), cT(x[3])], 'Open', openG('suppliers', 's' + i))) });
+      else Object.assign(gen, { chips:tabs('po'), actions:[{ label:'New purchase order', go:openG('po', 'new') }], cols:'100px minmax(140px,1fr) minmax(180px,1fr) 130px 100px 110px', head:['PO','SUPPLIER','ITEMS','VALUE','EXPECTED','STATUS',''], minW:'900px',
+        rows: s.pos.map(p => row([cM(p.ref), cB(p.sup), cT(p.items), cB(fmt(p.val)), cT(p.exp), cP(p.st, POC[p.st][0], POC[p.st][1])], p.st === 'Received' ? 'Open' : p.st === 'Draft' ? 'Send' : 'Receive', p.st === 'Received' ? openG('po', p.ref) : () => { this.setState(x => ({ pos:x.pos.map(y => y.ref === p.ref ? { ...y, st: y.st === 'Draft' ? 'Ordered' : 'Received' } : y) })); this.say(p.ref + (p.st === 'Draft' ? ' sent to supplier' : ' received into stock')); })) }); }
+    if (m === 'discounts') Object.assign(gen, { note:'The storefront shows discounts only when a real offer exists. Every code needs a reason and an end date.', actions:[{ label:'New discount code', go:openG('discounts', 'new') }], cols:'140px minmax(160px,1fr) 120px 120px 120px 100px', head:['CODE','APPLIES TO','VALUE','STARTS','ENDS','STATUS'], minW:'780px', rows: s.discounts.map(dd => row([cM(dd.code), cT(dd.to), cB(dd.val), cT(dd.start), cT(dd.end), cP('Draft','#EFEADC','#06382E')])), empty:'No discount codes. The storefront doesn’t need them to sell.' });
+    const GEN = ['payments','invoices','customers','repairs','inventory','suppliers','discounts'];
+    const hasB = gen.rows.some(r => r.hasBtn);
+    Object.assign(out, { isGeneric:GEN.includes(m), gChips:gen.chips, gActions:gen.actions, gHasNote:!!gen.note, gNote:gen.note, gHasTiles:gen.tiles.length > 0, gTiles:gen.tiles, gCols:gen.cols + (hasB ? ' 110px' : ''), gHead: hasB ? gen.head : gen.head.filter(h => h), gRows:gen.rows, gMinW:gen.minW, gEmpty:!gen.rows.length, gEmptyText:gen.empty });
+    out.isSchedule = m === 'schedule';
+    out.calLegend = [['install','Installation'],['survey','Site survey'],['oib','Office in a Box'],['repair','Repair collection']].map(([k2,t2]) => ({ t:t2, bg:JOBCOL[k2][0] }));
+    out.calDays = DAYS;
+    out.calRows = ENGS.map((e,ei) => ({ eng:e, load: s.jobs.filter(j => j.e === ei).length + ' jobs this week', days: DAYS.map((dd,di) => ({ bg: di >= 5 ? '#FAF8F3' : 'transparent', jobs: s.jobs.filter(j => j.e === ei && j.d === di).map(j => ({ time:j.time, t:j.t, where:j.where, bg:JOBCOL[j.kind][0], ink:JOBCOL[j.kind][1], go:() => this.say(j.ref + ' · ' + j.t + ' · ' + ENGS[j.e]) })) })) }));
+    out.unassigned = s.unassigned.map((u,i) => { const e = i % 3, dd = 2 + i; return { ...u, slot:ENGS[e] + ' · ' + DAYS[dd], assign:() => { this.setState(x => ({ unassigned:x.unassigned.filter(y => y.id !== u.id), jobs:x.jobs.concat([{ id:'j' + Date.now(), e, d:dd, time:'10:00', t:u.t, where:u.where, ref:u.ref, kind:u.kind }]) })); this.say(u.t + ' assigned to ' + ENGS[e]); } }; });
+    out.noUnassigned = !s.unassigned.length;
+    out.isReports = m === 'reports';
+    const sales = s.orders.reduce((a,o) => a + oTotal(o), 0), homeS = s.orders.filter(o => o.store === 'emporium').reduce((a,o) => a + oTotal(o), 0);
+    out.repTiles = [{ label:'SALES (SAMPLE)', value:fmt(sales), sub:'Last 7 days' }, { label:'ORDERS', value:String(s.orders.length), sub:'Last 7 days' }, { label:'QUOTE PROMISE MET', value:Math.round(100*s.quotes.filter(x => x.status !== 'New' || x.ago <= SLA).length/s.quotes.length) + '%', sub:'Replied within ' + (s.settings.sla || 4) + ' working hours' }, { label:'QUOTE TO ORDER', value:'—', sub:'Needs 30 days of data' }];
+    const bar = (label, v, max, col, vv) => ({ label, v:vv, w:Math.max(2, Math.round(100*v/(max || 1))) + '%', col });
+    const catSales = {}; s.orders.forEach(o => o.items.forEach(i => { const p = s.products.find(x => x.name === i.name); const k2 = p ? (p.store === 'emporium' ? ELABEL[p.cat] : p.cat + ' (business)') : 'Other'; catSales[k2] = (catSales[k2] || 0) + i.qty*i.unit; }));
+    const cmax = Math.max(...Object.values(catSales), 1), pilots = s.enquiries.filter(e => e.type === 'Pilot interest').length;
+    out.charts = [{ title:'Sales by store', sub:'Sample data', bars:[bar('D’Emporium', homeS, sales, '#A6F000', fmt(homeS)), bar('D’Provision', sales - homeS, sales, '#D4A637', fmt(sales - homeS))] }, { title:'Sales by category', sub:'Sample data', bars:Object.keys(catSales).sort((a,b) => catSales[b] - catSales[a]).map(k2 => bar(k2, catSales[k2], cmax, '#1F7A5A', fmt(catSales[k2]))) }, { title:'Orders by stage', sub:'Right now', bars:STAGES.map((l2,i) => { const n = s.orders.filter(o => o.stage === i).length; return bar(l2, n, s.orders.length, '#06382E', String(n)); }) }, { title:'Pilot interest', sub:'From “join the pilot” requests', bars:[bar('Device care plan', pilots, Math.max(pilots, 1), '#D4A637', String(pilots))] }];
+    out.isRoles = m === 'roles';
+    out.roleTabs = [['users','Staff'],['perms','Permissions'],['log','Activity log']].map(([id,l2]) => chip(l2, s.roleTab === id, () => this.setState({ roleTab:id })));
+    out.rUsers = s.roleTab === 'users'; out.rPerms = s.roleTab === 'perms'; out.rLog = s.roleTab === 'log'; out.roleOpts = ROLES;
+    out.staffRows = s.staff.map(u => ({ name:u.name, role:u.role, last:u.last, status: u.active ? 'Active' : 'Suspended', stBg: u.active ? '#D9F0E3' : '#FDE7E4', stInk: u.active ? '#1F7A5A' : '#B42318', roleCh:e => { const v = e.target.value; this.setState(x => ({ staff:x.staff.map(y => y.id === u.id ? { ...y, role:v } : y) })); this.say(u.name + ' is now ' + v); }, toggle:() => { if (u.role === 'Owner') return; this.setState(x => ({ staff:x.staff.map(y => y.id === u.id ? { ...y, active:!y.active } : y) })); } }));
+    out.inviteStaff = () => { this.setState(x => ({ staff:x.staff.concat([{ id:'s' + Date.now(), name:'[ NEW STAFF MEMBER ]', role:'Support', last:'Invited', active:true }]), roleTab:'users' })); this.say('Invite sent'); };
+    const perms = s.perms || {};
+    out.permRows = PERM_MODS.map(pm => ({ label:pm, cells: ROLES.map(r => { const on = r === 'Owner' || (perms[pm] && perms[pm][r]); return { aria:pm + ' · ' + r, tick: on ? '✓' : '', bg: on ? '#06382E' : '#fff', border: on ? '#06382E' : 'rgba(6,56,46,.25)', go:() => { if (r === 'Owner' || !perms[pm]) return; this.setState(x => ({ perms:{ ...x.perms, [pm]:{ ...x.perms[pm], [r]:!x.perms[pm][r] } } })); } }; }) }));
+    out.logRows = s.log;
+    out.isKits = m === 'kits';
+    const kk = s.kitSel, kit = s.kits[kk];
+    out.kitList = Object.keys(s.kits).map(k2 => ({ name:s.kits[k2].name, st: s.kits[k2].live ? 'LIVE' : 'HIDDEN', stInk: s.kits[k2].live ? '#1F7A5A' : '#9AA59F', bg: k2 === kk ? '#F5F1E8' : 'transparent', fw: k2 === kk ? 800 : 600, go:() => this.setState({ kitSel:k2, kitPin:null }) }));
+    out.kd = { name:kit.name, store: kit.store === 'emporium' ? 'D’Emporium' : 'D’Provision', totalF:fmt(kit.items.reduce((a,x) => a + x[2], 0)), slot:'ds-room-' + kk, liveBg: kit.live ? '#1F7A5A' : '#D9D4C8', liveX: kit.live ? '22px' : '4px', toggleLive:() => this.setState(x => ({ kits:{ ...x.kits, [kk]:{ ...x.kits[kk], live:!x.kits[kk].live } } })),
+      hint: s.kitPin == null ? 'Pick “Move pin” on an item, then click the photo where it goes.' : 'Click the photo to place pin ' + (s.kitPin + 1) + '.',
+      place:e => { if (s.kitPin == null) return; const r = e.currentTarget.getBoundingClientRect(); const px = Math.round(100*(e.clientX - r.left)/r.width), py = Math.round(100*(e.clientY - r.top)/r.height); const pi = s.kitPin; this.setState(x => ({ kitPin:null, kits:{ ...x.kits, [kk]:{ ...x.kits[kk], items:x.kits[kk].items.map((it,j) => j === pi ? [it[0], it[1], it[2], px, py] : it) } } })); this.say('Pin ' + (pi + 1) + ' moved'); },
+      pins: kit.items.map((it,j) => ({ n:String(j + 1), x:it[3] + '%', y:it[4] + '%', bg: s.kitPin === j ? '#A6F000' : '#D4A637', ring: s.kitPin === j ? '#06382E' : '#F5F1E8' })),
+      items: kit.items.map((it,j) => ({ n:String(j + 1), name:it[0], note:it[1], pos:it[3] + '%, ' + it[4] + '%', priceF: it[2] ? fmt(it[2]) : 'Quoted', btn: s.kitPin === j ? 'Click the photo…' : 'Move pin', bg: s.kitPin === j ? '#06382E' : '#fff', ink: s.kitPin === j ? '#F5F1E8' : '#06382E', border: s.kitPin === j ? '#06382E' : 'rgba(6,56,46,.2)', pick:() => this.setState({ kitPin: s.kitPin === j ? null : j }) })) };
+    out.isContent = m === 'content';
+    out.heroWords = s.heroWords.map((w,i) => ({ t:w, remove:() => this.setState(x => ({ heroWords:x.heroWords.filter((_,j) => j !== i) })) }));
+    out.heroNew = s.heroNew; out.heroNewCh = e => this.setState({ heroNew:e.target.value }); out.heroAdd = () => { const v = s.heroNew.trim(); if (!v) return; this.setState(x => ({ heroWords:x.heroWords.concat([v.endsWith('.') ? v : v + '.']), heroNew:'' })); };
+    out.prodOpts = s.products.filter(p => p.live).map(p => ({ v:p.id, l:(p.store === 'emporium' ? 'Home · ' : 'Business · ') + p.name }));
+    out.bestSlots = s.best.map((id,i) => ({ label:'SLOT ' + (i + 1), value:id, ch:e => { const v = e.target.value; this.setState(x => ({ best:x.best.map((y,j) => j === i ? v : y) })); } }));
+    const CF = (key, label) => ({ label, value:s.content[key], ch:e => { const v = e.target.value; this.setState(x => ({ content:{ ...x.content, [key]:v } })); } });
+    out.contentFields = [{ title:'Top bar and about', fields:[CF('promo','TOP BAR LINE'), CF('about','ABOUT PAGE INTRO')] }, { title:'Help pages', fields:[CF('helpDelivery','DELIVERY PAGE')] }];
+    out.saveContent = () => this.say('Content published to the storefront');
+    out.isZones = m === 'zones';
+    const zu = (z, patch) => this.setState(x => ({ zones:x.zones.map(y => y.id === z.id ? { ...y, ...patch } : y) }));
+    out.zoneRows = s.zones.map(z => ({ name:z.name, fee:z.fee, time:z.time, nameCh:e => zu(z, { name:e.target.value }), feeCh:e => zu(z, { fee:e.target.value.replace(/[^\d,]/g,'') }), timeCh:e => zu(z, { time:e.target.value }), podBg: z.pod ? '#1F7A5A' : '#D9D4C8', podX: z.pod ? '22px' : '4px', podGo:() => zu(z, { pod:!z.pod }), insBg: z.ins ? '#1F7A5A' : '#D9D4C8', insX: z.ins ? '22px' : '4px', insGo:() => zu(z, { ins:!z.ins }), remove:() => this.setState(x => ({ zones:x.zones.filter(y => y.id !== z.id) })) }));
+    out.addZone = () => this.setState(x => ({ zones:x.zones.concat([{ id:'z' + Date.now(), name:'New zone', fee:'', time:'', pod:false, ins:false }]) }));
+    out.saveZones = () => this.say('Delivery zones published');
+    out.isNotify = m === 'notify';
+    out.nChips = [['all','All'],['customer','To customers'],['staff','Staff alerts']].map(([id,l2]) => chip(l2, s.nFilter === id, () => this.setState({ nFilter:id })));
+    const CHC = { WHATSAPP:['#DCF8C6','#1F5E2E'], SMS:['#DCEBFF','#1B4A8A'], EMAIL:['#EFEADC','#06382E'], 'IN-APP':['#FFF1CC','#7A5B00'] };
+    out.notifyCards = s.notify.filter(n => s.nFilter === 'all' || n.aud === s.nFilter).map(n => ({ name:n.name, trigger:n.trigger, body:n.body, vars:n.vars, op: n.on ? 1 : .55, channels:n.ch.map(c => ({ t:c, bg:CHC[c][0], ink:CHC[c][1] })), onBg: n.on ? '#1F7A5A' : '#D9D4C8', onX: n.on ? '22px' : '4px', toggle:() => this.setState(x => ({ notify:x.notify.map(y => y.id === n.id ? { ...y, on:!y.on } : y) })), ch:e => { const v = e.target.value; this.setState(x => ({ notify:x.notify.map(y => y.id === n.id ? { ...y, body:v } : y) })); }, test:() => this.say('Test “' + n.name + '” sent to [ YOUR NUMBER ]') }));
+    out.isBulk = m === 'bulk';
+    out.bulkCols = ['sku','name','brand','store','category','spec','price','stock','free_setup'];
+    const bl = s.bulk || [];
+    const BCK = { '':['Ready','#D9F0E3','#1F7A5A'], 'Updates existing':['Updates existing','#DCEBFF','#1B4A8A'], 'Missing price':['Missing price','#FDE7E4','#B42318'], 'Unknown category':['Unknown category','#FDE7E4','#B42318'] };
+    out.bulkHas = bl.length > 0; out.bulkRows = bl.map(b => ({ sku:b[0], name:b[1], store:b[2], cat:b[3], priceF: b[4] ? fmt(b[4]) : '—', stock:String(b[5]), check:BCK[b[6]][0], stBg:BCK[b[6]][1], stInk:BCK[b[6]][2] }));
+    const okRows = bl.filter(b => b[6] === '' || b[6] === 'Updates existing');
+    out.bulkImportLabel = 'Import ' + okRows.length + ' rows · skip ' + (bl.length - okRows.length);
+    out.bulkSample = () => this.setState({ bulk:BULK_SAMPLE }); out.bulkFile = () => this.setState({ bulk:BULK_SAMPLE });
+    out.bulkImport = () => { const add = okRows.filter(b => b[6] === '').map((b,i) => ({ id:'bulk-' + Date.now() + i, store: b[2] === 'home' ? 'emporium' : 'provision', cat:b[3], brand:'', name:b[1], spec:'', price:b[4], stock:b[5], live:false, free:false, img:'v7-admin-bulk-' + b[0] })); this.setState(x => ({ products:add.concat(x.products), bulk:null })); this.say(okRows.length + ' rows imported · new products hidden until checked'); };
+    out.isEngineer = m === 'engineer';
+    const ei = Math.max(0, ENGS.indexOf(s.engPick)), CHK = { install:['Confirm the job with the customer','Install and test','Show the customer how it works','Photo of the finished job'], survey:['Walk the site with the contact','Measure and photograph','Note power and cabling','Agree next steps'], oib:['Unbox and label devices','Network and internet with backup','Email, files, MFA and backup','Hand over documentation'], repair:['Check the device and accessories','Photo of its condition','Collection receipt signed'] };
+    const todays = s.jobs.filter(j => j.e === ei && j.d <= 1).slice(0,3);
+    out.engName = s.engPick; out.engOpts = ENGS; out.engPickCh = e => this.setState({ engPick:e.target.value });
+    out.engSummary = todays.length + ' jobs · ' + todays.filter(j => (s.engState[j.id] || {}).done).length + ' done';
+    out.engJobs = todays.map(j => { const st = s.engState[j.id] || { started:false, done:false, c:{} }; const cust = (s.orders.find(o => o.ref === j.ref) || {}).customer || (s.surveys.find(x => x.ref === j.ref) || {}).org || 'Customer';
+      return { time:j.time, type:j.t, ref:j.ref, cust, addr:j.where, border: st.done ? '#1F7A5A' : st.started ? '#D4A637' : 'transparent', status: st.done ? 'Done' : st.started ? 'On site' : 'Scheduled', stBg: st.done ? '#D9F0E3' : st.started ? '#FFF1CC' : '#EFEADC', stInk: st.done ? '#1F7A5A' : st.started ? '#7A5B00' : '#06382E',
+        checks: CHK[j.kind].map((c,ci) => ({ t:c, bg: st.c[ci] ? '#06382E' : 'transparent', tick: st.c[ci] ? '✓' : '', go:() => this.setState(x => { const cur = x.engState[j.id] || { started:true, done:false, c:{} }; return { engState:{ ...x.engState, [j.id]:{ ...cur, started:true, c:{ ...cur.c, [ci]:!cur.c[ci] } } } }; }) })),
+        call:() => this.say('Calling ' + cust + ' · [ CUSTOMER PHONE ]'), btn: st.done ? 'Completed ✓' : st.started ? 'Complete job' : 'Start job', btnBg: st.done ? '#D9F0E3' : '#06382E', btnInk: st.done ? '#1F7A5A' : '#F5F1E8',
+        go:() => { if (st.done) return; if (!st.started) { this.setState(x => ({ engState:{ ...x.engState, [j.id]:{ started:true, done:false, c:{} } } })); return; } if (!CHK[j.kind].every((_,ci) => st.c[ci])) { this.say('Tick every checklist item first'); return; } this.setState(x => ({ engState:{ ...x.engState, [j.id]:{ ...st, done:true } }, orders:x.orders.map(o => o.ref === j.ref ? { ...o, stage:5 } : o) })); this.say(j.ref + ' completed · review request sent'); } }; });
+    out.dGen = false; out.gd = { meta:[], hasLines:false, linesTitle:'', lines:[], fields:[], actions:[] };
+    const A = (label, g, primary) => ({ label, go:g, bg: primary ? '#06382E' : '#fff', ink: primary ? '#F5F1E8' : '#06382E', border: primary ? '0' : '1px solid rgba(6,56,46,.2)' });
+    const close = () => this.setState({ drawer:null });
+    const G0 = { meta:[], hasLines:false, lines:[], linesTitle:'', fields:[], actions:[] };
+    if (d && d.t === 'g') { out.dGen = true; const id = d.id;
+      if (d.mod === 'payments') { const o = s.orders.find(x => x.ref === id), st = s.payStat[id]; out.dKick = 'PAYMENT · ' + id; out.dTitle = o.customer;
+        out.gd = { ...G0, meta:[{ k:'Method', v:o.pay }, { k:'Amount', v:fmt(oTotal(o)) }, { k:'Status', v:st }, { k:'Gateway ref', v: o.pay.startsWith('Card') ? '[ PAYSTACK / FLUTTERWAVE REF ]' : '—' }], fields: st === 'Awaiting transfer' ? [{ label:'BANK REFERENCE', ph:'From the bank statement' }] : [], actions:[
+          ...(st === 'Awaiting transfer' || st === 'Pay on delivery' ? [A('Confirm money received', () => { this.setState(x => ({ payStat:{ ...x.payStat, [id]:'Paid' }, drawer:null })); this.say(id + ' marked paid'); }, true)] : []),
+          ...(st === 'Failed' ? [A('Send payment link again', () => { this.say('Payment link sent for ' + id); close(); }, true)] : []),
+          ...(st === 'Paid' ? [A('Refund', () => { this.setState(x => ({ payStat:{ ...x.payStat, [id]:'Refunded' }, drawer:null })); this.say(id + ' refunded'); })] : []), A('Close', close)] }; }
+      if (d.mod === 'invoices') { const i = s.invoices.find(x => x.ref === id); out.dKick = 'INVOICE · ' + id; out.dTitle = i.co;
+        out.gd = { ...G0, meta:[{ k:'Order', v:i.order }, { k:'Amount', v:fmt(i.amt) }, { k:'Issued', v:i.issued }, { k:'Due', v:i.due }, { k:'Terms', v:(s.settings.invoiceDays || 30) + ' days' }, { k:'Status', v:i.st }], actions:[...(i.st !== 'Paid' ? [A('Mark paid', () => { this.setState(x => ({ invoices:x.invoices.map(y => y.ref === id ? { ...y, st:'Paid' } : y), drawer:null })); this.say(id + ' marked paid'); }, true), A('Send reminder', () => { this.say('Reminder sent for ' + id); close(); })] : []), A('Download PDF', () => this.say('[ PDF FROM THE INVOICE SYSTEM ]'))] }; }
+      if (d.mod === 'customers') { const c = s.customers.find(x => x.id === id); const co = s.orders.filter(o => o.customer === c.name); out.dKick = c.type.toUpperCase() + ' CUSTOMER'; out.dTitle = c.name;
+        out.gd = { ...G0, meta:[{ k:'Location', v:c.city }, { k:'Phone', v:'[ PHONE ]' }, { k:'Email', v:'[ EMAIL ]' }, { k:'Orders', v:String(c.orders) }, { k:'Total spent', v:fmt(c.spent) }, { k:'Account', v:c.acct }], hasLines:true, linesTitle:'ORDERS', lines: co.length ? co.map(o => ({ a:o.ref + ' · ' + o.date, b:fmt(oTotal(o)) + ' · ' + STAGES[o.stage] })) : [{ a:'No orders in this view', b:'' }], fields:[{ label:'ADD A NOTE', ph:'e.g. prefers WhatsApp, deliver after 2pm' }], actions:[A('Save note', () => { this.say('Note saved on ' + c.name); close(); }, true), A('Message on WhatsApp', () => this.say('Opening WhatsApp · [ PHONE ]'))] }; }
+      if (d.mod === 'repairs') { const r = s.repairs.find(x => x.ref === id); out.dKick = 'REPAIR · ' + id; out.dTitle = r.cust; out.gd = { ...G0, meta:[{ k:'Device', v:r.dev }, { k:'Type', v:r.type }, { k:'How', v:r.how }, { k:'Stage', v:RSTAGES[r.st] }], actions:[A('Close', close)] }; }
+      if (d.mod === 'inventory') { const p = s.products.find(x => x.id === id); out.dKick = 'INVENTORY'; out.dTitle = p.name;
+        out.gd = { ...G0, meta:[{ k:'On hand', v:String(p.stock) }, { k:'Reorder at', v:'3' }, { k:'Supplier', v:'[ SUPPLIER ]' }], hasLines:true, linesTitle:'SERIAL NUMBERS', lines:[{ a:'[ RECORDED WHEN STOCK IS RECEIVED ]', b:'' }], fields:[{ label:'QUANTITY RECEIVED', ph:'e.g. 10' }, { label:'SERIAL NUMBERS', ph:'Scan or type, comma-separated' }], actions:[A('Add 10 to stock', () => { this.setState(x => ({ products:x.products.map(y => y.id === id ? { ...y, stock:y.stock + 10 } : y), drawer:null })); this.say(p.name + ': +10 received'); }, true), A('Close', close)] }; }
+      if (d.mod === 'suppliers' || d.mod === 'po') { out.dKick = d.mod === 'po' ? 'PURCHASE ORDER' : 'SUPPLIER'; out.dTitle = id === 'new' ? (d.mod === 'po' ? 'New purchase order' : 'New supplier') : id;
+        out.gd = { ...G0, fields: d.mod === 'po' ? [{ label:'SUPPLIER', ph:'[ SUPPLIER ]' }, { label:'ITEMS', ph:'e.g. 10 × Latitude 5550' }, { label:'VALUE (₦)', ph:'' }, { label:'EXPECTED DATE', ph:'' }] : [{ label:'NAME', ph:'' }, { label:'SUPPLIES', ph:'e.g. Networking' }, { label:'CONTACT', ph:'' }, { label:'LEAD TIME', ph:'e.g. 3–5 days' }],
+          actions:[A('Save', () => { if (d.mod === 'po' && id === 'new') this.setState(x => ({ pos:[{ ref:'PO-0' + (312 + x.pos.length), sup:'[ SUPPLIER ]', items:'[ ITEMS ]', val:0, exp:'[ DATE ]', st:'Draft' }].concat(x.pos) })); this.say('Saved'); close(); }, true), A('Cancel', close)] }; }
+      if (d.mod === 'discounts') { out.dKick = 'DISCOUNT'; out.dTitle = 'New discount code';
+        out.gd = { ...G0, fields:[{ label:'CODE', ph:'e.g. BACKTOSCHOOL' }, { label:'VALUE', ph:'e.g. 10% or ₦20,000' }, { label:'APPLIES TO', ph:'Category, product or whole store' }, { label:'STARTS', ph:'' }, { label:'ENDS', ph:'Required' }, { label:'THE REAL OFFER BEHIND IT', ph:'e.g. supplier price drop on laptops' }],
+          actions:[A('Save as draft', () => { this.setState(x => ({ discounts:x.discounts.concat([{ code:'[ CODE ]', to:'[ APPLIES TO ]', val:'[ VALUE ]', start:'[ START ]', end:'[ END ]' }]), drawer:null })); this.say('Discount saved as draft'); }, true), A('Cancel', close)] }; }
+    }
+    return out;
+  }
+}
+</script>
+</body>
+</html>

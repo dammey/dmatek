@@ -1,0 +1,15 @@
+Read design_handoff_dmatek_family/README.md in full (look at screenshots/ for orientation, but treat the runnable .dc.html files as the source of truth), then DFOUNDRY_PORT.md and DSOURCE_PORT.md, then the split sources in dfoundry-source/ and dsource-source/. Open "Dmatek Website v3.4.dc.html" and read its logic class (buildLine, updateLine, updateHotel, setupMotion) before building D’Matek motion.
+
+Build four apps in one monorepo (Next.js App Router + TypeScript), with a shared @dmatek/brand package (tokens, fonts, AdireBand, PilotLabel):
+
+1) D’Matek (dmatek.ng) — recreate "Dmatek Website v3.4.dc.html" per README Part 1. Real routes, typed content files, copy verbatim, site config flag adire (default true), keep every [ BRACKETED ] placeholder.
+
+2) D’Foundry (dfoundry.dmatek.ng) — exact replica of "DFoundry Hero.dc.html" + Droplet case study per DFOUNDRY_PORT.md, including the new Adire footer strip. Do not build the items under “Still not designed”.
+
+3) D’Source storefront (dsource.dmatek.ng) — exact replica of "DSource v7.4.dc.html" per README Part 3 and DSOURCE_PORT.md, on a real catalogue / cart / order / quote API. Card payments via Paystack or Flutterwave.
+
+4) D’Source Admin (internal, staff auth + role permissions) — exact replica of "DSource Admin v2.dc.html" per README Part 4 on the same API; honour the storefront ↔ admin contract table.
+
+Wire the cross-site links in the README table. Never invent prices, reviews, stock, delivery times, testimonials, certifications or response-time claims beyond what the designs state.
+
+Work page by page. For each, run the Playwright comparison described in DFOUNDRY_PORT.md / DSOURCE_PORT.md (serve with `npx serve design_handoff_dmatek_family`), save paired screenshots to /compare, and fix differences before moving on. Finish only when every route, module and checklist item matches.
