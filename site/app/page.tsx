@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { AdireBand } from "@dmatek/brand";
 import CableDivider from "@/components/CableDivider";
@@ -166,15 +167,20 @@ export default function HomePage() {
 
           <div
             data-tilt
-            className="dm-blob relative flex aspect-[4/5] min-h-[300px] flex-col items-center justify-center gap-3 p-[clamp(28px,5vw,54px)] text-center"
-            style={{ boxShadow: "inset 0 0 0 1px rgba(6,56,46,0.10), 0 30px 60px rgba(6,56,46,0.14)" }}
-            role="img"
-            aria-label="Placeholder for photography of real work on site"
+            className="dm-blob relative aspect-[4/5] min-h-[300px] overflow-hidden"
+            style={{
+              borderRadius: "58% 42% 47% 53% / 52% 46% 54% 48%",
+              boxShadow: "inset 0 0 0 1px rgba(6,56,46,0.10), 0 30px 60px rgba(6,56,46,0.14)",
+            }}
           >
-            <p className="m-0 text-[11.5px] font-bold tracking-[0.16em] text-progress">[ REAL PHOTOGRAPHY REQUIRED ]</p>
-            <p className="m-0 max-w-[22em] text-[15.5px] leading-[1.65] text-ink">
-              Damilola on site, mid-problem. A team setting something up. Not a server rack, not a stock photo.
-            </p>
+            <Image
+              src="/assets/hero-onsite.jpg"
+              alt="D’Matek engineers installing network hardware on site"
+              fill
+              sizes="(min-width: 900px) 44vw, 90vw"
+              className="object-cover"
+              priority
+            />
           </div>
         </div>
 

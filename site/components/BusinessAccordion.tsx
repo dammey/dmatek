@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Reveal from "@/components/Reveal";
 import { businesses } from "@/lib/content";
 
@@ -111,12 +112,24 @@ export default function BusinessAccordion() {
                     {pilotItems.length > 0 ? pilotItems.join(" · ") : "Everything listed here can be provided today."}
                   </p>
                   <div
-                    className="mt-1 flex w-full flex-col items-center justify-center p-3 text-center"
-                    style={{ aspectRatio: "4/3", background: "rgba(6,56,46,0.06)", borderRadius: "50% 50% 44% 56% / 48% 44% 56% 52%" }}
+                    className="relative mt-1 flex w-full flex-col items-center justify-center overflow-hidden p-3 text-center"
+                    style={{
+                      aspectRatio: "4/3",
+                      background: b.img ? undefined : "rgba(6,56,46,0.06)",
+                      borderRadius: "50% 50% 44% 56% / 48% 44% 56% 52%",
+                    }}
                   >
-                    <p className="relative m-0 text-[10.5px] font-bold tracking-[0.14em] text-progress">
-                      [ PHOTO &mdash; {b.photo} ]
-                    </p>
+                    {b.img && (
+                      <>
+                        <Image src={b.img} alt={`${b.name} — ${b.photo}`} fill sizes="280px" className="object-cover" />
+                        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg,rgba(6,56,46,0.1),rgba(4,48,40,0.55))" }} />
+                      </>
+                    )}
+                    {!b.img && (
+                      <p className="relative m-0 text-[10.5px] font-bold tracking-[0.14em] text-progress">
+                        [ PHOTO &mdash; {b.photo} ]
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>

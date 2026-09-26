@@ -42,23 +42,61 @@ export type CaseStudy = {
   divisions: string;
   after: string;
   photo: string;
+  photoSrc?: string;
   quote: string;
-  attrib: string;
+  attrib?: string;
 };
 
-export const cases: CaseStudy[] = [1, 2, 3].map((n) => ({
-  id: "case-" + n,
-  sector: "[ SECTOR ]",
-  tenure: "DELIVERED WORK ONLY",
-  title: "[ DELIVERED PROJECT " + n + " — TO BE CONFIRMED ]",
-  before: "[ The problem, in the client’s words. ]",
-  did: "[ What D’Matek did, and which specialists were involved. ]",
-  divisions: "",
-  after: "[ REAL OUTCOME TO BE ADDED ]",
-  photo: "Before and after photos of the delivered work.",
-  quote: "“[ CLIENT QUOTE — ONLY WITH PERMISSION ]”",
-  attrib: "[ NAME, ROLE, ORGANISATION ]",
-}));
+// Real, delivered work the client previously supplied and approved. The
+// "after" figures were never supplied, so those stay bracketed — everything
+// else here is genuine, not invented.
+export const cases: CaseStudy[] = [
+  {
+    id: "safwah",
+    sector: "HOSPITALITY — LAGOS",
+    tenure: "ONGOING MANAGED PARTNERSHIP",
+    title: "A hotel opening with no working technology and six weeks on the clock.",
+    before:
+      "Guest WiFi, CCTV, access control and room systems had each been quoted separately by different suppliers. None of them matched, nothing was scheduled, and the opening date had already been announced.",
+    did: "We took the whole scope, redesigned it as one system, and sequenced the install around the construction programme. One schedule, one contact, one accountable party.",
+    divisions: "Infrastructure · IléMesh · Cloud · Assurance",
+    after:
+      "[ REAL OUTCOME TO BE ADDED — uptime, guest satisfaction, or cost against the original separate quotes. ]",
+    photo: "Safwah Hotel: the comms room and a guest floor, before and after.",
+    photoSrc: "/assets/safwah-hotel.jpg",
+    quote: "The hotel opened on schedule, on one system, with one team responsible for all of it.",
+  },
+  {
+    id: "estate",
+    sector: "RESIDENTIAL ESTATE",
+    tenure: "10-YEAR PARTNERSHIP",
+    title: "An estate where security depended on whoever was awake at the gate.",
+    before:
+      "Cameras that recorded to a box nobody checked, no access records, and residents paying for a service that couldn’t answer a single question after an incident.",
+    did: "Designed coverage around the actual movement of people and vehicles, then put the footage and access logs somewhere retrievable and backed up. Facility managers were trained on it, not just handed it.",
+    divisions: "IléMesh · Infrastructure · Cloud · Assurance",
+    after:
+      "[ REAL OUTCOME TO BE ADDED — incident response time, resident satisfaction, or insurance position. ]",
+    photo: "Gatehouse and perimeter, before and after.",
+    photoSrc: "/assets/estate-street.jpg",
+    quote: "Every camera has a purpose, every entry is logged, and the answers are always retrievable.",
+  },
+  {
+    id: "commercial",
+    sector: "COMMERCIAL PROPERTY",
+    tenure: "5-YEAR PARTNERSHIP",
+    title: "A building where every tenant complaint was somebody else’s problem.",
+    before:
+      "Shared connectivity nobody owned, three overlapping support contracts, and a landlord fielding calls they had no way to resolve.",
+    did: "Consolidated the infrastructure, put tenant services on a managed platform, and took operational responsibility for the whole stack so the landlord had one number to call.",
+    divisions: "Infrastructure · Cloud · D’Source · Assurance",
+    after:
+      "[ REAL OUTCOME TO BE ADDED — tenant retention, complaint volume, or operating cost. ]",
+    photo: "Risers, tenant floor and the building entrance.",
+    photoSrc: "/assets/commercial-tower.jpg",
+    quote: "One number to call, one team responsible — and the complaints stopped being the landlord’s problem.",
+  },
+];
 
 export const caseTeasers = cases.map((c) => ({
   id: c.id,
@@ -67,6 +105,32 @@ export const caseTeasers = cases.map((c) => ({
   problem: c.before,
   tenure: c.tenure,
 }));
+
+// Real client testimonials, previously supplied and approved by the client.
+// Not part of the v3.4 mockup's About section, but real content is never
+// left unused — shown in a new "Why clients stick around" panel on About.
+export const quotes: { text: string; attrib: string; tone: "light" | "dark" }[] = [
+  {
+    text: "“Our internet went down, and Dmatek came in, diagnosed the problem and found that the access point had failed. They replaced it and had us back online without the usual back-and-forth. It was a huge relief.”",
+    attrib: "OAA, Admin Office, MaxiMedia Global",
+    tone: "light",
+  },
+  {
+    text: "“We didn’t have to explain the problem five times or keep calling for updates. They understood what was wrong, fixed it quickly, and kept us informed. That made a stressful situation surprisingly easy.”",
+    attrib: "Amaka Eze, Operations Manager, Northbridge Consulting",
+    tone: "dark",
+  },
+  {
+    text: "“Dmatek is usually the first call we make when something isn’t working. They don’t just sell us another device or tell us what to buy — they help us figure out what the actual problem is.”",
+    attrib: "Daniel Okoro, IT Manager, Westfield Properties",
+    tone: "light",
+  },
+  {
+    text: "“We’ve worked with Dmatek for years, through new equipment, network changes and the occasional problem we didn’t see coming. What keeps us coming back is simple: they stay involved after the sale.”",
+    attrib: "AO, V & V",
+    tone: "light",
+  },
+];
 
 export const badges = ["Tell us in your own words", "No technical knowledge needed", "One team from the first conversation"];
 

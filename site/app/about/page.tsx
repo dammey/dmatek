@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { AdireBand } from "@dmatek/brand";
 import Eyebrow from "@/components/Eyebrow";
 import Reveal from "@/components/Reveal";
 import SignalRings from "@/components/SignalRings";
-import { stages, values } from "@/lib/content";
+import { quotes, stages, values } from "@/lib/content";
 import { siteConfig } from "@/lib/siteConfig";
 
 export const metadata: Metadata = {
@@ -96,6 +97,56 @@ export default function AboutPage() {
       </section>
 
       <section className="bg-cream">
+        <div className="mx-auto max-w-[1280px] px-5 pb-[clamp(56px,7vw,100px)] sm:px-8">
+          <Reveal className="mb-7.5 max-w-[36em] sm:mb-12">
+            <Eyebrow>WHY CLIENTS STICK AROUND</Eyebrow>
+            <h2 className="m-0 text-[clamp(30px,4vw,54px)] font-extrabold leading-[1.04] tracking-[-0.03em] text-forest text-balance">
+              Relief, then gratitude, then trust.
+            </h2>
+          </Reveal>
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] gap-4">
+            {quotes.map((q, i) => (
+              <Reveal
+                key={i}
+                as="blockquote"
+                className="m-0 rounded-[clamp(24px,3vw,40px)] p-[clamp(26px,3vw,36px)] shadow-[0_14px_36px_rgba(6,56,46,0.08)] transition-transform hover:-translate-y-1.5 hover:shadow-[0_26px_54px_rgba(6,56,46,0.16)]"
+                style={{
+                  background:
+                    q.tone === "dark"
+                      ? "radial-gradient(120% 130% at 20% 0%, #0B4B3D, #06382E 60%)"
+                      : "linear-gradient(160deg,#EFEADC,#E8E2D0)",
+                  color: q.tone === "dark" ? "#F5F1E8" : "#1A1A1A",
+                }}
+              >
+                <p className="m-0 mb-4.5 text-[17px] font-medium leading-[1.7] text-pretty">{q.text}</p>
+                <footer
+                  className="text-[13px] font-bold tracking-[0.06em]"
+                  style={{ color: q.tone === "dark" ? "#D4A637" : "#28705A" }}
+                >
+                  {q.attrib}
+                </footer>
+              </Reveal>
+            ))}
+            <Reveal className="relative min-h-[220px] overflow-hidden rounded-[clamp(24px,3vw,40px)] shadow-[0_14px_36px_rgba(6,56,46,0.08)]">
+              <Image
+                src="/assets/own-result.jpg"
+                alt="D’Matek engineers with a long-standing client"
+                fill
+                sizes="(min-width: 900px) 30vw, 90vw"
+                className="object-cover"
+              />
+              <div
+                className="absolute inset-0 flex items-end p-[clamp(22px,2.6vw,30px)]"
+                style={{ background: "linear-gradient(180deg,rgba(6,56,46,0.05),rgba(4,48,40,0.82))" }}
+              >
+                <p className="m-0 text-[15px] font-bold leading-[1.4] text-cream">Ten years and counting.</p>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-cream">
         <div id="how" className="mx-auto flex max-w-[1280px] scroll-mt-28 flex-col gap-6 px-5 pt-[clamp(28px,4vw,56px)] pb-[clamp(64px,7vw,110px)] sm:gap-8.5 sm:px-8">
           <Reveal className="max-w-[36em]">
             <Eyebrow>HOW WE WORK</Eyebrow>
@@ -126,16 +177,24 @@ export default function AboutPage() {
                 </span>
               </div>
               <div
-                className="relative mx-auto flex aspect-square w-full max-w-[340px] flex-col items-center justify-center p-[clamp(24px,3.4vw,42px)] text-center text-cream"
+                className="relative mx-auto flex aspect-square w-full max-w-[340px] flex-col items-center justify-center overflow-hidden p-[clamp(24px,3.4vw,42px)] text-center text-cream"
                 style={{
-                  background: "radial-gradient(circle at 30% 26%, #0B4B3D, #043028)",
+                  background: s.img ? undefined : "radial-gradient(circle at 30% 26%, #0B4B3D, #043028)",
                   borderRadius: "54% 46% 48% 52% / 44% 54% 46% 56%",
                   animation: "dm-drift 21s ease-in-out infinite",
                 }}
               >
-                <p className="relative m-0 mb-3.5 text-[11px] font-bold tracking-[0.16em] text-gold">
-                  [ PHOTO &mdash; {s.photo} ]
-                </p>
+                {s.img && (
+                  <>
+                    <Image src={s.img} alt={`${s.name} — ${s.photo}`} fill sizes="340px" className="object-cover" />
+                    <div className="absolute inset-0" style={{ background: "linear-gradient(180deg,rgba(6,56,46,0.20),rgba(4,48,40,0.78))" }} />
+                  </>
+                )}
+                {!s.img && (
+                  <p className="relative m-0 mb-3.5 text-[11px] font-bold tracking-[0.16em] text-gold">
+                    [ PHOTO &mdash; {s.photo} ]
+                  </p>
+                )}
                 <p className="relative m-0 max-w-[16em] text-[clamp(19px,2.3vw,28px)] font-extrabold leading-[1.18] tracking-[-0.025em]">
                   {s.outcome}
                 </p>

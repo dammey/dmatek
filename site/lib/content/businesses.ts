@@ -31,6 +31,7 @@ export const businesses: Business[] = [
     note: "NETWORKS · FIBRE · WI-FI · INTERNET",
     pilot: "",
     photo: "cabling or wireless install in progress",
+    img: "/assets/stage-implement.jpg",
   },
   {
     id: "cloud",
@@ -42,6 +43,7 @@ export const businesses: Business[] = [
     note: "EMAIL · IDENTITY · HOSTING · BACKUP",
     pilot: "",
     photo: "a migration or a restore test underway",
+    img: "/assets/cloud-illustration.jpg",
   },
   {
     id: "foundry",
@@ -53,6 +55,7 @@ export const businesses: Business[] = [
     note: "SOFTWARE · INTEGRATIONS · AUTOMATION",
     pilot: "Customer messaging and WhatsApp automation · Guest access and billing platform",
     photo: "screens mid-build, a real interface",
+    img: "/assets/foundry-integrations.jpg",
     site: D_FOUNDRY_URL,
     siteLabel: "Explore D’Foundry ↗",
   },
@@ -67,6 +70,7 @@ export const businesses: Business[] = [
     note: "STANDALONE SITE COMING · SUBDOMAIN TO CONFIRM",
     pilot: "Fuel and generator monitoring · Cold chain monitoring · Estate utilities monitoring",
     photo: "access control at a door, a hotel room panel",
+    img: "/assets/ilemesh-smartlock.jpg",
   },
   {
     id: "source",
@@ -78,6 +82,7 @@ export const businesses: Business[] = [
     note: "D’EMPORIUM · D’PROVISION",
     pilot: "Device care plan",
     photo: "kit checked in and staged for a job",
+    img: "/assets/source-kit-staging.jpg",
     site: D_SOURCE_URL,
     siteLabel: "Shop D’Source ↗",
   },
@@ -91,6 +96,7 @@ export const businesses: Business[] = [
     note: "MANAGED IT · CYBERSECURITY · RESILIENCE",
     pilot: "NDPA readiness and DPO service · ISO / CBN compliance · Security awareness training · Incident response retainer · D’Matek Insight · AI readiness",
     photo: "a support conversation, a review meeting",
+    img: "/assets/assurance-support.jpg",
   },
 ];
 
