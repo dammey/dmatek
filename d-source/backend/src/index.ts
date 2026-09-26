@@ -1,11 +1,14 @@
+import "express-async-errors";
 import cors from "cors";
 import express from "express";
+import { ZodError } from "zod";
 import { env } from "./env.js";
 import { accountRouter } from "./routes/account.js";
 import { adminRouter } from "./routes/admin/index.js";
 import { cartRouter } from "./routes/cart.js";
 import { catalogueRouter } from "./routes/catalogue.js";
 import { checkoutRouter } from "./routes/checkout.js";
+import { contentRouter } from "./routes/content.js";
 import { enquiriesRouter } from "./routes/enquiries.js";
 import { quotesRouter } from "./routes/quotes.js";
 import { reviewsRouter } from "./routes/reviews.js";
@@ -36,16 +39,19 @@ app.use("/surveys", surveysRouter);
 app.use("/enquiries", enquiriesRouter);
 app.use("/track", trackRouter);
 app.use("/zones", zonesRouter);
+app.use("/content", contentRouter);
 
 // Staff-only (see auth/middleware.ts requireStaff + role_permissions)
 app.use("/admin", adminRouter);
 
+// express-async-errors (imported above) makes every async route handler's
+// rejections land here too, not just synchronous throws.
 app.use((err: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
-  if (err instanceof Error) {
-    // zod validation errors and thrown Errors alike land here.
-    return res.status(400).json({ error: err.message });
+  if (err instanceof ZodError) {
+    return res.status(400).json({ error: err.issues.map((i) => i.message).join("; ") });
   }
-  res.status(500).json({ error: "Unexpected error" });
+  console.error(err);
+  res.status(500).json({ error: "Something went wrong" });
 });
 
 app.listen(env.port, () => {

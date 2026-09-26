@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { z } from "zod";
-import { withCustomer } from "../auth/middleware.js";
+import { userIdFromBearer, withCustomer } from "../auth/middleware.js";
 import { db } from "../supabase.js";
 
 export const accountRouter = Router();
@@ -17,9 +17,9 @@ function requireCustomer(req: import("express").Request, res: import("express").
 /** POST /account/link — called once, right after Supabase Auth sign-up, to
  * attach the new auth user to a customers row (creating one if needed). */
 accountRouter.post("/link", async (req, res) => {
-  const authUserId = req.headers["x-auth-user-id"] as string | undefined;
+  const authUserId = await userIdFromBearer(req);
   const body = z.object({ fullName: z.string(), email: z.string().email() }).parse(req.body);
-  if (!authUserId) return res.status(400).json({ error: "Missing auth user" });
+  if (!authUserId) return res.status(401).json({ error: "Sign in required" });
 
   const { data: existing } = await db.from("customers").select("id").eq("email", body.email).maybeSingle();
   if (existing) {

@@ -14,7 +14,7 @@ declare global {
   }
 }
 
-async function userIdFromBearer(req: Request): Promise<string | null> {
+export async function userIdFromBearer(req: Request): Promise<string | null> {
   const header = req.headers.authorization;
   if (!header?.startsWith("Bearer ")) return null;
   const token = header.slice("Bearer ".length);

@@ -20,27 +20,24 @@ const productSchema = z.object({
   name: z.string(),
   slug: z.string(),
   description: z.string().optional(),
+  store: z.enum(["emporium", "provision"]),
   categoryId: z.string().uuid().optional(),
   specs: z.record(z.unknown()).optional(),
   images: z.array(z.string()).optional(),
   isActive: z.boolean().optional(),
-  retailPrice: z.number().optional(),
-  businessPrice: z.number().optional(),
+  price: z.number().optional(),
 });
 
 adminProductsRouter.post("/", async (req, res) => {
   const body = productSchema.parse(req.body);
   const { data: product, error } = await db
     .from("products")
-    .insert({ sku: body.sku, name: body.name, slug: body.slug, description: body.description, category_id: body.categoryId, specs: body.specs ?? {}, images: body.images ?? [], is_active: body.isActive ?? false })
+    .insert({ sku: body.sku, name: body.name, slug: body.slug, description: body.description, store: body.store, category_id: body.categoryId, specs: body.specs ?? {}, images: body.images ?? [], is_active: body.isActive ?? false })
     .select("id")
     .single();
   if (error) return res.status(500).json({ error: error.message });
 
-  const priceRows = [];
-  if (body.retailPrice != null) priceRows.push({ product_id: product.id, price_list: "retail", unit_price: body.retailPrice });
-  if (body.businessPrice != null) priceRows.push({ product_id: product.id, price_list: "business", unit_price: body.businessPrice });
-  if (priceRows.length) await db.from("product_prices").insert(priceRows);
+  if (body.price != null) await db.from("product_prices").insert({ product_id: product.id, price_list: body.store === "provision" ? "business" : "retail", unit_price: body.price });
   await db.from("inventory").insert({ product_id: product.id, quantity_on_hand: 0 });
 
   res.status(201).json({ id: product.id });
@@ -48,7 +45,7 @@ adminProductsRouter.post("/", async (req, res) => {
 
 adminProductsRouter.patch("/:id", async (req, res) => {
   const body = productSchema.partial().parse(req.body);
-  const { retailPrice, businessPrice, categoryId, isActive, ...rest } = body;
+  const { price, categoryId, isActive, ...rest } = body;
   const patch: Record<string, unknown> = { ...rest };
   if (categoryId !== undefined) patch.category_id = categoryId;
   if (isActive !== undefined) patch.is_active = isActive;
@@ -56,8 +53,11 @@ adminProductsRouter.patch("/:id", async (req, res) => {
     const { error } = await db.from("products").update(patch).eq("id", req.params.id);
     if (error) return res.status(500).json({ error: error.message });
   }
-  if (retailPrice != null) await db.from("product_prices").upsert({ product_id: req.params.id, price_list: "retail", unit_price: retailPrice }, { onConflict: "product_id,price_list" });
-  if (businessPrice != null) await db.from("product_prices").upsert({ product_id: req.params.id, price_list: "business", unit_price: businessPrice }, { onConflict: "product_id,price_list" });
+  if (price != null) {
+    const { data: product } = await db.from("products").select("store").eq("id", req.params.id).maybeSingle();
+    const priceList = (body.store ?? product?.store) === "provision" ? "business" : "retail";
+    await db.from("product_prices").upsert({ product_id: req.params.id, price_list: priceList, unit_price: price }, { onConflict: "product_id,price_list" });
+  }
   res.json({ ok: true });
 });
 
@@ -87,7 +87,7 @@ adminProductsRouter.post("/bulk", async (req, res) => {
     } else {
       const { data: product } = await db
         .from("products")
-        .insert({ sku: row.sku, name: row.name, slug: row.sku.toLowerCase(), specs: { category: row.category }, is_active: false })
+        .insert({ sku: row.sku, name: row.name, slug: row.sku.toLowerCase(), store: row.store === "home" ? "emporium" : "provision", specs: { category: row.category }, is_active: false })
         .select("id")
         .single();
       if (product) {
