@@ -1,3 +1,4 @@
+import { AdireBand } from "@dmatek/brand";
 import HeroEngine from "@/components/HeroEngine";
 import ProblemFix from "@/components/ProblemFix";
 import Services from "@/components/Services";
@@ -16,6 +17,7 @@ export default function Home() {
       <RecentWork />
       <Products />
       <ContactSection />
+      <AdireBand variant="footer" />
     </>
   );
 }

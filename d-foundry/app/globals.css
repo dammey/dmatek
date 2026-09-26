@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "@dmatek/brand/keyframes.css"; /* dmFlow — needed by the Adire footer strip */
 
 :root {
   --font-bricolage: "Bricolage Grotesque";
