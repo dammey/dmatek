@@ -5,6 +5,23 @@ import { db } from "../../supabase.js";
 
 export const adminStaffRouter = Router();
 
+const ALL_MODULES = [
+  "Dashboard", "Reports", "Orders", "Quotes", "Payments", "Invoices", "Customers",
+  "Installations", "Returns and repairs", "Site surveys", "Inventory",
+  "Suppliers and POs", "Products", "Categories", "Kits", "Bulk upload", "Discounts",
+  "Content", "Reviews", "Delivery zones", "Notifications", "Business accounts",
+  "Enquiries", "Staff and roles", "Settings",
+];
+
+/** GET /admin/me — the signed-in staff member's profile plus which
+ * modules their role can see, so the sidebar only renders what they have
+ * access to (the server still enforces this per-route regardless). */
+adminStaffRouter.get("/me", requireStaff(), async (req, res) => {
+  if (req.staff!.role === "Owner") return res.json({ staff: req.staff, modules: ALL_MODULES });
+  const { data } = await db.from("role_permissions").select("module").eq("role", req.staff!.role).eq("allowed", true);
+  res.json({ staff: req.staff, modules: (data ?? []).map((r) => r.module) });
+});
+
 /** POST /admin/staff/link — called once after a staff member's Supabase
  * Auth sign-in, to attach the auth user to their staff row. Staff rows
  * themselves are created by an Owner via POST /admin/staff (invite), which
