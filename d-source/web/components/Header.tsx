@@ -73,12 +73,13 @@ export default function Header() {
             )}
           </Link>
 
-          <nav style={{ display: "flex", gap: 18, flex: 1, flexWrap: "wrap", fontSize: 14, fontWeight: 600, color: ink }}>
+          <nav className="ds-header-nav" style={{ display: "flex", gap: 18, flex: 1, fontSize: 14, fontWeight: 600, color: ink }}>
             <Link href="/emporium">D&rsquo;Emporium · Home</Link>
             <Link href="/provision">D&rsquo;Provision · Business</Link>
             <Link href="/office-in-a-box">Office in a Box</Link>
             <Link href="/categories">All categories</Link>
           </nav>
+          <div className="ds-header-spacer" style={{ flex: 1 }} />
 
           <button
             type="button"
@@ -136,6 +137,19 @@ export default function Header() {
           </div>
         )}
       </header>
+      <style jsx>{`
+        .ds-header-spacer {
+          display: none;
+        }
+        @media (max-width: 1059px) {
+          .ds-header-nav {
+            display: none !important;
+          }
+          .ds-header-spacer {
+            display: block;
+          }
+        }
+      `}</style>
     </>
   );
 }
