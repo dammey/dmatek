@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
 
+const DMATEK_URL = process.env.NEXT_PUBLIC_DMATEK_URL ?? "https://dmatek.ng";
+
 export default function AboutPage() {
   const [about, setAbout] = useState("");
 
@@ -24,7 +26,7 @@ export default function AboutPage() {
           <span>D&rsquo;Emporium sells to individuals and homes. D&rsquo;Provision supplies businesses, on account.</span>
           <span>Every device is delivered nationwide and installed by D&rsquo;Matek engineers where booked.</span>
         </div>
-        <a href="https://dmatek.ng" style={{ display: "inline-block", marginTop: 28, fontWeight: 800, color: "#06382E", borderBottom: "2px solid #D4A637" }}>
+        <a href={DMATEK_URL} style={{ display: "inline-block", marginTop: 28, fontWeight: 800, color: "#06382E", borderBottom: "2px solid #D4A637" }}>
           Visit D&rsquo;Matek ↗
         </a>
       </section>
