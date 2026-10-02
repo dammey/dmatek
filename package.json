@@ -15,6 +15,8 @@
     "dev:dsource-backend": "npm run dev --workspace=d-source-backend",
     "build:dsource-backend": "npm run build --workspace=d-source-backend",
     "dev:dsource-web": "npm run dev --workspace=d-source-web",
-    "build:dsource-web": "npm run build --workspace=d-source-web"
+    "build:dsource-web": "npm run build --workspace=d-source-web",
+    "dev:dsource-admin": "npm run dev --workspace=d-source-admin",
+    "build:dsource-admin": "npm run build --workspace=d-source-admin"
   }
 }
