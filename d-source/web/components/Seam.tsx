@@ -2,20 +2,22 @@
 
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
+import { playStoreTransition } from "@/lib/storeTransition";
 
 function clamp(v: number, a = -1, b = 1) {
   return Math.max(a, Math.min(b, v));
 }
 
 /** The front page's "swipe between D'Emporium and D'Provision" control.
- * Drag physics match the prototype's tilt math; the full-screen expanding
- * transition animation on release is simplified to a fade + router push
- * rather than the prototype's bespoke two-panel wipe. */
+ * Drag physics match the prototype's tilt math; release plays the full
+ * two-leaf wipe transition from lib/storeTransition.ts, same as the
+ * prototype's go(). */
 export default function Seam() {
   const router = useRouter();
   const [p, setP] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const dragging = useRef<{ x0: number; left: number; width: number; moved: boolean } | null>(null);
+  const puckRef = useRef<HTMLDivElement>(null);
 
   function down(e: React.PointerEvent<HTMLDivElement>) {
     const r = e.currentTarget.getBoundingClientRect();
@@ -34,7 +36,7 @@ export default function Seam() {
   }
 
   function open(home: boolean) {
-    router.push(home ? "/emporium" : "/provision");
+    playStoreTransition(router, home ? "emporium" : "provision", puckRef.current);
   }
 
   function up(e: React.PointerEvent<HTMLDivElement>) {
@@ -80,6 +82,7 @@ export default function Seam() {
         </div>
       </div>
       <div
+        ref={puckRef}
         style={{
           position: "absolute",
           left: "50%",

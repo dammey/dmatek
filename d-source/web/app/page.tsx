@@ -1,14 +1,17 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import ProductCard from "@/components/ProductCard";
 import Seam from "@/components/Seam";
 import { api } from "@/lib/api";
 import { HERO_WORDS } from "@/lib/constants";
+import { playStoreTransition } from "@/lib/storeTransition";
 import type { Product } from "@/lib/types";
 
 export default function SourceHome() {
+  const router = useRouter();
   const [i, setI] = useState(0);
   const [bestSellers, setBestSellers] = useState<Product[]>([]);
 
@@ -30,12 +33,20 @@ export default function SourceHome() {
         <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 600, letterSpacing: "0.14em", color: "#5E6E68" }}>SOURCED FOR THE</span>
         <h1 style={{ margin: "8px 0 24px", fontWeight: 800, fontSize: "clamp(40px,7vw,110px)", lineHeight: 0.92, letterSpacing: "-0.05em" }}>{HERO_WORDS[i]}</h1>
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-          <Link href="/emporium" style={{ border: 0, background: "#0C1411", color: "#A6F000", borderRadius: 6, padding: "16px 26px", fontWeight: 800 }}>
+          <button
+            type="button"
+            onClick={(e) => playStoreTransition(router, "emporium", e.currentTarget)}
+            style={{ border: 0, background: "#0C1411", color: "#A6F000", borderRadius: 6, padding: "16px 26px", fontWeight: 800 }}
+          >
             D&rsquo;Emporium · For home →
-          </Link>
-          <Link href="/provision" style={{ border: 0, background: "#06382E", color: "#D4A637", borderRadius: 999, padding: "16px 26px", fontWeight: 800 }}>
+          </button>
+          <button
+            type="button"
+            onClick={(e) => playStoreTransition(router, "provision", e.currentTarget)}
+            style={{ border: 0, background: "#06382E", color: "#D4A637", borderRadius: 999, padding: "16px 26px", fontWeight: 800 }}
+          >
             D&rsquo;Provision · For business →
-          </Link>
+          </button>
         </div>
       </section>
 
