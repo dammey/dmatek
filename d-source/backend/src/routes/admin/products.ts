@@ -70,10 +70,23 @@ adminProductsRouter.patch("/:id/stock", async (req, res) => {
 });
 
 /** POST /admin/products/bulk — CSV/XLSX rows already parsed client-side
- * into JSON; new SKUs land hidden (is_active: false) until checked. */
+ * into JSON; new SKUs land hidden (is_active: false) until checked,
+ * existing SKUs get their price and stock updated. */
 adminProductsRouter.post("/bulk", async (req, res) => {
   const rows = z
-    .array(z.object({ sku: z.string(), name: z.string(), store: z.enum(["home", "business"]), category: z.string(), price: z.number(), stock: z.number() }))
+    .array(
+      z.object({
+        sku: z.string(),
+        name: z.string(),
+        store: z.enum(["home", "business"]),
+        category: z.string(),
+        brand: z.string().optional(),
+        spec: z.string().optional(),
+        price: z.number(),
+        stock: z.number(),
+        freeSetup: z.boolean().optional(),
+      })
+    )
     .parse(req.body.rows);
 
   let imported = 0;
@@ -85,9 +98,18 @@ adminProductsRouter.post("/bulk", async (req, res) => {
       const { data: inv } = await db.from("inventory").select("id").eq("product_id", existing.id).maybeSingle();
       if (inv) await db.from("inventory").update({ quantity_on_hand: row.stock }).eq("id", inv.id);
     } else {
+      const { data: category } = await db.from("categories").select("id").ilike("name", row.category).maybeSingle();
       const { data: product } = await db
         .from("products")
-        .insert({ sku: row.sku, name: row.name, slug: row.sku.toLowerCase(), store: row.store === "home" ? "emporium" : "provision", specs: { category: row.category }, is_active: false })
+        .insert({
+          sku: row.sku,
+          name: row.name,
+          slug: row.sku.toLowerCase(),
+          store: row.store === "home" ? "emporium" : "provision",
+          category_id: category?.id,
+          specs: { brand: row.brand, spec: row.spec, free: row.freeSetup ?? false },
+          is_active: false,
+        })
         .select("id")
         .single();
       if (product) {

@@ -126,7 +126,7 @@ export default function StaffPage() {
       {tab === "perms" && (
         <div style={{ background: "#fff", border: "1px solid rgba(6,56,46,.1)", borderRadius: 22, overflowX: "auto" }}>
           <div style={{ minWidth: 820 }}>
-            <div style={{ display: "grid", gridTemplateColumns: "minmax(180px,1fr) repeat(5,110px)", gap: 12, padding: "12px 18px", fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", color: "#5E6E68", borderBottom: "1px solid #EEEAE2" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "minmax(180px,1fr) repeat(5,110px)", gap: 12, padding: "12px 18px", fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", color: "#5E6E68", borderBottom: "1px solid #EEEAE2", position: "sticky", top: 0, zIndex: 2, background: "#fff" }}>
               <span>SECTION</span>
               {ROLES.map((r) => (
                 <span key={r} style={{ textAlign: "center" }}>
