@@ -1,37 +1,56 @@
-import type { Metadata } from "next";
+"use client";
+
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import { EMPORIUM_CATEGORIES, PROVISION_CATEGORIES } from "@/lib/constants";
+import { notFound, useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { CategoryGroup } from "@/components/CategoryGroup";
+import { api } from "@/lib/api";
+import type { Product, Store } from "@/lib/types";
 
-export async function generateMetadata({ params }: { params: Promise<{ store: string }> }): Promise<Metadata> {
-  const { store } = await params;
-  if (store !== "emporium" && store !== "provision") return {};
-  return { title: store === "emporium" ? "Home categories" : "Business categories" };
-}
-
-export default async function StoreCategoriesPage({ params }: { params: Promise<{ store: string }> }) {
-  const { store } = await params;
+export default function StoreCategoriesPage() {
+  const params = useParams<{ store: string }>();
+  const store = params.store as Store;
   if (store !== "emporium" && store !== "provision") notFound();
-  const isEmp = store === "emporium";
-  const cats = isEmp ? EMPORIUM_CATEGORIES.map(([k, l]) => [k, l] as const) : PROVISION_CATEGORIES.map((l) => [l.toLowerCase(), l] as const);
+  const emp = store === "emporium";
+
+  const [products, setProducts] = useState<Product[]>([]);
+  useEffect(() => {
+    api
+      .get<{ items: Product[] }>(`/catalogue/products?store=${store}`)
+      .then(({ items }) => setProducts(items))
+      .catch(() => setProducts([]));
+  }, [store]);
 
   return (
     <main style={{ background: "#FFFFFF", color: "#06382E" }}>
-      <section style={{ maxWidth: 1400, margin: "0 auto", padding: "clamp(28px,5vh,56px) clamp(18px,3vw,40px)" }}>
-        <h1 style={{ fontWeight: 800, fontSize: "clamp(32px,4.4vw,56px)", letterSpacing: "-0.04em", marginBottom: 32 }}>
-          {isEmp ? "Home categories" : "Business categories"}
-        </h1>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 16 }}>
-          {cats.map(([key, label]) => (
-            <Link
-              key={key}
-              href={`/${store}/${key}`}
-              style={{ background: "#F6F4EF", borderRadius: isEmp ? 6 : 22, padding: 20, fontWeight: 800, fontSize: 18, display: "block" }}
-            >
-              {label}
-            </Link>
-          ))}
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "18px clamp(18px,3vw,40px) 0", display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center", fontSize: 13, color: "#5E6E68" }}>
+        <Link href="/" style={{ fontSize: 13, fontWeight: 600, color: "#5E6E68" }}>
+          D&rsquo;Source
+        </Link>
+        <span style={{ color: "#B9B3A6" }}>&rsaquo;</span>
+        <Link href={`/${store}`} style={{ fontSize: 13, fontWeight: 600, color: "#5E6E68" }}>
+          {emp ? "D’Emporium" : "D’Provision"}
+        </Link>
+        <span style={{ color: "#B9B3A6" }}>&rsaquo;</span>
+        <span style={{ fontWeight: 700, color: "#06382E" }}>All categories</span>
+      </div>
+      <section
+        style={{
+          maxWidth: 1400,
+          margin: "0 auto",
+          padding: "clamp(20px,3vh,36px) clamp(18px,3vw,40px) clamp(56px,8vh,96px)",
+          display: "flex",
+          flexDirection: "column",
+          gap: "clamp(32px,5vh,56px)",
+        }}
+      >
+        <div>
+          <h1 style={{ margin: "0 0 10px", fontWeight: 800, fontSize: "clamp(40px,5.6vw,84px)", lineHeight: 0.95, letterSpacing: "-0.05em" }}>
+            {emp ? "Home categories" : "Business categories"}
+          </h1>
+          <p style={{ margin: 0, maxWidth: "44em", fontSize: 17, lineHeight: 1.6, color: "#3A4A44" }}>Pick a category to see every product in it.</p>
         </div>
+        <CategoryGroup store={store} products={products} />
       </section>
     </main>
   );
