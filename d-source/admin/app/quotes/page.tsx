@@ -43,14 +43,17 @@ export default function QuotesPage() {
         {quotes.map((q) => {
           const total = q.quote_lines.reduce((a, l) => a + l.quantity * (l.unit_price ?? 0), 0);
           const dueMinutes = sla - q.ago;
-          const due = q.status !== "submitted" ? "Replied" : dueMinutes < 0 ? `Overdue by ${Math.floor(-dueMinutes / 60)}h` : `Due in ${Math.floor(dueMinutes / 60)}h ${dueMinutes % 60}m`;
+          const overdue = q.status === "submitted" && dueMinutes < 0;
+          const soon = q.status === "submitted" && dueMinutes >= 0 && dueMinutes < 60;
+          const due = q.status !== "submitted" ? "Replied" : overdue ? `Overdue by ${Math.floor(-dueMinutes / 60)}h` : `Due in ${Math.floor(dueMinutes / 60)}h ${dueMinutes % 60}m`;
+          const dueColor = overdue ? "#B42318" : soon ? "#B25E00" : "#06382E";
           return (
             <Row key={q.ref} cols="120px minmax(180px,1fr) 80px 120px 160px 110px 70px">
               <span style={{ fontFamily: "var(--font-mono)", fontSize: 12.5 }}>{q.ref}</span>
               <span style={{ fontWeight: 700 }}>{q.customers?.company_name || q.customers?.full_name}</span>
               <span>{q.quote_lines.length || "Described"}</span>
               <span style={{ fontWeight: 800 }}>{total ? fmt(total) : "To price"}</span>
-              <span style={{ fontWeight: 800, color: q.status === "submitted" && dueMinutes < 0 ? "#B42318" : "#06382E" }}>{due}</span>
+              <span style={{ fontWeight: 800, color: dueColor }}>{due}</span>
               <span style={{ fontSize: 11.5, fontWeight: 800, padding: "5px 10px", borderRadius: 999, background: q.status === "submitted" ? "#FFF1CC" : "#D9F0E3", color: q.status === "submitted" ? "#7A5B00" : "#1F7A5A", justifySelf: "start" }}>
                 {q.status}
               </span>
