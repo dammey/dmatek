@@ -32,6 +32,7 @@ export default function SourceHome() {
   const heroRef = useRef<HTMLDivElement>(null);
   const cardARef = useRef<HTMLDivElement>(null);
   const cardBRef = useRef<HTMLDivElement>(null);
+  const noClickRef = useRef(false);
 
   useEffect(() => {
     const iv = setInterval(() => setI((n) => (n + 1) % HERO.length), 2300);
@@ -55,6 +56,39 @@ export default function SourceHome() {
     }
     addEventListener("pointermove", onMove, { passive: true });
     return () => removeEventListener("pointermove", onMove);
+  }, []);
+
+  useEffect(() => {
+    let drag: { ln: HTMLElement; x: number; s: number; m: boolean } | null = null;
+    function down(e: PointerEvent) {
+      const ln = (e.target as HTMLElement)?.closest?.("[data-line]") as HTMLElement | null;
+      if (!ln || e.pointerType === "touch") return;
+      drag = { ln, x: e.clientX, s: ln.scrollLeft, m: false };
+    }
+    function move(e: PointerEvent) {
+      if (!drag) return;
+      const dx = e.clientX - drag.x;
+      if (Math.abs(dx) > 6) drag.m = true;
+      drag.ln.scrollLeft = drag.s - dx;
+    }
+    function up() {
+      const d = drag;
+      drag = null;
+      if (d && d.m) {
+        noClickRef.current = true;
+        setTimeout(() => {
+          noClickRef.current = false;
+        }, 60);
+      }
+    }
+    addEventListener("pointerdown", down);
+    addEventListener("pointermove", move, { passive: true });
+    addEventListener("pointerup", up);
+    return () => {
+      removeEventListener("pointerdown", down);
+      removeEventListener("pointermove", move);
+      removeEventListener("pointerup", up);
+    };
   }, []);
 
   useEffect(() => {
@@ -280,7 +314,7 @@ export default function SourceHome() {
             <h2 style={{ margin: 0, fontWeight: 800, fontSize: "clamp(30px,3.6vw,52px)", letterSpacing: "-0.045em", lineHeight: 0.98 }}>Pick a place. Get the whole kit.</h2>
             <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", color: "#5E6E68" }}>DRAG OR SCROLL ALONG THE LINE &rarr;</span>
           </div>
-          <div style={{ position: "relative", overflowX: "auto" }}>
+          <div data-line="1" style={{ position: "relative", overflowX: "auto", scrollbarWidth: "none", cursor: "grab" }}>
             <div style={{ position: "relative", display: "flex", gap: "clamp(16px,2vw,26px)", padding: "30px clamp(18px,3vw,40px) 34px", width: "max-content" }}>
               <div style={{ position: "absolute", left: 0, right: 0, top: 30, height: 2, background: "#D4A637" }} />
               {kits.map((kit, idx) => {
@@ -291,7 +325,10 @@ export default function SourceHome() {
                   <button
                     key={kit.id}
                     type="button"
-                    onClick={() => openKit(kit.key)}
+                    onClick={() => {
+                      if (noClickRef.current) return;
+                      openKit(kit.key);
+                    }}
                     style={{
                       position: "relative",
                       display: "flex",
