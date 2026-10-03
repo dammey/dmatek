@@ -225,7 +225,7 @@ export default function FlowModal() {
             <>
               <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: "#3A4A44" }}>We&rsquo;ll open WhatsApp with your cart written out.</p>
               <a
-                href={`https://wa.me/?text=${encodeURIComponent(
+                href={`https://wa.me/2347058071768?text=${encodeURIComponent(
                   "Hello D’Emporium, I’d like to order:\n" +
                     (cart?.cart_items ?? []).map((i) => `• ${i.quantity} × ${i.name} (${fmt((i.price ?? 0) * i.quantity)})`).join("\n") +
                     "\nTotal: " +
@@ -238,7 +238,7 @@ export default function FlowModal() {
               >
                 Open WhatsApp →
               </a>
-              <p style={{ fontSize: 13, color: "#5E6E68" }}>[ WHATSAPP NUMBER TO BE ADDED ]</p>
+              <p style={{ fontSize: 13, color: "#5E6E68" }}>0705 807 1768</p>
             </>
           )}
 

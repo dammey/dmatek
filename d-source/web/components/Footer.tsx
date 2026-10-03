@@ -54,7 +54,11 @@ export default function Footer() {
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             <span style={{ fontWeight: 800, fontSize: 19, letterSpacing: "-0.04em" }}>D&rsquo;Source</span>
             <span style={{ color: "#3A4A44" }}>Commerce by D&rsquo;Matek.</span>
-            <span style={{ color: "#3A4A44" }}>[ PHONE ] · [ EMAIL ] · [ WHATSAPP ]</span>
+            <span style={{ color: "#3A4A44" }}>
+              <a href="tel:+2347058071768" style={{ color: "inherit" }}>0705 807 1768</a> &middot;{" "}
+              <a href="mailto:hello@dmatek.ng" style={{ color: "inherit" }}>hello@dmatek.ng</a> &middot;{" "}
+              <a href="https://wa.me/2347058071768" target="_blank" rel="noreferrer" style={{ color: "inherit" }}>WhatsApp</a>
+            </span>
           </div>
           {COLUMNS.map((col) => (
             <div key={col.title}>

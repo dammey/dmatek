@@ -49,9 +49,9 @@ export default function Footer() {
                 Tell us what you need &rarr;
               </Link>
               <p className="m-0 py-0.5 text-[14px] leading-[1.7] text-ink">
-                [ PHONE ]
+                <a href="tel:+2347058071768" className="hover:text-progress">0705 807 1768</a>
                 <br />
-                [ EMAIL ]
+                <a href="mailto:hello@dmatek.ng" className="hover:text-progress">hello@dmatek.ng</a>
                 <br />
                 [ SOCIAL LINKS ]
               </p>

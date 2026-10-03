@@ -46,6 +46,10 @@ export default function ContactSection() {
             </a>
           ))}
         </div>
+        <div style={{ display: "flex", gap: "10px 20px", flexWrap: "wrap", fontSize: 15, fontWeight: 700 }}>
+          <a href="tel:+2347058071768" style={{ color: "#06382E" }}>0705 807 1768</a>
+          <a href="mailto:hello@dmatek.ng" style={{ color: "#06382E" }}>hello@dmatek.ng</a>
+        </div>
         <footer style={{ display: "flex", justifyContent: "space-between", gap: 16, flexWrap: "wrap", borderTop: "2px solid #06382E", paddingTop: 20, fontFamily: "var(--font-plex-mono),monospace", fontSize: 12, letterSpacing: ".1em" }}>
           <span>D&rsquo;FOUNDRY IS A D&rsquo;MATEK BUSINESS</span>
           <a href={DMATEK_URL}>D&rsquo;MATEK.COM &#8599;</a>
