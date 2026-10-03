@@ -6,7 +6,7 @@ import { useState } from "react";
 import { chromeFor } from "@/lib/chrome";
 import { useAuth } from "@/lib/auth-context";
 import { useCart } from "@/lib/cart-context";
-import { EMPORIUM_CATEGORIES, PROVISION_CATEGORIES } from "@/lib/constants";
+import { useCategoryNav } from "@/lib/useCategoryNav";
 import { playStoreTransition } from "@/lib/storeTransition";
 
 const DMATEK_URL = process.env.NEXT_PUBLIC_DMATEK_URL ?? "https://dmatek.ng";
@@ -25,6 +25,8 @@ export default function Header() {
   const { signedIn } = useAuth();
   const [search, setSearch] = useState(false);
   const [q, setQ] = useState("");
+  const empCats = useCategoryNav("emporium");
+  const provCats = useCategoryNav("provision");
 
   const dark = tone === "emporium-front";
   const bg = dark ? "#0C1411" : tone === "source" ? "#F5F1E8" : tone === "provision-front" ? "#F5F1E8" : "#FFFFFF";
@@ -45,7 +47,7 @@ export default function Header() {
   // Center nav row: content depends on which store/front the current page belongs to.
   const centerNav: NavItem[] =
     tone === "emporium-front"
-      ? [...EMPORIUM_CATEGORIES.map(([key, label]): NavItem => ({ label, href: `/emporium/${key}` })), { label: "Kits", onClick: () => scrollToId("e-kits") }]
+      ? [...empCats.map((c): NavItem => ({ label: c.label, href: `/emporium/${c.slug}` })), { label: "Kits", onClick: () => scrollToId("e-kits") }]
       : tone === "provision-front"
         ? [
             { label: "Ways to order", onClick: () => scrollToId("p-ways") },
@@ -54,9 +56,9 @@ export default function Header() {
             { label: "Catalogue", onClick: () => scrollToId("p-cat") },
           ]
         : subBrand === "emporium"
-          ? EMPORIUM_CATEGORIES.map(([key, label]): NavItem => ({ label, href: `/emporium/${key}`, active: pathname === `/emporium/${key}` }))
+          ? empCats.map((c): NavItem => ({ label: c.label, href: `/emporium/${c.slug}`, active: pathname === `/emporium/${c.slug}` }))
           : subBrand === "provision"
-            ? PROVISION_CATEGORIES.map((label): NavItem => ({ label, href: `/provision/${label.toLowerCase()}`, active: pathname === `/provision/${label.toLowerCase()}` }))
+            ? provCats.map((c): NavItem => ({ label: c.label, href: `/provision/${c.slug}`, active: pathname === `/provision/${c.slug}` }))
             : [
                 { label: "D’Emporium · Home", onClick: goStore("emporium") },
                 { label: "D’Provision · Business", onClick: goStore("provision") },
@@ -69,22 +71,22 @@ export default function Header() {
     subBrand === "emporium"
       ? [
           { label: "All home products", href: "/emporium", strong: true, active: pathname === "/emporium" },
-          ...EMPORIUM_CATEGORIES.map(([key, label]): NavItem => ({ label, href: `/emporium/${key}`, active: pathname === `/emporium/${key}` })),
+          ...empCats.map((c): NavItem => ({ label: c.label, href: `/emporium/${c.slug}`, active: pathname === `/emporium/${c.slug}` })),
           { label: "All categories", href: "/emporium/categories", active: pathname === "/emporium/categories" },
         ]
       : subBrand === "provision"
         ? [
             { label: "All business products", href: "/provision", strong: true, active: pathname === "/provision" },
-            ...PROVISION_CATEGORIES.map((label): NavItem => ({ label, href: `/provision/${label.toLowerCase()}`, active: pathname === `/provision/${label.toLowerCase()}` })),
+            ...provCats.map((c): NavItem => ({ label: c.label, href: `/provision/${c.slug}`, active: pathname === `/provision/${c.slug}` })),
             { label: "Office in a Box", href: "/office-in-a-box", active: pathname === "/office-in-a-box" },
             { label: "All categories", href: "/provision/categories", active: pathname === "/provision/categories" },
           ]
         : [
             { label: "All products", href: "/search", strong: true, active: pathname === "/search" },
             { label: "HOME", tag: true },
-            ...EMPORIUM_CATEGORIES.map(([key, label]): NavItem => ({ label, href: `/emporium/${key}` })),
+            ...empCats.map((c): NavItem => ({ label: c.label, href: `/emporium/${c.slug}` })),
             { label: "BUSINESS", tag: true },
-            ...PROVISION_CATEGORIES.map((label): NavItem => ({ label, href: `/provision/${label.toLowerCase()}` })),
+            ...provCats.map((c): NavItem => ({ label: c.label, href: `/provision/${c.slug}` })),
             { label: "All categories", href: "/categories", active: pathname === "/categories" },
           ];
 

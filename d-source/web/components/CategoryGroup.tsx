@@ -1,20 +1,16 @@
+"use client";
+
 import Link from "next/link";
-import { CDESC, EMPORIUM_CATEGORIES, EMPORIUM_CDESC_KEY, PROVISION_CATEGORIES } from "@/lib/constants";
+import { CDESC } from "@/lib/constants";
+import { useCategoryNav } from "@/lib/useCategoryNav";
 import type { Product, Store } from "@/lib/types";
 
 type Tile = { slug: string; label: string; desc: string; count: number };
 
-function tilesFor(store: Store, products: Product[]): Tile[] {
-  const list: [string, string][] = store === "emporium" ? EMPORIUM_CATEGORIES : PROVISION_CATEGORIES.map((l) => [l.toLowerCase(), l]);
-  return list.map(([slug, label]) => {
-    const canonical = store === "emporium" ? EMPORIUM_CDESC_KEY[slug] : label;
-    return { slug, label, desc: CDESC[store][canonical] ?? "", count: products.filter((p) => p.categories?.name === canonical).length };
-  });
-}
-
 export function CategoryGroup({ store, products }: { store: Store; products: Product[] }) {
   const emp = store === "emporium";
-  const tiles = tilesFor(store, products);
+  const placements = useCategoryNav(store);
+  const tiles: Tile[] = placements.map((p) => ({ slug: p.slug, label: p.label, desc: CDESC[store][p.canonical] ?? "", count: products.filter((prod) => prod.categories?.name === p.canonical).length }));
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap", borderTop: "2px solid #D4A637", paddingTop: 12 }}>

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import ProductCard from "@/components/ProductCard";
 import SettingsValue from "@/components/SettingsValue";
 import { api } from "@/lib/api";
-import { EMPORIUM_CATEGORIES } from "@/lib/constants";
+import { useCategoryNav } from "@/lib/useCategoryNav";
 import { useKitOverlay } from "@/lib/kit-overlay-context";
 import { playStoreTransition } from "@/lib/storeTransition";
 import type { Kit, Product } from "@/lib/types";
@@ -28,7 +28,8 @@ const KIT_COLORS: [string, string][] = [
 export default function EmporiumHome() {
   const router = useRouter();
   const { openKit } = useKitOverlay();
-  const [tabKey, setTabKey] = useState(EMPORIUM_CATEGORIES[0][0]);
+  const categories = useCategoryNav("emporium");
+  const [tabKey, setTabKey] = useState(categories[0].slug);
   const [items, setItems] = useState<Product[]>([]);
   const [kits, setKits] = useState<Kit[]>([]);
 
@@ -43,8 +44,9 @@ export default function EmporiumHome() {
       .catch(() => {});
   }, []);
 
-  const tabLabel = EMPORIUM_CATEGORIES.find(([key]) => key === tabKey)?.[1] ?? "";
-  const shown = items.filter((p) => ((p.categories?.name as string) ?? "").toLowerCase() === tabLabel.toLowerCase());
+  const activeTab = categories.find((c) => c.slug === tabKey);
+  const tabLabel = activeTab?.label ?? "";
+  const shown = items.filter((p) => ((p.categories?.name as string) ?? "").toLowerCase() === (activeTab?.canonical ?? "").toLowerCase());
 
   return (
     <main style={{ background: "#0C1411", color: "#F2F2EC" }}>
@@ -72,14 +74,14 @@ export default function EmporiumHome() {
             Retail and consumer technology from D&rsquo;Source. Genuine devices, set up and supported.
           </p>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            {EMPORIUM_CATEGORIES.map(([key, label]) => (
+            {categories.map((c) => (
               <button
-                key={key}
+                key={c.slug}
                 type="button"
-                onClick={() => router.push(`/emporium/${key}`)}
+                onClick={() => router.push(`/emporium/${c.slug}`)}
                 style={{ border: "1px solid #2A3A33", background: "transparent", color: "#F2F2EC", borderRadius: 4, padding: "11px 16px", fontWeight: 800, fontSize: 13, letterSpacing: "0.04em", textTransform: "uppercase", whiteSpace: "nowrap" }}
               >
-                {label}
+                {c.label}
               </button>
             ))}
           </div>
@@ -102,15 +104,15 @@ export default function EmporiumHome() {
           </Link>
         </div>
         <div style={{ display: "flex", gap: 4, flexWrap: "wrap", margin: "20px 0 22px", borderBottom: "1px solid #22322B" }}>
-          {EMPORIUM_CATEGORIES.map(([key, label]) => (
+          {categories.map((c) => (
             <button
-              key={key}
+              key={c.slug}
               type="button"
-              onClick={() => setTabKey(key)}
+              onClick={() => setTabKey(c.slug)}
               style={{
                 background: "transparent",
                 border: 0,
-                borderBottom: `3px solid ${key === tabKey ? "#A6F000" : "transparent"}`,
+                borderBottom: `3px solid ${c.slug === tabKey ? "#A6F000" : "transparent"}`,
                 marginBottom: -1,
                 padding: "12px 14px",
                 fontSize: 14,
@@ -118,10 +120,10 @@ export default function EmporiumHome() {
                 letterSpacing: "0.04em",
                 textTransform: "uppercase",
                 color: "#F2F2EC",
-                opacity: key === tabKey ? 1 : 0.6,
+                opacity: c.slug === tabKey ? 1 : 0.6,
               }}
             >
-              {label}
+              {c.label}
             </button>
           ))}
         </div>

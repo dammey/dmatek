@@ -7,7 +7,8 @@ import { pilotNote } from "@dmatek/brand";
 import ProductCard from "@/components/ProductCard";
 import Seam from "@/components/Seam";
 import { api } from "@/lib/api";
-import { EMPORIUM_CATEGORIES, HERO, PROVISION_CATEGORIES, TINTS } from "@/lib/constants";
+import { HERO, TINTS } from "@/lib/constants";
+import { useCategoryNav } from "@/lib/useCategoryNav";
 import { useFlow } from "@/lib/flow-context";
 import { fmt } from "@/lib/format";
 import { useKitOverlay } from "@/lib/kit-overlay-context";
@@ -25,6 +26,8 @@ export default function SourceHome() {
   const router = useRouter();
   const { startFlow } = useFlow();
   const { openKit } = useKitOverlay();
+  const empCategories = useCategoryNav("emporium");
+  const provCategories = useCategoryNav("provision");
   const [i, setI] = useState(0);
   const [q, setQ] = useState("");
   const [bestSellers, setBestSellers] = useState<Product[]>([]);
@@ -262,14 +265,14 @@ export default function SourceHome() {
               <span style={{ fontWeight: 800, fontSize: 17 }}>For home</span>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(min(100%,168px),1fr))", gap: 10 }}>
-              {EMPORIUM_CATEGORIES.map(([key, label]) => (
+              {empCategories.map((c) => (
                 <Link
-                  key={key}
-                  href={`/emporium/${key}`}
+                  key={c.slug}
+                  href={`/emporium/${c.slug}`}
                   style={{ border: "1px solid #E6E2D8", background: "#FFFFFF", color: "#06382E", borderRadius: 6, padding: "10px 10px 14px", display: "flex", flexDirection: "column", gap: 10 }}
                 >
                   <span style={{ display: "block", position: "relative", aspectRatio: "1/1", borderRadius: 3, overflow: "hidden", background: "#F6F4EF" }} />
-                  <span style={{ fontWeight: 800, fontSize: 15.5, padding: "0 4px" }}>{label}</span>
+                  <span style={{ fontWeight: 800, fontSize: 15.5, padding: "0 4px" }}>{c.label}</span>
                 </Link>
               ))}
             </div>
@@ -282,14 +285,14 @@ export default function SourceHome() {
               <span style={{ fontWeight: 800, fontSize: 17 }}>For business</span>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(min(100%,168px),1fr))", gap: 10 }}>
-              {PROVISION_CATEGORIES.map((label) => (
+              {provCategories.map((c) => (
                 <Link
-                  key={label}
-                  href={`/provision/${label.toLowerCase()}`}
+                  key={c.slug}
+                  href={`/provision/${c.slug}`}
                   style={{ border: "1px solid #E6E2D8", background: "#FFFFFF", color: "#06382E", borderRadius: 20, padding: "10px 10px 14px", display: "flex", flexDirection: "column", gap: 10 }}
                 >
                   <span style={{ display: "block", position: "relative", aspectRatio: "1/1", borderRadius: 14, overflow: "hidden", background: "#F6F4EF" }} />
-                  <span style={{ fontWeight: 800, fontSize: 15.5, padding: "0 4px" }}>{label}</span>
+                  <span style={{ fontWeight: 800, fontSize: 15.5, padding: "0 4px" }}>{c.label}</span>
                 </Link>
               ))}
             </div>

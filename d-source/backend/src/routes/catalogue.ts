@@ -54,6 +54,19 @@ catalogueRouter.get("/categories", async (req, res) => {
   res.json({ categories: data });
 });
 
+/** GET /catalogue/category-placements?store=emporium|provision — the live,
+ * admin-managed category bar for a store: slug/label/order/show-hide,
+ * plus the canonical category name products are filed under. */
+catalogueRouter.get("/category-placements", async (req, res) => {
+  const { store } = req.query as { store?: string };
+  let query = db.from("category_placements").select("slug, label, sort_order, categories(name)").eq("is_active", true);
+  if (store) query = query.eq("store", store);
+  const { data, error } = await query.order("sort_order");
+  if (error) return res.status(500).json({ error: error.message });
+  const placements = (data ?? []).map((p) => ({ slug: p.slug, label: p.label, canonical: (p.categories as unknown as { name: string } | null)?.name ?? p.label }));
+  res.json({ placements });
+});
+
 catalogueRouter.get("/kits", async (req, res) => {
   const { store } = req.query as { store?: string };
   let query = db.from("kits").select("id, key, name, short, store, photo_ref, is_chooser, live, kit_items(*)").eq("live", true);

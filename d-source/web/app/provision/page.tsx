@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useFlow } from "@/lib/flow-context";
 import { useCart } from "@/lib/cart-context";
 import { api } from "@/lib/api";
-import { PROVISION_CATEGORIES } from "@/lib/constants";
+import { useCategoryNav } from "@/lib/useCategoryNav";
 import { fmt } from "@/lib/format";
 import { useKitOverlay } from "@/lib/kit-overlay-context";
 import { playStoreTransition } from "@/lib/storeTransition";
@@ -30,7 +30,8 @@ export default function ProvisionHome() {
   const { startFlow } = useFlow();
   const { addToQuote } = useCart();
   const { openKit } = useKitOverlay();
-  const [tabKey, setTabKey] = useState(PROVISION_CATEGORIES[0].toLowerCase());
+  const categories = useCategoryNav("provision");
+  const [tabKey, setTabKey] = useState(categories[0].slug);
   const [items, setItems] = useState<Product[]>([]);
   const [kits, setKits] = useState<Kit[]>([]);
   const [qty, setQty] = useState<Record<string, number>>({});
@@ -46,8 +47,9 @@ export default function ProvisionHome() {
       .catch(() => {});
   }, []);
 
-  const tabLabel = PROVISION_CATEGORIES.find((l) => l.toLowerCase() === tabKey) ?? "";
-  const shown = items.filter((p) => ((p.categories?.name as string) ?? "").toLowerCase() === tabLabel.toLowerCase());
+  const activeTab = categories.find((c) => c.slug === tabKey);
+  const tabLabel = activeTab?.label ?? "";
+  const shown = items.filter((p) => ((p.categories?.name as string) ?? "").toLowerCase() === (activeTab?.canonical ?? "").toLowerCase());
 
   function qtyFor(id: string) {
     return qty[id] ?? 1;
@@ -209,17 +211,16 @@ export default function ProvisionHome() {
           </button>
         </div>
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", margin: "22px 0 10px" }}>
-          {PROVISION_CATEGORIES.map((label) => {
-            const key = label.toLowerCase();
-            const active = key === tabKey;
+          {categories.map((c) => {
+            const active = c.slug === tabKey;
             return (
               <button
-                key={key}
+                key={c.slug}
                 type="button"
-                onClick={() => setTabKey(key)}
+                onClick={() => setTabKey(c.slug)}
                 style={{ border: `1px solid ${active ? "#06382E" : "rgba(6,56,46,.2)"}`, background: active ? "#06382E" : "transparent", color: active ? "#F5F1E8" : "#06382E", borderRadius: 999, padding: "10px 18px", fontSize: 14, fontWeight: 700 }}
               >
-                {label}
+                {c.label}
               </button>
             );
           })}
