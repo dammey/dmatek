@@ -1,19 +1,27 @@
 "use client";
 
 import Link from "next/link";
+import { useRef } from "react";
 import { useCart } from "@/lib/cart-context";
 import { fmt } from "@/lib/format";
+import { captureFlipOrigin } from "@/lib/flipTransition";
 import type { Product } from "@/lib/types";
 
 export default function ProductCard({ product }: { product: Product }) {
   const { addToCart, addToQuote } = useCart();
+  const articleRef = useRef<HTMLElement>(null);
   const emp = product.store === "emporium";
   const brand = (product.specs?.brand as string) ?? "";
   const spec = (product.specs?.spec as string) ?? product.description ?? "";
   const free = (product.specs?.free as boolean) ?? false;
 
+  function onView() {
+    captureFlipOrigin(articleRef.current?.querySelector("[data-pimg]") ?? null);
+  }
+
   return (
     <article
+      ref={articleRef}
       style={{
         background: "#FFFFFF",
         color: "#06382E",
@@ -25,7 +33,7 @@ export default function ProductCard({ product }: { product: Product }) {
         gap: 10,
       }}
     >
-      <Link href={`/p/${product.id}`} style={{ position: "relative", display: "block", aspectRatio: "1/1", borderRadius: emp ? 3 : 14, overflow: "hidden", background: "#F6F4EF" }} />
+      <Link href={`/p/${product.id}`} onClick={onView} data-pimg="1" style={{ position: "relative", display: "block", aspectRatio: "1/1", borderRadius: emp ? 3 : 14, overflow: "hidden", background: "#F6F4EF" }} />
       <div style={{ display: "flex", justifyContent: "space-between", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
         <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", color: "#5E6E68" }}>{brand}</span>
         <span
@@ -43,7 +51,7 @@ export default function ProductCard({ product }: { product: Product }) {
           {emp ? "D’EMPORIUM" : "D’PROVISION"}
         </span>
       </div>
-      <Link href={`/p/${product.id}`} style={{ fontWeight: 800, fontSize: 17, lineHeight: 1.25, color: "#06382E" }}>
+      <Link href={`/p/${product.id}`} onClick={onView} style={{ fontWeight: 800, fontSize: 17, lineHeight: 1.25, color: "#06382E" }}>
         {product.name}
       </Link>
       <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "#5E6E68" }}>{spec}</span>
@@ -70,6 +78,7 @@ export default function ProductCard({ product }: { product: Product }) {
         </button>
         <Link
           href={`/p/${product.id}`}
+          onClick={onView}
           style={{ border: "1px solid #E6E2D8", borderRadius: emp ? 4 : 999, background: "#fff", color: "#06382E", minHeight: 44, padding: "0 14px", fontWeight: 700, fontSize: 13, display: "flex", alignItems: "center", justifyContent: "center" }}
         >
           View
