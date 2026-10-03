@@ -65,6 +65,7 @@ html,
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
 }
 html {
   scroll-behavior: smooth;
