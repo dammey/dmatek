@@ -1,9 +1,14 @@
+"use client";
+
 import Link from "next/link";
+import { useFlow } from "@/lib/flow-context";
 import { AdireBand } from "@dmatek/brand";
 
 const DMATEK_URL = process.env.NEXT_PUBLIC_DMATEK_URL ?? "https://dmatek.ng";
 
-const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
+type FooterLink = { label: string; href: string } | { label: string; flow: "quote" | "account" };
+
+const COLUMNS: { title: string; links: FooterLink[] }[] = [
   {
     title: "SHOP",
     links: [
@@ -17,8 +22,9 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
   {
     title: "BUSINESS",
     links: [
-      { label: "Request a quote", href: "/provision" },
+      { label: "Request a quote", flow: "quote" },
       { label: "Book a free site survey", href: "/site-survey" },
+      { label: "Order on account", flow: "account" },
       { label: "Apply for a business account", href: "/account?tab=biz" },
     ],
   },
@@ -30,6 +36,7 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
       { label: "Installation and set-up", href: "/help/install" },
       { label: "Returns", href: "/help/returns" },
       { label: "Warranty and repairs", href: "/help/warranty" },
+      { label: "Contact us", href: "/help/contact" },
       { label: "Track an order", href: "/track" },
     ],
   },
@@ -46,6 +53,7 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
 ];
 
 export default function Footer() {
+  const { startFlow } = useFlow();
   return (
     <footer style={{ background: "#EFEADC", color: "#06382E", fontSize: 13.5, borderTop: "1px solid rgba(6,56,46,.12)" }}>
       <AdireBand variant="footer" />
@@ -64,11 +72,22 @@ export default function Footer() {
             <div key={col.title}>
               <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.16em", color: "#28705A", marginBottom: 12 }}>{col.title}</div>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                {col.links.map((l) => (
-                  <Link key={l.href} href={l.href} style={{ fontSize: 13.5, color: "#06382E" }}>
-                    {l.label}
-                  </Link>
-                ))}
+                {col.links.map((l) =>
+                  "flow" in l ? (
+                    <button
+                      key={l.label}
+                      type="button"
+                      onClick={() => startFlow(l.flow)}
+                      style={{ border: 0, background: "transparent", padding: 0, textAlign: "left", fontSize: 13.5, color: "#06382E" }}
+                    >
+                      {l.label}
+                    </button>
+                  ) : (
+                    <Link key={l.href} href={l.href} style={{ fontSize: 13.5, color: "#06382E" }}>
+                      {l.label}
+                    </Link>
+                  )
+                )}
               </div>
             </div>
           ))}

@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
 import { api } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { useFlow } from "@/lib/flow-context";
@@ -55,7 +55,16 @@ function rowCard(): React.CSSProperties {
 }
 
 export default function AccountPage() {
+  return (
+    <Suspense fallback={null}>
+      <AccountPageInner />
+    </Suspense>
+  );
+}
+
+function AccountPageInner() {
   const router = useRouter();
+  const params = useSearchParams();
   const { signedIn, loading, signIn, signUp, signOut } = useAuth();
   const { startFlow } = useFlow();
   const { openKit } = useKitOverlay();
@@ -66,7 +75,10 @@ export default function AccountPage() {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
 
-  const [tab, setTab] = useState<(typeof TABS)[number][0]>("orders");
+  const [tab, setTab] = useState<(typeof TABS)[number][0]>(() => {
+    const requested = params.get("tab");
+    return (TABS.find(([id]) => id === requested)?.[0] ?? "orders") as (typeof TABS)[number][0];
+  });
   const [orders, setOrders] = useState<Order[]>([]);
   const [quotes, setQuotes] = useState<Quote[]>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
