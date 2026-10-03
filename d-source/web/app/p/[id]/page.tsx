@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import ProductCard from "@/components/ProductCard";
+import SettingsValue from "@/components/SettingsValue";
 import { api } from "@/lib/api";
 import { useCart } from "@/lib/cart-context";
 import { fmt } from "@/lib/format";
@@ -117,7 +118,7 @@ export default function ProductPage() {
 
   const freeWhat = p.categories?.name === "TV & Audio" ? " (wall mounting)" : " (set-up and data transfer)";
   const pInfo = [
-    { t: "Delivery", d: "Delivered nationwide. [ DELIVERY TIMES AND FEES TO CONFIRM ]" },
+    { t: "Delivery", d: <>Delivered nationwide. <SettingsValue field="deliveryTimesAndFees" placeholder="[ DELIVERY TIMES AND FEES TO CONFIRM ]" /></> as React.ReactNode },
     { t: "Installation", d: free ? `Free${freeWhat}, by D’Matek engineers.` : "Installed by D’Matek engineers as a paid add-on." },
     { t: "Payment", d: emp ? "Card (Paystack or Flutterwave), bank transfer, USSD or pay on delivery." : "Quote within 4 working hours. Approved accounts pay on 30-day invoice." },
     { t: "Warranty", d: "Genuine and warranty-backed. For repairs we collect it from you, or you send it by courier." },

@@ -2,24 +2,40 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import HelpActions from "@/components/HelpActions";
+import SettingsValue from "@/components/SettingsValue";
 
-const TOPICS: Record<string, { title: string; paras: string[]; list?: { k: string; v: string }[] }> = {
+type Row = { k: string; v: React.ReactNode };
+
+const TOPICS: Record<string, { title: string; paras: React.ReactNode[]; list?: Row[] }> = {
   delivery: {
     title: "Delivery",
     paras: ["We deliver anywhere in Nigeria.", "After you order, we call to confirm the delivery date and any set-up you’ve booked."],
-    list: [{ k: "Where", v: "Nationwide" }, { k: "Times and fees", v: "[ DELIVERY TIMES AND FEES TO CONFIRM ]" }, { k: "Business orders", v: "Delivered to each of your sites, as set out in the quote." }],
+    list: [
+      { k: "Where", v: "Nationwide" },
+      { k: "Times and fees", v: <SettingsValue field="deliveryTimesAndFees" placeholder="[ DELIVERY TIMES AND FEES TO CONFIRM ]" /> },
+      { k: "Business orders", v: "Delivered to each of your sites, as set out in the quote." },
+    ],
   },
   payment: {
     title: "Payment",
     paras: ["Pay the way that suits you."],
-    list: [{ k: "Card", v: "Paystack or Flutterwave" }, { k: "Bank transfer", v: "Details sent after you order" }, { k: "USSD", v: "From any bank on your phone" }, { k: "Pay on delivery", v: "Pay when it arrives. [ AREAS TO CONFIRM ]" }, { k: "Business invoice", v: "Approved business accounts pay on 30-day invoice." }],
+    list: [
+      { k: "Card", v: "Paystack or Flutterwave" },
+      { k: "Bank transfer", v: "Details sent after you order" },
+      { k: "USSD", v: "From any bank on your phone" },
+      { k: "Pay on delivery", v: <SettingsValue field="podAreas" placeholder="Pay when it arrives. [ AREAS TO CONFIRM ]" prefix="Pay when it arrives. " /> },
+      { k: "Business invoice", v: "Approved business accounts pay on 30-day invoice." },
+    ],
   },
   install: {
     title: "Installation and set-up",
     paras: ["Installed by D’Matek engineers, for home kits and business orders."],
     list: [{ k: "Free", v: "TV wall mounting · laptop and phone set-up and data transfer · Office in a Box" }, { k: "Paid add-on", v: "Other installation, quoted before we start" }, { k: "Site surveys", v: "Free, before we specify anything" }],
   },
-  returns: { title: "Returns", paras: ["[ RETURNS POLICY TO CONFIRM ]", "If something isn’t right, contact us first and we’ll tell you what happens next."] },
+  returns: {
+    title: "Returns",
+    paras: [<SettingsValue key="r" field="returnsPolicy" placeholder="[ RETURNS POLICY TO CONFIRM ]" />, "If something isn’t right, contact us first and we’ll tell you what happens next."],
+  },
   warranty: {
     title: "Warranty and repairs",
     paras: ["Every device is genuine and warranty-backed.", "For repairs, we collect it from you, or you send it to us by courier."],
@@ -32,7 +48,12 @@ const TOPICS: Record<string, { title: string; paras: string[]; list?: { k: strin
   contact: {
     title: "Contact us",
     paras: ["Tell us in your own words. You don’t need to know which technology it needs."],
-    list: [{ k: "Phone", v: "0705 807 1768" }, { k: "Email", v: "hello@dmatek.ng" }, { k: "WhatsApp", v: "0705 807 1768" }, { k: "Address", v: "[ ADDRESS TO BE ADDED ]" }],
+    list: [
+      { k: "Phone", v: "0705 807 1768" },
+      { k: "Email", v: "hello@dmatek.ng" },
+      { k: "WhatsApp", v: "0705 807 1768" },
+      { k: "Address", v: <SettingsValue field="address" placeholder="[ ADDRESS TO BE ADDED ]" /> },
+    ],
   },
 };
 
@@ -40,7 +61,8 @@ export async function generateMetadata({ params }: { params: Promise<{ topic: st
   const { topic } = await params;
   const t = TOPICS[topic];
   if (!t) return {};
-  return { title: t.title, description: t.paras[0] };
+  const firstStringPara = t.paras.find((p): p is string => typeof p === "string");
+  return { title: t.title, description: firstStringPara };
 }
 
 export default async function HelpTopicPage({ params }: { params: Promise<{ topic: string }> }) {
@@ -85,8 +107,8 @@ export default async function HelpTopicPage({ params }: { params: Promise<{ topi
           </nav>
           <article style={{ flex: "1 1 520px", minWidth: 0, maxWidth: 760, display: "flex", flexDirection: "column", gap: 16 }}>
             <h2 style={{ margin: 0, fontWeight: 800, fontSize: "clamp(28px,3.2vw,44px)", letterSpacing: "-0.04em" }}>{t.title}</h2>
-            {t.paras.map((p) => (
-              <p key={p} style={{ margin: 0, fontSize: 17, lineHeight: 1.7, color: "#3A4A44" }}>
+            {t.paras.map((p, i) => (
+              <p key={i} style={{ margin: 0, fontSize: 17, lineHeight: 1.7, color: "#3A4A44" }}>
                 {p}
               </p>
             ))}

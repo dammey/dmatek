@@ -15,8 +15,8 @@ const settingsSchema = z.object({
   address: z.string().optional(),
   returnsPolicy: z.string().optional(),
   businessAccountReviewTime: z.string().optional(),
-  quoteReplyHours: z.number().optional(),
-  invoiceTermsDays: z.number().optional(),
+  deliveryTimesAndFees: z.string().optional(),
+  podAreas: z.string().optional(),
 });
 
 adminSettingsRouter.get("/", async (_req, res) => {

@@ -12,8 +12,8 @@ type Settings = {
   address?: string;
   returnsPolicy?: string;
   businessAccountReviewTime?: string;
-  quoteReplyHours?: number;
-  invoiceTermsDays?: number;
+  deliveryTimesAndFees?: string;
+  podAreas?: string;
 };
 
 export default function SettingsPage() {
@@ -46,7 +46,9 @@ export default function SettingsPage() {
       </Card>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,420px),1fr))", gap: 16 }}>
         <Card style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          <span style={{ fontWeight: 800, fontSize: 18 }}>Payment and policies</span>
+          <span style={{ fontWeight: 800, fontSize: 18 }}>Delivery and payment</span>
+          {field("deliveryTimesAndFees", "DELIVERY TIMES AND FEES", "e.g. 1–3 working days nationwide, ₦ varies by zone")}
+          {field("podAreas", "PAY ON DELIVERY — AREAS COVERED", "e.g. Lagos and Abuja only")}
           {field("returnsPolicy", "RETURNS POLICY (SUMMARY)", "e.g. 7 days, unopened, with receipt")}
           {field("businessAccountReviewTime", "BUSINESS ACCOUNT CHECK TIME", "e.g. 2 working days")}
         </Card>
@@ -56,17 +58,6 @@ export default function SettingsPage() {
           {field("email", "EMAIL", "hello@…")}
           {field("whatsapp", "WHATSAPP NUMBER", "+234 …")}
           {field("address", "ADDRESS", "Street, city")}
-        </Card>
-        <Card style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          <span style={{ fontWeight: 800, fontSize: 18 }}>Promises shown on the storefront</span>
-          <label style={labelStyle}>
-            QUOTE REPLY (WORKING HOURS)
-            <input value={settings.quoteReplyHours ?? ""} onChange={(e) => setSettings((s) => ({ ...s, quoteReplyHours: Number(e.target.value) || undefined }))} style={inputStyle} />
-          </label>
-          <label style={labelStyle}>
-            INVOICE TERMS (DAYS)
-            <input value={settings.invoiceTermsDays ?? ""} onChange={(e) => setSettings((s) => ({ ...s, invoiceTermsDays: Number(e.target.value) || undefined }))} style={inputStyle} />
-          </label>
         </Card>
       </div>
       <button type="button" onClick={save} style={{ ...btnPrimary, marginTop: 16 }}>

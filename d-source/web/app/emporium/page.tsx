@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import ProductCard from "@/components/ProductCard";
+import SettingsValue from "@/components/SettingsValue";
 import { api } from "@/lib/api";
 import { EMPORIUM_CATEGORIES } from "@/lib/constants";
 import { useKitOverlay } from "@/lib/kit-overlay-context";
@@ -11,10 +12,10 @@ import { playStoreTransition } from "@/lib/storeTransition";
 import type { Kit, Product } from "@/lib/types";
 
 const TRUST = [
-  { t: "Genuine, warranty-backed", d: "Every device sourced properly." },
-  { t: "Installed by our engineers", d: "Free set-up on TVs, laptops and phones. Other installs are a paid add-on." },
-  { t: "Delivered nationwide", d: "[ DELIVERY TIMES AND FEES TO CONFIRM ]" },
-  { t: "Pay your way", d: "Card, bank transfer, USSD or pay on delivery. Or order on WhatsApp." },
+  { t: "Genuine, warranty-backed", d: "Every device sourced properly." as React.ReactNode },
+  { t: "Installed by our engineers", d: "Free set-up on TVs, laptops and phones. Other installs are a paid add-on." as React.ReactNode },
+  { t: "Delivered nationwide", d: <SettingsValue field="deliveryTimesAndFees" placeholder="[ DELIVERY TIMES AND FEES TO CONFIRM ]" /> },
+  { t: "Pay your way", d: "Card, bank transfer, USSD or pay on delivery. Or order on WhatsApp." as React.ReactNode },
 ];
 
 const KIT_COLORS: [string, string][] = [

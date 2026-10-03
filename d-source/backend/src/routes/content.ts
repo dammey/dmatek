@@ -10,11 +10,14 @@ async function getValue<T>(key: string, fallback: T): Promise<T> {
 
 /** GET /content — public, read-only: the storefront's CMS-driven bits
  * (hero words, best-seller product ids, help/about text). */
+type PublicSettings = { address?: string; returnsPolicy?: string; businessAccountReviewTime?: string; deliveryTimesAndFees?: string; podAreas?: string };
+
 contentRouter.get("/", async (_req, res) => {
   const heroWords = await getValue<string[]>("heroWords", []);
   const bestSellerIds = await getValue<string[]>("bestSellers", []);
   const help = await getValue<Record<string, string>>("help", {});
   const about = await getValue<string>("about", "");
+  const settings = await getValue<PublicSettings>("settings", {});
 
   let bestSellers: unknown[] = [];
   if (bestSellerIds.length) {
@@ -22,5 +25,5 @@ contentRouter.get("/", async (_req, res) => {
     bestSellers = data ?? [];
   }
 
-  res.json({ heroWords, bestSellers, help, about });
+  res.json({ heroWords, bestSellers, help, about, settings });
 });

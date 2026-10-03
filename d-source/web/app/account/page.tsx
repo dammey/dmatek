@@ -9,6 +9,7 @@ import { useKitOverlay } from "@/lib/kit-overlay-context";
 import { fmt } from "@/lib/format";
 import { playStoreTransition } from "@/lib/storeTransition";
 import { getSavedKits, removeSavedKit } from "@/lib/savedKits";
+import SettingsValue from "@/components/SettingsValue";
 import type { Kit } from "@/lib/types";
 
 type Order = { ref: string; status: string; placed_at: string; channel: string; order_lines: { quantity: number; unit_price: number }[] };
@@ -373,7 +374,9 @@ export default function AccountPage() {
                 {bizApplied ? (
                   <div style={{ background: "#F5F1E8", borderRadius: 20, padding: 22, display: "flex", flexDirection: "column", gap: 6 }}>
                     <span style={{ fontWeight: 800, fontSize: 18 }}>Application received</span>
-                    <span style={{ fontSize: 15, color: "#3A4A44" }}>We’ll check the details and come back to you. [ REVIEW TIME TO CONFIRM ]</span>
+                    <span style={{ fontSize: 15, color: "#3A4A44" }}>
+                      We’ll check the details and come back to you. <SettingsValue field="businessAccountReviewTime" placeholder="[ REVIEW TIME TO CONFIRM ]" />
+                    </span>
                     <span style={{ fontSize: 13, color: "#5E6E68" }}>Status: {customer?.account_status ?? "pending"}</span>
                   </div>
                 ) : (
