@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { pilotNote } from "@dmatek/brand";
 import ProductCard from "@/components/ProductCard";
 import Seam from "@/components/Seam";
@@ -27,10 +27,32 @@ export default function SourceHome() {
   const [q, setQ] = useState("");
   const [bestSellers, setBestSellers] = useState<Product[]>([]);
   const [kits, setKits] = useState<Kit[]>([]);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const cardARef = useRef<HTMLDivElement>(null);
+  const cardBRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const iv = setInterval(() => setI((n) => (n + 1) % HERO.length), 2300);
     return () => clearInterval(iv);
+  }, []);
+
+  useEffect(() => {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    function onMove(e: PointerEvent) {
+      if (innerWidth < 1060) return;
+      const hero = heroRef.current;
+      const a = cardARef.current;
+      const b = cardBRef.current;
+      if (!hero || !a || !b) return;
+      const r = hero.getBoundingClientRect();
+      if (e.clientY > r.bottom || e.clientY < r.top) return;
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      a.style.transform = `translate(${(x * -34).toFixed(1)}px,${(y * -26).toFixed(1)}px) rotate(${(5 + x * 7).toFixed(2)}deg)`;
+      b.style.transform = `translate(${(x * 24).toFixed(1)}px,${(y * 20).toFixed(1)}px) rotate(${(-6 - x * 6).toFixed(2)}deg)`;
+    }
+    addEventListener("pointermove", onMove, { passive: true });
+    return () => removeEventListener("pointermove", onMove);
   }, []);
 
   useEffect(() => {
@@ -56,6 +78,7 @@ export default function SourceHome() {
   return (
     <main style={{ background: "#F5F1E8", color: "#06382E" }}>
       <section
+        ref={heroRef}
         style={{
           maxWidth: 1400,
           margin: "0 auto",
@@ -118,6 +141,7 @@ export default function SourceHome() {
         </div>
         <div style={{ flex: "1 1 300px", position: "relative", height: "clamp(300px,40vw,560px)", maxHeight: "min(560px,70vw)", minWidth: 0 }}>
           <div
+            ref={cardARef}
             style={{
               position: "absolute",
               right: "4%",
@@ -130,9 +154,11 @@ export default function SourceHome() {
               background: tintA,
               boxShadow: "0 30px 60px rgba(6,56,46,.16)",
               transform: "rotate(5deg)",
+              transition: "transform .5s cubic-bezier(.2,.7,.2,1)",
             }}
           />
           <div
+            ref={cardBRef}
             style={{
               position: "absolute",
               left: "4%",
@@ -145,6 +171,7 @@ export default function SourceHome() {
               background: tintB,
               boxShadow: "0 24px 50px rgba(6,56,46,.14)",
               transform: "rotate(-6deg)",
+              transition: "transform .5s cubic-bezier(.2,.7,.2,1)",
             }}
           />
         </div>
