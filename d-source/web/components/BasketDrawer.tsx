@@ -3,13 +3,13 @@
 import Link from "next/link";
 import { useCart } from "@/lib/cart-context";
 import { fmt } from "@/lib/format";
-import { useFlow } from "@/lib/flow-context";
+import { useBasketActions } from "@/lib/basketActions";
 
 export default function BasketDrawer() {
   const { basket, closeBasket, cart, quote, cartTotal, quoteTotal, bump } = useCart();
-  const { startFlow } = useFlow();
-  if (!basket) return null;
   const isCart = basket === "cart";
+  const actions = useBasketActions(isCart ? "cart" : "quote");
+  if (!basket) return null;
   const active = isCart ? cart : quote;
   const items = active?.cart_items ?? [];
   const total = isCart ? cartTotal : quoteTotal;
@@ -61,16 +61,33 @@ export default function BasketDrawer() {
           <Link href="/basket" onClick={closeBasket} style={{ fontSize: 13.5, fontWeight: 800, color: "#06382E", alignSelf: "center", borderBottom: "2px solid #D4A637" }}>
             View full basket →
           </Link>
-          <button
-            type="button"
-            onClick={() => {
-              closeBasket();
-              startFlow(isCart ? "checkout" : "quote");
-            }}
-            style={{ minHeight: 50, borderRadius: 999, border: 0, background: "#06382E", color: "#F5F1E8", fontWeight: 800, fontSize: 15, display: "flex", alignItems: "center", justifyContent: "center", padding: "0 16px" }}
-          >
-            {isCart ? "Check out" : "Request a quote"}
-          </button>
+          {actions.map((a) => (
+            <button
+              key={a.label}
+              type="button"
+              onClick={() => {
+                closeBasket();
+                a.go();
+              }}
+              style={{
+                minHeight: 50,
+                borderRadius: 999,
+                border: a.primary ? "0" : "1px solid rgba(6,56,46,.25)",
+                background: a.primary ? "#06382E" : "transparent",
+                color: a.primary ? "#F5F1E8" : "#06382E",
+                fontWeight: 800,
+                fontSize: 15,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "6px 16px",
+              }}
+            >
+              {a.label}
+              <span style={{ fontSize: 11.5, fontWeight: 600, opacity: 0.75 }}>{a.sub}</span>
+            </button>
+          ))}
         </div>
       </aside>
     </div>
