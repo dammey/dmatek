@@ -5,7 +5,19 @@ import { PageHeader, btnGhost, btnPrimary, inputStyle } from "@/components/ui";
 import { api } from "@/lib/api";
 import { useToast } from "@/lib/toast-context";
 
-type Account = { id: string; company_name: string | null; tax_id: string | null; expected_activity: string | null; account_status: string; applied_at: string | null };
+type Account = {
+  id: string;
+  company_name: string | null;
+  cac_number: string | null;
+  accounts_contact: string | null;
+  accounts_email: string | null;
+  phone: string | null;
+  tax_id: string | null;
+  expected_activity: string | null;
+  delivery_sites: string | null;
+  account_status: string;
+  applied_at: string | null;
+};
 
 export default function AccountsPage() {
   const [accounts, setAccounts] = useState<Account[]>([]);
@@ -42,10 +54,20 @@ export default function AccountsPage() {
               <span style={{ fontSize: 11.5, fontWeight: 800, padding: "5px 10px", borderRadius: 999, background: STATUS[a.account_status]?.[0], color: STATUS[a.account_status]?.[1] }}>{a.account_status}</span>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "120px minmax(0,1fr)", gap: "6px 12px", fontSize: 13.5 }}>
+              <span style={{ color: "#5E6E68" }}>CAC number</span>
+              <span style={{ fontFamily: "var(--font-mono)" }}>{a.cac_number || "—"}</span>
               <span style={{ color: "#5E6E68" }}>Tax ID</span>
               <span style={{ fontFamily: "var(--font-mono)" }}>{a.tax_id || "—"}</span>
-              <span style={{ color: "#5E6E68" }}>Expected activity</span>
+              <span style={{ color: "#5E6E68" }}>Accounts contact</span>
+              <span>{a.accounts_contact || "—"}</span>
+              <span style={{ color: "#5E6E68" }}>Accounts email</span>
+              <span>{a.accounts_email || "—"}</span>
+              <span style={{ color: "#5E6E68" }}>Phone</span>
+              <span>{a.phone || "—"}</span>
+              <span style={{ color: "#5E6E68" }}>Expected orders</span>
               <span>{a.expected_activity || "—"}</span>
+              <span style={{ color: "#5E6E68" }}>Delivery sites</span>
+              <span style={{ whiteSpace: "pre-wrap" }}>{a.delivery_sites || "—"}</span>
               <span style={{ color: "#5E6E68" }}>Applied</span>
               <span>{a.applied_at ? new Date(a.applied_at).toLocaleDateString("en-NG") : "—"}</span>
             </div>

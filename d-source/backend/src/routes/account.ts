@@ -59,14 +59,19 @@ accountRouter.get("/quotes", async (req, res) => {
 accountRouter.get("/reviews", async (req, res) => {
   const id = requireCustomer(req, res);
   if (!id) return;
-  const { data } = await db.from("reviews").select("*, products(name)").eq("customer_id", id).order("created_at", { ascending: false });
+  const { data } = await db.from("reviews").select("*, products(id, name)").eq("customer_id", id).order("created_at", { ascending: false });
   res.json({ reviews: data });
 });
 
 const businessApplicationSchema = z.object({
   companyName: z.string(),
+  cacNumber: z.string().optional(),
+  accountsContact: z.string().optional(),
+  accountsEmail: z.string().optional(),
+  phone: z.string().optional(),
   taxId: z.string().optional(),
   expectedActivity: z.string().optional(),
+  deliverySites: z.string().optional(),
 });
 
 /** POST /account/business — apply for a D'Provision business account.
@@ -77,7 +82,19 @@ accountRouter.post("/business", async (req, res) => {
   const body = businessApplicationSchema.parse(req.body);
   const { error } = await db
     .from("customers")
-    .update({ type: "business", company_name: body.companyName, tax_id: body.taxId, expected_activity: body.expectedActivity, account_status: "pending", applied_at: new Date().toISOString() })
+    .update({
+      type: "business",
+      company_name: body.companyName,
+      cac_number: body.cacNumber,
+      accounts_contact: body.accountsContact,
+      accounts_email: body.accountsEmail,
+      phone: body.phone,
+      tax_id: body.taxId,
+      expected_activity: body.expectedActivity,
+      delivery_sites: body.deliverySites,
+      account_status: "pending",
+      applied_at: new Date().toISOString(),
+    })
     .eq("id", id);
   if (error) return res.status(500).json({ error: error.message });
   res.status(201).json({ status: "pending" });
