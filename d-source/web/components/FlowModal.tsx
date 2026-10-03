@@ -20,7 +20,7 @@ function Field({ label, ...props }: { label: string } & React.InputHTMLAttribute
 
 export default function FlowModal() {
   const { flow, note, meta, closeFlow } = useFlow();
-  const { cart, quote, cartTotal, clear } = useCart();
+  const { cart, quote, cartTotal, quoteTotal, clear } = useCart();
   const [step, setStep] = useState(0);
   const [done, setDone] = useState<{ title: string; body: string; ref?: string } | null>(null);
   const [form, setForm] = useState<Record<string, string>>({ note });
@@ -73,6 +73,19 @@ export default function FlowModal() {
     setDone({ title: "Quote request sent.", body: "We’ll come back with a quote within 4 working hours.", ref });
   }
 
+  async function submitAccountOrder() {
+    const { ref } = await api.post<{ ref: string }>("/quotes", {
+      cartId: quote?.id,
+      organisation: form.organisation || "",
+      contactName: form.name || "",
+      contact: form.contact || "",
+      deliveryLocation: form.location,
+      note: `Order on account (30-day invoice) requested.${form.note ? ` ${form.note}` : ""}`,
+    });
+    if (quote) clear("quote");
+    setDone({ title: "Order request sent.", body: "We’ll confirm pricing and, once your business account is approved, set this up on 30-day invoice.", ref });
+  }
+
   async function submitEnquiry() {
     await api.post("/enquiries", { type: (meta.type as string) ?? "General", fromName: form.name, fromContact: form.contact, message: form.note || note });
     setDone({ title: "Thank you. We’ve got it.", body: "Someone will read this properly and come back to you." });
@@ -90,8 +103,24 @@ export default function FlowModal() {
     setDone({ title: "Thank you for the review.", body: "It appears once we’ve checked it’s from a verified D’Source purchase." });
   }
 
-  const titles: Record<string, string> = { checkout: "Delivery details", whatsapp: "Order on WhatsApp", enquiry: "Send an enquiry", quote: "Request a quote", account: "Sign in to your account", review: "Write a review" };
+  const titles: Record<string, string> = {
+    checkout: step === 1 ? "Payment" : "Delivery details",
+    whatsapp: "Order on WhatsApp",
+    enquiry: "Send an enquiry",
+    quote: "Request a quote",
+    account: step === 1 ? "Confirm" : "Your business",
+    review: "Write a review",
+  };
   const kickers: Record<string, string> = { checkout: "D’EMPORIUM · CHECKOUT", whatsapp: "D’EMPORIUM · WHATSAPP", enquiry: "D’SOURCE · ENQUIRY", quote: "D’PROVISION · QUOTE", account: "D’PROVISION · ACCOUNT", review: "D’SOURCE · REVIEW" };
+  const stepLabels: Record<string, string[]> = { checkout: ["DELIVERY", "PAYMENT", "DONE"], account: ["DETAILS", "CONFIRM", "DONE"] };
+  const steps = stepLabels[flow];
+  const curStep = done ? 2 : step;
+
+  function back() {
+    if (done || step === 0 || flow === "whatsapp" || flow === "enquiry" || flow === "quote" || flow === "review") return close();
+    setStep((s) => s - 1);
+  }
+  const backLabel = done ? "Close" : step === 0 ? "Cancel" : "Back";
 
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 400, background: "rgba(6,56,46,.55)", display: "flex", alignItems: "flex-start", justifyContent: "center", overflowY: "auto", padding: "clamp(12px,4vh,48px) 12px" }}>
@@ -105,6 +134,17 @@ export default function FlowModal() {
             ✕
           </button>
         </div>
+
+        {steps && (
+          <div style={{ display: "flex", gap: 6, padding: "14px 24px 0" }}>
+            {steps.map((label, i) => (
+              <span key={label} style={{ flex: 1, display: "flex", flexDirection: "column", gap: 6 }}>
+                <span style={{ height: 3, borderRadius: 999, background: i <= curStep ? "#D4A637" : "rgba(6,56,46,.15)" }} />
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", color: i <= curStep ? "#06382E" : "#5E6E68" }}>{label}</span>
+              </span>
+            ))}
+          </div>
+        )}
 
         <div style={{ padding: "22px 24px 26px", display: "flex", flexDirection: "column", gap: 16 }}>
           {done && (
@@ -181,6 +221,38 @@ export default function FlowModal() {
             </>
           )}
 
+          {!done && flow === "account" && step === 0 && (
+            <>
+              <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.6, color: "#3A4A44" }}>
+                Ordering on account is for approved D&rsquo;Provision business accounts, on 30-day invoice. Tell us about your business and we&rsquo;ll confirm pricing first.
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,240px),1fr))", gap: 12 }}>
+                <Field label="ORGANISATION" value={form.organisation ?? ""} onChange={set("organisation")} />
+                <Field label="YOUR NAME" value={form.name ?? ""} onChange={set("name")} />
+                <Field label="EMAIL OR PHONE" value={form.contact ?? ""} onChange={set("contact")} />
+                <Field label="DELIVERY LOCATION" placeholder="City or site" value={form.location ?? ""} onChange={set("location")} />
+              </div>
+              <button type="button" onClick={() => setStep(1)} style={{ alignSelf: "flex-start", border: 0, background: "#06382E", color: "#F5F1E8", borderRadius: 999, padding: "16px 26px", fontWeight: 800 }}>
+                Continue →
+              </button>
+            </>
+          )}
+
+          {!done && flow === "account" && step === 1 && (
+            <>
+              <div style={{ display: "flex", flexDirection: "column", gap: 2, padding: "14px 0", borderTop: "1px solid rgba(6,56,46,.12)", borderBottom: "1px solid rgba(6,56,46,.12)" }}>
+                <span style={{ fontWeight: 700, color: "#3A4A44" }}>Estimate ex. VAT</span>
+                <span style={{ fontWeight: 800, fontSize: 24 }}>{fmt(quoteTotal)}</span>
+              </div>
+              <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.6, color: "#3A4A44" }}>
+                {form.organisation || "Your business"} &middot; {form.location || "delivery location to confirm"}
+              </p>
+              <button type="button" onClick={submitAccountOrder} style={{ alignSelf: "flex-start", border: 0, background: "#06382E", color: "#F5F1E8", borderRadius: 999, padding: "16px 26px", fontWeight: 800 }}>
+                Submit order request →
+              </button>
+            </>
+          )}
+
           {!done && flow === "enquiry" && (
             <>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,240px),1fr))", gap: 12 }}>
@@ -224,6 +296,10 @@ export default function FlowModal() {
           {!done && flow === "whatsapp" && (
             <>
               <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: "#3A4A44" }}>We&rsquo;ll open WhatsApp with your cart written out.</p>
+              <div style={{ display: "flex", justifyContent: "space-between", paddingTop: 12, borderTop: "1px solid rgba(6,56,46,.12)" }}>
+                <span style={{ fontWeight: 700, color: "#3A4A44" }}>Cart total</span>
+                <span style={{ fontWeight: 800, fontSize: 22 }}>{fmt(cartTotal)}</span>
+              </div>
               <a
                 href={`https://wa.me/2347058071768?text=${encodeURIComponent(
                   "Hello D’Emporium, I’d like to order:\n" +
@@ -242,8 +318,8 @@ export default function FlowModal() {
             </>
           )}
 
-          <button type="button" onClick={close} style={{ alignSelf: "flex-start", background: "transparent", border: "1px solid rgba(6,56,46,.25)", borderRadius: 999, padding: "13px 22px", fontWeight: 700, color: "#06382E" }}>
-            {done ? "Close" : "Cancel"}
+          <button type="button" onClick={back} style={{ alignSelf: "flex-start", background: "transparent", border: "1px solid rgba(6,56,46,.25)", borderRadius: 999, padding: "13px 22px", fontWeight: 700, color: "#06382E" }}>
+            {backLabel}
           </button>
         </div>
       </div>
