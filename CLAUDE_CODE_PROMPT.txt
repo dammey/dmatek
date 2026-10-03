@@ -1,0 +1,12 @@
+Read design_handoff_dsource_admin/README.md in full, then source/admin-template.html and source/admin-logic.js end to end. Use screenshots/ for orientation only; the runnable "DSource Admin v2.dc.html" is the source of truth (serve with `npx serve design_handoff_dsource_admin`).
+
+Build the D’Source Admin (/admin) as an exact replica of "DSource Admin v2.dc.html" in Next.js App Router + TypeScript, in the same codebase and on the same API as the D’Source storefront. If the storefront API doesn’t exist yet, build it first from storefront-reference/ and the "Storefront ↔ admin contract" in the README.
+
+Rules:
+- Markup, copy and every style value 1:1. Copy is verbatim. Keep every [ BRACKETED ] placeholder visible and the SAMPLE DATA tag until real data is connected.
+- Every module in the README is a route /admin/<id>. Port behaviour verbatim: drawers, filters, bulk upload preview, kit pin editor, stock receiving, staff roles grid.
+- Staff login with role permissions enforced server-side. Engineer role sees only the engineer app.
+- Content, Categories, Zones and Settings must publish to the storefront.
+- Never invent figures, prices, stock or response times beyond what the design states.
+
+Work module by module. For each, run the Playwright comparison in the README at 1440×900 and 1024×768, save paired screenshots to /compare, and fix differences before moving on. Finish only when every module and every checklist item matches.
