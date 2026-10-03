@@ -8,6 +8,7 @@ import { adminDiscountsRouter } from "./discounts.js";
 import { adminEnquiriesRouter } from "./enquiries.js";
 import { adminJobsRouter } from "./jobs.js";
 import { adminKitsRouter } from "./kits.js";
+import { adminNavCountsRouter } from "./nav-counts.js";
 import { adminNotificationsRouter } from "./notifications.js";
 import { adminOrdersRouter } from "./orders.js";
 import { adminInvoicesRouter, adminPaymentsRouter } from "./payments.js";
@@ -25,6 +26,7 @@ import { adminZonesRouter } from "./zones.js";
 export const adminRouter = Router();
 
 adminRouter.use("/dashboard", adminDashboardRouter);
+adminRouter.use("/nav-counts", adminNavCountsRouter);
 adminRouter.use("/reports", adminReportsRouter);
 adminRouter.use("/orders", adminOrdersRouter);
 adminRouter.use("/quotes", adminQuotesRouter);

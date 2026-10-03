@@ -18,7 +18,7 @@ adminOrdersRouter.get("/", async (req, res) => {
 adminOrdersRouter.get("/:ref", async (req, res) => {
   const { data, error } = await db
     .from("orders")
-    .select("*, customers(*), addresses:shipping_address_id(*), order_lines(*), payments(*), shipments(*)")
+    .select("*, customers(*), addresses:shipping_address_id(*), order_lines(*), payments(*), shipments(*), jobs(id, engineer_staff_id, status, staff:engineer_staff_id(name))")
     .eq("ref", req.params.ref)
     .maybeSingle();
   if (error) return res.status(500).json({ error: error.message });
@@ -48,5 +48,26 @@ adminOrdersRouter.patch("/:ref/note", async (req, res) => {
   const { note } = z.object({ note: z.string() }).parse(req.body);
   const { error } = await db.from("orders").update({ internal_note: note }).eq("ref", req.params.ref);
   if (error) return res.status(500).json({ error: error.message });
+  res.json({ ok: true });
+});
+
+/** PATCH /admin/orders/:ref/engineer — sets (or creates) the installation
+ * job's assigned engineer from the order drawer. */
+adminOrdersRouter.patch("/:ref/engineer", async (req, res) => {
+  const { engineerStaffId } = z.object({ engineerStaffId: z.string().uuid() }).parse(req.body);
+  const { data: order } = await db.from("orders").select("id").eq("ref", req.params.ref).maybeSingle();
+  if (!order) return res.status(404).json({ error: "Not found" });
+  const { data: job } = await db.from("jobs").select("id").eq("order_id", order.id).eq("kind", "install").maybeSingle();
+  if (job) await db.from("jobs").update({ engineer_staff_id: engineerStaffId }).eq("id", job.id);
+  else await db.from("jobs").insert({ kind: "install", order_id: order.id, engineer_staff_id: engineerStaffId });
+  res.json({ ok: true });
+});
+
+/** POST /admin/orders/:ref/notify — logs a status-update message to the
+ * customer (same notification_log the review-request flow uses). */
+adminOrdersRouter.post("/:ref/notify", async (req, res) => {
+  const { data: order } = await db.from("orders").select("id, status").eq("ref", req.params.ref).maybeSingle();
+  if (!order) return res.status(404).json({ error: "Not found" });
+  await db.from("notification_log").insert({ order_id: order.id, channel: "whatsapp", body: `Order ${req.params.ref} status update: ${order.status}` });
   res.json({ ok: true });
 });

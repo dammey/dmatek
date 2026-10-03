@@ -2,14 +2,36 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { NAV } from "@/lib/nav";
 import { useAuth } from "@/lib/auth-context";
+import { api } from "@/lib/api";
 
 const DSOURCE_URL = process.env.NEXT_PUBLIC_DSOURCE_URL ?? "https://source.dmatek.com";
+
+type NavCounts = { orders: number; quotes: number; quotesOverdue: boolean; payments: number; invoices: number; reviews: number; accounts: number; surveys: number; inventory: number; enquiries: number };
+
+const BADGE_KEY: Record<string, keyof NavCounts> = {
+  orders: "orders",
+  quotes: "quotes",
+  payments: "payments",
+  invoices: "invoices",
+  surveys: "surveys",
+  inventory: "inventory",
+  reviews: "reviews",
+  accounts: "accounts",
+  enquiries: "enquiries",
+};
 
 export default function Sidebar() {
   const pathname = usePathname();
   const { staff, can } = useAuth();
+  const [counts, setCounts] = useState<NavCounts | null>(null);
+
+  useEffect(() => {
+    if (!staff) return;
+    api.get<NavCounts>("/admin/nav-counts").then(setCounts).catch(() => {});
+  }, [staff]);
 
   return (
     <aside
@@ -43,6 +65,10 @@ export default function Sidebar() {
               </span>
               {visible.map((item) => {
                 const active = pathname === `/${item.path}`;
+                const badgeKey = BADGE_KEY[item.path];
+                const badgeValue = badgeKey ? counts?.[badgeKey] : undefined;
+                const badgeN = typeof badgeValue === "number" ? badgeValue : 0;
+                const overdue = item.path === "quotes" && counts?.quotesOverdue;
                 return (
                   <Link
                     key={item.path}
@@ -61,6 +87,25 @@ export default function Sidebar() {
                     }}
                   >
                     {item.label}
+                    {badgeN > 0 && (
+                      <span
+                        style={{
+                          fontFamily: "var(--font-mono)",
+                          fontSize: 10.5,
+                          fontWeight: 800,
+                          minWidth: 20,
+                          height: 20,
+                          padding: "0 5px",
+                          borderRadius: 999,
+                          display: "grid",
+                          placeItems: "center",
+                          background: overdue ? "#B42318" : "#D4A637",
+                          color: overdue ? "#F5F1E8" : "#06382E",
+                        }}
+                      >
+                        {badgeN}
+                      </span>
+                    )}
                   </Link>
                 );
               })}
