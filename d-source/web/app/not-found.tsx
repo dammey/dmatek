@@ -1,6 +1,11 @@
+"use client";
+
 import Link from "next/link";
+import { useFlow } from "@/lib/flow-context";
 
 export default function NotFound() {
+  const { startFlow } = useFlow();
+
   return (
     <main style={{ background: "#F5F1E8", color: "#06382E", minHeight: "70vh", display: "flex", alignItems: "center" }}>
       <section style={{ maxWidth: 1400, margin: "0 auto", padding: "clamp(28px,5vh,56px) clamp(18px,3vw,40px)", display: "flex", flexDirection: "column", gap: 18, width: "100%" }}>
@@ -19,6 +24,9 @@ export default function NotFound() {
           <Link href="/categories" style={{ background: "#fff", color: "#06382E", border: "1px solid rgba(6,56,46,.25)", borderRadius: 999, padding: "14px 22px", fontWeight: 700 }}>
             All categories
           </Link>
+          <button type="button" onClick={() => startFlow("enquiry")} style={{ background: "#fff", color: "#06382E", border: "1px solid rgba(6,56,46,.25)", borderRadius: 999, padding: "14px 22px", fontWeight: 700 }}>
+            Tell us what you need
+          </button>
         </div>
       </section>
     </main>

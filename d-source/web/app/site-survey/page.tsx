@@ -1,7 +1,15 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { api } from "@/lib/api";
+
+function input(): React.CSSProperties {
+  return { border: "1px solid rgba(6,56,46,.2)", borderRadius: 14, padding: 14, fontSize: 15, background: "#fff", color: "#06382E" };
+}
+function label(): React.CSSProperties {
+  return { display: "flex", flexDirection: "column", gap: 6, fontSize: 11, fontWeight: 700, letterSpacing: "0.14em" };
+}
 
 export default function SiteSurveyPage() {
   const [form, setForm] = useState({ organisation: "", siteType: "Office", address: "", preferredDate: "", timeWindow: "Either", contactName: "", contact: "", purpose: "" });
@@ -19,7 +27,14 @@ export default function SiteSurveyPage() {
 
   return (
     <main style={{ background: "#FFFFFF", color: "#06382E" }}>
-      <section style={{ maxWidth: 800, margin: "0 auto", padding: "clamp(28px,5vh,56px) clamp(18px,3vw,40px)" }}>
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "18px clamp(18px,3vw,40px) 0", display: "flex", gap: 6, alignItems: "center", fontSize: 13, color: "#5E6E68" }}>
+        <Link href="/" style={{ fontSize: 13, fontWeight: 600, color: "#5E6E68" }}>
+          D’Source
+        </Link>
+        <span style={{ color: "#B9B3A6" }}>›</span>
+        <span style={{ fontWeight: 700, color: "#06382E" }}>Book a site survey</span>
+      </div>
+      <section style={{ maxWidth: 980, margin: "0 auto", padding: "clamp(28px,5vh,56px) clamp(18px,3vw,40px) clamp(56px,8vh,96px)" }}>
         <span style={{ display: "inline-block", fontSize: 11.5, fontWeight: 700, letterSpacing: "0.2em", borderTop: "2px solid #D4A637", paddingTop: 10, marginBottom: 18 }}>
           D&rsquo;PROVISION · FREE
         </span>
@@ -36,32 +51,52 @@ export default function SiteSurveyPage() {
           </div>
         ) : (
           <form onSubmit={submit} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,260px),1fr))", gap: 12 }}>
-            <input value={form.organisation} onChange={set("organisation")} placeholder="Organisation" style={{ border: "1px solid rgba(6,56,46,.2)", borderRadius: 14, padding: 14 }} />
-            <select value={form.siteType} onChange={set("siteType")} style={{ border: "1px solid rgba(6,56,46,.2)", borderRadius: 14, padding: 14 }}>
-              {["Office", "Hotel or hospitality", "School", "Clinic", "Retail or restaurant", "Event venue", "Estate or building", "Home", "Other"].map((o) => (
-                <option key={o}>{o}</option>
-              ))}
-            </select>
-            <div style={{ gridColumn: "1/-1" }}>
-              <input value={form.address} onChange={set("address")} placeholder="Site address" style={{ width: "100%", border: "1px solid rgba(6,56,46,.2)", borderRadius: 14, padding: 14 }} required />
-            </div>
-            <input type="date" value={form.preferredDate} onChange={set("preferredDate")} style={{ border: "1px solid rgba(6,56,46,.2)", borderRadius: 14, padding: 14 }} />
-            <select value={form.timeWindow} onChange={set("timeWindow")} style={{ border: "1px solid rgba(6,56,46,.2)", borderRadius: 14, padding: 14 }}>
-              {["Morning", "Afternoon", "Either"].map((o) => (
-                <option key={o}>{o}</option>
-              ))}
-            </select>
-            <input value={form.contactName} onChange={set("contactName")} placeholder="Your name" style={{ border: "1px solid rgba(6,56,46,.2)", borderRadius: 14, padding: 14 }} required />
-            <input value={form.contact} onChange={set("contact")} placeholder="Email or phone" style={{ border: "1px solid rgba(6,56,46,.2)", borderRadius: 14, padding: 14 }} required />
-            <div style={{ gridColumn: "1/-1" }}>
+            <label style={label()}>
+              ORGANISATION
+              <input value={form.organisation} onChange={set("organisation")} style={input()} />
+            </label>
+            <label style={label()}>
+              SITE TYPE
+              <select value={form.siteType} onChange={set("siteType")} style={input()}>
+                {["Office", "Hotel or hospitality", "School", "Clinic", "Retail or restaurant", "Event venue", "Estate or building", "Home", "Other"].map((o) => (
+                  <option key={o}>{o}</option>
+                ))}
+              </select>
+            </label>
+            <label style={{ ...label(), gridColumn: "1/-1" }}>
+              SITE ADDRESS
+              <input value={form.address} onChange={set("address")} style={input()} required />
+            </label>
+            <label style={label()}>
+              PREFERRED DATE
+              <input type="date" value={form.preferredDate} onChange={set("preferredDate")} style={input()} />
+            </label>
+            <label style={label()}>
+              TIME WINDOW
+              <select value={form.timeWindow} onChange={set("timeWindow")} style={input()}>
+                {["Morning", "Afternoon", "Either"].map((o) => (
+                  <option key={o}>{o}</option>
+                ))}
+              </select>
+            </label>
+            <label style={label()}>
+              YOUR NAME
+              <input value={form.contactName} onChange={set("contactName")} style={input()} required />
+            </label>
+            <label style={label()}>
+              EMAIL OR PHONE
+              <input value={form.contact} onChange={set("contact")} style={input()} required />
+            </label>
+            <label style={{ ...label(), gridColumn: "1/-1" }}>
+              WHAT’S IT FOR?
               <textarea
                 value={form.purpose}
                 onChange={set("purpose")}
                 rows={4}
                 placeholder="e.g. Wi-Fi for three floors, cameras on two entrances"
-                style={{ width: "100%", border: "1px solid rgba(6,56,46,.2)", borderRadius: 14, padding: 14, resize: "vertical" }}
+                style={{ ...input(), resize: "vertical" }}
               />
-            </div>
+            </label>
             <button type="submit" style={{ gridColumn: "1/-1", justifySelf: "flex-start", border: 0, background: "#06382E", color: "#F5F1E8", borderRadius: 999, padding: "15px 24px", fontWeight: 800, marginTop: 8 }}>
               Book the survey →
             </button>

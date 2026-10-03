@@ -50,32 +50,58 @@ export default async function HelpTopicPage({ params }: { params: Promise<{ topi
 
   return (
     <main style={{ background: "#FFFFFF", color: "#06382E" }}>
-      <section style={{ maxWidth: 1200, margin: "0 auto", padding: "clamp(28px,5vh,56px) clamp(18px,3vw,40px)", display: "grid", gridTemplateColumns: "220px minmax(0,1fr)", gap: 32 }}>
-        <nav style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-          {Object.keys(TOPICS).map((id) => (
-            <Link key={id} href={`/help/${id}`} style={{ padding: "8px 0", fontWeight: id === topic ? 800 : 600, borderBottom: id === topic ? "2px solid #D4A637" : "2px solid transparent" }}>
-              {TOPICS[id].title}
-            </Link>
-          ))}
-        </nav>
-        <div>
-          <h1 style={{ fontWeight: 800, fontSize: "clamp(30px,4vw,44px)", letterSpacing: "-0.04em", marginBottom: 20 }}>{t.title}</h1>
-          {t.paras.map((p) => (
-            <p key={p} style={{ fontSize: 16, lineHeight: 1.7, color: "#3A4A44", marginBottom: 14 }}>
-              {p}
-            </p>
-          ))}
-          {t.list && (
-            <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 20 }}>
-              {t.list.map((row) => (
-                <div key={row.k} style={{ display: "grid", gridTemplateColumns: "140px minmax(0,1fr)", gap: 12, fontSize: 14.5 }}>
-                  <span style={{ color: "#5E6E68" }}>{row.k}</span>
-                  <span>{row.v}</span>
-                </div>
-              ))}
-            </div>
-          )}
-          <HelpActions topic={topic} />
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "18px clamp(18px,3vw,40px) 0", display: "flex", gap: 6, alignItems: "center", fontSize: 13, color: "#5E6E68" }}>
+        <Link href="/" style={{ fontSize: 13, fontWeight: 600, color: "#5E6E68" }}>
+          D’Source
+        </Link>
+        <span style={{ color: "#B9B3A6" }}>›</span>
+        <span style={{ fontWeight: 700, color: "#06382E" }}>Help</span>
+      </div>
+      <section style={{ maxWidth: 1400, margin: "0 auto", padding: "clamp(28px,5vh,56px) clamp(18px,3vw,40px) clamp(56px,8vh,96px)" }}>
+        <h1 style={{ margin: "0 0 12px", fontWeight: 800, fontSize: "clamp(40px,5.6vw,84px)", lineHeight: 0.95, letterSpacing: "-0.05em" }}>How can we help?</h1>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "clamp(20px,3vw,48px)", alignItems: "flex-start", marginTop: 24 }}>
+          <nav style={{ flex: "0 1 260px", minWidth: "min(100%,200px)", display: "flex", flexDirection: "column", gap: 4, position: "sticky", top: 130 }}>
+            {Object.keys(TOPICS).map((id) => {
+              const active = id === topic;
+              return (
+                <Link
+                  key={id}
+                  href={`/help/${id}`}
+                  style={{
+                    textAlign: "left",
+                    borderLeft: `3px solid ${active ? "#D4A637" : "transparent"}`,
+                    background: active ? "#F5F1E8" : "transparent",
+                    color: "#06382E",
+                    padding: "12px 16px",
+                    fontSize: 15,
+                    fontWeight: active ? 800 : 600,
+                    borderRadius: "0 12px 12px 0",
+                  }}
+                >
+                  {TOPICS[id].title}
+                </Link>
+              );
+            })}
+          </nav>
+          <article style={{ flex: "1 1 520px", minWidth: 0, maxWidth: 760, display: "flex", flexDirection: "column", gap: 16 }}>
+            <h2 style={{ margin: 0, fontWeight: 800, fontSize: "clamp(28px,3.2vw,44px)", letterSpacing: "-0.04em" }}>{t.title}</h2>
+            {t.paras.map((p) => (
+              <p key={p} style={{ margin: 0, fontSize: 17, lineHeight: 1.7, color: "#3A4A44" }}>
+                {p}
+              </p>
+            ))}
+            {t.list && (
+              <div style={{ display: "flex", flexDirection: "column", borderTop: "1px solid #EEEAE2" }}>
+                {t.list.map((row) => (
+                  <div key={row.k} style={{ display: "grid", gridTemplateColumns: "minmax(120px,200px) minmax(0,1fr)", gap: 14, padding: "14px 0", borderBottom: "1px solid #EEEAE2", fontSize: 15 }}>
+                    <span style={{ fontWeight: 800 }}>{row.k}</span>
+                    <span style={{ color: "#3A4A44", lineHeight: 1.55 }}>{row.v}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+            <HelpActions topic={topic} />
+          </article>
         </div>
       </section>
     </main>
