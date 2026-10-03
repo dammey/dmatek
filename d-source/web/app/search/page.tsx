@@ -1,10 +1,11 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
-import ProductCard from "@/components/ProductCard";
+import { Suspense, useEffect, useMemo, useState } from "react";
+import ProductListing from "@/components/ProductListing";
 import { api } from "@/lib/api";
-import type { Product } from "@/lib/types";
+import { LABEL_BY_CANON } from "@/lib/constants";
+import type { Product, Store } from "@/lib/types";
 
 export default function SearchPage() {
   return (
@@ -17,31 +18,70 @@ export default function SearchPage() {
 function SearchPageInner() {
   const params = useSearchParams();
   const q = params.get("q") ?? "";
-  const [items, setItems] = useState<Product[]>([]);
+  const [qMatched, setQMatched] = useState<Product[]>([]);
 
   useEffect(() => {
     const qs = new URLSearchParams();
     if (q) qs.set("q", q);
     api
       .get<{ items: Product[] }>(`/catalogue/products?${qs}`)
-      .then(({ items }) => setItems(items))
-      .catch(() => setItems([]));
+      .then(({ items }) => setQMatched(items))
+      .catch(() => setQMatched([]));
   }, [q]);
 
+  return <SearchResults key={q} q={q} qMatched={qMatched} />;
+}
+
+function SearchResults({ q, qMatched }: { q: string; qMatched: Product[] }) {
+  const [fStore, setFStore] = useState<Store | null>(null);
+  const [fCat, setFCat] = useState<string | null>(null);
+
+  const catKeys = useMemo(() => {
+    const scoped = fStore ? qMatched.filter((p) => p.store === fStore) : qMatched;
+    return [...new Set(scoped.map((p) => `${p.store}|${p.categories?.name ?? ""}`))].filter((k) => !k.endsWith("|"));
+  }, [qMatched, fStore]);
+
+  const scopedProducts = useMemo(() => {
+    let res = qMatched;
+    if (fStore) res = res.filter((p) => p.store === fStore);
+    if (fCat) res = res.filter((p) => `${p.store}|${p.categories?.name ?? ""}` === fCat);
+    return res;
+  }, [qMatched, fStore, fCat]);
+
+  const title = q ? `“${q}”` : fStore === "emporium" ? "All home products" : fStore === "provision" ? "All business products" : "All products";
+  const desc = q
+    ? "Results from D’Emporium and D’Provision."
+    : "Everything in D’Emporium and D’Provision. Filter by store, category, brand and price.";
+  const crumbLast = q ? "Search" : fStore === "emporium" ? "All home products" : fStore === "provision" ? "All business products" : "All products";
+
   return (
-    <main style={{ background: "#FFFFFF", color: "#06382E" }}>
-      <section style={{ maxWidth: 1400, margin: "0 auto", padding: "clamp(28px,5vh,56px) clamp(18px,3vw,40px)" }}>
-        <h1 style={{ fontWeight: 800, fontSize: "clamp(32px,4.4vw,56px)", letterSpacing: "-0.04em", marginBottom: 8 }}>
-          {q ? `“${q}”` : "All products"}
-        </h1>
-        <p style={{ color: "#5E6E68", marginBottom: 32 }}>Results from D&rsquo;Emporium and D&rsquo;Provision.</p>
-        {items.length === 0 && <p style={{ color: "#5E6E68" }}>No results.</p>}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 16 }}>
-          {items.map((p) => (
-            <ProductCard key={p.id} product={p} store="emporium" />
-          ))}
-        </div>
-      </section>
-    </main>
+    <ProductListing
+      crumbs={[{ label: "D’Source", href: "/" }]}
+      crumbLast={crumbLast}
+      title={title}
+      desc={desc}
+      products={scopedProducts}
+      scope={{
+        stores: (["emporium", "provision"] as const).map((k) => ({
+          label: k === "emporium" ? "D’Emporium · Home" : "D’Provision · Business",
+          n: qMatched.filter((p) => p.store === k).length,
+          active: fStore === k,
+          onPick: () => {
+            setFStore((x) => (x === k ? null : k));
+            setFCat(null);
+          },
+        })),
+        cats: catKeys.map((ck) => {
+          const [st, canon] = ck.split("|") as [Store, string];
+          const label = (LABEL_BY_CANON[st]?.[canon] ?? canon) + (!fStore && st === "provision" ? " (business)" : "");
+          return {
+            label,
+            n: qMatched.filter((p) => p.store === st && (p.categories?.name ?? "") === canon).length,
+            active: fCat === ck,
+            onPick: () => setFCat((x) => (x === ck ? null : ck)),
+          };
+        }),
+      }}
+    />
   );
 }

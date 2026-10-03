@@ -125,7 +125,7 @@ export default function EmporiumHome() {
         {shown.length === 0 && <p style={{ color: "rgba(242,242,236,.7)" }}>Nothing here yet — the catalogue is still being loaded by staff.</p>}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(min(100%,250px),1fr))", gap: 10 }}>
           {shown.map((p) => (
-            <ProductCard key={p.id} product={p} store="emporium" />
+            <ProductCard key={p.id} product={p} />
           ))}
         </div>
       </section>

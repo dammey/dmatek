@@ -32,3 +32,31 @@ export const EMPORIUM_CATEGORIES: [string, string][] = [
 ];
 
 export const PROVISION_CATEGORIES = ["Networking", "Computing", "Security", "Displays"];
+
+/** Real, verbatim category descriptions from the design source (CDESC). */
+export const CDESC: Record<"emporium" | "provision", Record<string, string>> = {
+  emporium: {
+    Laptops: "Laptops for work, study and home. Genuine and warranty-backed, with free set-up and data transfer.",
+    Phones: "Phones and tablets, with free set-up and data transfer from your old phone.",
+    Networking: "Mesh Wi-Fi, routers and extenders so every room gets signal.",
+    "TV & Audio": "TVs, soundbars and projectors. Wall mounting is free on TVs.",
+    Power: "Inverters, batteries, UPS and power banks that keep things on through outages.",
+    Security: "Cameras, doorbells and smart locks for your gate and your home.",
+  },
+  provision: {
+    Networking: "Access points, switches and gateways for the whole building, specified to the site.",
+    Computing: "Laptops and desktops for teams, with volume pricing on larger orders.",
+    Security: "NVRs, cameras, intercoms and access control for sites and estates.",
+    Displays: "Signage, interactive boards and meeting-room displays.",
+  },
+};
+
+// Emporium URL slugs vs. the canonical category name products are filed under
+// (the nav tab label can differ from it, e.g. slug "networking" shows as "Wi-Fi").
+export const EMPORIUM_CDESC_KEY: Record<string, string> = { laptops: "Laptops", phones: "Phones", networking: "Networking", tvaudio: "TV & Audio", power: "Power", security: "Security" };
+
+/** Canonical category name (what products are filed under) -> the label shown in nav/filters. */
+export const LABEL_BY_CANON: Record<"emporium" | "provision", Record<string, string>> = {
+  emporium: Object.fromEntries(EMPORIUM_CATEGORIES.map(([slug, label]) => [EMPORIUM_CDESC_KEY[slug], label])),
+  provision: Object.fromEntries(PROVISION_CATEGORIES.map((l) => [l, l])),
+};

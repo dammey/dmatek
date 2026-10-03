@@ -336,7 +336,7 @@ export default function SourceHome() {
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(min(100%,250px),1fr))", gap: 12 }}>
             {bestSellers.map((p) => (
-              <ProductCard key={p.id} product={p} store={p.store} />
+              <ProductCard key={p.id} product={p} />
             ))}
           </div>
         </section>

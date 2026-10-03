@@ -3,52 +3,77 @@
 import Link from "next/link";
 import { useCart } from "@/lib/cart-context";
 import { fmt } from "@/lib/format";
-import type { Product, Store } from "@/lib/types";
+import type { Product } from "@/lib/types";
 
-export default function ProductCard({ product, store }: { product: Product; store: Store }) {
+export default function ProductCard({ product }: { product: Product }) {
   const { addToCart, addToQuote } = useCart();
-  const emp = store === "emporium";
+  const emp = product.store === "emporium";
+  const brand = (product.specs?.brand as string) ?? "";
+  const spec = (product.specs?.spec as string) ?? product.description ?? "";
+  const free = (product.specs?.free as boolean) ?? false;
 
   return (
     <article
       style={{
-        background: emp ? "#131D19" : "#fff",
-        color: emp ? "#F2F2EC" : "#06382E",
-        border: emp ? "none" : "1px solid rgba(6,56,46,.1)",
+        background: "#FFFFFF",
+        color: "#06382E",
+        border: "1px solid #E6E2D8",
         borderRadius: emp ? 6 : 20,
-        padding: 18,
+        padding: 14,
         display: "flex",
         flexDirection: "column",
         gap: 10,
       }}
     >
-      <Link href={`/p/${product.id}`} style={{ display: "block" }}>
-        <div style={{ aspectRatio: "4/3", background: emp ? "#0C1411" : "#F6F4EF", borderRadius: emp ? 3 : 14, marginBottom: 10 }} />
-        <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", opacity: 0.7 }}>{(product.specs?.brand as string) ?? ""}</span>
-        <p style={{ margin: "4px 0 2px", fontWeight: 800, fontSize: 16 }}>{product.name}</p>
-        <p style={{ margin: 0, fontSize: 13, opacity: 0.7 }}>{product.description ?? ""}</p>
+      <Link href={`/p/${product.id}`} style={{ position: "relative", display: "block", aspectRatio: "1/1", borderRadius: emp ? 3 : 14, overflow: "hidden", background: "#F6F4EF" }} />
+      <div style={{ display: "flex", justifyContent: "space-between", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+        <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", color: "#5E6E68" }}>{brand}</span>
+        <span
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: 10,
+            fontWeight: 600,
+            letterSpacing: "0.1em",
+            padding: "4px 8px",
+            borderRadius: 4,
+            background: emp ? "#0C1411" : "#06382E",
+            color: emp ? "#A6F000" : "#D4A637",
+          }}
+        >
+          {emp ? "D’EMPORIUM" : "D’PROVISION"}
+        </span>
+      </div>
+      <Link href={`/p/${product.id}`} style={{ fontWeight: 800, fontSize: 17, lineHeight: 1.25, color: "#06382E" }}>
+        {product.name}
       </Link>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10 }}>
-        <span style={{ fontWeight: 800, fontSize: 17 }}>{fmt(product.price)}</span>
+      <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "#5E6E68" }}>{spec}</span>
+      {free && (
+        <span style={{ alignSelf: "flex-start", fontSize: 10.5, fontWeight: 800, letterSpacing: "0.12em", color: "#06382E", background: "rgba(212,166,55,.3)", padding: "5px 9px", borderRadius: 4 }}>
+          FREE SET-UP
+        </span>
+      )}
+      <div style={{ display: "flex", flexDirection: "column", gap: 2, marginTop: "auto" }}>
+        <span style={{ fontWeight: 800, fontSize: 22, letterSpacing: "-0.02em" }}>{fmt(product.price)}</span>
+        <span style={{ fontSize: 12.5, fontWeight: 700, color: "#28705A" }}>{emp ? "Delivered nationwide" : "Per unit ex. VAT · volume pricing"}</span>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 6 }}>
         <button
           type="button"
           onClick={() =>
             emp
-              ? addToCart({ productId: product.id, name: product.name, price: product.price, channel: store })
-              : addToQuote({ productId: product.id, name: product.name, price: product.price, channel: store })
+              ? addToCart({ productId: product.id, name: product.name, price: product.price, channel: product.store })
+              : addToQuote({ productId: product.id, name: product.name, price: product.price, channel: product.store })
           }
-          style={{
-            border: 0,
-            borderRadius: emp ? 4 : 999,
-            background: emp ? "#A6F000" : "#06382E",
-            color: emp ? "#0C1411" : "#F5F1E8",
-            padding: "10px 16px",
-            fontWeight: 800,
-            fontSize: 13.5,
-          }}
+          style={{ border: 0, borderRadius: emp ? 4 : 999, background: emp ? "#A6F000" : "#06382E", color: emp ? "#0C1411" : "#F5F1E8", minHeight: 44, fontWeight: 800, fontSize: 14 }}
         >
           {emp ? "Add to cart" : "Add to quote"}
         </button>
+        <Link
+          href={`/p/${product.id}`}
+          style={{ border: "1px solid #E6E2D8", borderRadius: emp ? 4 : 999, background: "#fff", color: "#06382E", minHeight: 44, padding: "0 14px", fontWeight: 700, fontSize: 13, display: "flex", alignItems: "center", justifyContent: "center" }}
+        >
+          View
+        </Link>
       </div>
     </article>
   );
