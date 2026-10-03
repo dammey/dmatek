@@ -4,11 +4,13 @@ import BasketDrawer from "@/components/BasketDrawer";
 import FlowModal from "@/components/FlowModal";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import KitOverlay from "@/components/KitOverlay";
 import Toast from "@/components/Toast";
 import { AuthProvider } from "@/lib/auth-context";
 import { CartProvider } from "@/lib/cart-context";
 import { plexMono } from "@/lib/fonts";
 import { FlowProvider } from "@/lib/flow-context";
+import { KitOverlayProvider } from "@/lib/kit-overlay-context";
 import "./globals.css";
 
 const siteUrl = "https://source.dmatek.com";
@@ -52,12 +54,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AuthProvider>
           <CartProvider>
             <FlowProvider>
-              <Header />
-              {children}
-              <Footer />
-              <BasketDrawer />
-              <FlowModal />
-              <Toast />
+              <KitOverlayProvider>
+                <Header />
+                {children}
+                <Footer />
+                <BasketDrawer />
+                <FlowModal />
+                <Toast />
+                <KitOverlay />
+              </KitOverlayProvider>
             </FlowProvider>
           </CartProvider>
         </AuthProvider>

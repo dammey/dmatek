@@ -9,7 +9,8 @@ import { useCart } from "@/lib/cart-context";
 import { fmt } from "@/lib/format";
 import { useFlow } from "@/lib/flow-context";
 import { playFlipIn } from "@/lib/flipTransition";
-import type { Product } from "@/lib/types";
+import { useKitOverlay } from "@/lib/kit-overlay-context";
+import type { Kit, Product } from "@/lib/types";
 
 type Review = { id: string; stars: number; title: string | null; body: string; reviewer_name: string | null; created_at: string };
 
@@ -23,9 +24,11 @@ export default function ProductPage() {
   const { id } = useParams<{ id: string }>();
   const { addToCart, addToQuote } = useCart();
   const { startFlow } = useFlow();
+  const { openKit } = useKitOverlay();
   const [product, setProduct] = useState<Product | null | "loading">("loading");
   const [reviews, setReviews] = useState<Review[]>([]);
   const [related, setRelated] = useState<Product[]>([]);
+  const [kitMatch, setKitMatch] = useState<Kit | null>(null);
   const [qty, setQty] = useState(1);
   const [gi, setGi] = useState(0);
 
@@ -51,6 +54,14 @@ export default function ProductPage() {
       .get<{ items: Product[] }>(`/catalogue/products?${qs}`)
       .then(({ items }) => setRelated(items.filter((p) => p.id !== product.id).slice(0, 4)))
       .catch(() => setRelated([]));
+  }, [product]);
+
+  useEffect(() => {
+    if (!product || product === "loading") return;
+    api
+      .get<{ kits: Kit[] }>(`/catalogue/kits?store=${product.store}`)
+      .then(({ kits }) => setKitMatch(kits.find((k) => k.kit_items.some((it) => it.product_id === product.id)) ?? null))
+      .catch(() => setKitMatch(null));
   }, [product]);
 
   if (product === null) notFound();
@@ -217,6 +228,43 @@ export default function ProductPage() {
           </div>
         </div>
       </section>
+
+      {kitMatch && (
+        <section style={{ maxWidth: 1400, margin: "0 auto", padding: "clamp(56px,8vh,96px) clamp(18px,3vw,40px) 0" }}>
+          <div style={{ background: "#F5F1E8", borderRadius: "clamp(28px,4vw,48px)", padding: "clamp(22px,4vw,48px)", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,380px),1fr))", gap: "clamp(20px,3vw,44px)", alignItems: "center" }}>
+            <div style={{ position: "relative", aspectRatio: "4/3", borderRadius: 24, overflow: "hidden", background: "#EFEADC" }}>
+              {kitMatch.kit_items.map((it, i) => (
+                <span
+                  key={it.id}
+                  style={{ position: "absolute", left: `${it.pin_x}%`, top: `${it.pin_y}%`, width: 40, height: 40, margin: "-20px 0 0 -20px", borderRadius: "50%", border: "3px solid #F5F1E8", background: "#D4A637", color: "#06382E", fontWeight: 800, fontSize: 14, display: "grid", placeItems: "center" }}
+                >
+                  {i + 1}
+                </span>
+              ))}
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              <span style={{ display: "inline-block", alignSelf: "flex-start", fontSize: 11.5, fontWeight: 700, letterSpacing: "0.2em", borderTop: "2px solid #D4A637", paddingTop: 10 }}>SEE IT IN THE PLACE</span>
+              <h2 style={{ margin: 0, fontWeight: 800, fontSize: "clamp(28px,3.4vw,46px)", letterSpacing: "-0.04em", lineHeight: 1 }}>Goes in the {kitMatch.short} kit.</h2>
+              <div style={{ display: "flex", flexDirection: "column", borderTop: "1px solid rgba(6,56,46,.14)" }}>
+                {kitMatch.kit_items.map((it, i) => (
+                  <div key={it.id} style={{ display: "grid", gridTemplateColumns: "30px minmax(0,1fr) auto", gap: 10, alignItems: "center", padding: "11px 0", borderBottom: "1px solid rgba(6,56,46,.14)" }}>
+                    <span style={{ width: 26, height: 26, borderRadius: "50%", background: "#D4A637", display: "grid", placeItems: "center", fontWeight: 800, fontSize: 12 }}>{i + 1}</span>
+                    <span style={{ fontWeight: 700, fontSize: 15 }}>{it.name}</span>
+                    <span style={{ fontSize: 14, fontWeight: 700, color: "#28705A" }}>{it.price ? fmt(it.price) : "Quoted"}</span>
+                  </div>
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={() => openKit(kitMatch.key)}
+                style={{ alignSelf: "flex-start", border: 0, background: "#06382E", color: "#F5F1E8", borderRadius: 999, padding: "15px 24px", fontWeight: 800, fontSize: 15 }}
+              >
+                Get the whole kit &rarr;
+              </button>
+            </div>
+          </div>
+        </section>
+      )}
 
       <section style={{ maxWidth: 1400, margin: "0 auto", padding: "clamp(56px,8vh,96px) clamp(18px,3vw,40px) 0", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,380px),1fr))", gap: "clamp(24px,4vw,64px)", alignItems: "start" }}>
         {p.description && (

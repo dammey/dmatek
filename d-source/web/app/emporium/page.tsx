@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import ProductCard from "@/components/ProductCard";
 import { api } from "@/lib/api";
 import { EMPORIUM_CATEGORIES } from "@/lib/constants";
+import { useKitOverlay } from "@/lib/kit-overlay-context";
 import { playStoreTransition } from "@/lib/storeTransition";
 import type { Kit, Product } from "@/lib/types";
 
@@ -25,6 +26,7 @@ const KIT_COLORS: [string, string][] = [
 
 export default function EmporiumHome() {
   const router = useRouter();
+  const { openKit } = useKitOverlay();
   const [tabKey, setTabKey] = useState(EMPORIUM_CATEGORIES[0][0]);
   const [items, setItems] = useState<Product[]>([]);
   const [kits, setKits] = useState<Kit[]>([]);
@@ -138,9 +140,10 @@ export default function EmporiumHome() {
               const [bg, ink] = KIT_COLORS[idx % KIT_COLORS.length];
               const total = kit.kit_items.reduce((a, x) => a + (x.price ?? 0), 0);
               return (
-                <Link
+                <button
                   key={kit.id}
-                  href="/emporium/categories"
+                  type="button"
+                  onClick={() => openKit(kit.key)}
                   style={{ border: 0, borderRadius: 6, background: bg, color: ink, minHeight: "clamp(220px,28vw,320px)", padding: 24, display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "flex-start", textAlign: "left" }}
                 >
                   <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 600, letterSpacing: "0.14em" }}>
@@ -150,7 +153,7 @@ export default function EmporiumHome() {
                     <span style={{ fontWeight: 800, fontSize: "clamp(36px,4vw,56px)", lineHeight: 0.88, letterSpacing: "-0.055em", textTransform: "uppercase" }}>{kit.name} &rarr;</span>
                     <span style={{ fontSize: 14, fontWeight: 700 }}>Kit {`₦${Math.round(total).toLocaleString("en-NG")}`}</span>
                   </span>
-                </Link>
+                </button>
               );
             })}
           </div>

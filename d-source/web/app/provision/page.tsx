@@ -7,6 +7,7 @@ import { useCart } from "@/lib/cart-context";
 import { api } from "@/lib/api";
 import { PROVISION_CATEGORIES } from "@/lib/constants";
 import { fmt } from "@/lib/format";
+import { useKitOverlay } from "@/lib/kit-overlay-context";
 import { playStoreTransition } from "@/lib/storeTransition";
 import type { Kit, Product } from "@/lib/types";
 
@@ -28,6 +29,7 @@ export default function ProvisionHome() {
   const router = useRouter();
   const { startFlow } = useFlow();
   const { addToQuote } = useCart();
+  const { openKit } = useKitOverlay();
   const [tabKey, setTabKey] = useState(PROVISION_CATEGORIES[0].toLowerCase());
   const [items, setItems] = useState<Product[]>([]);
   const [kits, setKits] = useState<Kit[]>([]);
@@ -164,7 +166,7 @@ export default function ProvisionHome() {
                 <button
                   key={kit.id}
                   type="button"
-                  onClick={() => router.push("/provision/categories")}
+                  onClick={() => openKit(kit.key)}
                   style={{
                     display: "grid",
                     gridTemplateColumns: "minmax(0,1fr) auto auto",

@@ -10,6 +10,7 @@ import { api } from "@/lib/api";
 import { EMPORIUM_CATEGORIES, HERO, PROVISION_CATEGORIES, TINTS } from "@/lib/constants";
 import { useFlow } from "@/lib/flow-context";
 import { fmt } from "@/lib/format";
+import { useKitOverlay } from "@/lib/kit-overlay-context";
 import { playStoreTransition } from "@/lib/storeTransition";
 import type { Kit, Product } from "@/lib/types";
 
@@ -23,6 +24,7 @@ const LIFECYCLE = [
 export default function SourceHome() {
   const router = useRouter();
   const { startFlow } = useFlow();
+  const { openKit } = useKitOverlay();
   const [i, setI] = useState(0);
   const [q, setQ] = useState("");
   const [bestSellers, setBestSellers] = useState<Product[]>([]);
@@ -97,7 +99,7 @@ export default function SourceHome() {
           <h1 style={{ margin: 0, fontWeight: 800, fontSize: "clamp(64px,11vw,176px)", lineHeight: 0.84, letterSpacing: "-0.065em" }}>D&rsquo;Source</h1>
           <button
             type="button"
-            onClick={() => document.getElementById("pick-a-place")?.scrollIntoView({ behavior: "smooth", block: "start" })}
+            onClick={() => openKit(h[1])}
             style={{
               alignSelf: "flex-start",
               display: "flex",
@@ -286,15 +288,20 @@ export default function SourceHome() {
                 const total = kit.kit_items.reduce((a, x) => a + (x.price ?? 0), 0);
                 const priceLine = bz ? `Kit from ${fmt(total)} · quote` : `Kit ${fmt(total)}`;
                 return (
-                  <Link
+                  <button
                     key={kit.id}
-                    href={`/${kit.store}/categories`}
+                    type="button"
+                    onClick={() => openKit(kit.key)}
                     style={{
                       position: "relative",
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "center",
                       transform: `rotate(${idx % 2 ? 2.5 : -2.5}deg)`,
+                      border: 0,
+                      background: "transparent",
+                      padding: 0,
+                      textAlign: "left",
                     }}
                   >
                     <span style={{ width: 12, height: 12, borderRadius: "50%", background: bz ? "#D4A637" : "#A6F000", border: "2px solid #06382E", marginTop: -6 }} />
@@ -320,7 +327,7 @@ export default function SourceHome() {
                       </span>
                       <span style={{ fontSize: 13, fontWeight: 700, color: "#28705A", padding: "0 4px" }}>{priceLine}</span>
                     </span>
-                  </Link>
+                  </button>
                 );
               })}
             </div>
