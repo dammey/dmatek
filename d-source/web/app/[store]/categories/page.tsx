@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { EMPORIUM_CATEGORIES, PROVISION_CATEGORIES } from "@/lib/constants";
+
+export async function generateMetadata({ params }: { params: Promise<{ store: string }> }): Promise<Metadata> {
+  const { store } = await params;
+  if (store !== "emporium" && store !== "provision") return {};
+  return { title: store === "emporium" ? "Home categories" : "Business categories" };
+}
 
 export default async function StoreCategoriesPage({ params }: { params: Promise<{ store: string }> }) {
   const { store } = await params;

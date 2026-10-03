@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -12,6 +13,13 @@ const LEGAL: Record<string, { title: string; sections: string[] }> = {
   },
   cookies: { title: "Cookie policy", sections: ["What cookies are", "Cookies we use", "Managing cookies"] },
 };
+
+export async function generateMetadata({ params }: { params: Promise<{ topic: string }> }): Promise<Metadata> {
+  const { topic } = await params;
+  const l = LEGAL[topic];
+  if (!l) return {};
+  return { title: l.title };
+}
 
 export default async function LegalPage({ params }: { params: Promise<{ topic: string }> }) {
   const { topic } = await params;

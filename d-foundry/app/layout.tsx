@@ -12,6 +12,16 @@ const FONTS_URL =
 
 const siteUrl = "https://dfoundry-dammey-s-projects.vercel.app";
 
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "D’Foundry",
+  url: siteUrl,
+  telephone: "+2347058071768",
+  email: "hello@dmatek.ng",
+  parentOrganization: { "@type": "Organization", name: "D’Matek Technology Limited", url: "https://www.dmatek.ng" },
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
@@ -41,6 +51,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="stylesheet" href={FONTS_URL} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
       </head>
       <body>{children}</body>
     </html>

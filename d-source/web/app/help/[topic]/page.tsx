@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import HelpActions from "@/components/HelpActions";
@@ -31,9 +32,16 @@ const TOPICS: Record<string, { title: string; paras: string[]; list?: { k: strin
   contact: {
     title: "Contact us",
     paras: ["Tell us in your own words. You don’t need to know which technology it needs."],
-    list: [{ k: "Phone", v: "[ PHONE TO BE ADDED ]" }, { k: "Email", v: "[ EMAIL TO BE ADDED ]" }, { k: "WhatsApp", v: "[ WHATSAPP NUMBER TO BE ADDED ]" }, { k: "Address", v: "[ ADDRESS TO BE ADDED ]" }],
+    list: [{ k: "Phone", v: "0705 807 1768" }, { k: "Email", v: "hello@dmatek.ng" }, { k: "WhatsApp", v: "0705 807 1768" }, { k: "Address", v: "[ ADDRESS TO BE ADDED ]" }],
   },
 };
+
+export async function generateMetadata({ params }: { params: Promise<{ topic: string }> }): Promise<Metadata> {
+  const { topic } = await params;
+  const t = TOPICS[topic];
+  if (!t) return {};
+  return { title: t.title, description: t.paras[0] };
+}
 
 export default async function HelpTopicPage({ params }: { params: Promise<{ topic: string }> }) {
   const { topic } = await params;

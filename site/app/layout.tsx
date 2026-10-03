@@ -14,6 +14,17 @@ const manrope = Manrope({
 
 const siteUrl = "https://www.dmatek.ng";
 
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "D’Matek Technology Limited",
+  url: siteUrl,
+  logo: `${siteUrl}/icon.png`,
+  telephone: "+2347058071768",
+  email: "hello@dmatek.ng",
+  address: { "@type": "PostalAddress", addressLocality: "Lagos", addressCountry: "NG" },
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
@@ -42,6 +53,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${manrope.variable} h-full`}>
       <head>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
         <noscript>
           <style>{`[data-reveal]{opacity:1 !important;transform:none !important;}`}</style>
         </noscript>

@@ -9,6 +9,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: { default: "D’Source Admin", template: "%s · D’Source Admin" },
   description: "Internal tool for D'Source staff.",
+  robots: { index: false, follow: false },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
