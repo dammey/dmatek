@@ -13,6 +13,6 @@ export const navItems: { label: string; href: string; key: NavKey }[] = [
 ];
 
 // Sister D'Matek sites/anchors that live outside (or partly outside) this app.
-export const D_SOURCE_URL = process.env.NEXT_PUBLIC_DSOURCE_URL ?? "/businesses#source";
+export const D_SOURCE_URL = process.env.NEXT_PUBLIC_DSOURCE_URL ?? "https://dsource-web.vercel.app";
 export const D_FOUNDRY_URL = process.env.NEXT_PUBLIC_DFOUNDRY_URL ?? "https://dfoundry-dammey-s-projects.vercel.app";
 export const ILEMESH_HREF = "/businesses#ilemesh";
