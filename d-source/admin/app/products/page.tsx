@@ -18,19 +18,22 @@ type Product = {
   categories?: { name: string };
   product_prices: { price_list: string; unit_price: number }[];
   inventory?: { quantity_on_hand: number }[];
+  specs?: { brand?: string; spec?: string; free?: boolean };
 };
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [categoryId, setCategoryId] = useState("");
   const [editing, setEditing] = useState<Product | null>(null);
   const { say } = useToast();
 
   function load() {
-    api.get<{ products: Product[] }>("/admin/products").then(({ products }) => setProducts(products));
+    const qs = categoryId ? `?category=${categoryId}` : "";
+    api.get<{ products: Product[] }>(`/admin/products${qs}`).then(({ products }) => setProducts(products));
   }
+  useEffect(load, [categoryId]);
   useEffect(() => {
-    load();
     api.get<{ categories: Category[] }>("/catalogue/categories").then(({ categories }) => setCategories(categories));
   }, []);
 
@@ -46,9 +49,24 @@ export default function ProductsPage() {
   return (
     <div>
       <PageHeader title="Products" subtitle="The catalogue on D’Emporium and D’Provision" />
-      <button type="button" onClick={() => setEditing(newProduct())} style={{ ...btnPrimary, marginBottom: 16 }}>
-        Add product
-      </button>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap", marginBottom: 16 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+          <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)} style={{ ...inputStyle, minWidth: 180 }}>
+            <option value="">All categories</option>
+            {categories.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
+            ))}
+          </select>
+          <span style={{ fontSize: 13.5, color: "#5E6E68" }}>
+            {products.length} product{products.length === 1 ? "" : "s"}
+          </span>
+        </div>
+        <button type="button" onClick={() => setEditing(newProduct())} style={btnPrimary}>
+          Add product
+        </button>
+      </div>
       <Table cols="minmax(200px,1fr) 110px 120px 80px 100px 70px" head={["PRODUCT", "STORE", "PRICE", "STOCK", "LIVE", ""]} minWidth="820px">
         {products.map((p) => {
           const priceList = p.store === "provision" ? "business" : "retail";
@@ -98,10 +116,23 @@ function ProductDrawer({ product, categories, onClose, onSaved }: { product: Pro
     store: product.store,
     categoryId: product.category_id ?? "",
     price: String(product.product_prices.find((p) => p.price_list === priceList)?.unit_price ?? ""),
+    brand: product.specs?.brand ?? "",
+    spec: product.specs?.spec ?? "",
+    freeSetup: product.specs?.free ?? false,
+    isActive: product.is_active,
   });
 
   async function save() {
-    const body = { name: form.name, sku: form.sku || form.name.toLowerCase().replace(/\W+/g, "-"), slug: form.name.toLowerCase().replace(/\W+/g, "-"), store: form.store as "emporium" | "provision", categoryId: form.categoryId || undefined, price: Number(form.price) || undefined };
+    const body = {
+      name: form.name,
+      sku: form.sku || form.name.toLowerCase().replace(/\W+/g, "-"),
+      slug: form.name.toLowerCase().replace(/\W+/g, "-"),
+      store: form.store as "emporium" | "provision",
+      categoryId: form.categoryId || undefined,
+      price: Number(form.price) || undefined,
+      specs: { brand: form.brand, spec: form.spec, free: form.freeSetup },
+      isActive: form.isActive,
+    };
     if (product.id) await api.patch(`/admin/products/${product.id}`, body);
     else await api.post("/admin/products", body);
     onSaved();
@@ -139,6 +170,36 @@ function ProductDrawer({ product, categories, onClose, onSaved }: { product: Pro
         PRICE (₦)
         <input value={form.price} onChange={(e) => setForm((f) => ({ ...f, price: e.target.value.replace(/\D/g, "") }))} inputMode="numeric" style={inputStyle} />
       </label>
+      <label style={labelStyle}>
+        BRAND
+        <input value={form.brand} onChange={(e) => setForm((f) => ({ ...f, brand: e.target.value }))} style={inputStyle} />
+      </label>
+      <label style={labelStyle}>
+        SPEC
+        <input value={form.spec} onChange={(e) => setForm((f) => ({ ...f, spec: e.target.value }))} placeholder="e.g. 16GB · 512GB SSD" style={inputStyle} />
+      </label>
+      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        <label style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 14, fontWeight: 700 }}>
+          <button
+            type="button"
+            onClick={() => setForm((f) => ({ ...f, freeSetup: !f.freeSetup }))}
+            style={{ width: 44, height: 26, borderRadius: 999, border: 0, background: form.freeSetup ? "#1F7A5A" : "#D9D4C8", position: "relative" }}
+          >
+            <span style={{ position: "absolute", top: 4, left: form.freeSetup ? 22 : 4, width: 18, height: 18, borderRadius: "50%", background: "#fff", transition: "left .25s ease" }} />
+          </button>
+          Free set-up
+        </label>
+        <label style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 14, fontWeight: 700 }}>
+          <button
+            type="button"
+            onClick={() => setForm((f) => ({ ...f, isActive: !f.isActive }))}
+            style={{ width: 44, height: 26, borderRadius: 999, border: 0, background: form.isActive ? "#1F7A5A" : "#D9D4C8", position: "relative" }}
+          >
+            <span style={{ position: "absolute", top: 4, left: form.isActive ? 22 : 4, width: 18, height: 18, borderRadius: "50%", background: "#fff", transition: "left .25s ease" }} />
+          </button>
+          Live on the storefront
+        </label>
+      </div>
       <button type="button" onClick={save} style={btnPrimary}>
         Save product
       </button>

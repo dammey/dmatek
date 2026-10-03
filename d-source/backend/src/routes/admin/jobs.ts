@@ -8,12 +8,19 @@ adminJobsRouter.use(requireStaff("Installations"));
 
 /** GET /admin/jobs — the engineer calendar: everything scheduled, grouped
  * client-side by engineer/day; plus the unscheduled backlog. */
+const JOB_SELECT = "*, staff:engineer_staff_id(name), orders(ref, customers(full_name, phone)), site_surveys(ref, customers(full_name, phone))";
+
+function withCustomer<T extends { orders?: { customers?: { full_name: string; phone: string | null } | null } | null; site_surveys?: { customers?: { full_name: string; phone: string | null } | null } | null }>(job: T) {
+  const customer = job.orders?.customers ?? job.site_surveys?.customers ?? null;
+  return { ...job, customerName: customer?.full_name ?? null, customerPhone: customer?.phone ?? null };
+}
+
 adminJobsRouter.get("/", async (_req, res) => {
   const [scheduled, unassigned] = await Promise.all([
-    db.from("jobs").select("*, staff:engineer_staff_id(name)").order("scheduled_date"),
-    db.from("jobs").select("*").is("engineer_staff_id", null),
+    db.from("jobs").select(JOB_SELECT).order("scheduled_date"),
+    db.from("jobs").select(JOB_SELECT).is("engineer_staff_id", null),
   ]);
-  res.json({ jobs: scheduled.data ?? [], unassigned: unassigned.data ?? [] });
+  res.json({ jobs: (scheduled.data ?? []).map(withCustomer), unassigned: (unassigned.data ?? []).map(withCustomer) });
 });
 
 const jobSchema = z.object({

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Card, PageHeader, Row, Table, btnPrimary } from "@/components/ui";
+import { Card, PageHeader, Row, Table, btnGhost, btnPrimary } from "@/components/ui";
 import { api } from "@/lib/api";
 import { fmt } from "@/lib/format";
 import { useToast } from "@/lib/toast-context";
@@ -24,6 +24,12 @@ export default function PaymentsPage() {
     load();
   }
 
+  async function refund(id: string) {
+    await api.patch(`/admin/payments/${id}/refund`);
+    say("Marked refunded");
+    load();
+  }
+
   return (
     <div>
       <PageHeader title="Payments" subtitle="Confirm transfers and pay on delivery, refund when needed" />
@@ -42,6 +48,11 @@ export default function PaymentsPage() {
               {p.status === "pending" && (
                 <button type="button" onClick={() => confirm(p.id)} style={btnPrimary}>
                   Confirm
+                </button>
+              )}
+              {p.status === "paid" && (
+                <button type="button" onClick={() => refund(p.id)} style={btnGhost}>
+                  Refund
                 </button>
               )}
             </span>

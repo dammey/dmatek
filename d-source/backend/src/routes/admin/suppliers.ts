@@ -14,8 +14,14 @@ adminSuppliersRouter.get("/", async (_req, res) => {
 });
 
 adminSuppliersRouter.post("/", async (req, res) => {
-  const body = z.object({ name: z.string(), contactEmail: z.string().optional(), contactPhone: z.string().optional() }).parse(req.body);
-  const { data, error } = await db.from("suppliers").insert({ name: body.name, contact_email: body.contactEmail, contact_phone: body.contactPhone }).select().single();
+  const body = z
+    .object({ name: z.string(), supplies: z.string().optional(), contactEmail: z.string().optional(), contactPhone: z.string().optional(), leadTimeDays: z.number().optional() })
+    .parse(req.body);
+  const { data, error } = await db
+    .from("suppliers")
+    .insert({ name: body.name, supplies: body.supplies, contact_email: body.contactEmail, contact_phone: body.contactPhone, lead_time_days: body.leadTimeDays })
+    .select()
+    .single();
   if (error) return res.status(500).json({ error: error.message });
   res.status(201).json({ supplier: data });
 });
@@ -23,7 +29,8 @@ adminSuppliersRouter.post("/", async (req, res) => {
 adminSuppliersRouter.get("/pos", async (_req, res) => {
   const { data, error } = await db.from("purchase_orders").select("*, suppliers(name), po_lines(*)").order("created_at", { ascending: false });
   if (error) return res.status(500).json({ error: error.message });
-  res.json({ purchaseOrders: data });
+  const purchaseOrders = (data ?? []).map((po) => ({ ...po, itemCount: ((po.po_lines as unknown[] | null) ?? []).length }));
+  res.json({ purchaseOrders });
 });
 
 const poSchema = z.object({ supplierId: z.string().uuid(), items: z.array(z.object({ description: z.string(), quantity: z.number(), unitCost: z.number().optional() })), expectedDate: z.string().optional() });

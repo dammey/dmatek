@@ -5,7 +5,7 @@ import { Chip, PageHeader, btnGhost } from "@/components/ui";
 import { api } from "@/lib/api";
 import { useToast } from "@/lib/toast-context";
 
-type Template = { id: string; name: string; trigger_desc: string; channels: string[]; body: string; audience: string; enabled: boolean };
+type Template = { id: string; name: string; trigger_desc: string; channels: string[]; body: string; variables: string[]; audience: string; enabled: boolean };
 
 export default function NotificationsPage() {
   const [audience, setAudience] = useState<string | null>(null);
@@ -65,9 +65,12 @@ export default function NotificationsPage() {
               ))}
             </div>
             <textarea rows={4} value={bodies[t.id] ?? ""} onChange={(e) => setBodies((b) => ({ ...b, [t.id]: e.target.value }))} onBlur={() => saveBody(t.id)} style={{ border: "1px solid rgba(6,56,46,.2)", borderRadius: 12, padding: 10, fontSize: 14, resize: "vertical" }} />
-            <button type="button" onClick={() => test(t.id)} style={{ ...btnGhost, alignSelf: "flex-start" }}>
-              Send test
-            </button>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+              <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "#5E6E68" }}>{t.variables.join(" ")}</span>
+              <button type="button" onClick={() => test(t.id)} style={btnGhost}>
+                Send test
+              </button>
+            </div>
           </article>
         ))}
         {!templates.length && <div style={{ background: "#fff", borderRadius: 20, padding: 24, color: "#5E6E68" }}>No templates.</div>}

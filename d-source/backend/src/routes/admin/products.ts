@@ -8,7 +8,7 @@ adminProductsRouter.use(requireStaff("Products"));
 
 adminProductsRouter.get("/", async (req, res) => {
   const { category } = req.query as { category?: string };
-  let query = db.from("products").select("*, categories(name), product_prices(*), inventory(quantity_on_hand)");
+  let query = db.from("products").select("*, categories(name), product_prices(*), inventory(quantity_on_hand, quantity_reserved, reorder_level)");
   if (category) query = query.eq("category_id", category);
   const { data, error } = await query.order("name");
   if (error) return res.status(500).json({ error: error.message });
@@ -66,6 +66,13 @@ adminProductsRouter.patch("/:id/stock", async (req, res) => {
   const { data: inv } = await db.from("inventory").select("id, quantity_on_hand").eq("product_id", req.params.id).maybeSingle();
   if (!inv) return res.status(404).json({ error: "No inventory row for this product" });
   await db.from("inventory").update({ quantity_on_hand: inv.quantity_on_hand + delta, updated_at: new Date().toISOString() }).eq("id", inv.id);
+  res.json({ ok: true });
+});
+
+adminProductsRouter.patch("/:id/reorder-level", async (req, res) => {
+  const { reorderLevel } = z.object({ reorderLevel: z.number().int().min(0) }).parse(req.body);
+  const { error } = await db.from("inventory").update({ reorder_level: reorderLevel }).eq("product_id", req.params.id);
+  if (error) return res.status(500).json({ error: error.message });
   res.json({ ok: true });
 });
 
