@@ -50,7 +50,6 @@ export default function CategoryPage() {
       listTag={{ text: emp ? "D’EMPORIUM · FOR HOME" : "D’PROVISION · FOR BUSINESS", bg: emp ? "#0C1411" : "#06382E", ink: emp ? "#A6F000" : "#D4A637" }}
       title={label}
       desc={desc}
-      siblings={allCats.map((c) => ({ label: c.label, href: `/${store}/${c.slug}`, active: c.slug === params.category }))}
       products={products}
     />
   );

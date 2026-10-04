@@ -44,22 +44,24 @@ export default function Header() {
     return (e: React.MouseEvent<HTMLElement>) => playStoreTransition(router, target, e.currentTarget);
   }
 
-  // Center nav row: content depends on which store/front the current page belongs to.
+  // A store-front section: scroll when already on the front, link to it otherwise.
+  function section(label: string, store: "emporium" | "provision", id: string): NavItem {
+    return pathname === `/${store}` ? { label, onClick: () => scrollToId(id) } : { label, href: `/${store}#${id}` };
+  }
+
+  // Center nav row: store-level links only. Categories live in the bar below,
+  // so they never appear twice.
   const centerNav: NavItem[] =
-    tone === "emporium-front"
-      ? [...empCats.map((c): NavItem => ({ label: c.label, href: `/emporium/${c.slug}` })), { label: "Kits", onClick: () => scrollToId("e-kits") }]
-      : tone === "provision-front"
+    subBrand === "emporium"
+      ? [section("Shop", "emporium", "e-shop"), section("Kits", "emporium", "e-kits"), { label: "Track an order", href: "/track", active: pathname === "/track" }]
+      : subBrand === "provision"
         ? [
-            { label: "Ways to order", onClick: () => scrollToId("p-ways") },
-            { label: "Office in a Box", href: "/office-in-a-box" },
-            { label: "Kits by place", onClick: () => scrollToId("p-kits") },
-            { label: "Catalogue", onClick: () => scrollToId("p-cat") },
+            section("Ways to order", "provision", "p-ways"),
+            section("Kits by place", "provision", "p-kits"),
+            section("Catalogue", "provision", "p-cat"),
+            { label: "Site survey", href: "/site-survey", active: pathname === "/site-survey" },
           ]
-        : subBrand === "emporium"
-          ? empCats.map((c): NavItem => ({ label: c.label, href: `/emporium/${c.slug}`, active: pathname === `/emporium/${c.slug}` }))
-          : subBrand === "provision"
-            ? provCats.map((c): NavItem => ({ label: c.label, href: `/provision/${c.slug}`, active: pathname === `/provision/${c.slug}` }))
-            : [
+        : [
                 { label: "D’Emporium · Home", onClick: goStore("emporium") },
                 { label: "D’Provision · Business", onClick: goStore("provision") },
                 { label: "Build a kit", onClick: () => scrollToId("pick-a-place") },
@@ -160,15 +162,18 @@ export default function Header() {
             })}
           </div>
           <div style={{ display: "flex", gap: 18, flexWrap: "wrap", alignItems: "center" }}>
-            <span style={{ whiteSpace: "nowrap", color: "rgba(245,241,232,.82)" }}>Genuine, warranty-backed devices · Delivered nationwide · Installed by D&rsquo;Matek engineers</span>
+            <span className="ds-util-tag" style={{ whiteSpace: "nowrap", color: "rgba(245,241,232,.82)" }}>Genuine, warranty-backed devices · Delivered nationwide · Installed by D&rsquo;Matek engineers</span>
+            <Link href="/account" className="ds-util-acct" style={{ whiteSpace: "nowrap", color: "#F5F1E8", fontWeight: 700 }}>
+              {signedIn ? "Account ✓" : "Account"}
+            </Link>
             <a href={DMATEK_URL} style={{ whiteSpace: "nowrap", color: "#D4A637", fontWeight: 700 }}>
               D&rsquo;Matek ↗
             </a>
           </div>
         </div>
       </div>
-      <header style={{ position: "sticky", top: 0, zIndex: 50, background: bg, borderBottom: `1px solid ${line}`, backdropFilter: "blur(8px)" }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 18px", height: 64, display: "flex", alignItems: "center", gap: 20 }}>
+      <header style={{ position: "sticky", top: 0, zIndex: 50, background: bg, color: ink, borderBottom: `1px solid ${line}`, backdropFilter: "blur(8px)" }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 18px", height: 64, display: "flex", alignItems: "center", gap: "clamp(10px, 2vw, 20px)" }}>
           <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, color: ink, fontWeight: 800, fontSize: 21, letterSpacing: "-0.04em", whiteSpace: "nowrap" }}>
             D&rsquo;Source
           </Link>
@@ -187,7 +192,7 @@ export default function Header() {
             >
               ⌕
             </button>
-            <Link href="/account" style={{ border: `1px solid ${line}`, color: ink, height: 40, display: "flex", alignItems: "center", borderRadius: 999, padding: "0 14px", fontSize: 13, fontWeight: 800, whiteSpace: "nowrap" }}>
+            <Link href="/account" className="ds-header-acct" style={{ border: `1px solid ${line}`, color: ink, height: 40, display: "flex", alignItems: "center", borderRadius: 999, padding: "0 14px", fontSize: 13, fontWeight: 800, whiteSpace: "nowrap" }}>
               {signedIn ? "Account ✓" : "Account"}
             </Link>
             <button
@@ -246,6 +251,22 @@ export default function Header() {
       <style jsx>{`
         .ds-header-spacer {
           display: none;
+        }
+        :global(.ds-util-acct) {
+          display: none;
+        }
+        @media (max-width: 899px) {
+          :global(.ds-util-tag) {
+            display: none;
+          }
+        }
+        @media (max-width: 519px) {
+          :global(.ds-header-acct) {
+            display: none !important;
+          }
+          :global(.ds-util-acct) {
+            display: inline !important;
+          }
         }
         @media (max-width: 1059px) {
           .ds-header-nav {
