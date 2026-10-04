@@ -30,11 +30,13 @@ export default function CategoryPage() {
       .catch(() => setCategories([]));
   }, []);
 
-  const categoryId = categories.find((c) => c.slug === params.category)?.id;
+  // Menu slugs (e.g. "tvaudio") don't always equal the category's own slug
+  // ("tv-audio"), so match on the category name the menu entry points at.
+  const categoryId = categories.find((c) => c.name === canonical || c.slug === params.category)?.id;
 
   useEffect(() => {
-    const qs = new URLSearchParams({ store });
-    if (categoryId) qs.set("category", categoryId);
+    if (!categoryId) return;
+    const qs = new URLSearchParams({ store, category: categoryId });
     api
       .get<{ items: Product[] }>(`/catalogue/products?${qs}`)
       .then(({ items }) => setProducts(items))
