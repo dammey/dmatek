@@ -11,6 +11,8 @@ import { useKitOverlay } from "@/lib/kit-overlay-context";
 import { playStoreTransition } from "@/lib/storeTransition";
 import type { Kit, Product } from "@/lib/types";
 
+const TAB_LIMIT = 12;
+
 const TRUST = [
   { t: "Genuine, warranty-backed", d: "Every device sourced properly." as React.ReactNode },
   { t: "Installed by our engineers", d: "Free set-up on TVs, laptops and phones. Other installs are a paid add-on." as React.ReactNode },
@@ -35,18 +37,24 @@ export default function EmporiumHome() {
 
   useEffect(() => {
     api
-      .get<{ items: Product[] }>("/catalogue/products?store=emporium")
-      .then(({ items }) => setItems(items))
-      .catch(() => setItems([]));
-    api
       .get<{ kits: Kit[] }>("/catalogue/kits?store=emporium")
       .then(({ kits }) => setKits(kits.slice(0, 4)))
       .catch(() => {});
   }, []);
 
   const activeTab = categories.find((c) => c.slug === tabKey);
+  const activeCanonical = activeTab?.canonical ?? "";
+
+  useEffect(() => {
+    if (!activeCanonical) return;
+    const qs = new URLSearchParams({ store: "emporium", categoryName: activeCanonical, limit: String(TAB_LIMIT) });
+    api
+      .get<{ items: Product[] }>(`/catalogue/products?${qs}`)
+      .then(({ items }) => setItems(items))
+      .catch(() => setItems([]));
+  }, [activeCanonical]);
   const tabLabel = activeTab?.label ?? "";
-  const shown = items.filter((p) => ((p.categories?.name as string) ?? "").toLowerCase() === (activeTab?.canonical ?? "").toLowerCase());
+  const shown = items.filter((p) => ((p.categories?.name as string) ?? "").toLowerCase() === activeCanonical.toLowerCase()).slice(0, TAB_LIMIT);
 
   return (
     <main style={{ background: "#0C1411", color: "#F2F2EC" }}>

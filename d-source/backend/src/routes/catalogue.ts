@@ -3,17 +3,24 @@ import { db } from "../supabase.js";
 
 export const catalogueRouter = Router();
 
-/** GET /catalogue/products?store=&category=&q=&brand=&priceMin=&priceMax=&freeSetup=&sort= */
+/** GET /catalogue/products?store=&category=&categoryName=&q=&brand=&priceMin=&priceMax=&freeSetup=&sort=&limit=&offset=
+ * Returns a lean listing row per product (no description) plus `total`, the
+ * match count before limit/offset are applied. */
 catalogueRouter.get("/products", async (req, res) => {
-  const { store, category, q, brand, priceMin, priceMax, freeSetup, sort } = req.query as Record<string, string | undefined>;
+  const { store, category, categoryName, q, brand, priceMin, priceMax, freeSetup, sort, limit, offset } = req.query as Record<string, string | undefined>;
 
   let query = db
     .from("products")
-    .select("id, sku, name, slug, description, unit, specs, images, is_active, category_id, store, categories(id, name, slug), product_prices(price_list, currency, unit_price)")
+    .select("id, sku, name, slug, unit, specs, images, category_id, store, categories(id, name, slug), product_prices(price_list, unit_price)")
     .eq("is_active", true);
 
   if (store) query = query.eq("store", store);
   if (category) query = query.eq("category_id", category);
+  if (categoryName) {
+    const { data: cat } = await db.from("categories").select("id").eq("name", categoryName).maybeSingle();
+    if (!cat) return res.json({ items: [], total: 0 });
+    query = query.eq("category_id", cat.id);
+  }
   if (q) query = query.ilike("name", `%${q}%`);
 
   const { data, error } = await query;
@@ -32,7 +39,26 @@ catalogueRouter.get("/products", async (req, res) => {
   if (sort === "low") items.sort((a, b) => (a.price ?? 0) - (b.price ?? 0));
   else if (sort === "high") items.sort((a, b) => (b.price ?? 0) - (a.price ?? 0));
 
-  res.json({ items });
+  const total = items.length;
+  const start = Math.max(0, Number(offset) || 0);
+  const size = limit ? Math.min(Math.max(1, Number(limit) || 1), 1000) : undefined;
+  res.json({ items: size ? items.slice(start, start + size) : items.slice(start), total });
+});
+
+/** GET /catalogue/category-counts?store= — live product count per category
+ * name, so category grids don't have to download the whole catalogue. */
+catalogueRouter.get("/category-counts", async (req, res) => {
+  const { store } = req.query as { store?: string };
+  let query = db.from("products").select("categories(name)").eq("is_active", true);
+  if (store) query = query.eq("store", store);
+  const { data, error } = await query;
+  if (error) return res.status(500).json({ error: error.message });
+  const counts: Record<string, number> = {};
+  for (const row of data ?? []) {
+    const name = (row.categories as unknown as { name: string } | null)?.name;
+    if (name) counts[name] = (counts[name] ?? 0) + 1;
+  }
+  res.json({ counts });
 });
 
 catalogueRouter.get("/products/:id", async (req, res) => {

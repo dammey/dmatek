@@ -6,6 +6,8 @@ import ProductCard from "@/components/ProductCard";
 import { useFlow } from "@/lib/flow-context";
 import type { Product } from "@/lib/types";
 
+const PAGE = 24;
+
 const BUCKETS: [string, number, number][] = [
   ["Under ₦250k", 0, 250000],
   ["₦250k – ₦750k", 250000, 750000],
@@ -57,6 +59,12 @@ export default function ProductListing({
   }, [products, brandSel, priceSel, freeOnly, sort]);
 
   const resultCount = `${results.length} product${results.length === 1 ? "" : "s"}`;
+
+  // Render in pages: drawing hundreds of cards at once is what makes big categories slow.
+  const filterKey = JSON.stringify([brandSel, priceSel, freeOnly, sort, products.length]);
+  const [page, setPage] = useState({ key: filterKey, n: PAGE });
+  const shownCount = page.key === filterKey ? page.n : PAGE;
+  const visible = results.slice(0, shownCount);
 
   return (
     <main style={{ background: "#FFFFFF", color: "#06382E" }}>
@@ -208,10 +216,19 @@ export default function ProductListing({
           )}
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(min(100%,230px),1fr))", gap: 12 }}>
-            {results.map((p) => (
+            {visible.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
           </div>
+          {results.length > visible.length && (
+            <button
+              type="button"
+              onClick={() => setPage({ key: filterKey, n: shownCount + PAGE })}
+              style={{ alignSelf: "center", border: "1px solid #E6E2D8", background: "#fff", color: "#06382E", borderRadius: 999, padding: "14px 26px", fontWeight: 800, fontSize: 14.5, marginTop: 8 }}
+            >
+              Show more · {results.length - visible.length} left
+            </button>
+          )}
         </div>
       </section>
     </main>

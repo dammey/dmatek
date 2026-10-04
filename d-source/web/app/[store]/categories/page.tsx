@@ -2,24 +2,14 @@
 
 import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
-import { useEffect, useState } from "react";
 import { CategoryGroup } from "@/components/CategoryGroup";
-import { api } from "@/lib/api";
-import type { Product, Store } from "@/lib/types";
+import type { Store } from "@/lib/types";
 
 export default function StoreCategoriesPage() {
   const params = useParams<{ store: string }>();
   const store = params.store as Store;
   if (store !== "emporium" && store !== "provision") notFound();
   const emp = store === "emporium";
-
-  const [products, setProducts] = useState<Product[]>([]);
-  useEffect(() => {
-    api
-      .get<{ items: Product[] }>(`/catalogue/products?store=${store}`)
-      .then(({ items }) => setProducts(items))
-      .catch(() => setProducts([]));
-  }, [store]);
 
   return (
     <main style={{ background: "#FFFFFF", color: "#06382E" }}>
@@ -50,7 +40,7 @@ export default function StoreCategoriesPage() {
           </h1>
           <p style={{ margin: 0, maxWidth: "44em", fontSize: 17, lineHeight: 1.6, color: "#3A4A44" }}>Pick a category to see every product in it.</p>
         </div>
-        <CategoryGroup store={store} products={products} />
+        <CategoryGroup store={store} />
       </section>
     </main>
   );

@@ -11,6 +11,8 @@ import { useKitOverlay } from "@/lib/kit-overlay-context";
 import { playStoreTransition } from "@/lib/storeTransition";
 import type { Kit, Product } from "@/lib/types";
 
+const TAB_LIMIT = 12;
+
 const WAYS: { n: string; t: string; d: string; cta: string; action: "quote" | "catalogue" | "account" }[] = [
   { n: "01", t: "Request a quote", d: "Tell us the site and what it needs. We come back with a quote within 4 working hours.", cta: "Request a quote →", action: "quote" },
   { n: "02", t: "Build a quote list", d: "Add items and quantities from the catalogue, then send the list.", cta: "Open the catalogue →", action: "catalogue" },
@@ -38,18 +40,24 @@ export default function ProvisionHome() {
 
   useEffect(() => {
     api
-      .get<{ items: Product[] }>("/catalogue/products?store=provision")
-      .then(({ items }) => setItems(items))
-      .catch(() => setItems([]));
-    api
       .get<{ kits: Kit[] }>("/catalogue/kits?store=provision")
       .then(({ kits }) => setKits(kits))
       .catch(() => {});
   }, []);
 
   const activeTab = categories.find((c) => c.slug === tabKey);
+  const activeCanonical = activeTab?.canonical ?? "";
+
+  useEffect(() => {
+    if (!activeCanonical) return;
+    const qs = new URLSearchParams({ store: "provision", categoryName: activeCanonical, limit: String(TAB_LIMIT) });
+    api
+      .get<{ items: Product[] }>(`/catalogue/products?${qs}`)
+      .then(({ items }) => setItems(items))
+      .catch(() => setItems([]));
+  }, [activeCanonical]);
   const tabLabel = activeTab?.label ?? "";
-  const shown = items.filter((p) => ((p.categories?.name as string) ?? "").toLowerCase() === (activeTab?.canonical ?? "").toLowerCase());
+  const shown = items.filter((p) => ((p.categories?.name as string) ?? "").toLowerCase() === activeCanonical.toLowerCase()).slice(0, TAB_LIMIT);
 
   function qtyFor(id: string) {
     return qty[id] ?? 1;

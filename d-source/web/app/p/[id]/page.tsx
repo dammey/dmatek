@@ -51,7 +51,7 @@ export default function ProductPage() {
 
   useEffect(() => {
     if (!product || product === "loading" || !product.category_id) return;
-    const qs = new URLSearchParams({ store: product.store, category: product.category_id });
+    const qs = new URLSearchParams({ store: product.store, category: product.category_id, limit: "5" });
     api
       .get<{ items: Product[] }>(`/catalogue/products?${qs}`)
       .then(({ items }) => setRelated(items.filter((p) => p.id !== product.id).slice(0, 4)))
