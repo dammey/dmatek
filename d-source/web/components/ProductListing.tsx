@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import ProductCard from "@/components/ProductCard";
 import { useFlow } from "@/lib/flow-context";
-import type { Product } from "@/lib/types";
+import { photosFirst, type Product } from "@/lib/types";
 
 const PAGE = 24;
 
@@ -55,6 +55,7 @@ export default function ProductListing({
     if (freeOnly) res = res.filter((p) => (p.specs?.free as boolean) ?? false);
     if (sort === "low") res = res.slice().sort((a, b) => (a.price ?? 0) - (b.price ?? 0));
     else if (sort === "high") res = res.slice().sort((a, b) => (b.price ?? 0) - (a.price ?? 0));
+    else res = photosFirst(res);
     return res;
   }, [products, brandSel, priceSel, freeOnly, sort]);
 

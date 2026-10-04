@@ -3,6 +3,8 @@ import { db } from "../supabase.js";
 
 export const catalogueRouter = Router();
 
+const hasPhoto = (p: { images: unknown }) => (Array.isArray(p.images) && p.images.length > 0 ? 1 : 0);
+
 /** GET /catalogue/products?store=&category=&categoryName=&q=&brand=&priceMin=&priceMax=&freeSetup=&sort=&limit=&offset=
  * Returns a lean listing row per product (no description) plus `total`, the
  * match count before limit/offset are applied. */
@@ -38,6 +40,7 @@ catalogueRouter.get("/products", async (req, res) => {
   if (priceMax) items = items.filter((p) => (p.price ?? 0) < Number(priceMax));
   if (sort === "low") items.sort((a, b) => (a.price ?? 0) - (b.price ?? 0));
   else if (sort === "high") items.sort((a, b) => (b.price ?? 0) - (a.price ?? 0));
+  else items.sort((a, b) => hasPhoto(b) - hasPhoto(a));
 
   const total = items.length;
   const start = Math.max(0, Number(offset) || 0);

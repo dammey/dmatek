@@ -9,7 +9,7 @@ import { useCategoryNav } from "@/lib/useCategoryNav";
 import { fmt } from "@/lib/format";
 import { useKitOverlay } from "@/lib/kit-overlay-context";
 import { playStoreTransition } from "@/lib/storeTransition";
-import type { Kit, Product } from "@/lib/types";
+import { photosFirst, type Kit, type Product } from "@/lib/types";
 
 const TAB_LIMIT = 12;
 
@@ -57,7 +57,7 @@ export default function ProvisionHome() {
       .catch(() => setItems([]));
   }, [activeCanonical]);
   const tabLabel = activeTab?.label ?? "";
-  const shown = items.filter((p) => ((p.categories?.name as string) ?? "").toLowerCase() === activeCanonical.toLowerCase()).slice(0, TAB_LIMIT);
+  const shown = photosFirst(items).filter((p) => ((p.categories?.name as string) ?? "").toLowerCase() === activeCanonical.toLowerCase()).slice(0, TAB_LIMIT);
 
   function qtyFor(id: string) {
     return qty[id] ?? 1;
