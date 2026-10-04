@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -73,6 +74,7 @@ export default function ProductPage() {
   const brand = (p.specs?.brand as string) ?? "";
   const spec = (p.specs?.spec as string) ?? "";
   const free = (p.specs?.free as boolean) ?? false;
+  const photos = p.images ?? [];
   const avg = reviews.length ? reviews.reduce((a, r) => a + r.stars, 0) / reviews.length : 0;
   const revStars = reviews.length ? stars(avg) : "☆☆☆☆☆";
   const revHead = reviews.length ? `${avg.toFixed(1)} out of 5` : "No reviews yet";
@@ -162,17 +164,18 @@ export default function ProductPage() {
                 FREE SET-UP
               </span>
             )}
+            {photos[gi] && <Image src={photos[gi]} alt={p.name} fill priority sizes="(max-width: 900px) 100vw, 680px" style={{ objectFit: "cover" }} />}
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4,minmax(0,1fr))", gap: 8 }}>
-            {THUMBS.map((label, i) => (
+            {(photos.length ? photos.slice(0, 4) : THUMBS).map((item, i) => (
               <button
-                key={label}
+                key={item}
                 type="button"
                 onClick={() => setGi(i)}
-                aria-label={label}
+                aria-label={photos.length ? `Photo ${i + 1}` : item}
                 style={{ position: "relative", aspectRatio: "1/1", borderRadius: emp ? 3 : 14, overflow: "hidden", background: "#F6F4EF", border: `2px solid ${i === gi ? "#06382E" : "transparent"}`, padding: 0, display: "grid", placeItems: "center", fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: "0.1em", color: "#5E6E68" }}
               >
-                {label}
+                {photos.length ? <Image src={item} alt="" fill sizes="160px" style={{ objectFit: "cover" }} /> : item}
               </button>
             ))}
           </div>
