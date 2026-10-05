@@ -21,8 +21,19 @@ contentRouter.get("/", async (_req, res) => {
 
   let bestSellers: unknown[] = [];
   if (bestSellerIds.length) {
-    const { data } = await db.from("products").select("id, name, slug, images, category_id, product_prices(price_list, unit_price)").in("id", bestSellerIds);
-    bestSellers = data ?? [];
+    // Same row shape as /catalogue/products so ProductCard gets price, store and specs.
+    const { data } = await db
+      .from("products")
+      .select("id, sku, name, slug, unit, specs, images, category_id, store, categories(id, name, slug), product_prices(price_list, unit_price)")
+      .in("id", bestSellerIds)
+      .eq("is_active", true);
+    const rows = (data ?? []).map((p) => {
+      const priceList = p.store === "provision" ? "business" : "retail";
+      const priceRow = (p.product_prices as unknown as { price_list: string; unit_price: number }[]).find((pp) => pp.price_list === priceList);
+      return { ...p, price: priceRow?.unit_price ?? null };
+    });
+    // Keep the order the admin chose.
+    bestSellers = bestSellerIds.map((id) => rows.find((r) => r.id === id)).filter(Boolean);
   }
 
   res.json({ heroWords, bestSellers, help, about, settings });

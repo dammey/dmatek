@@ -12,7 +12,7 @@ function label(): React.CSSProperties {
 }
 
 export default function SiteSurveyPage() {
-  const [form, setForm] = useState({ organisation: "", siteType: "Office", address: "", preferredDate: "", timeWindow: "Either", contactName: "", contact: "", purpose: "" });
+  const [form, setForm] = useState({ organisation: "", siteType: "Office", address: "", preferredDate: "", timeWindow: "Morning", contactName: "", contact: "", purpose: "" });
   const [ref, setRef] = useState("");
 
   function set(key: keyof typeof form) {

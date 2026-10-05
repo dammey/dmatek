@@ -13,6 +13,14 @@
   --font-mono: var(--font-plex-mono), monospace;
 }
 
+/* Tailwind only emits @theme vars its utilities use; inline styles read
+   these directly, so define them where next/font sets its variables (body). */
+body {
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), monospace;
+  font-family: var(--font-sans);
+}
+
 @keyframes dsIn {
   from {
     opacity: 0;

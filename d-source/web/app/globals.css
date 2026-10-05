@@ -20,6 +20,13 @@
   --font-mono: var(--font-plex-mono), monospace;
 }
 
+/* Tailwind only emits @theme vars its utilities use; the inline styles read
+   these directly, so define them where next/font sets its variables (body). */
+body {
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), monospace;
+}
+
 @keyframes dsUp {
   from {
     transform: translateY(60%);
@@ -86,5 +93,17 @@ button {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+  }
+}
+
+/* Tailwind's preflight makes form controls inherit letter-spacing and weight
+   from their parent; the design's inputs sit inside spaced, bold labels and
+   expect the browser default instead. Inline styles still win. */
+@layer base {
+  input,
+  select,
+  textarea {
+    letter-spacing: normal;
+    font-weight: 400;
   }
 }

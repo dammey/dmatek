@@ -9,6 +9,7 @@ import Seam from "@/components/Seam";
 import { api } from "@/lib/api";
 import { HERO, TINTS } from "@/lib/constants";
 import { useCategoryNav } from "@/lib/useCategoryNav";
+import { useCategoryCounts } from "@/lib/useCategoryCounts";
 import { useFlow } from "@/lib/flow-context";
 import { fmt } from "@/lib/format";
 import { useKitOverlay } from "@/lib/kit-overlay-context";
@@ -28,6 +29,8 @@ export default function SourceHome() {
   const { openKit } = useKitOverlay();
   const empCategories = useCategoryNav("emporium");
   const provCategories = useCategoryNav("provision");
+  const empCounts = useCategoryCounts("emporium");
+  const provCounts = useCategoryCounts("provision");
   const [i, setI] = useState(0);
   const [q, setQ] = useState("");
   const [bestSellers, setBestSellers] = useState<Product[]>([]);
@@ -159,7 +162,7 @@ export default function SourceHome() {
             <span style={{ display: "inline-flex", alignItems: "center", gap: "0.28em" }}>
               <span style={{ display: "inline-block", overflow: "hidden", height: "1.15em", color: "#28705A", borderBottom: "4px solid #D4A637" }}>{h[0]}</span>
               <span style={{ width: "1.05em", height: "1.05em", borderRadius: "50%", background: "#06382E", color: "#F5F1E8", display: "grid", placeItems: "center", fontSize: "0.46em" }}>
-                &#8599;
+                &#8599;&#xFE0E;
               </span>
             </span>
           </button>
@@ -272,7 +275,10 @@ export default function SourceHome() {
                   style={{ border: "1px solid #E6E2D8", background: "#FFFFFF", color: "#06382E", borderRadius: 6, padding: "10px 10px 14px", display: "flex", flexDirection: "column", gap: 10 }}
                 >
                   <span style={{ display: "block", position: "relative", aspectRatio: "1/1", borderRadius: 3, overflow: "hidden", background: "#F6F4EF" }} />
-                  <span style={{ fontWeight: 800, fontSize: 15.5, padding: "0 4px" }}>{c.label}</span>
+                  <span style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 6, padding: "0 4px" }}>
+                    <span style={{ fontWeight: 800, fontSize: 15.5 }}>{c.label}</span>
+                    <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "#5E6E68" }}>{empCounts[c.canonical] ?? ""}</span>
+                  </span>
                 </Link>
               ))}
             </div>
@@ -292,7 +298,10 @@ export default function SourceHome() {
                   style={{ border: "1px solid #E6E2D8", background: "#FFFFFF", color: "#06382E", borderRadius: 20, padding: "10px 10px 14px", display: "flex", flexDirection: "column", gap: 10 }}
                 >
                   <span style={{ display: "block", position: "relative", aspectRatio: "1/1", borderRadius: 14, overflow: "hidden", background: "#F6F4EF" }} />
-                  <span style={{ fontWeight: 800, fontSize: 15.5, padding: "0 4px" }}>{c.label}</span>
+                  <span style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 6, padding: "0 4px" }}>
+                    <span style={{ fontWeight: 800, fontSize: 15.5 }}>{c.label}</span>
+                    <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "#5E6E68" }}>{provCounts[c.canonical] ?? ""}</span>
+                  </span>
                 </Link>
               ))}
             </div>
@@ -323,7 +332,7 @@ export default function SourceHome() {
               {kits.map((kit, idx) => {
                 const bz = kit.store === "provision";
                 const total = kit.kit_items.reduce((a, x) => a + (x.price ?? 0), 0);
-                const priceLine = bz ? `Kit from ${fmt(total)} · quote` : `Kit ${fmt(total)}`;
+                const priceLine = kit.is_chooser ? "Away or at home" : bz ? `Kit from ${fmt(total)} · quote` : `Kit ${fmt(total)}`;
                 return (
                   <button
                     key={kit.id}

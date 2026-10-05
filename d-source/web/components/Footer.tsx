@@ -109,7 +109,7 @@ export default function Footer() {
         >
           <span>D&rsquo;SOURCE · D&rsquo;EMPORIUM · D&rsquo;PROVISION</span>
           <a href={DMATEK_URL} style={{ color: "#06382E", fontWeight: 600 }}>
-            PART OF D&rsquo;MATEK ↗
+            PART OF D&rsquo;MATEK ↗︎
           </a>
         </div>
       </div>

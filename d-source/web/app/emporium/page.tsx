@@ -158,11 +158,11 @@ export default function EmporiumHome() {
                   style={{ border: 0, borderRadius: 6, background: bg, color: ink, minHeight: "clamp(220px,28vw,320px)", padding: 24, display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "flex-start", textAlign: "left" }}
                 >
                   <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 600, letterSpacing: "0.14em" }}>
-                    {kit.kit_items.map((i) => i.name).join(" · ")}
+                    {kit.kit_items.map((i) => i.name).slice(0, 3).join(" · ").toUpperCase()}
                   </span>
                   <span style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                     <span style={{ fontWeight: 800, fontSize: "clamp(36px,4vw,56px)", lineHeight: 0.88, letterSpacing: "-0.055em", textTransform: "uppercase" }}>{kit.name} &rarr;</span>
-                    <span style={{ fontSize: 14, fontWeight: 700 }}>Kit {`₦${Math.round(total).toLocaleString("en-NG")}`}</span>
+                    <span style={{ fontSize: 14, fontWeight: 700 }}>{kit.is_chooser ? "Away or at home" : `Kit ₦${Math.round(total).toLocaleString("en-NG")}`}</span>
                   </span>
                 </button>
               );

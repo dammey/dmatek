@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useCart } from "@/lib/cart-context";
@@ -15,14 +16,31 @@ export default function BasketPage() {
   const active = tab === "cart" ? cart : quote;
   const items = active?.cart_items ?? [];
   const total = tab === "cart" ? cartTotal : quoteTotal;
+  const count = items.reduce((a, i) => a + i.quantity, 0);
+  const summary =
+    tab === "quote"
+      ? [
+          { k: "Items", v: String(count) },
+          { k: "VAT", v: "Added on the quote (7.5%)" },
+          { k: "Reply", v: "Within 4 working hours" },
+        ]
+      : [
+          { k: "Items", v: String(count) },
+          { k: "Delivery", v: "Nationwide · [ FEE TO CONFIRM ]" },
+          { k: "Set-up", v: "Free on TVs, laptops and phones" },
+        ];
 
   return (
     <main style={{ background: "#FFFFFF", color: "#06382E" }}>
       <div style={{ maxWidth: 1400, margin: "0 auto", padding: "18px clamp(18px,3vw,40px) 0", display: "flex", gap: 6, alignItems: "center", fontSize: 13, color: "#5E6E68" }}>
+        <Link href="/" style={{ fontSize: 13, fontWeight: 600, color: "#5E6E68" }}>
+          D&rsquo;Source
+        </Link>
+        <span style={{ color: "#B9B3A6" }}>›</span>
         <span style={{ fontWeight: 700, color: "#06382E" }}>Basket</span>
       </div>
       <section style={{ maxWidth: 1400, margin: "0 auto", padding: "clamp(28px,5vh,56px) clamp(18px,3vw,40px) clamp(56px,8vh,96px)" }}>
-        <h1 style={{ margin: "0 0 12px", fontWeight: 800, fontSize: "clamp(40px,5.6vw,84px)", lineHeight: 0.95, letterSpacing: "-0.05em" }}>Your basket</h1>
+        <h1 style={{ margin: "0 0 12px", fontWeight: 800, fontSize: "clamp(40px,5.6vw,84px)", lineHeight: 0.95, letterSpacing: "-0.05em", textWrap: "balance" }}>Your basket</h1>
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", margin: "18px 0 28px" }}>
           {(["cart", "quote"] as const).map((id) => (
             <button
@@ -61,10 +79,10 @@ export default function BasketPage() {
             )}
             {items.map((it) => (
               <div key={it.id} style={{ display: "grid", gridTemplateColumns: "72px minmax(0,1fr) auto", gap: 16, alignItems: "center", padding: "16px 0", borderBottom: "1px solid #EEEAE2" }}>
-                <div style={{ width: 72, height: 72, borderRadius: 14, background: "#F6F4EF" }} />
+                <div style={{ width: 72, height: 72, position: "relative", borderRadius: 14, overflow: "hidden", background: "#F6F4EF" }} />
                 <div style={{ display: "flex", flexDirection: "column", gap: 3, minWidth: 0 }}>
                   <span style={{ fontWeight: 800, fontSize: 16.5 }}>{it.name}</span>
-                  <span style={{ fontSize: 13.5, color: "#5E6E68" }}>{fmt(it.price)} each</span>
+                  <span style={{ fontSize: 13.5, color: "#5E6E68" }}>{it.price ? fmt(it.price) : "Quoted"} each</span>
                   <button type="button" onClick={() => bump(tab, it.id, -it.quantity)} style={{ alignSelf: "flex-start", border: 0, background: "transparent", padding: 0, fontSize: 13, fontWeight: 700, color: "#28705A", borderBottom: "1px solid rgba(40,112,90,.4)" }}>
                     Remove
                   </button>
@@ -79,44 +97,49 @@ export default function BasketPage() {
                       +
                     </button>
                   </div>
-                  <span style={{ fontWeight: 800 }}>{it.price ? fmt(it.price * it.quantity) : "Quoted"}</span>
+                  <span style={{ fontWeight: 800, fontSize: 17 }}>{it.price ? fmt(it.price * it.quantity) : "Quoted"}</span>
                 </div>
               </div>
             ))}
           </div>
 
-          {items.length > 0 && (
-            <aside style={{ flex: "0 1 320px", minWidth: "min(100%,280px)", background: "#EFEADC", borderRadius: 20, padding: 20, display: "flex", flexDirection: "column", gap: 10 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-                <span style={{ fontWeight: 700, color: "#3A4A44" }}>{tab === "cart" ? "Total" : "Estimate ex. VAT"}</span>
-                <span style={{ fontWeight: 800, fontSize: 24, letterSpacing: "-0.03em" }}>{fmt(total)}</span>
+          <aside style={{ flex: "0 1 380px", minWidth: "min(100%,300px)", background: "#F5F1E8", borderRadius: 24, padding: 24, display: "flex", flexDirection: "column", gap: 12, position: "sticky", top: 130 }}>
+            <span style={{ fontWeight: 800, fontSize: 20, letterSpacing: "-0.02em" }}>Summary</span>
+            {summary.map((r) => (
+              <div key={r.k} style={{ display: "flex", justifyContent: "space-between", gap: 12, fontSize: 14.5 }}>
+                <span style={{ color: "#3A4A44" }}>{r.k}</span>
+                <span style={{ fontWeight: 700, textAlign: "right" }}>{r.v}</span>
               </div>
-              {actions.map((a) => (
-                <button
-                  key={a.label}
-                  type="button"
-                  onClick={a.go}
-                  style={{
-                    minHeight: 50,
-                    borderRadius: 999,
-                    border: a.primary ? "0" : "1px solid rgba(6,56,46,.25)",
-                    background: a.primary ? "#06382E" : "transparent",
-                    color: a.primary ? "#F5F1E8" : "#06382E",
-                    fontWeight: 800,
-                    fontSize: 15,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    padding: "6px 16px",
-                  }}
-                >
-                  {a.label}
-                  <span style={{ fontSize: 11.5, fontWeight: 600, opacity: 0.75 }}>{a.sub}</span>
-                </button>
-              ))}
-            </aside>
-          )}
+            ))}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", paddingTop: 12, borderTop: "1px solid rgba(6,56,46,.14)" }}>
+              <span style={{ fontWeight: 700 }}>{tab === "quote" ? "Estimate ex. VAT" : "Subtotal"}</span>
+              <span style={{ fontWeight: 800, fontSize: 26, letterSpacing: "-0.03em" }}>{fmt(total)}</span>
+            </div>
+            {actions.map((a) => (
+              <button
+                key={a.label}
+                type="button"
+                onClick={a.go}
+                style={{
+                  minHeight: 50,
+                  borderRadius: 999,
+                  border: a.primary ? "0" : "1px solid rgba(6,56,46,.25)",
+                  background: a.primary ? "#06382E" : "transparent",
+                  color: a.primary ? "#F5F1E8" : "#06382E",
+                  fontWeight: 800,
+                  fontSize: 15,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: "6px 16px",
+                }}
+              >
+                {a.label}
+                <span style={{ fontSize: 11.5, fontWeight: 600, opacity: 0.75 }}>{a.sub}</span>
+              </button>
+            ))}
+          </aside>
         </div>
       </section>
     </main>

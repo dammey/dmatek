@@ -67,7 +67,7 @@ export default function AboutPage() {
               D’Matek designs, builds and runs the technology behind connected businesses, properties, workplaces and homes. D’Source is the part that sources it.
             </p>
             <a href={DMATEK_URL} style={{ alignSelf: "flex-start", fontWeight: 800, fontSize: 15, borderBottom: "2px solid #D4A637", paddingBottom: 2 }}>
-              Visit D’Matek ↗
+              Visit D’Matek ↗︎
             </a>
           </div>
         </div>

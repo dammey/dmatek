@@ -167,7 +167,7 @@ export default function Header() {
               {signedIn ? "Account ✓" : "Account"}
             </Link>
             <a href={DMATEK_URL} style={{ whiteSpace: "nowrap", color: "#D4A637", fontWeight: 700 }}>
-              D&rsquo;Matek ↗
+              D&rsquo;Matek ↗︎
             </a>
           </div>
         </div>
