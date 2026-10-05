@@ -1,0 +1,14 @@
+The D’Source home hero changed. Re-read design_handoff_dsource/DSource v7.4.dc.html (source of truth), source/storefront-template.html (the <section data-hero> block and the wrapper around it) and source/storefront-logic.js (heroLayers, heroBgW, heroBgOp, heroRotate). Update the existing build to match exactly.
+
+What changed:
+- The two floating cards (rectangle and arch) beside “D’Source”, and their mouse-follow parallax, are removed.
+- A single full-height background image now sits behind the hero on the right. It is 75% of the hero width on desktop, anchored right, and fades to transparent toward the left with a mask: linear-gradient(to left, #000 45%, transparent 100%). The image is fully visible over the right 45% of its box, so the fade reaches about halfway through the “D’Source” headline.
+- The hero section sits above it (z-index 1). The section has pointer-events:none and the text column has pointer-events:auto, so the headline, rotating word, search and copy stay clickable.
+- One layer per kit in HERO (11 total), stacked absolutely, each with its own image slot id “v5-herobg-<kit>”, tint background (TINTS[j%3][0]) and placeholder “Wide background: …”. Only the active layer has opacity 1 and pointer-events auto; others are 0 and none. Opacity transitions .9s ease.
+- Config flag heroRotate (default true). True: the layer follows the rotating kit word (2.3s interval, same as the word). False: the first layer stays static.
+- Narrow screens (<1060px): the image box is 100% wide at opacity .3.
+- Under prefers-reduced-motion, disable the crossfade and the rotation.
+
+Everything else in the hero (copy, search, spacing, rotating word) is unchanged. In the real build the slots become CMS-managed images, one wide landscape image per kit, with the same placeholder labels when empty.
+
+Then run the Playwright comparison at 1440×900 and 390×844 for the home route, save pairs to /compare, and fix differences.
