@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useFlow } from "@/lib/flow-context";
 import { AdireBand } from "@dmatek/brand";
+import { config } from "@/lib/config";
 
 const DMATEK_URL = process.env.NEXT_PUBLIC_DMATEK_URL ?? "https://dmatek.ng";
 
@@ -56,7 +57,7 @@ export default function Footer() {
   const { startFlow } = useFlow();
   return (
     <footer style={{ background: "#EFEADC", color: "#06382E", fontSize: 13.5, borderTop: "1px solid rgba(6,56,46,.12)" }}>
-      <AdireBand variant="footer" />
+      {config.adire && <AdireBand variant="footer" />}
       <div style={{ maxWidth: 1400, margin: "0 auto", padding: "40px 18px 24px" }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,180px),1fr))", gap: 28 }}>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>

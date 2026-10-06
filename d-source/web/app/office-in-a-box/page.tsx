@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useFlow } from "@/lib/flow-context";
+import ImageSlot from "@/components/ImageSlot";
 
 const PARTS = ["Devices", "Office network", "Internet with backup", "Domain, email and files", "Website", "MFA and backup"];
 const STEPS = [
@@ -69,16 +70,10 @@ export default function OfficeInABoxPage() {
               borderRadius: "44% 56% 50% 50% / 50% 44% 56% 50%",
               overflow: "hidden",
               background: "#0B4B3D",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "rgba(245,241,232,.5)",
-              fontSize: 13,
-              textAlign: "center",
-              padding: 20,
+              color: "#F5F1E8",
             }}
           >
-            Photo: a new office on day one
+            <ImageSlot placeholder="Photo: a new office on day one" />
           </div>
         </div>
       </section>

@@ -1,3 +1,5 @@
+import { config } from "./config";
+
 type Target = "emporium" | "provision" | "source";
 type PushRouter = { push: (href: string) => void };
 
@@ -30,7 +32,7 @@ let inFlight = false;
 export function playStoreTransition(router: PushRouter, target: Target, originEl?: HTMLElement | null) {
   if (inFlight) return;
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduce || !document.body.animate) {
+  if (reduce || !config.transition || !document.body.animate) {
     router.push(PATHS[target]);
     return;
   }

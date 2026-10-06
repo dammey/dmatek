@@ -1,12 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 import { useCart } from "@/lib/cart-context";
 import { fmt } from "@/lib/format";
 import { captureFlipOrigin } from "@/lib/flipTransition";
 import type { Product } from "@/lib/types";
+import ImageSlot from "@/components/ImageSlot";
 
 export default function ProductCard({ product }: { product: Product }) {
   const { addToCart, addToQuote } = useCart();
@@ -35,7 +35,7 @@ export default function ProductCard({ product }: { product: Product }) {
       }}
     >
       <Link href={`/p/${product.id}`} onClick={onView} data-pimg="1" style={{ position: "relative", display: "block", aspectRatio: "1/1", borderRadius: emp ? 3 : 14, overflow: "hidden", background: "#F6F4EF" }}>
-        {product.images?.[0] && <Image src={product.images[0]} alt={product.name} fill sizes="(max-width: 600px) 100vw, 300px" style={{ objectFit: "cover" }} />}
+        <ImageSlot src={product.images?.[0]} alt={product.name} placeholder={product.name} sizes="(max-width: 600px) 100vw, 300px" />
       </Link>
       <div style={{ display: "flex", justifyContent: "space-between", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
         <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", color: "#5E6E68" }}>{brand}</span>

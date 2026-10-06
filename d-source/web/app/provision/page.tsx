@@ -10,6 +10,7 @@ import { fmt } from "@/lib/format";
 import { useKitOverlay } from "@/lib/kit-overlay-context";
 import { playStoreTransition } from "@/lib/storeTransition";
 import { photosFirst, type Kit, type Product } from "@/lib/types";
+import ImageSlot from "@/components/ImageSlot";
 
 const TAB_LIMIT = 12;
 
@@ -239,7 +240,9 @@ export default function ProvisionHome() {
           <div style={{ display: "flex", flexDirection: "column", background: "#FFFFFF", border: "1px solid rgba(6,56,46,.12)", borderRadius: 24, overflow: "hidden" }}>
             {shown.map((p) => (
               <div key={p.id} style={{ display: "grid", gridTemplateColumns: "64px minmax(0,1fr) auto", gap: 16, alignItems: "center", padding: "16px 18px", borderBottom: "1px solid rgba(6,56,46,.08)" }}>
-                <div style={{ width: 64, height: 64, position: "relative", borderRadius: 16, overflow: "hidden", background: "#EFEADC" }} />
+                <div style={{ width: 64, height: 64, position: "relative", borderRadius: 16, overflow: "hidden", background: "#EFEADC" }}>
+                  <ImageSlot src={p.images?.[0]} alt={p.name} placeholder={(p.specs?.brand as string) ?? ""} sizes="64px" />
+                </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 3, minWidth: 0 }}>
                   <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 600, color: "#5E6E68", letterSpacing: "0.06em" }}>
                     {(p.specs?.brand as string) ?? ""} {p.description ? `· ${p.description}` : ""}

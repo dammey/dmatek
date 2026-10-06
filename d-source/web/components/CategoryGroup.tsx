@@ -5,6 +5,7 @@ import { CDESC } from "@/lib/constants";
 import { useCategoryNav } from "@/lib/useCategoryNav";
 import { useCategoryCounts } from "@/lib/useCategoryCounts";
 import type { Store } from "@/lib/types";
+import ImageSlot from "@/components/ImageSlot";
 
 type Tile = { slug: string; label: string; desc: string; count: number };
 
@@ -28,7 +29,9 @@ export function CategoryGroup({ store }: { store: Store }) {
             href={`/${store}/${t.slug}`}
             style={{ textAlign: "left", border: "1px solid #E6E2D8", background: "#FFFFFF", color: "#06382E", borderRadius: emp ? 6 : 22, padding: "12px 12px 18px", display: "flex", flexDirection: "column", gap: 10 }}
           >
-            <span style={{ display: "block", position: "relative", aspectRatio: "16/10", borderRadius: emp ? 3 : 16, overflow: "hidden", background: "#F6F4EF" }} />
+            <span style={{ display: "block", position: "relative", aspectRatio: "16/10", borderRadius: emp ? 3 : 16, overflow: "hidden", background: "#F6F4EF" }}>
+              <ImageSlot placeholder={t.label} />
+            </span>
             <span style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 8, padding: "0 4px" }}>
               <span style={{ fontWeight: 800, fontSize: 19, letterSpacing: "-0.02em" }}>{t.label}</span>
               <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "#5E6E68" }}>

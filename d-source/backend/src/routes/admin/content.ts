@@ -21,12 +21,24 @@ adminContentRouter.get("/", async (_req, res) => {
     bestSellers: await getValue("bestSellers", []),
     help: await getValue("help", {}),
     about: await getValue("about", ""),
+    heroImages: await getValue("heroImages", {}),
   });
 });
 
 adminContentRouter.put("/hero-words", async (req, res) => {
   const words = z.array(z.string()).parse(req.body.words);
   await setValue("heroWords", words);
+  res.json({ ok: true });
+});
+
+const HERO_KITS = ["home", "gate", "weekend", "office", "classroom", "clinic", "restaurant", "lobby", "hall", "hostel", "building"] as const;
+
+/** Hero background images: one wide landscape image URL per kit; an empty
+ * value clears it and the storefront shows the placeholder caption. */
+adminContentRouter.put("/hero-images", async (req, res) => {
+  const images = z.record(z.enum(HERO_KITS), z.string().trim().max(2000)).parse(req.body.images);
+  const clean = Object.fromEntries(Object.entries(images).filter(([, v]) => v));
+  await setValue("heroImages", clean);
   res.json({ ok: true });
 });
 

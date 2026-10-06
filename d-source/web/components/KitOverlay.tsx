@@ -8,6 +8,7 @@ import { useKitOverlay } from "@/lib/kit-overlay-context";
 import { fmt } from "@/lib/format";
 import { getSavedKits, saveKit as persistSaveKit } from "@/lib/savedKits";
 import type { Kit } from "@/lib/types";
+import ImageSlot from "@/components/ImageSlot";
 
 export default function KitOverlay() {
   const { openKey, closeKit } = useKitOverlay();
@@ -131,7 +132,9 @@ function KitOverlayInner({ kitKey, closeKit }: { kitKey: string; closeKit: () =>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "clamp(20px,4vh,40px) clamp(18px,3vw,40px) 60px", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,420px),1fr))", gap: "clamp(20px,3vw,44px)", alignItems: "start" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <div style={{ position: "relative", aspectRatio: "4/3", borderRadius: 28, overflow: "hidden", background: "#EFEADC" }}>
-              <div data-kitroom="1" style={{ position: "absolute", inset: 0, transformOrigin: "50% 55%" }} />
+              <div data-kitroom="1" style={{ position: "absolute", inset: 0, transformOrigin: "50% 55%", color: "#06382E" }}>
+                <ImageSlot src={kit.photo_ref} alt={kit.name} placeholder={`Photo: ${kit.short.toLowerCase()}`} sizes="(max-width: 900px) 100vw, 680px" />
+              </div>
               {items.map((it, i) => (
                 <button
                   key={it.id}

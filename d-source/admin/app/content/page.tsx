@@ -5,16 +5,32 @@ import { Card, PageHeader, btnPrimary, inputStyle, labelStyle } from "@/componen
 import { api } from "@/lib/api";
 import { useToast } from "@/lib/toast-context";
 
+const HERO_KITS: [string, string][] = [
+  ["home", "Home"],
+  ["gate", "Front gate"],
+  ["weekend", "Weekend"],
+  ["office", "Office"],
+  ["classroom", "Classroom"],
+  ["clinic", "Clinic"],
+  ["restaurant", "Restaurant"],
+  ["lobby", "Hotel lobby"],
+  ["hall", "Event hall"],
+  ["hostel", "Student hostel"],
+  ["building", "Whole building"],
+];
+
 export default function ContentPage() {
   const [heroWords, setHeroWords] = useState<string[]>([]);
   const [newWord, setNewWord] = useState("");
   const [about, setAbout] = useState("");
+  const [heroImages, setHeroImages] = useState<Record<string, string>>({});
   const { say } = useToast();
 
   useEffect(() => {
-    api.get<{ heroWords: string[]; about: string }>("/content").then((d) => {
+    api.get<{ heroWords: string[]; about: string; heroImages?: Record<string, string> }>("/content").then((d) => {
       setHeroWords(d.heroWords);
       setAbout(d.about);
+      setHeroImages(d.heroImages ?? {});
     });
   }, []);
 
@@ -30,6 +46,11 @@ export default function ContentPage() {
     setNewWord("");
   }
 
+  async function saveHeroImages() {
+    await api.put("/admin/content/hero-images", { images: heroImages });
+    say("Hero backgrounds published to the storefront");
+  }
+
   async function saveAbout() {
     await api.put("/admin/content/text", { key: "about", value: about });
     say("Content published to the storefront");
@@ -37,7 +58,7 @@ export default function ContentPage() {
 
   return (
     <div>
-      <PageHeader title="Content" subtitle="Front page words, best sellers and help text" />
+      <PageHeader title="Content" subtitle="Front page words, hero backgrounds, best sellers and help text" />
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,420px),1fr))", gap: 16 }}>
         <Card style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           <span style={{ fontWeight: 800, fontSize: 18 }}>Hero · &ldquo;Sourced for the ___&rdquo;</span>
@@ -58,6 +79,19 @@ export default function ContentPage() {
               Add
             </button>
           </div>
+        </Card>
+        <Card style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          <span style={{ fontWeight: 800, fontSize: 18 }}>Hero backgrounds</span>
+          <span style={{ fontSize: 13, color: "#5E6E68" }}>One wide landscape image per place, behind the home hero. It changes with the rotating word. Leave empty to show the placeholder.</span>
+          {HERO_KITS.map(([key, label]) => (
+            <label key={key} style={labelStyle}>
+              {label.toUpperCase()}
+              <input value={heroImages[key] ?? ""} onChange={(e) => setHeroImages((m) => ({ ...m, [key]: e.target.value }))} placeholder="https://… or /hero/office.jpg" style={inputStyle} />
+            </label>
+          ))}
+          <button type="button" onClick={saveHeroImages} style={{ ...btnPrimary, alignSelf: "flex-start" }}>
+            Publish backgrounds
+          </button>
         </Card>
         <Card style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           <span style={{ fontWeight: 800, fontSize: 18 }}>About page intro</span>

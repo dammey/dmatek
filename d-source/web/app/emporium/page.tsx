@@ -10,6 +10,7 @@ import { useCategoryNav } from "@/lib/useCategoryNav";
 import { useKitOverlay } from "@/lib/kit-overlay-context";
 import { playStoreTransition } from "@/lib/storeTransition";
 import { photosFirst, type Kit, type Product } from "@/lib/types";
+import ImageSlot from "@/components/ImageSlot";
 
 const TAB_LIMIT = 12;
 
@@ -95,10 +96,16 @@ export default function EmporiumHome() {
           </div>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "1.3fr 1fr", gap: 10, minHeight: "clamp(300px,36vw,480px)" }}>
-          <div style={{ position: "relative", borderRadius: 4, overflow: "hidden", background: "#131D19" }} />
+          <div style={{ position: "relative", borderRadius: 4, overflow: "hidden", background: "#131D19" }}>
+            <ImageSlot placeholder="Hero product shot: laptop" />
+          </div>
           <div style={{ display: "grid", gridTemplateRows: "1fr 1fr", gap: 10 }}>
-            <div style={{ position: "relative", borderRadius: 4, overflow: "hidden", background: "#131D19" }} />
-            <div style={{ position: "relative", borderRadius: 4, overflow: "hidden", background: "#A6F000" }} />
+            <div style={{ position: "relative", borderRadius: 4, overflow: "hidden", background: "#131D19" }}>
+              <ImageSlot placeholder="Phone product shot" />
+            </div>
+            <div style={{ position: "relative", borderRadius: 4, overflow: "hidden", background: "#A6F000" }}>
+              <ImageSlot placeholder="Mesh node on a living-room shelf" />
+            </div>
           </div>
         </div>
       </section>

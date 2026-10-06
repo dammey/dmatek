@@ -107,3 +107,16 @@ button {
     font-weight: 400;
   }
 }
+
+/* Home hero background (one layer per kit): 75% wide, anchored right;
+   full width and faint once the nav collapses (narrow < 1060px). */
+.ds-herobg {
+  width: 75%;
+  opacity: 1;
+}
+@media (max-width: 1059px) {
+  .ds-herobg {
+    width: 100%;
+    opacity: 0.3;
+  }
+}

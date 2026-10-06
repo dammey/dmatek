@@ -4,10 +4,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { pilotNote } from "@dmatek/brand";
+import ImageSlot from "@/components/ImageSlot";
 import ProductCard from "@/components/ProductCard";
 import Seam from "@/components/Seam";
 import { api } from "@/lib/api";
 import { HERO, TINTS } from "@/lib/constants";
+import { config } from "@/lib/config";
 import { useCategoryNav } from "@/lib/useCategoryNav";
 import { useCategoryCounts } from "@/lib/useCategoryCounts";
 import { useFlow } from "@/lib/flow-context";
@@ -26,7 +28,7 @@ const LIFECYCLE = [
 export default function SourceHome() {
   const router = useRouter();
   const { startFlow } = useFlow();
-  const { openKit } = useKitOverlay();
+  const { openKit, openKey } = useKitOverlay();
   const empCategories = useCategoryNav("emporium");
   const provCategories = useCategoryNav("provision");
   const empCounts = useCategoryCounts("emporium");
@@ -35,34 +37,35 @@ export default function SourceHome() {
   const [q, setQ] = useState("");
   const [bestSellers, setBestSellers] = useState<Product[]>([]);
   const [kits, setKits] = useState<Kit[]>([]);
-  const heroRef = useRef<HTMLDivElement>(null);
-  const cardARef = useRef<HTMLDivElement>(null);
-  const cardBRef = useRef<HTMLDivElement>(null);
+  const [heroImages, setHeroImages] = useState<Record<string, string>>({});
+  const [reduce, setReduce] = useState(false);
   const noClickRef = useRef(false);
 
+  // Words rotate every 2.3s, paused while a kit is open.
   useEffect(() => {
+    if (openKey) return;
     const iv = setInterval(() => setI((n) => (n + 1) % HERO.length), 2300);
     return () => clearInterval(iv);
-  }, []);
+  }, [openKey]);
+
+  // First-visit start view (config.startView), like the design's startView prop.
+  useEffect(() => {
+    if (config.startView === "Source") return;
+    try {
+      if (sessionStorage.getItem("ds-started")) return;
+      sessionStorage.setItem("ds-started", "1");
+    } catch {}
+    router.replace(config.startView === "Emporium" ? "/emporium" : "/provision");
+  }, [router]);
 
   useEffect(() => {
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    function onMove(e: PointerEvent) {
-      if (innerWidth < 1060) return;
-      const hero = heroRef.current;
-      const a = cardARef.current;
-      const b = cardBRef.current;
-      if (!hero || !a || !b) return;
-      const r = hero.getBoundingClientRect();
-      if (e.clientY > r.bottom || e.clientY < r.top) return;
-      const x = (e.clientX - r.left) / r.width - 0.5;
-      const y = (e.clientY - r.top) / r.height - 0.5;
-      a.style.transform = `translate(${(x * -34).toFixed(1)}px,${(y * -26).toFixed(1)}px) rotate(${(5 + x * 7).toFixed(2)}deg)`;
-      b.style.transform = `translate(${(x * 24).toFixed(1)}px,${(y * 20).toFixed(1)}px) rotate(${(-6 - x * 6).toFixed(2)}deg)`;
-    }
-    addEventListener("pointermove", onMove, { passive: true });
-    return () => removeEventListener("pointermove", onMove);
+    const mq = matchMedia("(prefers-reduced-motion: reduce)");
+    const on = () => setReduce(mq.matches);
+    on();
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
   }, []);
+
 
   useEffect(() => {
     let drag: { ln: HTMLElement; x: number; s: number; m: boolean } | null = null;
@@ -99,8 +102,11 @@ export default function SourceHome() {
 
   useEffect(() => {
     api
-      .get<{ bestSellers: Product[] }>("/content")
-      .then(({ bestSellers }) => setBestSellers(bestSellers))
+      .get<{ bestSellers: Product[]; heroImages?: Record<string, string> }>("/content")
+      .then(({ bestSellers, heroImages }) => {
+        setBestSellers(bestSellers);
+        setHeroImages(heroImages ?? {});
+      })
       .catch(() => {});
     api
       .get<{ kits: Kit[] }>("/catalogue/kits")
@@ -115,109 +121,100 @@ export default function SourceHome() {
   }
 
   const h = HERO[i];
-  const [tintA, tintB] = TINTS[i % 3];
+  // The background follows the rotating word (config.heroRotate); otherwise,
+  // and under reduced motion, the first layer stays.
+  const activeLayer = config.heroRotate && !reduce ? i : 0;
 
   return (
     <main style={{ background: "#F5F1E8", color: "#06382E" }}>
-      <section
-        ref={heroRef}
-        style={{
-          maxWidth: 1400,
-          margin: "0 auto",
-          padding: "clamp(40px,8vh,96px) clamp(18px,3vw,40px) clamp(32px,5vh,56px)",
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "clamp(28px,4vw,64px)",
-          alignItems: "center",
-          minHeight: "min(calc(100svh - 110px),780px)",
-        }}
-      >
-        <div style={{ flex: "0 1 auto", minWidth: "min(100%,460px)", display: "flex", flexDirection: "column", gap: "clamp(16px,2.4vh,24px)" }}>
-          <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 600, letterSpacing: "0.16em", color: "#5E6E68" }}>
-            COMMERCE BY D&rsquo;MATEK · DELIVERED NATIONWIDE
-          </span>
-          <h1 style={{ margin: 0, fontWeight: 800, fontSize: "clamp(64px,11vw,176px)", lineHeight: 0.84, letterSpacing: "-0.065em" }}>D&rsquo;Source</h1>
-          <button
-            type="button"
-            onClick={() => openKit(h[1])}
-            style={{
-              alignSelf: "flex-start",
-              display: "flex",
-              flexWrap: "nowrap",
-              whiteSpace: "nowrap",
-              alignItems: "baseline",
-              gap: "0.3em",
-              border: 0,
-              background: "transparent",
-              padding: 0,
-              textAlign: "left",
-              fontWeight: 800,
-              fontSize: "clamp(20px,3.6vw,54px)",
-              letterSpacing: "-0.035em",
-              lineHeight: 1.08,
-              color: "#06382E",
-            }}
-          >
-            <span style={{ color: "#5E6E68" }}>Sourced for the</span>
-            <span style={{ display: "inline-flex", alignItems: "center", gap: "0.28em" }}>
-              <span style={{ display: "inline-block", overflow: "hidden", height: "1.15em", color: "#28705A", borderBottom: "4px solid #D4A637" }}>{h[0]}</span>
-              <span style={{ width: "1.05em", height: "1.05em", borderRadius: "50%", background: "#06382E", color: "#F5F1E8", display: "grid", placeItems: "center", fontSize: "0.46em" }}>
-                &#8599;&#xFE0E;
-              </span>
+      <div style={{ position: "relative", overflow: "hidden" }}>
+        <div
+          className="ds-herobg"
+          style={{
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            right: 0,
+            WebkitMaskImage: "linear-gradient(to left,#000 45%,transparent 100%)",
+            maskImage: "linear-gradient(to left,#000 45%,transparent 100%)",
+          }}
+        >
+          {HERO.map((x, j) => {
+            const on = j === activeLayer;
+            return (
+              <div key={x[1]} style={{ position: "absolute", inset: 0, opacity: on ? 1 : 0, pointerEvents: on ? "auto" : "none", transition: "opacity .9s ease", background: TINTS[j % 3][0], color: "#06382E" }}>
+                <ImageSlot src={heroImages[x[1]]} alt="" placeholder={x[2].replace("Photo:", "Wide background:")} sizes="75vw" priority={j === 0} />
+              </div>
+            );
+          })}
+        </div>
+        <section
+          data-hero="1"
+          style={{
+            pointerEvents: "none",
+            position: "relative",
+            zIndex: 1,
+            maxWidth: 1400,
+            margin: "0 auto",
+            padding: "clamp(40px,8vh,96px) clamp(18px,3vw,40px) clamp(32px,5vh,56px)",
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "clamp(28px,4vw,64px)",
+            alignItems: "center",
+            minHeight: "min(calc(100svh - 110px),780px)",
+          }}
+        >
+          <div style={{ pointerEvents: "auto", flex: "0 1 auto", minWidth: "min(100%,460px)", display: "flex", flexDirection: "column", gap: "clamp(16px,2.4vh,24px)" }}>
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 600, letterSpacing: "0.16em", color: "#5E6E68" }}>
+              COMMERCE BY D&rsquo;MATEK · DELIVERED NATIONWIDE
             </span>
-          </button>
-          <form onSubmit={runSearch} style={{ maxWidth: 560, display: "flex", gap: 6, background: "#fff", border: "2px solid #06382E", borderRadius: 999, padding: 6 }}>
-            <input
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder="Search laptops, mesh Wi-Fi, cameras, signage…"
-              style={{ flex: 1, minWidth: 0, border: 0, background: "transparent", padding: "10px 14px", fontSize: 16, fontWeight: 600, outline: "none", color: "#06382E" }}
-            />
-            <button type="submit" style={{ border: 0, borderRadius: 999, background: "#06382E", color: "#F5F1E8", padding: "0 20px", minHeight: 44, fontWeight: 800, fontSize: 14 }}>
-              Search
+            <h1 style={{ margin: 0, fontWeight: 800, fontSize: "clamp(64px,11vw,176px)", lineHeight: 0.84, letterSpacing: "-0.065em" }}>D&rsquo;Source</h1>
+            <button
+              type="button"
+              onClick={() => openKit(h[1])}
+              style={{
+                alignSelf: "flex-start",
+                display: "flex",
+                flexWrap: "nowrap",
+                whiteSpace: "nowrap",
+                alignItems: "baseline",
+                gap: "0.3em",
+                border: 0,
+                background: "transparent",
+                padding: 0,
+                textAlign: "left",
+                fontWeight: 800,
+                fontSize: "clamp(20px,3.6vw,54px)",
+                letterSpacing: "-0.035em",
+                lineHeight: 1.08,
+                color: "#06382E",
+              }}
+            >
+              <span style={{ color: "#5E6E68" }}>Sourced for the</span>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: "0.28em" }}>
+                <span style={{ display: "inline-block", overflow: "hidden", height: "1.15em", color: "#28705A", borderBottom: "4px solid #D4A637" }}>{h[0]}</span>
+                <span style={{ width: "1.05em", height: "1.05em", borderRadius: "50%", background: "#06382E", color: "#F5F1E8", display: "grid", placeItems: "center", fontSize: "0.46em" }}>
+                  &#8599;&#xFE0E;
+                </span>
+              </span>
             </button>
-          </form>
-          <p style={{ margin: 0, maxWidth: "46ch", fontSize: "clamp(16px,1.3vw,19px)", lineHeight: 1.5, fontWeight: 500, color: "#5E6E68" }}>
-            Tap the place to see what goes in it and what it costs. We deliver anywhere in Nigeria.
-          </p>
-        </div>
-        <div style={{ flex: "1 1 300px", position: "relative", height: "clamp(300px,40vw,560px)", maxHeight: "min(560px,70vw)", minWidth: 0 }}>
-          <div
-            ref={cardARef}
-            style={{
-              position: "absolute",
-              right: "4%",
-              top: 0,
-              height: "88%",
-              maxWidth: "56%",
-              aspectRatio: "4/5",
-              borderRadius: 6,
-              overflow: "hidden",
-              background: tintA,
-              boxShadow: "0 30px 60px rgba(6,56,46,.16)",
-              transform: "rotate(5deg)",
-              transition: "transform .5s cubic-bezier(.2,.7,.2,1)",
-            }}
-          />
-          <div
-            ref={cardBRef}
-            style={{
-              position: "absolute",
-              left: "4%",
-              bottom: 0,
-              height: "70%",
-              maxWidth: "42%",
-              aspectRatio: "3/4",
-              borderRadius: "999px 999px 24px 24px",
-              overflow: "hidden",
-              background: tintB,
-              boxShadow: "0 24px 50px rgba(6,56,46,.14)",
-              transform: "rotate(-6deg)",
-              transition: "transform .5s cubic-bezier(.2,.7,.2,1)",
-            }}
-          />
-        </div>
-      </section>
+            <form onSubmit={runSearch} style={{ maxWidth: 560, display: "flex", gap: 6, background: "#fff", border: "2px solid #06382E", borderRadius: 999, padding: 6 }}>
+              <input
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                placeholder="Search laptops, mesh Wi-Fi, cameras, signage…"
+                style={{ flex: 1, minWidth: 0, border: 0, background: "transparent", padding: "10px 14px", fontSize: 16, fontWeight: 600, outline: "none", color: "#06382E" }}
+              />
+              <button type="submit" style={{ border: 0, borderRadius: 999, background: "#06382E", color: "#F5F1E8", padding: "0 20px", minHeight: 44, fontWeight: 800, fontSize: 14 }}>
+                Search
+              </button>
+            </form>
+            <p style={{ margin: 0, maxWidth: "46ch", fontSize: "clamp(16px,1.3vw,19px)", lineHeight: 1.5, fontWeight: 500, color: "#5E6E68" }}>
+              Tap the place to see what goes in it and what it costs. We deliver anywhere in Nigeria.
+            </p>
+          </div>
+        </section>
+      </div>
 
       <svg
         viewBox="0 0 1440 60"
@@ -274,7 +271,9 @@ export default function SourceHome() {
                   href={`/emporium/${c.slug}`}
                   style={{ border: "1px solid #E6E2D8", background: "#FFFFFF", color: "#06382E", borderRadius: 6, padding: "10px 10px 14px", display: "flex", flexDirection: "column", gap: 10 }}
                 >
-                  <span style={{ display: "block", position: "relative", aspectRatio: "1/1", borderRadius: 3, overflow: "hidden", background: "#F6F4EF" }} />
+                  <span style={{ display: "block", position: "relative", aspectRatio: "1/1", borderRadius: 3, overflow: "hidden", background: "#F6F4EF" }}>
+                    <ImageSlot placeholder={c.label} />
+                  </span>
                   <span style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 6, padding: "0 4px" }}>
                     <span style={{ fontWeight: 800, fontSize: 15.5 }}>{c.label}</span>
                     <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "#5E6E68" }}>{empCounts[c.canonical] ?? ""}</span>
@@ -297,7 +296,9 @@ export default function SourceHome() {
                   href={`/provision/${c.slug}`}
                   style={{ border: "1px solid #E6E2D8", background: "#FFFFFF", color: "#06382E", borderRadius: 20, padding: "10px 10px 14px", display: "flex", flexDirection: "column", gap: 10 }}
                 >
-                  <span style={{ display: "block", position: "relative", aspectRatio: "1/1", borderRadius: 14, overflow: "hidden", background: "#F6F4EF" }} />
+                  <span style={{ display: "block", position: "relative", aspectRatio: "1/1", borderRadius: 14, overflow: "hidden", background: "#F6F4EF" }}>
+                    <ImageSlot placeholder={c.label} />
+                  </span>
                   <span style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 6, padding: "0 4px" }}>
                     <span style={{ fontWeight: 800, fontSize: 15.5 }}>{c.label}</span>
                     <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "#5E6E68" }}>{provCounts[c.canonical] ?? ""}</span>
@@ -367,7 +368,9 @@ export default function SourceHome() {
                         gap: 9,
                       }}
                     >
-                      <span style={{ display: "block", position: "relative", aspectRatio: "4/3", borderRadius: bz ? 16 : 2, overflow: "hidden", background: "#EFEADC" }} />
+                      <span style={{ display: "block", position: "relative", aspectRatio: "4/3", borderRadius: bz ? 16 : 2, overflow: "hidden", background: "#EFEADC" }}>
+                        <ImageSlot src={kit.photo_ref} alt={kit.name} placeholder={`Photo: ${kit.short.toLowerCase()}`} sizes="236px" />
+                      </span>
                       <span style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 8, padding: "0 4px" }}>
                         <span style={{ fontWeight: 800, fontSize: 17, letterSpacing: "-0.02em", color: "#06382E" }}>{kit.name}</span>
                         <span style={{ fontFamily: "var(--font-mono)", fontSize: 9.5, fontWeight: 600, letterSpacing: "0.08em", color: "#5E6E68", whiteSpace: "nowrap" }}>
@@ -489,7 +492,9 @@ export default function SourceHome() {
               </button>
             </div>
           </div>
-          <div style={{ position: "relative", aspectRatio: "5/4", borderRadius: "44% 56% 50% 50% / 50% 44% 56% 50%", overflow: "hidden", background: "#0B4B3D" }} />
+          <div style={{ position: "relative", aspectRatio: "5/4", borderRadius: "44% 56% 50% 50% / 50% 44% 56% 50%", overflow: "hidden", background: "#0B4B3D", color: "#F5F1E8" }}>
+            <ImageSlot placeholder="Photo: a new office on day one, devices set up" />
+          </div>
         </div>
       </section>
 

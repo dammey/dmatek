@@ -9,7 +9,7 @@ async function getValue<T>(key: string, fallback: T): Promise<T> {
 }
 
 /** GET /content — public, read-only: the storefront's CMS-driven bits
- * (hero words, best-seller product ids, help/about text). */
+ * (hero words, hero background images, best sellers, help/about text). */
 type PublicSettings = { address?: string; returnsPolicy?: string; businessAccountReviewTime?: string; deliveryTimesAndFees?: string; podAreas?: string };
 
 contentRouter.get("/", async (_req, res) => {
@@ -18,6 +18,8 @@ contentRouter.get("/", async (_req, res) => {
   const help = await getValue<Record<string, string>>("help", {});
   const about = await getValue<string>("about", "");
   const settings = await getValue<PublicSettings>("settings", {});
+  // One wide background image per hero kit, keyed by kit ("home", "gate", …).
+  const heroImages = await getValue<Record<string, string>>("heroImages", {});
 
   let bestSellers: unknown[] = [];
   if (bestSellerIds.length) {
@@ -36,5 +38,5 @@ contentRouter.get("/", async (_req, res) => {
     bestSellers = bestSellerIds.map((id) => rows.find((r) => r.id === id)).filter(Boolean);
   }
 
-  res.json({ heroWords, bestSellers, help, about, settings });
+  res.json({ heroWords, bestSellers, help, about, settings, heroImages });
 });

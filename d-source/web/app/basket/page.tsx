@@ -7,6 +7,7 @@ import { useCart } from "@/lib/cart-context";
 import { fmt } from "@/lib/format";
 import { useBasketActions } from "@/lib/basketActions";
 import { playStoreTransition } from "@/lib/storeTransition";
+import ImageSlot from "@/components/ImageSlot";
 
 export default function BasketPage() {
   const router = useRouter();
@@ -79,7 +80,9 @@ export default function BasketPage() {
             )}
             {items.map((it) => (
               <div key={it.id} style={{ display: "grid", gridTemplateColumns: "72px minmax(0,1fr) auto", gap: 16, alignItems: "center", padding: "16px 0", borderBottom: "1px solid #EEEAE2" }}>
-                <div style={{ width: 72, height: 72, position: "relative", borderRadius: 14, overflow: "hidden", background: "#F6F4EF" }} />
+                <div style={{ width: 72, height: 72, position: "relative", borderRadius: 14, overflow: "hidden", background: "#F6F4EF" }}>
+                  <ImageSlot placeholder="" />
+                </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 3, minWidth: 0 }}>
                   <span style={{ fontWeight: 800, fontSize: 16.5 }}>{it.name}</span>
                   <span style={{ fontSize: 13.5, color: "#5E6E68" }}>{it.price ? fmt(it.price) : "Quoted"} each</span>

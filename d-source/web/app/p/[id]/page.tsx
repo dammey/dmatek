@@ -13,6 +13,7 @@ import { useFlow } from "@/lib/flow-context";
 import { playFlipIn } from "@/lib/flipTransition";
 import { useKitOverlay } from "@/lib/kit-overlay-context";
 import type { Kit, Product } from "@/lib/types";
+import ImageSlot from "@/components/ImageSlot";
 
 type Review = { id: string; stars: number; title: string | null; body: string; reviewer_name: string | null; created_at: string };
 
@@ -164,7 +165,7 @@ export default function ProductPage() {
                 FREE SET-UP
               </span>
             )}
-            {photos[gi] && <Image src={photos[gi]} alt={p.name} fill priority sizes="(max-width: 900px) 100vw, 680px" style={{ objectFit: "cover" }} />}
+            <ImageSlot src={photos[gi]} alt={p.name} placeholder={`${p.name} · ${THUMBS[gi].toLowerCase()}`} priority sizes="(max-width: 900px) 100vw, 680px" />
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4,minmax(0,1fr))", gap: 8 }}>
             {(photos.length ? photos.slice(0, 4) : THUMBS).map((item, i) => (
@@ -237,6 +238,7 @@ export default function ProductPage() {
         <section style={{ maxWidth: 1400, margin: "0 auto", padding: "clamp(56px,8vh,96px) clamp(18px,3vw,40px) 0" }}>
           <div style={{ background: "#F5F1E8", borderRadius: "clamp(28px,4vw,48px)", padding: "clamp(22px,4vw,48px)", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,380px),1fr))", gap: "clamp(20px,3vw,44px)", alignItems: "center" }}>
             <div style={{ position: "relative", aspectRatio: "4/3", borderRadius: 24, overflow: "hidden", background: "#EFEADC" }}>
+              <ImageSlot src={kitMatch.photo_ref} alt={kitMatch.name} placeholder={`Photo: ${kitMatch.short.toLowerCase()}`} sizes="(max-width: 900px) 100vw, 600px" />
               {kitMatch.kit_items.map((it, i) => (
                 <span
                   key={it.id}
