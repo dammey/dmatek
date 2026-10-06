@@ -26,7 +26,8 @@ adminOrdersRouter.get("/:ref", async (req, res) => {
   res.json({ order: data });
 });
 
-const STATUSES = ["pending", "confirmed", "fulfilling", "shipped", "completed", "cancelled"] as const;
+// v3 stages: Ordered, Sourced, Checked, Out for delivery, Delivered, Returned.
+const STATUSES = ["pending", "confirmed", "fulfilling", "shipped", "completed", "returned", "cancelled"] as const;
 
 adminOrdersRouter.patch("/:ref/status", async (req, res) => {
   const { status } = z.object({ status: z.enum(STATUSES) }).parse(req.body);
@@ -41,6 +42,19 @@ adminOrdersRouter.patch("/:ref/status", async (req, res) => {
       await db.from("notification_log").insert({ order_id: order!.id, channel: "whatsapp", body: `Review request for product ${productId}` });
     }
   }
+  res.json({ ok: true });
+});
+
+/** PATCH /admin/orders/:ref/checked — unit check results shown to the customer on tracking. */
+adminOrdersRouter.patch("/:ref/checked", async (req, res) => {
+  const body = z
+    .object({ battery: z.string().max(20).optional(), imei: z.enum(["Clean, verified", "Not verified yet", "Failed"]).optional(), condition: z.string().max(40).optional(), media: z.string().max(2000).optional() })
+    .parse(req.body);
+  const { error } = await db
+    .from("orders")
+    .update({ check_battery: body.battery ?? null, check_imei: body.imei ?? null, check_condition: body.condition ?? null, check_media: body.media || null })
+    .eq("ref", req.params.ref);
+  if (error) return res.status(500).json({ error: error.message });
   res.json({ ok: true });
 });
 

@@ -7,7 +7,7 @@ export const enquiriesRouter = Router();
 enquiriesRouter.use(withCustomer);
 
 const enquirySchema = z.object({
-  type: z.enum(["Repair collection", "Pilot interest", "WhatsApp order", "General", "Sourcing (personal)", "Sourcing (business)"]).default("General"),
+  type: z.enum(["Sourcing request", "Business sourcing", "Return / failed inspection", "Repair collection", "Pilot interest", "WhatsApp order", "General"]).default("General"),
   fromName: z.string().optional(),
   fromContact: z.string().optional(),
   message: z.string(),

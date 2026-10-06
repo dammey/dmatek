@@ -14,7 +14,7 @@ type Line = { quantity: number; unit_price: number; description: string; product
 trackRouter.get("/:ref", async (req, res) => {
   const { data: order, error } = await db
     .from("orders")
-    .select("ref, status, placed_at, channel, order_lines(quantity, unit_price, description, products(name, store, specs))")
+    .select("ref, status, placed_at, channel, check_battery, check_imei, check_condition, check_media, order_lines(quantity, unit_price, description, products(name, store, specs))")
     .eq("ref", req.params.ref.toUpperCase())
     .maybeSingle();
   if (error) return res.status(500).json({ error: error.message });

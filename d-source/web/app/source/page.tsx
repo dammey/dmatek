@@ -27,7 +27,7 @@ export default function SourcePage() {
     setBusy(true);
     try {
       await api.post("/enquiries", {
-        type: biz ? "Sourcing (business)" : "Sourcing (personal)",
+        type: biz ? "Business sourcing" : "Sourcing request",
         fromName: f.name.trim() || undefined,
         fromContact: f.contact.trim(),
         message: `${f.item.trim()}\nQuantity: ${f.qty || "1"}${f.budget.trim() ? `\nBudget: ₦${f.budget.trim()}` : ""}`,
