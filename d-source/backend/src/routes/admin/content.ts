@@ -43,7 +43,7 @@ adminContentRouter.put("/hero-images", async (req, res) => {
 });
 
 adminContentRouter.put("/best-sellers", async (req, res) => {
-  const ids = z.array(z.string()).length(4).parse(req.body.productIds);
+  const ids = z.array(z.string()).min(1).max(12).parse(req.body.productIds);
   await setValue("bestSellers", ids);
   res.json({ ok: true });
 });
