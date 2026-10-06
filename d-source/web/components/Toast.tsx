@@ -1,9 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useCart } from "@/lib/cart-context";
 
 export default function Toast() {
-  const { toast, openBasket } = useCart();
+  const { toast } = useCart();
   if (!toast) return null;
   return (
     <div
@@ -27,13 +28,9 @@ export default function Toast() {
       }}
     >
       {toast}
-      <button
-        type="button"
-        onClick={() => openBasket("cart")}
-        style={{ border: 0, background: "#D4A637", color: "#06382E", borderRadius: 999, padding: "6px 12px", fontWeight: 800, fontSize: 12.5 }}
-      >
+      <Link href={/quote/i.test(toast) ? "/cart?tab=quote" : "/cart"} style={{ background: "#fff", color: "#06382E", borderRadius: 999, padding: "6px 12px", fontWeight: 800, fontSize: 12.5 }}>
         View
-      </button>
+      </Link>
     </div>
   );
 }

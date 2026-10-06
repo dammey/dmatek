@@ -1,119 +1,74 @@
 "use client";
 
 import Link from "next/link";
-import { useFlow } from "@/lib/flow-context";
-import { AdireBand } from "@dmatek/brand";
+import { usePathname } from "next/navigation";
+import { Adire, btn, mono } from "./ui";
 import { config } from "@/lib/config";
+import { PROMISE } from "@/lib/promises";
 
-const DMATEK_URL = process.env.NEXT_PUBLIC_DMATEK_URL ?? "https://dmatek.ng";
+/** "Can't find it? We'll source it" strip, on every page except the request itself. */
+function SourceStrip() {
+  return (
+    <div style={{ background: "var(--t)", padding: "18px var(--gut)", display: "flex", flexWrap: "wrap", gap: "10px 18px", justifyContent: "space-between", alignItems: "center" }}>
+      <span style={{ fontWeight: 700, fontSize: 15 }}>Can’t find it? We’ll source it. {PROMISE.replyPersonal}</span>
+      <Link href="/source" style={btn("buy", { padding: "11px 18px" })}>
+        Request an item
+      </Link>
+    </div>
+  );
+}
 
-type FooterLink = { label: string; href: string } | { label: string; flow: "quote" | "account" };
-
-const COLUMNS: { title: string; links: FooterLink[] }[] = [
-  {
-    title: "SHOP",
-    links: [
-      { label: "All products", href: "/search" },
-      { label: "All categories", href: "/categories" },
-      { label: "D’Emporium · Home", href: "/emporium" },
-      { label: "D’Provision · Business", href: "/provision" },
-      { label: "Office in a Box", href: "/office-in-a-box" },
-    ],
-  },
-  {
-    title: "BUSINESS",
-    links: [
-      { label: "Request a quote", flow: "quote" },
-      { label: "Book a free site survey", href: "/site-survey" },
-      { label: "Order on account", flow: "account" },
-      { label: "Apply for a business account", href: "/account?tab=biz" },
-    ],
-  },
-  {
-    title: "HELP",
-    links: [
-      { label: "Delivery", href: "/help/delivery" },
-      { label: "Payment", href: "/help/payment" },
-      { label: "Installation and set-up", href: "/help/install" },
-      { label: "Returns", href: "/help/returns" },
-      { label: "Warranty and repairs", href: "/help/warranty" },
-      { label: "Contact us", href: "/help/contact" },
-      { label: "Track an order", href: "/track" },
-    ],
-  },
-  {
-    title: "COMPANY",
-    links: [
-      { label: "About D’Source", href: "/about" },
-      { label: "My account", href: "/account" },
-      { label: "Terms", href: "/legal/terms" },
-      { label: "Privacy", href: "/legal/privacy" },
-      { label: "Cookies", href: "/legal/cookies" },
-    ],
-  },
+const LINKS: [string, string][] = [
+  ["ACCOUNT", "/account"],
+  ["TRACK ORDER", "/track"],
+  ["GUARANTEE", "/guarantee"],
+  ["TERMS", "/terms"],
+  ["HELP", "/help"],
 ];
 
 export default function Footer() {
-  const { startFlow } = useFlow();
+  const pathname = usePathname();
   return (
-    <footer style={{ background: "#EFEADC", color: "#06382E", fontSize: 13.5, borderTop: "1px solid rgba(6,56,46,.12)" }}>
-      {config.adire && <AdireBand variant="footer" />}
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "40px 18px 24px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,180px),1fr))", gap: 28 }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            <span style={{ fontWeight: 800, fontSize: 19, letterSpacing: "-0.04em" }}>D&rsquo;Source</span>
-            <span style={{ color: "#3A4A44" }}>Commerce by D&rsquo;Matek.</span>
-            <span style={{ color: "#3A4A44" }}>
-              <a href="tel:+2347058071768" style={{ color: "inherit" }}>0705 807 1768</a> &middot;{" "}
-              <a href="mailto:hello@dmatek.ng" style={{ color: "inherit" }}>hello@dmatek.ng</a> &middot;{" "}
-              <a href="https://wa.me/2347058071768" target="_blank" rel="noreferrer" style={{ color: "inherit" }}>WhatsApp</a>
+    <>
+      {pathname !== "/source" && <SourceStrip />}
+      <footer style={{ background: "var(--t)", color: "var(--d)", borderTop: "1px solid var(--line)" }}>
+        {config.adire && <Adire h={22} />}
+        <div style={{ padding: "clamp(24px,4vw,40px) var(--gut) 20px", display: "flex", flexDirection: "column", gap: 20 }}>
+          <div style={{ fontWeight: 800, fontSize: "clamp(44px,12vw,120px)", lineHeight: 0.85, letterSpacing: "-.07em", color: "var(--m)" }}>D’Source</div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "16px 40px", justifyContent: "space-between", fontSize: 14, lineHeight: 1.8 }}>
+            <div>
+              <b>Commerce by D’Matek</b>
+              <br />
+              Lagos, Nigeria
+            </div>
+            <div>
+              Phone · <a href={`tel:${PROMISE.phone}`} style={{ color: "inherit" }}>{PROMISE.phone}</a>
+              <br />
+              Email · <a href={`mailto:${PROMISE.email}`} style={{ color: "inherit" }}>{PROMISE.email}</a>
+              <br />
+              WhatsApp ·{" "}
+              <a href={PROMISE.whatsapp} style={{ color: "inherit", textDecoration: "underline" }}>
+                {PROMISE.phone}
+              </a>
+            </div>
+            <div>
+              Replies {PROMISE.hours}
+              <br />
+              {PROMISE.delivery}
+            </div>
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "10px 20px", justifyContent: "space-between", ...mono, letterSpacing: ".12em", color: "var(--mutedMono)" }}>
+            <span>D’SOURCE · PART OF D’MATEK</span>
+            <span style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+              {LINKS.map(([l, h]) => (
+                <Link key={h} href={h} style={{ color: "inherit", textDecoration: "underline" }}>
+                  {l}
+                </Link>
+              ))}
             </span>
           </div>
-          {COLUMNS.map((col) => (
-            <div key={col.title}>
-              <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.16em", color: "#28705A", marginBottom: 12 }}>{col.title}</div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                {col.links.map((l) =>
-                  "flow" in l ? (
-                    <button
-                      key={l.label}
-                      type="button"
-                      onClick={() => startFlow(l.flow)}
-                      style={{ border: 0, background: "transparent", padding: 0, textAlign: "left", fontSize: 13.5, color: "#06382E" }}
-                    >
-                      {l.label}
-                    </button>
-                  ) : (
-                    <Link key={l.href} href={l.href} style={{ fontSize: 13.5, color: "#06382E" }}>
-                      {l.label}
-                    </Link>
-                  )
-                )}
-              </div>
-            </div>
-          ))}
         </div>
-        <div
-          style={{
-            borderTop: "1px solid rgba(6,56,46,.14)",
-            marginTop: 28,
-            paddingTop: 16,
-            display: "flex",
-            justifyContent: "space-between",
-            gap: 12,
-            flexWrap: "wrap",
-            fontFamily: "var(--font-mono)",
-            fontSize: 11.5,
-            letterSpacing: "0.12em",
-            color: "#3A4A44",
-          }}
-        >
-          <span>D&rsquo;SOURCE · D&rsquo;EMPORIUM · D&rsquo;PROVISION</span>
-          <a href={DMATEK_URL} style={{ color: "#06382E", fontWeight: 600 }}>
-            PART OF D&rsquo;MATEK ↗︎
-          </a>
-        </div>
-      </div>
-    </footer>
+      </footer>
+    </>
   );
 }

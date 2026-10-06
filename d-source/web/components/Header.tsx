@@ -1,282 +1,70 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { chromeFor } from "@/lib/chrome";
-import { useAuth } from "@/lib/auth-context";
+import { Adire } from "./ui";
 import { useCart } from "@/lib/cart-context";
-import { useCategoryNav } from "@/lib/useCategoryNav";
-import { playStoreTransition } from "@/lib/storeTransition";
+import { config } from "@/lib/config";
 
-const DMATEK_URL = process.env.NEXT_PUBLIC_DMATEK_URL ?? "https://dmatek.ng";
+const NAV: [string, string][] = [
+  ["Shop", "/shop"],
+  ["For your business", "/provision"],
+  ["We’ll source it", "/source"],
+  ["Pickup repairs", "/repair"],
+  ["Help", "/help"],
+  ["Account", "/account"],
+];
 
-type NavItem = { label: string; href?: string; onClick?: (e: React.MouseEvent<HTMLElement>) => void; tag?: boolean; strong?: boolean; active?: boolean };
-
-function scrollToId(id: string) {
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-}
+const pill: React.CSSProperties = { whiteSpace: "nowrap", border: "1px solid var(--line)", background: "#fff", borderRadius: 99, padding: "9px 14px", fontWeight: 700, fontSize: 13, color: "var(--ink)" };
 
 export default function Header() {
+  const { cartCount, quoteCount } = useCart();
   const pathname = usePathname();
-  const router = useRouter();
-  const { tone, subBrand } = chromeFor(pathname);
-  const { cartCount, quoteCount, openBasket } = useCart();
-  const { signedIn } = useAuth();
-  const [search, setSearch] = useState(false);
-  const [q, setQ] = useState("");
-  const empCats = useCategoryNav("emporium");
-  const provCats = useCategoryNav("provision");
-
-  const dark = tone === "emporium-front";
-  const bg = dark ? "#0C1411" : tone === "source" ? "#F5F1E8" : tone === "provision-front" ? "#F5F1E8" : "#FFFFFF";
-  const ink = dark ? "#F2F2EC" : "#06382E";
-  const line = dark ? "#22322B" : "rgba(6,56,46,.12)";
-
-  function runSearch(e?: React.FormEvent) {
-    e?.preventDefault();
-    if (!q.trim()) return;
-    router.push(`/search?q=${encodeURIComponent(q.trim())}`);
-    setSearch(false);
+  const [open, setOpen] = useState(false);
+  // Close the mobile menu on navigation (render-time reset, no effect needed).
+  const [lastPath, setLastPath] = useState(pathname);
+  if (lastPath !== pathname) {
+    setLastPath(pathname);
+    setOpen(false);
   }
-
-  function goStore(target: "emporium" | "provision") {
-    return (e: React.MouseEvent<HTMLElement>) => playStoreTransition(router, target, e.currentTarget);
-  }
-
-  // A store-front section: scroll when already on the front, link to it otherwise.
-  function section(label: string, store: "emporium" | "provision", id: string): NavItem {
-    return pathname === `/${store}` ? { label, onClick: () => scrollToId(id) } : { label, href: `/${store}#${id}` };
-  }
-
-  // Center nav row: store-level links only. Categories live in the bar below,
-  // so they never appear twice.
-  const centerNav: NavItem[] =
-    subBrand === "emporium"
-      ? [section("Shop", "emporium", "e-shop"), section("Kits", "emporium", "e-kits"), { label: "Track an order", href: "/track", active: pathname === "/track" }]
-      : subBrand === "provision"
-        ? [
-            section("Ways to order", "provision", "p-ways"),
-            section("Kits by place", "provision", "p-kits"),
-            section("Catalogue", "provision", "p-cat"),
-            { label: "Site survey", href: "/site-survey", active: pathname === "/site-survey" },
-          ]
-        : [
-                { label: "D’Emporium · Home", onClick: goStore("emporium") },
-                { label: "D’Provision · Business", onClick: goStore("provision") },
-                { label: "Build a kit", onClick: () => scrollToId("pick-a-place") },
-                { label: "Office in a Box", href: "/office-in-a-box" },
-              ];
-
-  // Second row: always-present category bar, varies by context.
-  const catBar: NavItem[] =
-    subBrand === "emporium"
-      ? [
-          { label: "All home products", href: "/emporium", strong: true, active: pathname === "/emporium" },
-          ...empCats.map((c): NavItem => ({ label: c.label, href: `/emporium/${c.slug}`, active: pathname === `/emporium/${c.slug}` })),
-          { label: "All categories", href: "/emporium/categories", active: pathname === "/emporium/categories" },
-        ]
-      : subBrand === "provision"
-        ? [
-            { label: "All business products", href: "/provision", strong: true, active: pathname === "/provision" },
-            ...provCats.map((c): NavItem => ({ label: c.label, href: `/provision/${c.slug}`, active: pathname === `/provision/${c.slug}` })),
-            { label: "Office in a Box", href: "/office-in-a-box", active: pathname === "/office-in-a-box" },
-            { label: "All categories", href: "/provision/categories", active: pathname === "/provision/categories" },
-          ]
-        : [
-            { label: "All products", href: "/search", strong: true, active: pathname === "/search" },
-            { label: "HOME", tag: true },
-            ...empCats.map((c): NavItem => ({ label: c.label, href: `/emporium/${c.slug}` })),
-            { label: "BUSINESS", tag: true },
-            ...provCats.map((c): NavItem => ({ label: c.label, href: `/provision/${c.slug}` })),
-            { label: "All categories", href: "/categories", active: pathname === "/categories" },
-          ];
-
-  function navItemStyle(n: NavItem): React.CSSProperties {
-    return {
-      flex: "0 0 auto",
-      background: n.active ? "rgba(212,166,55,.28)" : "transparent",
-      color: "inherit",
-      border: 0,
-      borderRadius: 999,
-      padding: "7px 12px",
-      fontSize: 13,
-      fontWeight: n.strong || n.tag || n.active ? 800 : 600,
-      letterSpacing: n.tag ? "0.14em" : 0,
-      opacity: n.tag ? 0.55 : n.active ? 1 : 0.82,
-      whiteSpace: "nowrap",
-    };
-  }
-
-  function renderNavItem(n: NavItem, idx: number) {
-    if (n.tag) {
-      return (
-        <span key={`${n.label}-${idx}`} style={navItemStyle(n)}>
-          {n.label}
-        </span>
-      );
-    }
-    if (n.href) {
-      return (
-        <Link key={`${n.label}-${idx}`} href={n.href} style={navItemStyle(n)}>
-          {n.label}
-        </Link>
-      );
-    }
-    return (
-      <button key={`${n.label}-${idx}`} type="button" onClick={n.onClick} style={navItemStyle(n)}>
-        {n.label}
-      </button>
-    );
-  }
+  const active = (href: string) => pathname === href || (href === "/shop" && (pathname.startsWith("/shop") || pathname === "/search"));
 
   return (
     <>
-      <div style={{ background: "#06382E", color: "#F5F1E8", fontSize: 12.5 }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "6px 18px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
-          <div style={{ display: "flex", gap: 2, background: "rgba(245,241,232,.08)", borderRadius: 999, padding: 3 }}>
-            {(["emporium", "provision"] as const).map((k) => {
-              const active = pathname === `/${k}`;
-              const activeBg = k === "emporium" ? "#A6F000" : "#D4A637";
-              const activeInk = k === "emporium" ? "#0C1411" : "#06382E";
-              return (
-                <button
-                  key={k}
-                  type="button"
-                  onClick={goStore(k)}
-                  style={{
-                    border: 0,
-                    borderRadius: 999,
-                    padding: "7px 14px",
-                    minHeight: 32,
-                    fontSize: 12,
-                    fontWeight: 700,
-                    background: active ? activeBg : "transparent",
-                    color: active ? activeInk : "#F5F1E8",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {k === "emporium" ? "For Home" : "For Business"}
-                </button>
-              );
-            })}
-          </div>
-          <div style={{ display: "flex", gap: 18, flexWrap: "wrap", alignItems: "center" }}>
-            <span className="ds-util-tag" style={{ whiteSpace: "nowrap", color: "rgba(245,241,232,.82)" }}>Genuine, warranty-backed devices · Delivered nationwide · Installed by D&rsquo;Matek engineers</span>
-            <Link href="/account" className="ds-util-acct" style={{ whiteSpace: "nowrap", color: "#F5F1E8", fontWeight: 700 }}>
-              {signedIn ? "Account ✓" : "Account"}
+      <header style={{ position: "sticky", top: 0, zIndex: 40, display: "flex", flexWrap: "wrap", gap: 12, alignItems: "center", justifyContent: "space-between", padding: "14px var(--gut)", borderBottom: "1px solid var(--line)", background: "var(--bg)" }}>
+        <Link href="/" style={{ fontWeight: 800, fontSize: 22, letterSpacing: "-.04em", color: "var(--d)" }}>
+          D’Source
+        </Link>
+        <nav className="ds-nav" aria-label="Main" style={{ gap: 4, flex: 1, justifyContent: "center" }}>
+          {NAV.map(([label, href]) => (
+            <Link key={href} href={href} className="ds-navlink" aria-current={active(href) ? "page" : undefined} style={{ padding: "9px 14px", borderRadius: 99, fontWeight: 700, fontSize: 14, color: "var(--d)", whiteSpace: "nowrap", background: active(href) ? "var(--t)" : "transparent" }}>
+              {label}
             </Link>
-            <a href={DMATEK_URL} style={{ whiteSpace: "nowrap", color: "#D4A637", fontWeight: 700 }}>
-              D&rsquo;Matek ↗︎
-            </a>
-          </div>
-        </div>
-      </div>
-      <header style={{ position: "sticky", top: 0, zIndex: 50, background: bg, color: ink, borderBottom: `1px solid ${line}`, backdropFilter: "blur(8px)" }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 18px", height: 64, display: "flex", alignItems: "center", gap: "clamp(10px, 2vw, 20px)" }}>
-          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, color: ink, fontWeight: 800, fontSize: 21, letterSpacing: "-0.04em", whiteSpace: "nowrap" }}>
-            D&rsquo;Source
+          ))}
+        </nav>
+        <div style={{ display: "flex", gap: 8 }}>
+          <button type="button" className="ds-menubtn" onClick={() => setOpen((o) => !o)} aria-expanded={open} style={pill}>
+            {open ? "Close" : "Menu"}
+          </button>
+          <Link href="/cart?tab=quote" style={pill}>
+            Quote · {quoteCount}
           </Link>
-
-          <nav className="ds-header-nav" style={{ display: "flex", gap: 2, flex: 1, minWidth: 0, fontSize: 14, fontWeight: 700, color: ink, overflowX: "auto" }}>
-            {centerNav.map(renderNavItem)}
+          <Link href="/cart" style={{ ...pill, border: 0, background: "var(--d)", color: "#fff" }}>
+            Cart · {cartCount}
+          </Link>
+        </div>
+        {open && (
+          <nav aria-label="Menu" style={{ flex: "1 1 100%", display: "flex", flexDirection: "column", gap: 2, borderTop: "1px solid var(--line)", paddingTop: 8 }}>
+            {NAV.map(([label, href]) => (
+              <Link key={href} href={href} style={{ padding: "12px 4px", fontWeight: 700, fontSize: 17, color: "var(--d)" }}>
+                {label}
+              </Link>
+            ))}
           </nav>
-          <div className="ds-header-spacer" style={{ flex: 1 }} />
-
-          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <button
-              type="button"
-              onClick={() => setSearch((s) => !s)}
-              aria-label="Search"
-              style={{ width: 44, height: 44, borderRadius: 999, border: 0, background: "transparent", color: ink, fontSize: 18 }}
-            >
-              ⌕
-            </button>
-            <Link href="/account" className="ds-header-acct" style={{ border: `1px solid ${line}`, color: ink, height: 40, display: "flex", alignItems: "center", borderRadius: 999, padding: "0 14px", fontSize: 13, fontWeight: 800, whiteSpace: "nowrap" }}>
-              {signedIn ? "Account ✓" : "Account"}
-            </Link>
-            <button
-              type="button"
-              onClick={() => openBasket("cart")}
-              style={{ display: "flex", alignItems: "center", gap: 8, border: `1px solid ${line}`, background: dark ? "#A6F000" : "transparent", color: dark ? "#0C1411" : ink, borderRadius: 999, padding: "0 14px", minHeight: 40, fontSize: 13, fontWeight: 800, whiteSpace: "nowrap" }}
-            >
-              Cart <span style={{ background: ink, color: bg, borderRadius: 999, minWidth: 22, height: 22, display: "grid", placeItems: "center", fontSize: 11, padding: "0 6px" }}>{cartCount}</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => openBasket("quote")}
-              style={{ display: "flex", alignItems: "center", gap: 8, border: `1px solid ${line}`, background: tone === "provision-front" ? "#D4A637" : "transparent", color: tone === "provision-front" ? "#06382E" : ink, borderRadius: 999, padding: "0 14px", minHeight: 40, fontSize: 13, fontWeight: 800, whiteSpace: "nowrap" }}
-            >
-              Quote <span style={{ background: ink, color: bg, borderRadius: 999, minWidth: 22, height: 22, display: "grid", placeItems: "center", fontSize: 11, padding: "0 6px" }}>{quoteCount}</span>
-            </button>
-          </div>
-        </div>
-
-        <div style={{ borderTop: `1px solid ${line}` }}>
-          <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 18px", height: 44, display: "flex", gap: 2, alignItems: "center", overflowX: "auto" }}>
-            {catBar.map(renderNavItem)}
-          </div>
-        </div>
-
-        {search && (
-          <div style={{ borderTop: `1px solid ${line}` }}>
-            <form onSubmit={runSearch} style={{ maxWidth: 780, margin: "0 auto", padding: "20px 18px 26px" }}>
-              <input
-                autoFocus
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-                placeholder="Search laptops, mesh Wi-Fi, cameras, access points…  (press Enter)"
-                style={{ width: "100%", border: 0, borderBottom: `2px solid ${ink}`, padding: "12px 0", fontSize: 22, fontWeight: 700, outline: "none", background: "transparent", color: ink }}
-              />
-              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 14 }}>
-                {["MacBook Air", "Mesh", "Camera", "Omada", "Signage"].map((p) => (
-                  <button
-                    key={p}
-                    type="button"
-                    onClick={() => {
-                      setQ(p);
-                      router.push(`/search?q=${encodeURIComponent(p)}`);
-                      setSearch(false);
-                    }}
-                    style={{ border: `1px solid ${line}`, background: "transparent", color: ink, borderRadius: 999, padding: "8px 13px", fontSize: 13, fontWeight: 700 }}
-                  >
-                    {p}
-                  </button>
-                ))}
-              </div>
-            </form>
-          </div>
         )}
       </header>
-      <style jsx>{`
-        .ds-header-spacer {
-          display: none;
-        }
-        :global(.ds-util-acct) {
-          display: none;
-        }
-        @media (max-width: 899px) {
-          :global(.ds-util-tag) {
-            display: none;
-          }
-        }
-        @media (max-width: 519px) {
-          :global(.ds-header-acct) {
-            display: none !important;
-          }
-          :global(.ds-util-acct) {
-            display: inline !important;
-          }
-        }
-        @media (max-width: 1059px) {
-          .ds-header-nav {
-            display: none !important;
-          }
-          .ds-header-spacer {
-            display: block;
-          }
-        }
-      `}</style>
+      {config.adire && <Adire h={10} />}
     </>
   );
 }

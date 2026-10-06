@@ -16,8 +16,8 @@ type CartContextValue = {
   basket: Basket;
   openBasket: (which: Exclude<Basket, null>) => void;
   closeBasket: () => void;
-  addToCart: (args: { productId: string; name: string; price: number | null; quantity?: number; channel: Store }) => Promise<void>;
-  addToQuote: (args: { productId: string; name: string; price: number | null; quantity?: number; channel: Store }) => Promise<void>;
+  addToCart: (args: { productId?: string | null; name: string; price: number | null; quantity?: number; channel: Store }) => Promise<void>;
+  addToQuote: (args: { productId?: string | null; name: string; price: number | null; quantity?: number; channel: Store }) => Promise<void>;
   bump: (which: "cart" | "quote", itemId: string, quantity: number) => Promise<void>;
   clear: (which: "cart" | "quote") => void;
   toast: string;
@@ -64,7 +64,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const addToCart = useCallback(
-    async ({ productId, name, price, quantity = 1, channel }: { productId: string; name: string; price: number | null; quantity?: number; channel: Store }) => {
+    async ({ productId, name, price, quantity = 1, channel }: { productId?: string | null; name: string; price: number | null; quantity?: number; channel: Store }) => {
       const active = cart ?? (await ensureCart("cart", channel));
       const { cart: updated } = await api.post<{ cart: Cart }>(`/cart/${active.id}/items`, { productId, name, price, quantity });
       setCart(updated);
@@ -74,7 +74,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   );
 
   const addToQuote = useCallback(
-    async ({ productId, name, price, quantity = 1, channel }: { productId: string; name: string; price: number | null; quantity?: number; channel: Store }) => {
+    async ({ productId, name, price, quantity = 1, channel }: { productId?: string | null; name: string; price: number | null; quantity?: number; channel: Store }) => {
       const active = quote ?? (await ensureCart("quote", channel));
       const { cart: updated } = await api.post<{ cart: Cart }>(`/cart/${active.id}/items`, { productId, name, price, quantity });
       setQuote(updated);

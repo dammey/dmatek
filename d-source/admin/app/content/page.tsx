@@ -7,16 +7,11 @@ import { useToast } from "@/lib/toast-context";
 
 const HERO_KITS: [string, string][] = [
   ["home", "Home"],
-  ["gate", "Front gate"],
-  ["weekend", "Weekend"],
   ["office", "Office"],
+  ["server-room", "Server room"],
+  ["shop", "Shop"],
+  ["hotel", "Hotel"],
   ["classroom", "Classroom"],
-  ["clinic", "Clinic"],
-  ["restaurant", "Restaurant"],
-  ["lobby", "Hotel lobby"],
-  ["hall", "Event hall"],
-  ["hostel", "Student hostel"],
-  ["building", "Whole building"],
 ];
 
 export default function ContentPage() {
@@ -82,7 +77,7 @@ export default function ContentPage() {
         </Card>
         <Card style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           <span style={{ fontWeight: 800, fontSize: 18 }}>Hero backgrounds</span>
-          <span style={{ fontSize: 13, color: "#5E6E68" }}>One wide landscape image per place, behind the home hero. It changes with the rotating word. Leave empty to show the placeholder.</span>
+          <span style={{ fontSize: 13, color: "#5E6E68" }}>One real photo per place, behind the home hero (“Sourced for the [place]”). It changes with the rotating word. Leave empty to show the placeholder.</span>
           {HERO_KITS.map(([key, label]) => (
             <label key={key} style={labelStyle}>
               {label.toUpperCase()}

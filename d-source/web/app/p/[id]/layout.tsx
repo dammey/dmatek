@@ -9,7 +9,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     const res = await fetch(`${apiUrl}/catalogue/products/${id}`, { cache: "no-store" });
     if (!res.ok) return {};
     const { product } = (await res.json()) as { product: Product };
-    const description = product.description ?? `${product.name} — genuine, warranty-backed, delivered nationwide.`;
+    const description = product.description ?? `${product.name}. Checked before it reaches you. Inspect on delivery, 7-day returns.`;
     return {
       title: product.name,
       description,

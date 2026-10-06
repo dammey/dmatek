@@ -7,14 +7,15 @@ export const enquiriesRouter = Router();
 enquiriesRouter.use(withCustomer);
 
 const enquirySchema = z.object({
-  type: z.enum(["Repair collection", "Pilot interest", "WhatsApp order", "General"]).default("General"),
+  type: z.enum(["Repair collection", "Pilot interest", "WhatsApp order", "General", "Sourcing (personal)", "Sourcing (business)"]).default("General"),
   fromName: z.string().optional(),
   fromContact: z.string().optional(),
   message: z.string(),
 });
 
 /** POST /enquiries — the storefront's catch-all: repairs, pilot interest
- * (device care plan demand log), WhatsApp order intents, general asks. */
+ * (device care plan demand log), WhatsApp order intents, "We'll source it"
+ * requests (personal or business), general asks. */
 enquiriesRouter.post("/", async (req, res) => {
   const body = enquirySchema.parse(req.body);
   const { error } = await db.from("enquiries").insert({

@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { db } from "../supabase.js";
+import { shape } from "../shop.js";
 
 export const contentRouter = Router();
 
@@ -32,7 +33,7 @@ contentRouter.get("/", async (_req, res) => {
     const rows = (data ?? []).map((p) => {
       const priceList = p.store === "provision" ? "business" : "retail";
       const priceRow = (p.product_prices as unknown as { price_list: string; unit_price: number }[]).find((pp) => pp.price_list === priceList);
-      return { ...p, price: priceRow?.unit_price ?? null };
+      return shape({ ...p, price: priceRow?.unit_price ?? null });
     });
     // Keep the order the admin chose.
     bestSellers = bestSellerIds.map((id) => rows.find((r) => r.id === id)).filter(Boolean);

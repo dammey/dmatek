@@ -29,19 +29,22 @@ cartRouter.get("/:id", async (req, res) => {
   res.json({ cart });
 });
 
-const lineSchema = z.object({ productId: z.string().uuid(), name: z.string(), price: z.number().nullable(), quantity: z.number().min(1).default(1) });
+// productId is optional: quote lists also carry kit and service lines with no catalogue product.
+const lineSchema = z.object({ productId: z.string().uuid().nullish(), name: z.string(), price: z.number().nullable(), quantity: z.number().min(1).default(1) });
 
-/** POST /cart/:id/items — add or bump a line (matched by productId). */
+/** POST /cart/:id/items — add or bump a line (matched by productId, or by name for product-less lines). */
 cartRouter.post("/:id/items", async (req, res) => {
   const body = lineSchema.parse(req.body);
   const cart = await loadCart(req.params.id);
   if (!cart) return res.status(404).json({ error: "Not found" });
 
-  const existing = (cart.cart_items as { id: string; product_id: string; quantity: number }[]).find((i) => i.product_id === body.productId);
+  const existing = (cart.cart_items as { id: string; product_id: string | null; name: string; quantity: number }[]).find((i) =>
+    body.productId ? i.product_id === body.productId : !i.product_id && i.name === body.name
+  );
   if (existing) {
     await db.from("cart_items").update({ quantity: existing.quantity + body.quantity }).eq("id", existing.id);
   } else {
-    await db.from("cart_items").insert({ cart_id: cart.id, product_id: body.productId, name: body.name, price: body.price, quantity: body.quantity });
+    await db.from("cart_items").insert({ cart_id: cart.id, product_id: body.productId ?? null, name: body.name, price: body.price, quantity: body.quantity });
   }
   await db.from("carts").update({ updated_at: new Date().toISOString() }).eq("id", cart.id);
   res.json({ cart: await loadCart(cart.id) });

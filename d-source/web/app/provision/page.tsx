@@ -1,307 +1,154 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useFlow } from "@/lib/flow-context";
-import { useCart } from "@/lib/cart-context";
+import { useState } from "react";
+import { btn, field, pagePad } from "@/components/ui";
 import { api } from "@/lib/api";
-import { useCategoryNav } from "@/lib/useCategoryNav";
-import { fmt } from "@/lib/format";
-import { useKitOverlay } from "@/lib/kit-overlay-context";
-import { playStoreTransition } from "@/lib/storeTransition";
-import { photosFirst, type Kit, type Product } from "@/lib/types";
-import ImageSlot from "@/components/ImageSlot";
+import { useAuth } from "@/lib/auth-context";
+import { useCart } from "@/lib/cart-context";
 
-const TAB_LIMIT = 12;
-
-const WAYS: { n: string; t: string; d: string; cta: string; action: "quote" | "catalogue" | "account" }[] = [
-  { n: "01", t: "Request a quote", d: "Tell us the site and what it needs. We come back with a quote within 4 working hours.", cta: "Request a quote →", action: "quote" },
-  { n: "02", t: "Build a quote list", d: "Add items and quantities from the catalogue, then send the list.", cta: "Open the catalogue →", action: "catalogue" },
-  { n: "03", t: "Order on account", d: "For approved business accounts. Order against a PO, pay on 30-day invoice.", cta: "Sign in →", action: "account" },
+type Cta = "quote" | "repair" | "survey" | "apply";
+const SERVICES: [string, string, string, string, Cta][] = [
+  ["Bulk device purchase", "Laptops, phones and accessories in volume, with invoice.", "Send a list, we source and quote.", "Request a quote", "quote"],
+  ["IT room and server setup", "Racks, servers, storage, cabling, documented.", "Site survey, quote, installation by D’Matek engineers.", "Request a quote", "quote"],
+  ["Wi-Fi and network installation", "Access points, switching, cabling, configuration.", "Survey, quote, install, test.", "Request a quote", "quote"],
+  ["Security and CCTV installation", "Cameras, recorders, remote viewing.", "Survey, quote, install, handover.", "Request a quote", "quote"],
+  ["Repairs for company devices", "Pickup and return for many devices at once.", "Pickup, diagnosis, quote before work, repair, return.", "Book a pickup", "repair"],
+  ["Office in a Box", "Devices, network and internet with backup, domain, email and files, website, MFA and backup, set up and documented.", "One scoped quote for the whole office.", "Request a quote", "quote"],
+  ["Free site survey", "An engineer visits and scopes the work.", "Book a visit, receive a written scope.", "Book a survey", "survey"],
+  ["Business account", "Invoicing for repeat purchases.", "Apply with company details.", "Apply", "apply"],
 ];
 
-const FACTS = ["Quotes within 4 working hours", "Free site surveys", "Volume pricing on larger orders", "30-day invoice for approved accounts"];
-
-const OIB_PARTS = ["Devices", "Office network", "Internet with backup", "Domain, email and files", "Website", "MFA and backup"];
-
-function scrollToId(id: string) {
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
-export default function ProvisionHome() {
+export default function ProvisionPage() {
   const router = useRouter();
-  const { startFlow } = useFlow();
   const { addToQuote } = useCart();
-  const { openKit } = useKitOverlay();
-  const categories = useCategoryNav("provision");
-  const [tabKey, setTabKey] = useState(categories[0].slug);
-  const [items, setItems] = useState<Product[]>([]);
-  const [kits, setKits] = useState<Kit[]>([]);
-  const [qty, setQty] = useState<Record<string, number>>({});
+  const { signedIn } = useAuth();
+  const [busy, setBusy] = useState<string | null>(null);
 
-  useEffect(() => {
-    api
-      .get<{ kits: Kit[] }>("/catalogue/kits?store=provision")
-      .then(({ kits }) => setKits(kits))
-      .catch(() => {});
-  }, []);
-
-  const activeTab = categories.find((c) => c.slug === tabKey);
-  const activeCanonical = activeTab?.canonical ?? "";
-
-  useEffect(() => {
-    if (!activeCanonical) return;
-    const qs = new URLSearchParams({ store: "provision", categoryName: activeCanonical, limit: String(TAB_LIMIT) });
-    api
-      .get<{ items: Product[] }>(`/catalogue/products?${qs}`)
-      .then(({ items }) => setItems(items))
-      .catch(() => setItems([]));
-  }, [activeCanonical]);
-  const tabLabel = activeTab?.label ?? "";
-  const shown = photosFirst(items).filter((p) => ((p.categories?.name as string) ?? "").toLowerCase() === activeCanonical.toLowerCase()).slice(0, TAB_LIMIT);
-
-  function qtyFor(id: string) {
-    return qty[id] ?? 1;
-  }
-  function bump(id: string, d: number) {
-    setQty((q) => ({ ...q, [id]: Math.max(1, qtyFor(id) + d) }));
+  async function cta(name: string, kind: Cta) {
+    if (kind === "repair") return router.push("/repair");
+    if (kind === "survey" || kind === "apply") return document.getElementById(kind === "survey" ? "survey" : "account")?.scrollIntoView({ behavior: "smooth", block: "center" });
+    setBusy(name);
+    try {
+      await addToQuote({ productId: null, name: `Service: ${name}`, price: null, channel: "provision" });
+      router.push("/cart?tab=quote");
+    } finally {
+      setBusy(null);
+    }
   }
 
   return (
-    <main style={{ background: "#F5F1E8", color: "#06382E" }}>
-      <section style={{ maxWidth: 1400, margin: "0 auto", padding: "clamp(44px,7vh,92px) clamp(18px,3vw,40px) clamp(28px,4vh,48px)" }}>
-        <span style={{ display: "inline-block", fontSize: 11.5, fontWeight: 700, letterSpacing: "0.2em", borderTop: "2px solid #D4A637", paddingTop: 10, marginBottom: 22 }}>D&rsquo;PROVISION · FOR BUSINESS</span>
-        <h1 style={{ margin: "0 0 22px", fontWeight: 800, fontSize: "clamp(42px,6vw,92px)", lineHeight: 0.98, letterSpacing: "-0.045em", maxWidth: "14em" }}>
-          Equip the whole building. <span style={{ color: "#28705A" }}>Specified properly.</span>
-        </h1>
-        <p style={{ margin: "0 0 26px", maxWidth: "40em", fontSize: "clamp(17px,1.6vw,20px)", lineHeight: 1.65, color: "#3A4A44" }}>
-          Business procurement from D&rsquo;Source. Genuine, warranty-backed devices and equipment, installed by D&rsquo;Matek engineers and supported after handover.
-        </p>
-        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 22 }}>
-          <button type="button" onClick={() => startFlow("quote")} style={{ border: 0, background: "#06382E", color: "#F5F1E8", borderRadius: 999, padding: "17px 28px", fontWeight: 800, fontSize: 15, whiteSpace: "nowrap" }}>
-            Request a quote &rarr;
-          </button>
-          <button
-            type="button"
-            onClick={() => startFlow("quote", "I’d like to book a free site survey.")}
-            style={{ background: "transparent", color: "#06382E", border: "1px solid rgba(6,56,46,.25)", borderRadius: 999, padding: "16px 26px", fontWeight: 700, fontSize: 15, whiteSpace: "nowrap" }}
-          >
-            Book a free site survey
-          </button>
-        </div>
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-          {FACTS.map((f) => (
-            <span key={f} style={{ fontSize: 13.5, fontWeight: 700, color: "#06382E", background: "#EFEADC", padding: "10px 14px", borderRadius: 4 }}>
-              {f}
-            </span>
-          ))}
-        </div>
-      </section>
-
-      <section id="p-ways" style={{ maxWidth: 1400, margin: "0 auto", padding: "0 clamp(18px,3vw,40px)", scrollMarginTop: 80 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,280px),1fr))", gap: 12 }}>
-          {WAYS.map((w) => (
-            <button
-              key={w.n}
-              type="button"
-              onClick={() => (w.action === "catalogue" ? scrollToId("p-cat") : startFlow(w.action))}
-              style={{ textAlign: "left", border: "1px solid rgba(6,56,46,.14)", background: "#FFFFFF", color: "#06382E", borderRadius: 24, padding: 26, display: "flex", flexDirection: "column", gap: 10, minHeight: 200 }}
-            >
-              <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "#28705A" }}>{w.n}</span>
-              <span style={{ fontWeight: 800, fontSize: 23, letterSpacing: "-0.02em", marginTop: "auto" }}>{w.t}</span>
-              <span style={{ fontSize: 15, lineHeight: 1.55, color: "#3A4A44" }}>{w.d}</span>
-              <span style={{ fontSize: 14, fontWeight: 800, color: "#06382E", borderBottom: "2px solid #D4A637", alignSelf: "flex-start", paddingBottom: 2 }}>{w.cta}</span>
-            </button>
-          ))}
-        </div>
-      </section>
-
-      <section id="oib" style={{ maxWidth: 1400, margin: "0 auto", padding: "clamp(48px,7vh,88px) clamp(18px,3vw,40px) 0", scrollMarginTop: 80 }}>
-        <div
-          style={{
-            background: "radial-gradient(120% 140% at 8% 0%,#0B4B3D,#06382E 60%)",
-            color: "#F5F1E8",
-            borderRadius: "clamp(28px,4vw,48px)",
-            padding: "clamp(30px,5vw,60px)",
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,340px),1fr))",
-            gap: "clamp(24px,4vw,56px)",
-            alignItems: "center",
-          }}
-        >
-          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            <span style={{ alignSelf: "flex-start", fontSize: 11, fontWeight: 700, letterSpacing: "0.16em", color: "#06382E", background: "#D4A637", padding: "8px 14px", borderRadius: 4 }}>PACKAGE</span>
-            <h2 style={{ margin: 0, fontWeight: 800, fontSize: "clamp(32px,4vw,56px)", letterSpacing: "-0.045em", lineHeight: 1 }}>Office in a Box</h2>
-            <p style={{ margin: 0, fontSize: "clamp(17px,1.6vw,20px)", lineHeight: 1.55, color: "rgba(245,241,232,.9)" }}>Everything a new office needs, set up right the first time.</p>
-            <p style={{ margin: 0, fontSize: 15, lineHeight: 1.65, color: "rgba(245,241,232,.78)" }}>
-              <strong style={{ color: "#F5F1E8" }}>What&rsquo;s included:</strong> Devices, office network and internet with backup, domain, email and files, website, MFA and backup, set up and documented.
-            </p>
-            <p style={{ margin: 0, fontSize: 15, lineHeight: 1.65, color: "rgba(245,241,232,.78)" }}>
-              <strong style={{ color: "#F5F1E8" }}>For:</strong> New businesses
-            </p>
-            <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 6 }}>
-              <button
-                type="button"
-                onClick={() => startFlow("quote", "I’d like to talk about Office in a Box.")}
-                style={{ border: 0, background: "#D4A637", color: "#06382E", borderRadius: 999, padding: "16px 26px", fontWeight: 800, fontSize: 15, whiteSpace: "nowrap" }}
-              >
-                Ask about this package &rarr;
-              </button>
-              <button
-                type="button"
-                onClick={() => router.push("/office-in-a-box")}
-                style={{ background: "transparent", color: "#F5F1E8", border: "1px solid rgba(245,241,232,.3)", borderRadius: 999, padding: "15px 24px", fontWeight: 700, fontSize: 15, whiteSpace: "nowrap" }}
-              >
-                See what&rsquo;s included
+    <main>
+      <div style={pagePad}>
+        <span style={{ fontSize: 12, fontWeight: 800, letterSpacing: ".14em", color: "var(--m)" }}>D’SOURCE PROVISION · FOR YOUR BUSINESS</span>
+        <h1 style={{ margin: "6px 0 8px", fontSize: "clamp(28px,4vw,46px)", letterSpacing: "-.04em", lineHeight: 1.05, maxWidth: "20ch", fontWeight: 800 }}>Services for the whole workplace.</h1>
+        <p style={{ margin: "0 0 22px", color: "var(--muted)", maxWidth: "60ch", lineHeight: 1.6 }}>Each service is quoted or booked directly. Quotes within 24 hours.</p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,300px),1fr))", gap: 14 }}>
+          {SERVICES.map(([name, inc, how, label, kind], i) => (
+            <div key={name} data-rv="1" style={{ border: "1px solid var(--line)", borderRadius: 16, padding: 20, display: "flex", flexDirection: "column", gap: 8, background: i === 5 ? "var(--t)" : "#fff" }}>
+              <b style={{ fontSize: 18, letterSpacing: "-.02em" }}>{name}</b>
+              <span style={{ fontSize: 14, lineHeight: 1.5, color: "var(--muted)" }}>
+                <b style={{ color: "var(--ink)" }}>Included:</b> {inc}
+              </span>
+              <span style={{ fontSize: 14, lineHeight: 1.5, color: "var(--muted)" }}>
+                <b style={{ color: "var(--ink)" }}>How it works:</b> {how}
+              </span>
+              <button type="button" disabled={busy === name} onClick={() => cta(name, kind)} style={btn("deep", { marginTop: "auto", alignSelf: "flex-start", padding: "11px 16px" })}>
+                {busy === name ? "Adding…" : label}
               </button>
             </div>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-            {OIB_PARTS.map((o) => (
-              <span key={o} style={{ background: "rgba(245,241,232,.08)", borderRadius: 4, padding: "14px 16px", fontSize: 14.5, fontWeight: 600 }}>
-                {o}
-              </span>
-            ))}
-          </div>
+          ))}
         </div>
-      </section>
-
-      {kits.length > 0 && (
-        <section id="p-kits" style={{ maxWidth: 1400, margin: "0 auto", padding: "clamp(56px,8vh,96px) clamp(18px,3vw,40px) 0", scrollMarginTop: 80 }}>
-          <span style={{ display: "inline-block", fontSize: 11.5, fontWeight: 700, letterSpacing: "0.2em", borderTop: "2px solid #D4A637", paddingTop: 10, marginBottom: 20 }}>KITS BY PLACE</span>
-          <h2 style={{ margin: "0 0 22px", fontWeight: 800, fontSize: "clamp(30px,3.8vw,54px)", letterSpacing: "-0.04em", lineHeight: 1 }}>Start from where it&rsquo;s going.</h2>
-          <div style={{ display: "flex", flexDirection: "column", borderTop: "1px solid rgba(6,56,46,.16)" }}>
-            {kits.map((kit) => {
-              const total = kit.kit_items.reduce((a, x) => a + (x.price ?? 0), 0);
-              return (
-                <button
-                  key={kit.id}
-                  type="button"
-                  onClick={() => openKit(kit.key)}
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "minmax(0,1fr) auto auto",
-                    gap: 16,
-                    alignItems: "center",
-                    padding: "20px 4px",
-                    border: 0,
-                    borderBottom: "1px solid rgba(6,56,46,.16)",
-                    background: "transparent",
-                    textAlign: "left",
-                    color: "#06382E",
-                  }}
-                >
-                  <span style={{ display: "flex", flexDirection: "column", gap: 4, minWidth: 0 }}>
-                    <span style={{ fontWeight: 800, fontSize: "clamp(20px,2.2vw,28px)", letterSpacing: "-0.025em" }}>{kit.name}</span>
-                    <span style={{ fontSize: 14, color: "#5E6E68" }}>{kit.kit_items.map((i) => i.name).join(" · ")}</span>
-                  </span>
-                  <span style={{ fontSize: 14, fontWeight: 700, color: "#28705A", whiteSpace: "nowrap" }}>From {fmt(total)}</span>
-                  <span style={{ width: 40, height: 40, borderRadius: "50%", background: "#06382E", color: "#D4A637", display: "grid", placeItems: "center", fontWeight: 800 }}>&rarr;</span>
-                </button>
-              );
-            })}
-          </div>
-        </section>
-      )}
-
-      <section id="p-cat" style={{ maxWidth: 1400, margin: "0 auto", padding: "clamp(56px,8vh,96px) clamp(18px,3vw,40px) 0", scrollMarginTop: 80 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", gap: 16, flexWrap: "wrap" }}>
-          <div>
-            <span style={{ display: "inline-block", fontSize: 11.5, fontWeight: 700, letterSpacing: "0.2em", borderTop: "2px solid #D4A637", paddingTop: 10, marginBottom: 20 }}>CATALOGUE</span>
-            <h2 style={{ margin: 0, fontWeight: 800, fontSize: "clamp(30px,3.8vw,54px)", letterSpacing: "-0.04em", lineHeight: 1 }}>Build a quote list.</h2>
-          </div>
-          <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", color: "#5E6E68" }}>UNIT PRICES EX. VAT · VOLUME PRICING ON LARGER ORDERS</span>
-          <button
-            type="button"
-            onClick={() => router.push(`/provision/${tabKey}`)}
-            style={{ border: 0, background: "transparent", color: "#06382E", fontWeight: 800, fontSize: 14, borderBottom: "2px solid #D4A637", padding: "0 0 2px" }}
-          >
-            See all {tabLabel} &rarr;
-          </button>
-        </div>
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", margin: "22px 0 10px" }}>
-          {categories.map((c) => {
-            const active = c.slug === tabKey;
-            return (
-              <button
-                key={c.slug}
-                type="button"
-                onClick={() => setTabKey(c.slug)}
-                style={{ border: `1px solid ${active ? "#06382E" : "rgba(6,56,46,.2)"}`, background: active ? "#06382E" : "transparent", color: active ? "#F5F1E8" : "#06382E", borderRadius: 999, padding: "10px 18px", fontSize: 14, fontWeight: 700 }}
-              >
-                {c.label}
-              </button>
-            );
-          })}
-        </div>
-        {shown.length === 0 ? (
-          <p style={{ color: "#5E6E68" }}>Nothing here yet — the catalogue is still being loaded by staff.</p>
-        ) : (
-          <div style={{ display: "flex", flexDirection: "column", background: "#FFFFFF", border: "1px solid rgba(6,56,46,.12)", borderRadius: 24, overflow: "hidden" }}>
-            {shown.map((p) => (
-              <div key={p.id} style={{ display: "grid", gridTemplateColumns: "64px minmax(0,1fr) auto", gap: 16, alignItems: "center", padding: "16px 18px", borderBottom: "1px solid rgba(6,56,46,.08)" }}>
-                <div style={{ width: 64, height: 64, position: "relative", borderRadius: 16, overflow: "hidden", background: "#EFEADC" }}>
-                  <ImageSlot src={p.images?.[0]} alt={p.name} placeholder={(p.specs?.brand as string) ?? ""} sizes="64px" />
-                </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 3, minWidth: 0 }}>
-                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 600, color: "#5E6E68", letterSpacing: "0.06em" }}>
-                    {(p.specs?.brand as string) ?? ""} {p.description ? `· ${p.description}` : ""}
-                  </span>
-                  <span style={{ fontWeight: 800, fontSize: 17, color: "#06382E" }}>{p.name}</span>
-                  <span style={{ fontSize: 14, fontWeight: 700, color: "#28705A" }}>{fmt(p.price)} per unit</span>
-                </div>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", justifyContent: "flex-end" }}>
-                  <div style={{ display: "flex", alignItems: "center", border: "1px solid rgba(6,56,46,.2)", borderRadius: 999, overflow: "hidden" }}>
-                    <button type="button" aria-label="Fewer" onClick={() => bump(p.id, -1)} style={{ width: 40, height: 40, border: 0, background: "transparent", fontSize: 18, color: "#06382E" }}>
-                      −
-                    </button>
-                    <span style={{ minWidth: 28, textAlign: "center", fontWeight: 800 }}>{qtyFor(p.id)}</span>
-                    <button type="button" aria-label="More" onClick={() => bump(p.id, 1)} style={{ width: 40, height: 40, border: 0, background: "transparent", fontSize: 18, color: "#06382E" }}>
-                      +
-                    </button>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => addToQuote({ productId: p.id, name: p.name, price: p.price, quantity: qtyFor(p.id), channel: "provision" })}
-                    style={{ border: 0, background: "#06382E", color: "#F5F1E8", borderRadius: 999, padding: "0 18px", minHeight: 42, fontWeight: 800, fontSize: 13.5, whiteSpace: "nowrap" }}
-                  >
-                    Add to quote
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
-
-      <section style={{ maxWidth: 1400, margin: "0 auto", padding: "clamp(56px,8vh,96px) clamp(18px,3vw,40px) clamp(56px,8vh,96px)" }}>
-        <div
-          style={{
-            background: "#0C1411",
-            color: "#F2F2EC",
-            borderRadius: 6,
-            padding: "clamp(28px,4vw,52px)",
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "20px 40px",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <div style={{ display: "flex", flexDirection: "column", gap: 10, maxWidth: 560 }}>
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.2em", color: "#A6F000" }}>D&rsquo;EMPORIUM</span>
-            <span style={{ fontWeight: 800, fontSize: "clamp(28px,3.4vw,46px)", letterSpacing: "-0.05em", lineHeight: 0.95, textTransform: "uppercase" }}>Shopping for home?</span>
-            <span style={{ fontSize: 16, lineHeight: 1.55, color: "#B9C2BD" }}>Laptops, phones, Wi-Fi, TV and power. Check out, order on WhatsApp or send an enquiry.</span>
-          </div>
-          <button
-            type="button"
-            onClick={(e) => playStoreTransition(router, "emporium", e.currentTarget)}
-            style={{ border: 0, background: "#A6F000", color: "#0C1411", borderRadius: 4, padding: "16px 24px", fontWeight: 800, fontSize: 14, letterSpacing: "0.04em", textTransform: "uppercase", whiteSpace: "nowrap" }}
-          >
-            Go to D&rsquo;Emporium &rarr;
-          </button>
-        </div>
+      </div>
+      <section style={{ padding: "0 var(--gut) clamp(28px,4vw,48px)", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,320px),1fr))", gap: 14 }}>
+        <BusinessAccount signedIn={signedIn} />
+        <SiteSurvey />
       </section>
     </main>
+  );
+}
+
+function BusinessAccount({ signedIn }: { signedIn: boolean }) {
+  const [f, setF] = useState({ company: "", contact: "", email: "" });
+  const [state, setState] = useState<"idle" | "busy" | "done">("idle");
+  const [err, setErr] = useState("");
+  async function apply() {
+    if (!f.company.trim()) return setErr("Add the company name.");
+    setErr("");
+    setState("busy");
+    try {
+      await api.post("/account/business", { companyName: f.company.trim(), accountsContact: f.contact.trim() || undefined, accountsEmail: f.email.trim() || undefined });
+      setState("done");
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : "We couldn’t send that.");
+      setState("idle");
+    }
+  }
+  return (
+    <div id="account" style={{ background: "var(--t)", borderRadius: 16, padding: 20, display: "flex", flexDirection: "column", gap: 10 }}>
+      <b style={{ fontSize: 18 }}>Business account application</b>
+      {state === "done" ? (
+        <span style={{ fontWeight: 700, lineHeight: 1.5 }}>Application received. We’ll review it and contact you. [ REVIEW TIME TO CONFIRM ]</span>
+      ) : signedIn ? (
+        <>
+          <input value={f.company} onChange={(e) => setF({ ...f, company: e.target.value })} placeholder="Company name" aria-label="Company name" style={{ ...field, padding: 12 }} />
+          <input value={f.contact} onChange={(e) => setF({ ...f, contact: e.target.value })} placeholder="Contact name and phone" aria-label="Contact name and phone" style={{ ...field, padding: 12 }} />
+          <input value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} placeholder="Company email" aria-label="Company email" style={{ ...field, padding: 12 }} />
+          {err && <span style={{ color: "var(--fail)", fontWeight: 700 }}>{err}</span>}
+          <button type="button" disabled={state === "busy"} onClick={apply} style={btn("deep", { borderRadius: 10, padding: 13 })}>
+            Apply for an account with invoicing
+          </button>
+        </>
+      ) : (
+        <>
+          <span style={{ fontSize: 14, lineHeight: 1.5 }}>Sign in or create an account first, then apply with your company details.</span>
+          <Link href="/account?tab=business" style={btn("deep", { borderRadius: 10, padding: 13 })}>
+            Sign in to apply
+          </Link>
+        </>
+      )}
+    </div>
+  );
+}
+
+function SiteSurvey() {
+  const [f, setF] = useState({ address: "", day: "", name: "", contact: "" });
+  const [ref, setRef] = useState<string | null>(null);
+  const [err, setErr] = useState("");
+  const [busy, setBusy] = useState(false);
+  async function book() {
+    if (!f.address.trim() || !f.name.trim() || !f.contact.trim()) return setErr("Add the site address, your name and a phone number or email.");
+    setErr("");
+    setBusy(true);
+    try {
+      const r = await api.post<{ ref: string }>("/surveys", { address: f.address.trim(), preferredDate: undefined, timeWindow: f.day.trim() || undefined, contactName: f.name.trim(), contact: f.contact.trim() });
+      setRef(r.ref);
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : "We couldn’t book that.");
+    } finally {
+      setBusy(false);
+    }
+  }
+  const dark: React.CSSProperties = { ...field, border: 0, padding: 12 };
+  return (
+    <div id="survey" style={{ background: "var(--d)", color: "#fff", borderRadius: 16, padding: 20, display: "flex", flexDirection: "column", gap: 10 }}>
+      <b style={{ fontSize: 18 }}>Free site survey</b>
+      <span style={{ fontSize: 14, lineHeight: 1.5 }}>An engineer visits, scopes the work and sends a written scope. Quotes within 24 hours.</span>
+      {ref ? (
+        <span style={{ fontWeight: 700 }}>Survey requested · reference {ref}. Our team will contact you to confirm the visit.</span>
+      ) : (
+        <>
+          <input value={f.address} onChange={(e) => setF({ ...f, address: e.target.value })} placeholder="Site address" aria-label="Site address" style={dark} />
+          <input value={f.day} onChange={(e) => setF({ ...f, day: e.target.value })} placeholder="Preferred day" aria-label="Preferred day" style={dark} />
+          <input value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} placeholder="Your name" aria-label="Your name" style={dark} />
+          <input value={f.contact} onChange={(e) => setF({ ...f, contact: e.target.value })} placeholder="Phone or email" aria-label="Phone or email" style={dark} />
+          {err && <span style={{ color: "#FFB4B4", fontWeight: 700 }}>{err}</span>}
+          <button type="button" disabled={busy} onClick={book} style={btn("buy", { borderRadius: 10, padding: 13 })}>
+            {busy ? "Booking…" : "Book a survey"}
+          </button>
+        </>
+      )}
+    </div>
   );
 }

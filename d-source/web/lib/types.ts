@@ -15,6 +15,10 @@ export type Product = {
   category_id: string | null;
   categories?: Category;
   price: number | null;
+  /** v11 one-catalogue fields, derived by the API. */
+  group?: string;
+  condition?: "New" | "UK-used" | "Grade A" | "Grade B" | "Grade C";
+  mode?: "Buy now" | "Quote";
 };
 
 export type KitItem = { id: string; product_id: string | null; name: string; note: string | null; price: number | null; pin_x: number; pin_y: number; position: number };

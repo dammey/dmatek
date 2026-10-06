@@ -31,7 +31,7 @@ adminContentRouter.put("/hero-words", async (req, res) => {
   res.json({ ok: true });
 });
 
-const HERO_KITS = ["home", "gate", "weekend", "office", "classroom", "clinic", "restaurant", "lobby", "hall", "hostel", "building"] as const;
+const HERO_KITS = ["home", "office", "server-room", "shop", "hotel", "classroom"] as const;
 
 /** Hero background images: one wide landscape image URL per kit; an empty
  * value clears it and the storefront shows the placeholder caption. */

@@ -1,11 +1,9 @@
 import type { MetadataRoute } from "next";
-import { EMPORIUM_CATEGORIES, PROVISION_CATEGORIES } from "@/lib/constants";
+import { GROUPS } from "@/lib/shop";
 
 const siteUrl = "https://source.dmatek.com";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
 
-const HELP_TOPICS = ["delivery", "payment", "install", "returns", "warranty", "biz", "contact"];
-const LEGAL_TOPICS = ["terms", "privacy", "cookies"];
 
 async function productRoutes(): Promise<string[]> {
   try {
@@ -19,21 +17,7 @@ async function productRoutes(): Promise<string[]> {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const staticRoutes = [
-    "",
-    "/emporium",
-    "/provision",
-    "/categories",
-    "/emporium/categories",
-    "/provision/categories",
-    ...EMPORIUM_CATEGORIES.map(([key]) => `/emporium/${key}`),
-    ...PROVISION_CATEGORIES.map((label) => `/provision/${label.toLowerCase()}`),
-    "/about",
-    "/office-in-a-box",
-    "/site-survey",
-    ...HELP_TOPICS.map((t) => `/help/${t}`),
-    ...LEGAL_TOPICS.map((t) => `/legal/${t}`),
-  ];
+  const staticRoutes = ["", "/shop", ...GROUPS.map((g) => `/shop/${g.slug}`), "/provision", "/source", "/repair", "/guarantee", "/help", "/terms", "/track"];
   const routes = [...staticRoutes, ...(await productRoutes())];
 
   return routes.map((route) => ({
