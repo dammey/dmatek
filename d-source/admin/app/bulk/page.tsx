@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Card, PageHeader, Row, Table, btnPrimary } from "@/components/ui";
+import { Card, Row, Table, btnPrimary } from "@/components/ui";
 import { api } from "@/lib/api";
 import { fmt } from "@/lib/format";
 import { useToast } from "@/lib/toast-context";
@@ -54,7 +54,6 @@ export default function BulkUploadPage() {
 
   return (
     <div>
-      <PageHeader title="Bulk upload" subtitle="Add or update products from a spreadsheet" />
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,420px),1fr))", gap: 16, marginBottom: 16 }}>
         <section style={{ border: "2px dashed rgba(6,56,46,.3)", borderRadius: 22, background: "#fff", padding: 28, display: "flex", flexDirection: "column", gap: 12, alignItems: "flex-start" }}>
           <span style={{ fontWeight: 800, fontSize: 20 }}>Upload a spreadsheet</span>

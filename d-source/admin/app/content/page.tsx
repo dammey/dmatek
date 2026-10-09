@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Card, PageHeader, btnPrimary, inputStyle, labelStyle } from "@/components/ui";
+import { Card, btnPrimary, inputStyle, labelStyle } from "@/components/ui";
 import { api } from "@/lib/api";
 import { useToast } from "@/lib/toast-context";
 
@@ -53,7 +53,6 @@ export default function ContentPage() {
 
   return (
     <div>
-      <PageHeader title="Content" subtitle="Front page words, hero backgrounds, best sellers and help text" />
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,420px),1fr))", gap: 16 }}>
         <Card style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           <span style={{ fontWeight: 800, fontSize: 18 }}>Hero · &ldquo;Sourced for the ___&rdquo;</span>

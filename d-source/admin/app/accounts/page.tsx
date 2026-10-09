@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PageHeader, btnGhost, btnPrimary, inputStyle } from "@/components/ui";
+import { btnGhost, btnPrimary, inputStyle } from "@/components/ui";
 import { api } from "@/lib/api";
 import { useToast } from "@/lib/toast-context";
 
@@ -45,7 +45,6 @@ export default function AccountsPage() {
 
   return (
     <div>
-      <PageHeader title="Business accounts" subtitle="Approve accounts for 30-day invoice" />
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(min(100%,380px),1fr))", gap: 12 }}>
         {accounts.map((a) => (
           <article key={a.id} style={{ background: "#fff", border: "1px solid rgba(6,56,46,.1)", borderRadius: 20, padding: 18, display: "flex", flexDirection: "column", gap: 10 }}>

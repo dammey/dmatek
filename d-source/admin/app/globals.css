@@ -1,20 +1,5 @@
-@import "tailwindcss";
-
-@theme {
-  --color-forest: #06382e;
-  --color-progress: #28705a;
-  --color-gold: #d4a637;
-  --color-cream: #f5f1e8;
-  --color-cream-2: #efeadc;
-  --color-ink: #3a4a44;
-  --color-muted: #5e6e68;
-
-  --font-sans: var(--font-manrope), system-ui, sans-serif;
-  --font-mono: var(--font-plex-mono), monospace;
-}
-
-/* Tailwind only emits @theme vars its utilities use; inline styles read
-   these directly, so define them where next/font sets its variables (body). */
+/* Inline styles read these; next/font sets the variables on body. No CSS
+   reset beyond the prototype's own few rules, so metrics match it 1:1. */
 body {
   --font-sans: var(--font-manrope), system-ui, sans-serif;
   --font-mono: var(--font-plex-mono), monospace;
@@ -65,4 +50,12 @@ button {
     animation-duration: 0.001ms !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+.ds-nav:hover {
+  background: rgba(245, 241, 232, 0.08) !important;
+}
+
+.ds-kpi:hover {
+  box-shadow: 0 14px 34px rgba(6, 56, 46, 0.1);
 }

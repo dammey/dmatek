@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Chip, PageHeader } from "@/components/ui";
+import { Chip } from "@/components/ui";
 import { api } from "@/lib/api";
 import { useToast } from "@/lib/toast-context";
 
@@ -25,7 +25,6 @@ export default function ReviewsPage() {
 
   return (
     <div>
-      <PageHeader title="Reviews" subtitle="Check each review against a real purchase" />
       <div style={{ display: "flex", gap: 6, marginBottom: 16 }}>
         {["pending", "approved", "rejected"].map((s) => (
           <Chip key={s} label={s === "pending" ? "To check" : s} active={state === s} onClick={() => setState(s)} />

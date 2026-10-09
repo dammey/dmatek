@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Card, Kpi, PageHeader } from "@/components/ui";
+import { Card, Kpi } from "@/components/ui";
 import { api } from "@/lib/api";
 import { fmt } from "@/lib/format";
 
@@ -26,7 +26,6 @@ export default function ReportsPage() {
 
   return (
     <div>
-      <PageHeader title="Reports" subtitle="Sample data until the order system is connected" />
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,200px),1fr))", gap: 12, marginBottom: 16 }}>
         <Kpi label="SALES" value={fmt(data?.sales ?? 0)} sub="All time" />
         <Kpi label="ORDERS" value={String(data?.orderCount ?? 0)} sub="All time" />

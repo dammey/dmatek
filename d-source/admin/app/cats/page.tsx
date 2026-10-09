@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Card, PageHeader, btnGhost, btnPrimary, inputStyle, labelStyle } from "@/components/ui";
+import { Card, btnGhost, btnPrimary, inputStyle, labelStyle } from "@/components/ui";
 import { api } from "@/lib/api";
 import { useToast } from "@/lib/toast-context";
 
 type Placement = { id: string; store: "emporium" | "provision"; slug: string; label: string; sortOrder: number; isActive: boolean; categoryId: string | null; categoryName: string };
 
 const STORES: { key: "emporium" | "provision"; title: string }[] = [
-  { key: "emporium", title: "D’Emporium · For home" },
-  { key: "provision", title: "D’Provision · For business" },
+  { key: "emporium", title: "D’Emporium · Home" },
+  { key: "provision", title: "D’Provision · Business" },
 ];
 
 function slugify(s: string) {
@@ -54,7 +54,6 @@ export default function CategoriesPage() {
 
   return (
     <div>
-      <PageHeader title="Categories" subtitle="What customers see in the category bar" />
       <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
         {STORES.map((s) => {
           const rows = placements.filter((p) => p.store === s.key).sort((a, b) => a.sortOrder - b.sortOrder);

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Chip, PageHeader, btnPrimary, inputStyle, labelStyle } from "@/components/ui";
+import { Chip, btnPrimary, inputStyle, labelStyle } from "@/components/ui";
 import { api } from "@/lib/api";
 import { useToast } from "@/lib/toast-context";
 
@@ -60,7 +60,6 @@ export default function StaffPage() {
 
   return (
     <div>
-      <PageHeader title="Staff and roles" subtitle="Who can see and change what" />
       <div style={{ display: "flex", gap: 6, marginBottom: 16 }}>
         <Chip label="Staff" active={tab === "users"} onClick={() => setTab("users")} />
         <Chip label="Permissions" active={tab === "perms"} onClick={() => setTab("perms")} />

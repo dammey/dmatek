@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PageHeader, btnGhost, btnPrimary, inputStyle } from "@/components/ui";
+import { btnGhost, btnPrimary, inputStyle } from "@/components/ui";
 import { api } from "@/lib/api";
 import { useToast } from "@/lib/toast-context";
 
@@ -36,7 +36,6 @@ export default function ZonesPage() {
 
   return (
     <div>
-      <PageHeader title="Delivery zones" subtitle="Fees, times and pay on delivery by zone" />
       <div style={{ background: "#fff", border: "1px solid rgba(6,56,46,.1)", borderRadius: 22, overflowX: "auto" }}>
         <div style={{ minWidth: 900 }}>
           <div style={{ display: "grid", gridTemplateColumns: "minmax(160px,1fr) 140px minmax(180px,1fr) 110px 110px 50px", gap: 12, padding: "12px 18px", fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", color: "#5E6E68", borderBottom: "1px solid #EEEAE2" }}>

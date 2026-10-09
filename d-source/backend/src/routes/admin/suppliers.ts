@@ -15,11 +15,11 @@ adminSuppliersRouter.get("/", async (_req, res) => {
 
 adminSuppliersRouter.post("/", async (req, res) => {
   const body = z
-    .object({ name: z.string(), supplies: z.string().optional(), contactEmail: z.string().optional(), contactPhone: z.string().optional(), leadTimeDays: z.number().optional() })
+    .object({ name: z.string().min(1), supplies: z.string().optional(), brands: z.string().optional(), contact: z.string().optional(), leadTime: z.string().optional() })
     .parse(req.body);
   const { data, error } = await db
     .from("suppliers")
-    .insert({ name: body.name, supplies: body.supplies, contact_email: body.contactEmail, contact_phone: body.contactPhone, lead_time_days: body.leadTimeDays })
+    .insert({ name: body.name, supplies: body.supplies, brands: body.brands, contact: body.contact, lead_time: body.leadTime })
     .select()
     .single();
   if (error) return res.status(500).json({ error: error.message });
@@ -33,18 +33,35 @@ adminSuppliersRouter.get("/pos", async (_req, res) => {
   res.json({ purchaseOrders });
 });
 
-const poSchema = z.object({ supplierId: z.string().uuid(), items: z.array(z.object({ description: z.string(), quantity: z.number(), unitCost: z.number().optional() })), expectedDate: z.string().optional() });
+/** POST /admin/suppliers/pos — as the New purchase order drawer: supplier,
+ * items ("10 × Latitude 5550", one per line or comma-separated), value and
+ * expected date. Items whose name matches a product are linked so receiving
+ * the PO adds them to stock. */
+const poSchema = z.object({ supplierId: z.string().uuid(), items: z.string().min(1), value: z.number().nonnegative().optional(), expectedDate: z.string().optional() });
 
 adminSuppliersRouter.post("/pos", async (req, res) => {
   const body = poSchema.parse(req.body);
-  const value = body.items.reduce((a, i) => a + i.quantity * (i.unitCost ?? 0), 0);
+  const lines = body.items
+    .split(/[\n,]/)
+    .map((t) => t.trim())
+    .filter(Boolean)
+    .map((t) => {
+      const m = /^(\d+)\s*[×x*]\s*(.+)$/i.exec(t);
+      return m ? { quantity: Number(m[1]), description: m[2].trim() } : { quantity: 1, description: t };
+    });
+  const expected = body.expectedDate && !Number.isNaN(Date.parse(body.expectedDate)) ? new Date(body.expectedDate).toISOString().slice(0, 10) : null;
   const { data: po, error } = await db
     .from("purchase_orders")
-    .insert({ ref: makeRef("DS").replace("DS", "PO"), supplier_id: body.supplierId, value, expected_date: body.expectedDate, status: "draft" })
+    .insert({ ref: makeRef("PO"), supplier_id: body.supplierId, value: body.value ?? 0, expected_date: expected, status: "draft" })
     .select()
     .single();
   if (error) return res.status(500).json({ error: error.message });
-  await db.from("po_lines").insert(body.items.map((i) => ({ po_id: po.id, description: i.description, quantity: i.quantity, unit_cost: i.unitCost })));
+  const rows = [];
+  for (const l of lines) {
+    const { data: product } = await db.from("products").select("id").ilike("name", l.description).limit(1).maybeSingle();
+    rows.push({ po_id: po.id, description: l.description, quantity: l.quantity, product_id: product?.id ?? null });
+  }
+  if (rows.length) await db.from("po_lines").insert(rows);
   res.status(201).json({ po });
 });
 
@@ -59,8 +76,18 @@ adminSuppliersRouter.patch("/pos/:ref/advance", async (req, res) => {
     for (const line of lines ?? []) {
       if (!line.product_id) continue;
       const { data: inv } = await db.from("inventory").select("id, quantity_on_hand").eq("product_id", line.product_id).maybeSingle();
-      if (inv) await db.from("inventory").update({ quantity_on_hand: inv.quantity_on_hand + line.quantity }).eq("id", inv.id);
+      if (inv) await db.from("inventory").update({ quantity_on_hand: inv.quantity_on_hand + Number(line.quantity) }).eq("id", inv.id);
+      else await db.from("inventory").insert({ product_id: line.product_id, quantity_on_hand: Number(line.quantity) });
     }
   }
   res.json({ status: next });
+});
+
+adminSuppliersRouter.patch("/:id", async (req, res) => {
+  const body = z.object({ name: z.string().min(1).optional(), supplies: z.string().optional(), brands: z.string().optional(), contact: z.string().optional(), leadTime: z.string().optional() }).parse(req.body);
+  const patch: Record<string, string | undefined> = { name: body.name, supplies: body.supplies, brands: body.brands, contact: body.contact, lead_time: body.leadTime };
+  Object.keys(patch).forEach((k) => patch[k] === undefined && delete patch[k]);
+  const { error } = await db.from("suppliers").update(patch).eq("id", req.params.id);
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ ok: true });
 });

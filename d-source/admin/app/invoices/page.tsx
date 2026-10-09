@@ -1,53 +1,92 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PageHeader, Row, Table, btnPrimary } from "@/components/ui";
+import { GenChips, GenDrawer, GenTable, GenTiles, cB, cM, cP, cT } from "@/components/generic";
 import { api } from "@/lib/api";
-import { fmt } from "@/lib/format";
+import { fmt, shortDate } from "@/lib/format";
 import { useToast } from "@/lib/toast-context";
 
-type Invoice = { id: string; status: string; amount: number; due_at: string | null; overdue: boolean; orders?: { ref: string; customers?: { company_name: string | null } } };
-const IST: Record<string, [string, string]> = { pending: ["#EFEADC", "#06382E"], paid: ["#D9F0E3", "#1F7A5A"] };
+type Invoice = {
+  id: string;
+  status: string;
+  amount: number;
+  due_at: string | null;
+  created_at: string;
+  overdue: boolean;
+  orders?: { ref: string; customers?: { full_name: string; company_name: string | null } | null } | null;
+};
+const IST: Record<string, [string, string]> = { Open: ["#EFEADC", "#06382E"], Overdue: ["#FDE7E4", "#B42318"], Paid: ["#D9F0E3", "#1F7A5A"] };
+const st = (i: Invoice) => (i.status === "paid" ? "Paid" : i.overdue ? "Overdue" : "Open");
+const day = shortDate;
+const invNo = (i: Invoice) => `INV-${(i.orders?.ref ?? i.id).replace(/^DS-/, "")}`;
+const co = (i: Invoice) => i.orders?.customers?.company_name || i.orders?.customers?.full_name || "[ COMPANY ]";
 
 export default function InvoicesPage() {
-  const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [list, setList] = useState<Invoice[] | null>(null);
+  const [filter, setFilter] = useState("All");
+  const [open, setOpen] = useState<string | null>(null);
   const { say } = useToast();
 
   function load() {
-    api.get<{ invoices: Invoice[] }>("/admin/invoices").then(({ invoices }) => setInvoices(invoices));
+    api.get<{ invoices: Invoice[] }>("/admin/invoices").then(({ invoices }) => setList(invoices)).catch(() => setList([]));
   }
   useEffect(load, []);
 
-  async function markPaid(id: string) {
-    await api.patch(`/admin/invoices/${id}/mark-paid`);
-    say("Marked paid");
-    load();
-  }
+  const all = list ?? [];
+  const i = open ? all.find((x) => x.id === open) : null;
+  const close = () => setOpen(null);
 
   return (
-    <div>
-      <PageHeader title="Invoices" subtitle="Business accounts on 30-day invoice" />
-      <Table cols="110px minmax(160px,1fr) 130px 100px 100px" head={["ORDER", "COMPANY", "AMOUNT", "DUE", "STATUS"]} minWidth="800px">
-        {invoices.map((i) => (
-          <Row key={i.id} cols="110px minmax(160px,1fr) 130px 100px 100px">
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: 12.5 }}>{i.orders?.ref}</span>
-            <span style={{ fontWeight: 700 }}>{i.orders?.customers?.company_name}</span>
-            <span style={{ fontWeight: 800 }}>{fmt(i.amount)}</span>
-            <span style={{ color: i.overdue ? "#B42318" : "#3A4A44", fontWeight: i.overdue ? 800 : 500 }}>{i.due_at ? new Date(i.due_at).toLocaleDateString("en-NG") : "—"}</span>
-            <span style={{ display: "flex", gap: 8, alignItems: "center" }}>
-              <span style={{ fontSize: 11.5, fontWeight: 800, padding: "5px 10px", borderRadius: 999, background: i.overdue ? "#FDE7E4" : (IST[i.status] ?? IST.pending)[0], color: i.overdue ? "#B42318" : (IST[i.status] ?? IST.pending)[1] }}>
-                {i.overdue ? "Overdue" : i.status}
-              </span>
-              {i.status !== "paid" && (
-                <button type="button" onClick={() => markPaid(i.id)} style={btnPrimary}>
-                  Mark paid
-                </button>
-              )}
-            </span>
-          </Row>
-        ))}
-        {!invoices.length && <div style={{ padding: "28px 18px", color: "#5E6E68" }}>Nothing here yet.</div>}
-      </Table>
-    </div>
+    <>
+      <GenChips chips={["All", "Open", "Overdue", "Paid"].map((x) => ({ label: x, on: filter === x, go: () => setFilter(x) }))} />
+      <GenTiles
+        tiles={[
+          { label: "OUTSTANDING", value: fmt(all.filter((x) => st(x) !== "Paid").reduce((a, x) => a + Number(x.amount), 0)), sub: "Open and overdue", ink: "#06382E" },
+          { label: "OVERDUE", value: String(all.filter((x) => st(x) === "Overdue").length), sub: "Past 30 days", ink: "#B42318" },
+        ]}
+      />
+      <GenTable
+        cols="110px minmax(160px,1fr) 120px 130px 100px 100px 100px"
+        head={["INVOICE", "COMPANY", "ORDER", "AMOUNT", "ISSUED", "DUE", "STATUS", ""]}
+        minW="900px"
+        empty={list ? "Nothing here yet." : "Loading…"}
+        rows={all
+          .filter((x) => filter === "All" || st(x) === filter)
+          .map((x) => ({ key: x.id, cells: [cM(invNo(x)), cB(co(x)), cM(x.orders?.ref ?? "—"), cB(fmt(x.amount)), cT(day(x.created_at)), cT(day(x.due_at)), cP(st(x), IST[st(x)][0], IST[st(x)][1])], btn: "Open", go: () => setOpen(x.id) }))}
+      />
+      {i && (
+        <GenDrawer
+          kicker={`INVOICE · ${invNo(i)}`}
+          title={co(i)}
+          onClose={close}
+          meta={[
+            { k: "Order", v: i.orders?.ref ?? "—" },
+            { k: "Amount", v: fmt(i.amount) },
+            { k: "Issued", v: day(i.created_at) },
+            { k: "Due", v: day(i.due_at) },
+            { k: "Terms", v: "30 days" },
+            { k: "Status", v: st(i) },
+          ]}
+          actions={[
+            ...(st(i) !== "Paid"
+              ? [
+                  {
+                    label: "Mark paid",
+                    primary: true,
+                    go: async () => {
+                      await api.patch(`/admin/invoices/${i.id}/mark-paid`);
+                      close();
+                      say(`${invNo(i)} marked paid`);
+                      load();
+                    },
+                  },
+                  { label: "Send reminder", go: async () => { await api.post(`/admin/invoices/${i.id}/remind`); say(`Reminder sent for ${invNo(i)}`); close(); } },
+                ]
+              : []),
+            { label: "Download PDF", go: () => say("[ PDF FROM THE INVOICE SYSTEM ]") },
+          ]}
+        />
+      )}
+    </>
   );
 }

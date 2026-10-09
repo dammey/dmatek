@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PageHeader, Row, Table, btnGhost, inputStyle } from "@/components/ui";
+import { Row, Table, btnGhost, inputStyle } from "@/components/ui";
 import { api } from "@/lib/api";
 import { useToast } from "@/lib/toast-context";
 
@@ -38,7 +38,6 @@ export default function SurveysPage() {
 
   return (
     <div>
-      <PageHeader title="Site surveys" subtitle="Free site surveys booked from the storefront" />
       <Table cols="110px minmax(140px,1fr) 120px minmax(140px,1fr) 150px 130px" head={["REFERENCE", "ORGANISATION", "SITE", "ADDRESS", "ENGINEER", "STATUS"]} minWidth="1060px">
         {surveys.map((s) => {
           const idx = STAGES.findIndex((x) => x.toLowerCase().replace(" ", "_") === s.stage);

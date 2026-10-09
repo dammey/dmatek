@@ -8,7 +8,7 @@ adminOrdersRouter.use(requireStaff("Orders"));
 
 adminOrdersRouter.get("/", async (req, res) => {
   const { status } = req.query as { status?: string };
-  let query = db.from("orders").select("*, customers(full_name, company_name), addresses:shipping_address_id(city, state), order_lines(quantity, unit_price), payments(method, status)");
+  let query = db.from("orders").select("*, customers(full_name, company_name), addresses:shipping_address_id(city, state), order_lines(quantity, unit_price), payments(method, status, provider)");
   if (status) query = query.eq("status", status);
   const { data, error } = await query.order("placed_at", { ascending: false });
   if (error) return res.status(500).json({ error: error.message });
@@ -33,6 +33,15 @@ adminOrdersRouter.patch("/:ref/status", async (req, res) => {
   const { status } = z.object({ status: z.enum(STATUSES) }).parse(req.body);
   const { error } = await db.from("orders").update({ status }).eq("ref", req.params.ref);
   if (error) return res.status(500).json({ error: error.message });
+
+  if (status === "fulfilling") {
+    // "Checked results ready" — the customer sees their unit's results on tracking.
+    const [{ data: order }, { data: tpl }] = await Promise.all([
+      db.from("orders").select("id").eq("ref", req.params.ref).maybeSingle(),
+      db.from("notification_templates").select("id, channels, body, enabled").eq("key", "checked_results").maybeSingle(),
+    ]);
+    if (order && tpl?.enabled) await db.from("notification_log").insert({ order_id: order.id, template_id: tpl.id, channel: (tpl.channels as string[])[0]?.toLowerCase() ?? "whatsapp", body: tpl.body });
+  }
 
   if (status === "completed") {
     const { data: order } = await db.from("orders").select("id, order_lines(product_id)").eq("ref", req.params.ref).maybeSingle();

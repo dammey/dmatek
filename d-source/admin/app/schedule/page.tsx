@@ -1,7 +1,7 @@
 "use client";
 
 import { Fragment, useEffect, useMemo, useState } from "react";
-import { Card, PageHeader, btnGhost, btnPrimary } from "@/components/ui";
+import { Card, btnGhost, btnPrimary } from "@/components/ui";
 import { api } from "@/lib/api";
 import { useToast } from "@/lib/toast-context";
 
@@ -72,7 +72,6 @@ export default function InstallationsPage() {
 
   return (
     <div>
-      <PageHeader title="Installations" subtitle="Engineer calendar for set-ups, surveys and collections" />
 
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 12, flexWrap: "wrap" }}>
         <span style={{ fontWeight: 800, fontSize: 16 }}>

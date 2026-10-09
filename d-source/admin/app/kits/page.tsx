@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PageHeader } from "@/components/ui";
 import { api } from "@/lib/api";
 import { fmt } from "@/lib/format";
 import { useToast } from "@/lib/toast-context";
@@ -45,7 +44,6 @@ export default function KitsPage() {
 
   return (
     <div>
-      <PageHeader title="Kits" subtitle="Place kits on the storefront" />
       <div style={{ display: "flex", flexWrap: "wrap", gap: 16, alignItems: "flex-start" }}>
         <nav style={{ flex: "0 1 240px", minWidth: 200, background: "#fff", border: "1px solid rgba(6,56,46,.1)", borderRadius: 22, padding: 8, display: "flex", flexDirection: "column", gap: 2 }}>
           {kits.map((k) => (

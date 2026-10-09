@@ -63,7 +63,22 @@ export function groupOf(r: Row): GroupSlug {
   }
 }
 
+const CONDITIONS = ["New", "UK-used", "Grade A", "Grade B", "Grade C"];
+const specField = (r: Row, k: string) => {
+  const v = (r.specs as Record<string, unknown> | null | undefined)?.[k];
+  return typeof v === "string" ? v : "";
+};
+
+/** Admin › Products sets CONDITION ("New", "UK-used · Grade A/B/C") and
+ * BUYING ("Buy now" / "Quote") explicitly in specs; older rows fall back to
+ * reading the name/spec text and the store. */
 export function conditionOf(r: Row): Condition {
+  const set = specField(r, "cond");
+  if (set) {
+    const g = /grade\s*([abc])/i.exec(set);
+    if (g) return `Grade ${g[1].toUpperCase()}` as Condition;
+    if (CONDITIONS.includes(set)) return set as Condition;
+  }
   if (r.store === "provision") return "New";
   const t = `${specText(r)} ${r.name}`.toLowerCase();
   if (/grade\s*c\b/.test(t)) return "Grade C";
@@ -74,7 +89,11 @@ export function conditionOf(r: Row): Condition {
 }
 
 /** Business equipment is quoted (installed/configured); personal devices are bought outright. */
-export const modeOf = (r: Row): Mode => (r.store === "provision" ? "Quote" : "Buy now");
+export const modeOf = (r: Row): Mode => {
+  const set = specField(r, "mode");
+  if (set === "Quote" || set === "Buy now") return set;
+  return r.store === "provision" ? "Quote" : "Buy now";
+};
 
 export function shape<T extends Row>(r: T) {
   return { ...r, group: groupOf(r), condition: conditionOf(r), mode: modeOf(r) };

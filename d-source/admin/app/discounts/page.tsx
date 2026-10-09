@@ -1,77 +1,72 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Card, PageHeader, Row, Table, btnPrimary, inputStyle, labelStyle } from "@/components/ui";
+import { GenChips, GenDrawer, GenNote, GenTable, cB, cM, cP, cT } from "@/components/generic";
 import { api } from "@/lib/api";
+import { shortDate } from "@/lib/format";
 import { useToast } from "@/lib/toast-context";
 
-type Discount = { id: string; code: string; applies_to: string; value: string; ends_at: string; active: boolean };
+type Discount = { id: string; code: string; applies_to: string; value: string; starts_at: string | null; ends_at: string; active: boolean };
+const day = shortDate;
+const KEYS = ["code", "value", "appliesTo", "startsAt", "endsAt", "reason"] as const;
 
 export default function DiscountsPage() {
-  const [discounts, setDiscounts] = useState<Discount[]>([]);
-  const [form, setForm] = useState({ code: "", appliesTo: "", value: "", endsAt: "", reason: "" });
+  const [list, setList] = useState<Discount[] | null>(null);
+  const [open, setOpen] = useState(false);
+  const [f, setF] = useState<Record<string, string>>({});
   const { say } = useToast();
 
   function load() {
-    api.get<{ discounts: Discount[] }>("/admin/discounts").then(({ discounts }) => setDiscounts(discounts));
+    api.get<{ discounts: Discount[] }>("/admin/discounts").then(({ discounts }) => setList(discounts)).catch(() => setList([]));
   }
   useEffect(load, []);
 
-  async function create() {
-    if (!form.code || !form.endsAt || !form.reason) return say("Code, end date and a reason are required");
-    await api.post("/admin/discounts", form);
-    setForm({ code: "", appliesTo: "", value: "", endsAt: "", reason: "" });
+  const fld = (k: (typeof KEYS)[number], label: string, ph: string) => ({ label, ph, value: f[k] ?? "", onChange: (v: string) => setF((x) => ({ ...x, [k]: v })) });
+  const close = () => setOpen(false);
+
+  async function save() {
+    if (!f.code || !f.endsAt || !f.reason) return say("Code, end date and the real offer behind it are required");
+    if (Number.isNaN(Date.parse(f.endsAt)) || (f.startsAt && Number.isNaN(Date.parse(f.startsAt)))) return say("Dates as YYYY-MM-DD, e.g. 2026-11-30");
+    await api.post("/admin/discounts", { code: f.code, value: f.value ?? "", appliesTo: f.appliesTo ?? "", startsAt: f.startsAt || undefined, endsAt: f.endsAt, reason: f.reason });
+    close();
     say("Discount saved as draft");
     load();
   }
 
   return (
-    <div>
-      <PageHeader title="Discounts" subtitle="Only for real offers" />
-      <Card style={{ marginBottom: 16, fontSize: 14, color: "#3A4A44" }}>
-        The storefront shows discounts only when a real offer exists. Every code needs a reason and an end date.
-      </Card>
-      <Table cols="140px minmax(160px,1fr) 120px 120px 100px" head={["CODE", "APPLIES TO", "VALUE", "ENDS", "STATUS"]} minWidth="780px">
-        {discounts.map((d) => (
-          <Row key={d.id} cols="140px minmax(160px,1fr) 120px 120px 100px">
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: 12.5 }}>{d.code}</span>
-            <span>{d.applies_to}</span>
-            <span style={{ fontWeight: 800 }}>{d.value}</span>
-            <span>{new Date(d.ends_at).toLocaleDateString("en-NG")}</span>
-            <span style={{ fontSize: 11.5, fontWeight: 800, padding: "5px 10px", borderRadius: 999, background: d.active ? "#D9F0E3" : "#EFEADC", color: d.active ? "#1F7A5A" : "#06382E", justifySelf: "start" }}>
-              {d.active ? "Active" : "Draft"}
-            </span>
-          </Row>
-        ))}
-        {!discounts.length && <div style={{ padding: "28px 18px", color: "#5E6E68" }}>No discount codes. The storefront doesn’t need them to sell.</div>}
-      </Table>
-
-      <Card style={{ marginTop: 16, display: "flex", flexDirection: "column", gap: 12, maxWidth: 480 }}>
-        <span style={{ fontWeight: 800, fontSize: 18 }}>New discount code</span>
-        <label style={labelStyle}>
-          CODE
-          <input value={form.code} onChange={(e) => setForm((f) => ({ ...f, code: e.target.value }))} placeholder="e.g. BACKTOSCHOOL" style={inputStyle} />
-        </label>
-        <label style={labelStyle}>
-          VALUE
-          <input value={form.value} onChange={(e) => setForm((f) => ({ ...f, value: e.target.value }))} placeholder="e.g. 10% or ₦20,000" style={inputStyle} />
-        </label>
-        <label style={labelStyle}>
-          APPLIES TO
-          <input value={form.appliesTo} onChange={(e) => setForm((f) => ({ ...f, appliesTo: e.target.value }))} placeholder="Category, product or whole store" style={inputStyle} />
-        </label>
-        <label style={labelStyle}>
-          ENDS
-          <input type="date" value={form.endsAt} onChange={(e) => setForm((f) => ({ ...f, endsAt: e.target.value }))} style={inputStyle} />
-        </label>
-        <label style={labelStyle}>
-          THE REAL OFFER BEHIND IT
-          <input value={form.reason} onChange={(e) => setForm((f) => ({ ...f, reason: e.target.value }))} placeholder="e.g. supplier price drop on laptops" style={inputStyle} />
-        </label>
-        <button type="button" onClick={create} style={btnPrimary}>
-          Save as draft
-        </button>
-      </Card>
-    </div>
+    <>
+      <GenChips chips={[]} actions={[{ label: "New discount code", go: () => (setF({}), setOpen(true)) }]} />
+      <GenNote>The storefront shows discounts only when a real offer exists. Every code needs a reason and an end date.</GenNote>
+      <GenTable
+        cols="140px minmax(160px,1fr) 120px 120px 120px 100px"
+        head={["CODE", "APPLIES TO", "VALUE", "STARTS", "ENDS", "STATUS"]}
+        minW="780px"
+        empty={list ? "No discount codes. The storefront doesn’t need them to sell." : "Loading…"}
+        rows={(list ?? []).map((d) => ({
+          key: d.id,
+          cells: [cM(d.code), cT(d.applies_to), cB(d.value), cT(day(d.starts_at)), cT(day(d.ends_at)), d.active ? cP("Active", "#D9F0E3", "#1F7A5A") : cP("Draft", "#EFEADC", "#06382E")],
+        }))}
+      />
+      {open && (
+        <GenDrawer
+          kicker="DISCOUNT"
+          title="New discount code"
+          onClose={close}
+          meta={[]}
+          fields={[
+            fld("code", "CODE", "e.g. BACKTOSCHOOL"),
+            fld("value", "VALUE", "e.g. 10% or ₦20,000"),
+            fld("appliesTo", "APPLIES TO", "Category, product or whole store"),
+            fld("startsAt", "STARTS", ""),
+            fld("endsAt", "ENDS", "Required"),
+            fld("reason", "THE REAL OFFER BEHIND IT", "e.g. supplier price drop on laptops"),
+          ]}
+          actions={[
+            { label: "Save as draft", go: save, primary: true },
+            { label: "Cancel", go: close },
+          ]}
+        />
+      )}
+    </>
   );
 }

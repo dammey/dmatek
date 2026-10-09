@@ -1,7 +1,8 @@
-import { Router } from "express";
+import { Router, raw } from "express";
 import { z } from "zod";
 import { requireStaff } from "../../auth/middleware.js";
 import { db } from "../../supabase.js";
+import { shape } from "../../shop.js";
 
 export const adminProductsRouter = Router();
 adminProductsRouter.use(requireStaff("Products"));
@@ -12,7 +13,9 @@ adminProductsRouter.get("/", async (req, res) => {
   if (category) query = query.eq("category_id", category);
   const { data, error } = await query.order("name");
   if (error) return res.status(500).json({ error: error.message });
-  res.json({ products: data });
+  // Category options as the admin shows them: "For you · …" / "Business · …".
+  const { data: placements } = await db.from("category_placements").select("store, label, sort_order, category_id").order("store").order("sort_order");
+  res.json({ products: (data ?? []).map(shape), placements: placements ?? [] });
 });
 
 const productSchema = z.object({
@@ -26,6 +29,7 @@ const productSchema = z.object({
   images: z.array(z.string()).optional(),
   isActive: z.boolean().optional(),
   price: z.number().optional(),
+  stock: z.number().int().min(0).optional(),
 });
 
 adminProductsRouter.post("/", async (req, res) => {
@@ -37,15 +41,16 @@ adminProductsRouter.post("/", async (req, res) => {
     .single();
   if (error) return res.status(500).json({ error: error.message });
 
+  if (body.stock != null) await db.from("inventory").insert({ product_id: product.id, quantity_on_hand: body.stock });
+  else await db.from("inventory").insert({ product_id: product.id, quantity_on_hand: 0 });
   if (body.price != null) await db.from("product_prices").insert({ product_id: product.id, price_list: body.store === "provision" ? "business" : "retail", unit_price: body.price });
-  await db.from("inventory").insert({ product_id: product.id, quantity_on_hand: 0 });
 
   res.status(201).json({ id: product.id });
 });
 
 adminProductsRouter.patch("/:id", async (req, res) => {
   const body = productSchema.partial().parse(req.body);
-  const { price, categoryId, isActive, ...rest } = body;
+  const { price, categoryId, isActive, stock, ...rest } = body;
   const patch: Record<string, unknown> = { ...rest };
   if (categoryId !== undefined) patch.category_id = categoryId;
   if (isActive !== undefined) patch.is_active = isActive;
@@ -53,12 +58,36 @@ adminProductsRouter.patch("/:id", async (req, res) => {
     const { error } = await db.from("products").update(patch).eq("id", req.params.id);
     if (error) return res.status(500).json({ error: error.message });
   }
+  if (stock != null) {
+    const { data: inv } = await db.from("inventory").select("id").eq("product_id", req.params.id).maybeSingle();
+    if (inv) await db.from("inventory").update({ quantity_on_hand: stock, updated_at: new Date().toISOString() }).eq("id", inv.id);
+    else await db.from("inventory").insert({ product_id: req.params.id, quantity_on_hand: stock });
+  }
   if (price != null) {
     const { data: product } = await db.from("products").select("store").eq("id", req.params.id).maybeSingle();
     const priceList = (body.store ?? product?.store) === "provision" ? "business" : "retail";
     await db.from("product_prices").upsert({ product_id: req.params.id, price_list: priceList, unit_price: price }, { onConflict: "product_id,price_list" });
   }
   res.json({ ok: true });
+});
+
+const IMAGE_TYPES: Record<string, string> = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp" };
+
+/** POST /admin/products/:id/image — raw image body; becomes the main photo. */
+adminProductsRouter.post("/:id/image", raw({ type: Object.keys(IMAGE_TYPES), limit: "10mb" }), async (req, res) => {
+  const type = (req.headers["content-type"] ?? "").split(";")[0];
+  const ext = IMAGE_TYPES[type];
+  if (!ext || !Buffer.isBuffer(req.body) || !req.body.length) return res.status(400).json({ error: "Upload a JPG, PNG or WebP photo" });
+  const { data: product } = await db.from("products").select("images").eq("id", req.params.id).maybeSingle();
+  if (!product) return res.status(404).json({ error: "Not found" });
+  const path = `${req.params.id}/${Date.now()}.${ext}`;
+  const up = await db.storage.from("product-images").upload(path, req.body, { contentType: type });
+  if (up.error) return res.status(500).json({ error: up.error.message });
+  const url = db.storage.from("product-images").getPublicUrl(path).data.publicUrl;
+  const images = [url, ...((product.images as string[] | null) ?? []).filter((u) => u !== url)];
+  const { error } = await db.from("products").update({ images }).eq("id", req.params.id);
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ url, images });
 });
 
 adminProductsRouter.patch("/:id/stock", async (req, res) => {

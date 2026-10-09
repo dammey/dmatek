@@ -1,127 +1,140 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Card, Chip, PageHeader, Row, Table, btnGhost, btnPrimary, inputStyle, labelStyle } from "@/components/ui";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
+import { GenChips, GenDrawer, GenTable, cB, cM, cP, cT } from "@/components/generic";
 import { api } from "@/lib/api";
-import { fmt } from "@/lib/format";
+import { fmt, shortDate } from "@/lib/format";
 import { useToast } from "@/lib/toast-context";
 
-type Supplier = { id: string; name: string; supplies: string | null; contact_email: string | null; contact_phone: string | null; lead_time_days: number | null };
-type PO = { ref: string; value: number; expected_date: string | null; status: string; itemCount: number; suppliers?: { name: string } };
+type Supplier = { id: string; name: string; supplies: string | null; brands: string | null; contact: string | null; contact_email: string | null; contact_phone: string | null; lead_time: string | null; lead_time_days: number | null };
+type PO = { id: string; ref: string; value: number; expected_date: string | null; status: "draft" | "ordered" | "received"; suppliers?: { name: string } | null; po_lines: { description: string; quantity: number }[] };
 
-export default function SuppliersPage() {
-  const [tab, setTab] = useState<"suppliers" | "pos">("suppliers");
-  const [suppliers, setSuppliers] = useState<Supplier[]>([]);
-  const [pos, setPos] = useState<PO[]>([]);
-  const [adding, setAdding] = useState(false);
-  const [form, setForm] = useState({ name: "", supplies: "", contactEmail: "", contactPhone: "", leadTimeDays: "" });
+const POC: Record<string, [string, string]> = { Draft: ["#EFEADC", "#06382E"], Ordered: ["#FFF1CC", "#7A5B00"], Received: ["#D9F0E3", "#1F7A5A"] };
+const label = (s: PO["status"]) => (s === "draft" ? "Draft" : s === "ordered" ? "Ordered" : "Received");
+const items = (p: PO) => p.po_lines.map((l) => `${Number(l.quantity)} × ${l.description}`).join(", ") || "[ ITEMS ]";
+const day = shortDate;
+const lead = (s: Supplier) => s.lead_time || (s.lead_time_days != null ? `${s.lead_time_days} days` : "—");
+
+type Drawer = { mod: "suppliers" | "po"; id: string } | null;
+
+function SuppliersInner() {
+  const params = useSearchParams();
+  const [tab, setTab] = useState(params.get("tab") === "po" ? "po" : "sup");
+  const [suppliers, setSuppliers] = useState<Supplier[] | null>(null);
+  const [pos, setPos] = useState<PO[] | null>(null);
+  const [drawer, setDrawer] = useState<Drawer>(null);
+  const [f, setF] = useState<Record<string, string>>({});
   const { say } = useToast();
 
   function load() {
-    api.get<{ suppliers: Supplier[] }>("/admin/suppliers").then(({ suppliers }) => setSuppliers(suppliers));
-    api.get<{ purchaseOrders: PO[] }>("/admin/suppliers/pos").then(({ purchaseOrders }) => setPos(purchaseOrders));
+    api.get<{ suppliers: Supplier[] }>("/admin/suppliers").then(({ suppliers }) => setSuppliers(suppliers)).catch(() => setSuppliers([]));
+    api.get<{ purchaseOrders: PO[] }>("/admin/suppliers/pos").then(({ purchaseOrders }) => setPos(purchaseOrders)).catch(() => setPos([]));
   }
   useEffect(load, []);
 
-  async function advance(ref: string) {
-    await api.patch(`/admin/suppliers/pos/${ref}/advance`);
-    say("Advanced");
+  const tabs = [
+    { label: "Suppliers", on: tab === "sup", go: () => setTab("sup") },
+    { label: "Purchase orders", on: tab === "po", go: () => setTab("po") },
+  ];
+  const close = () => setDrawer(null);
+  const openG = (mod: "suppliers" | "po", id: string, init: Record<string, string> = {}) => () => {
+    setF(init);
+    setDrawer({ mod, id });
+  };
+  const field = (key: string, l: string, ph: string) => ({ label: l, ph, value: f[key] ?? "", onChange: (v: string) => setF((x) => ({ ...x, [key]: v })) });
+
+  async function advance(p: PO) {
+    await api.patch(`/admin/suppliers/pos/${p.ref}/advance`);
+    say(p.ref + (p.status === "draft" ? " sent to supplier" : " received into stock"));
     load();
   }
 
-  async function addSupplier() {
-    if (!form.name.trim()) return say("Name is required");
-    await api.post("/admin/suppliers", {
-      name: form.name,
-      supplies: form.supplies || undefined,
-      contactEmail: form.contactEmail || undefined,
-      contactPhone: form.contactPhone || undefined,
-      leadTimeDays: form.leadTimeDays ? Number(form.leadTimeDays) : undefined,
-    });
-    say(`${form.name} added`);
-    setForm({ name: "", supplies: "", contactEmail: "", contactPhone: "", leadTimeDays: "" });
-    setAdding(false);
-    load();
+  async function save() {
+    if (!drawer) return;
+    try {
+      if (drawer.mod === "po") {
+        const sup = (suppliers ?? []).find((s) => s.name.toLowerCase() === (f.supplier ?? "").trim().toLowerCase());
+        if (!sup) return say("Add the supplier first, then name it here exactly");
+        await api.post("/admin/suppliers/pos", { supplierId: sup.id, items: f.items ?? "", value: parseInt((f.value ?? "").replace(/\D/g, ""), 10) || 0, expectedDate: f.expected || undefined });
+      } else {
+        const body = { name: f.name, supplies: f.supplies, contact: f.contact, leadTime: f.lead, brands: f.brands };
+        if (drawer.id === "new") await api.post("/admin/suppliers", body);
+        else await api.patch(`/admin/suppliers/${drawer.id}`, body);
+      }
+      say("Saved");
+      close();
+      load();
+    } catch (e) {
+      say(e instanceof Error ? e.message : "Couldn’t save");
+    }
   }
+
+  const sup = drawer?.mod === "suppliers" && drawer.id !== "new" ? (suppliers ?? []).find((s) => s.id === drawer.id) : null;
+  const po = drawer?.mod === "po" && drawer.id !== "new" ? (pos ?? []).find((p) => p.ref === drawer.id) : null;
 
   return (
-    <div>
-      <PageHeader title="Suppliers and POs" subtitle="Where stock comes from" />
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap", marginBottom: 16 }}>
-        <div style={{ display: "flex", gap: 6 }}>
-          <Chip label="Suppliers" active={tab === "suppliers"} onClick={() => setTab("suppliers")} />
-          <Chip label="Purchase orders" active={tab === "pos"} onClick={() => setTab("pos")} />
-        </div>
-        {tab === "suppliers" && (
-          <button type="button" onClick={() => setAdding((a) => !a)} style={btnPrimary}>
-            Add supplier
-          </button>
-        )}
-      </div>
-
-      {tab === "suppliers" ? (
+    <>
+      {tab === "sup" ? (
         <>
-          {adding && (
-            <Card style={{ marginBottom: 16, display: "flex", flexDirection: "column", gap: 12, maxWidth: 480 }}>
-              <span style={{ fontWeight: 800, fontSize: 18 }}>New supplier</span>
-              <label style={labelStyle}>
-                NAME
-                <input value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} style={inputStyle} />
-              </label>
-              <label style={labelStyle}>
-                SUPPLIES
-                <input value={form.supplies} onChange={(e) => setForm((f) => ({ ...f, supplies: e.target.value }))} placeholder="e.g. Networking" style={inputStyle} />
-              </label>
-              <label style={labelStyle}>
-                CONTACT
-                <input value={form.contactEmail} onChange={(e) => setForm((f) => ({ ...f, contactEmail: e.target.value }))} placeholder="Email" style={inputStyle} />
-              </label>
-              <label style={labelStyle}>
-                PHONE
-                <input value={form.contactPhone} onChange={(e) => setForm((f) => ({ ...f, contactPhone: e.target.value }))} style={inputStyle} />
-              </label>
-              <label style={labelStyle}>
-                LEAD TIME (DAYS)
-                <input value={form.leadTimeDays} onChange={(e) => setForm((f) => ({ ...f, leadTimeDays: e.target.value }))} placeholder="e.g. 5" style={inputStyle} />
-              </label>
-              <div style={{ display: "flex", gap: 8 }}>
-                <button type="button" onClick={addSupplier} style={btnPrimary}>
-                  Save
-                </button>
-                <button type="button" onClick={() => setAdding(false)} style={btnGhost}>
-                  Cancel
-                </button>
-              </div>
-            </Card>
-          )}
-          <Table cols="minmax(160px,1fr) minmax(160px,1fr) 120px" head={["SUPPLIER", "SUPPLIES", "LEAD TIME"]} minWidth="700px">
-            {suppliers.map((s) => (
-              <Row key={s.id} cols="minmax(160px,1fr) minmax(160px,1fr) 120px">
-                <span style={{ fontWeight: 700 }}>{s.name}</span>
-                <span style={{ color: "#3A4A44" }}>{s.supplies || "—"}</span>
-                <span>{s.lead_time_days != null ? `${s.lead_time_days} days` : "—"}</span>
-              </Row>
-            ))}
-            {!suppliers.length && <div style={{ padding: "28px 18px", color: "#5E6E68" }}>No suppliers yet.</div>}
-          </Table>
+          <GenChips chips={tabs} actions={[{ label: "Add supplier", go: openG("suppliers", "new") }]} />
+          <GenTable
+            cols="minmax(160px,1fr) minmax(160px,1fr) minmax(180px,1fr) 110px"
+            head={["SUPPLIER", "SUPPLIES", "BRANDS", "LEAD TIME", ""]}
+            minW="820px"
+            empty={suppliers ? "No suppliers yet." : "Loading…"}
+            rows={(suppliers ?? []).map((s) => ({
+              key: s.id,
+              cells: [cB(s.name), cT(s.supplies || "—"), cT(s.brands || "—"), cT(lead(s))],
+              btn: "Open",
+              go: openG("suppliers", s.id, { name: s.name, supplies: s.supplies ?? "", contact: s.contact || s.contact_phone || s.contact_email || "", lead: s.lead_time ?? "", brands: s.brands ?? "" }),
+            }))}
+          />
         </>
       ) : (
-        <Table cols="100px minmax(140px,1fr) 80px 130px 100px 110px" head={["PO", "SUPPLIER", "ITEMS", "VALUE", "EXPECTED", "STATUS"]} minWidth="900px">
-          {pos.map((p) => (
-            <Row key={p.ref} cols="100px minmax(140px,1fr) 80px 130px 100px 110px">
-              <span style={{ fontFamily: "var(--font-mono)", fontSize: 12.5 }}>{p.ref}</span>
-              <span style={{ fontWeight: 700 }}>{p.suppliers?.name}</span>
-              <span>{p.itemCount}</span>
-              <span style={{ fontWeight: 800 }}>{fmt(p.value)}</span>
-              <span>{p.expected_date ? new Date(p.expected_date).toLocaleDateString("en-NG") : "—"}</span>
-              <button type="button" onClick={() => advance(p.ref)} disabled={p.status === "received"} style={p.status === "draft" ? btnPrimary : btnGhost}>
-                {p.status === "draft" ? "Send" : p.status === "ordered" ? "Receive" : "Received"}
-              </button>
-            </Row>
-          ))}
-          {!pos.length && <div style={{ padding: "28px 18px", color: "#5E6E68" }}>No purchase orders yet.</div>}
-        </Table>
+        <>
+          <GenChips chips={tabs} actions={[{ label: "New purchase order", go: openG("po", "new") }]} />
+          <GenTable
+            cols="100px minmax(140px,1fr) minmax(180px,1fr) 130px 100px 110px"
+            head={["PO", "SUPPLIER", "ITEMS", "VALUE", "EXPECTED", "STATUS", ""]}
+            minW="900px"
+            empty={pos ? "No purchase orders yet." : "Loading…"}
+            rows={(pos ?? []).map((p) => {
+              const st = label(p.status);
+              return {
+                key: p.ref,
+                cells: [cM(p.ref), cB(p.suppliers?.name ?? "[ SUPPLIER ]"), cT(items(p)), cB(fmt(p.value)), cT(day(p.expected_date)), cP(st, POC[st][0], POC[st][1])],
+                btn: p.status === "received" ? "Open" : p.status === "draft" ? "Send" : "Receive",
+                go: p.status === "received" ? openG("po", p.ref) : () => advance(p),
+              };
+            })}
+          />
+        </>
       )}
-    </div>
+      {drawer && (
+        <GenDrawer
+          kicker={drawer.mod === "po" ? "PURCHASE ORDER" : "SUPPLIER"}
+          title={drawer.id === "new" ? (drawer.mod === "po" ? "New purchase order" : "New supplier") : (sup?.name ?? po?.ref ?? drawer.id)}
+          onClose={close}
+          meta={po ? [{ k: "Supplier", v: po.suppliers?.name ?? "[ SUPPLIER ]" }, { k: "Items", v: items(po) }, { k: "Value", v: fmt(po.value) }, { k: "Expected", v: day(po.expected_date) }, { k: "Status", v: label(po.status) }] : []}
+          fields={
+            po
+              ? []
+              : drawer.mod === "po"
+                ? [field("supplier", "SUPPLIER", "[ SUPPLIER ]"), field("items", "ITEMS", "e.g. 10 × Latitude 5550"), field("value", "VALUE (₦)", ""), field("expected", "EXPECTED DATE", "")]
+                : [field("name", "NAME", ""), field("supplies", "SUPPLIES", "e.g. Networking"), field("contact", "CONTACT", ""), field("lead", "LEAD TIME", "e.g. 3–5 days")]
+          }
+          actions={po ? [{ label: "Close", go: close }] : [{ label: "Save", go: save, primary: true }, { label: "Cancel", go: close }]}
+        />
+      )}
+    </>
+  );
+}
+
+export default function SuppliersPage() {
+  return (
+    <Suspense>
+      <SuppliersInner />
+    </Suspense>
   );
 }

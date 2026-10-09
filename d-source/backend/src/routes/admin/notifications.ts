@@ -10,7 +10,7 @@ adminNotificationsRouter.get("/", async (req, res) => {
   const { audience } = req.query as { audience?: string };
   let query = db.from("notification_templates").select("*");
   if (audience) query = query.eq("audience", audience);
-  const { data, error } = await query.order("name");
+  const { data, error } = await query.order("sort_order", { nullsFirst: false }).order("name");
   if (error) return res.status(500).json({ error: error.message });
   res.json({ templates: data });
 });

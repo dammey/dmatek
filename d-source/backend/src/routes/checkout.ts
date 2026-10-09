@@ -68,8 +68,8 @@ checkoutRouter.post("/", async (req, res) => {
   }));
   await db.from("order_lines").insert(lines);
 
-  const method = body.paymentMethod === "card" ? "card" : body.paymentMethod === "transfer" ? "transfer" : body.paymentMethod === "ussd" ? "transfer" : "transfer";
-  await db.from("payments").insert({ order_id: order.id, method, status: "pending", amount: total });
+  const method = body.paymentMethod === "card" ? "card" : body.paymentMethod === "pod" ? "pod" : "transfer";
+  await db.from("payments").insert({ order_id: order.id, method, status: "pending", amount: total, provider: method === "card" ? activePaymentProvider.name : null, provider_ref: method === "card" ? ref : null });
 
   if (body.paymentMethod === "card") {
     const init = await activePaymentProvider.initialize({
@@ -90,14 +90,15 @@ checkoutRouter.post("/", async (req, res) => {
  * redirect returns, and used by the webhook handler below. */
 checkoutRouter.get("/verify/:reference", async (req, res) => {
   const result = await activePaymentProvider.verify(req.params.reference);
-  if (result.status === "paid") {
-    await db.from("payments").update({ status: "paid", paid_at: new Date().toISOString() }).eq("order_id", (await orderIdForRef(result.reference)) ?? "");
-    await db.from("orders").update({ status: "confirmed" }).eq("ref", result.reference);
-  }
+  // Payment status only: the order stays at "Ordered" until staff source it.
+  const orderId = (await orderIdForRef(result.reference)) ?? "";
+  if (result.status === "paid") await db.from("payments").update({ status: "paid", paid_at: new Date().toISOString() }).eq("order_id", orderId);
+  if (result.status === "failed") await db.from("payments").update({ status: "failed" }).eq("order_id", orderId).neq("status", "paid");
   res.json(result);
 });
 
+/** Payment references are the order ref, or "<order ref>-<suffix>" for a re-sent payment link. */
 async function orderIdForRef(ref: string) {
-  const { data } = await db.from("orders").select("id").eq("ref", ref).maybeSingle();
+  const { data } = await db.from("orders").select("id").eq("ref", ref.split("-").slice(0, 2).join("-")).maybeSingle();
   return data?.id ?? null;
 }

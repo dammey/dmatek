@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Chip, PageHeader, btnGhost } from "@/components/ui";
+import { Chip, btnGhost } from "@/components/ui";
 import { api } from "@/lib/api";
 import { useToast } from "@/lib/toast-context";
 
@@ -39,7 +39,6 @@ export default function NotificationsPage() {
 
   return (
     <div>
-      <PageHeader title="Notifications" subtitle="Messages to customers and alerts to staff" />
       <div style={{ display: "flex", gap: 6, marginBottom: 16 }}>
         <Chip label="All" active={!audience} onClick={() => setAudience(null)} />
         <Chip label="To customers" active={audience === "customer"} onClick={() => setAudience("customer")} />

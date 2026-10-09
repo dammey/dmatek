@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { db } from "../supabase.js";
 import { shape } from "../shop.js";
+import { getSettings } from "../util/settings.js";
 
 export const contentRouter = Router();
 
@@ -11,14 +12,12 @@ async function getValue<T>(key: string, fallback: T): Promise<T> {
 
 /** GET /content — public, read-only: the storefront's CMS-driven bits
  * (hero words, hero background images, best sellers, help/about text). */
-type PublicSettings = { address?: string; returnsPolicy?: string; businessAccountReviewTime?: string; deliveryTimesAndFees?: string; podAreas?: string };
-
 contentRouter.get("/", async (_req, res) => {
   const heroWords = await getValue<string[]>("heroWords", []);
   const bestSellerIds = await getValue<string[]>("bestSellers", []);
   const help = await getValue<Record<string, string>>("help", {});
   const about = await getValue<string>("about", "");
-  const settings = await getValue<PublicSettings>("settings", {});
+  const settings = await getSettings();
   // One wide background image per hero kit, keyed by kit ("home", "gate", …).
   const heroImages = await getValue<Record<string, string>>("heroImages", {});
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PageHeader, btnGhost, btnPrimary } from "@/components/ui";
+import { btnGhost, btnPrimary } from "@/components/ui";
 import { api } from "@/lib/api";
 import { useToast } from "@/lib/toast-context";
 
@@ -66,7 +66,6 @@ export default function EngineerAppPage() {
 
   return (
     <div>
-      <PageHeader title="Engineer app" subtitle="What engineers see on their phones" />
       <label style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", marginBottom: 20, maxWidth: 260 }}>
         PREVIEW AS
         <select value={picked} onChange={(e) => setPicked(e.target.value)} style={{ border: "1px solid rgba(6,56,46,.2)", borderRadius: 12, padding: 12, fontSize: 14 }}>

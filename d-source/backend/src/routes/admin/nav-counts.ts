@@ -12,11 +12,11 @@ const SLA_MINUTES = 1440;
  * quotes.overdue which the sidebar renders red. */
 adminNavCountsRouter.get("/", async (req, res) => {
   if (req.staff!.role === "Engineer") return res.status(403).json({ error: "Engineers can only use the engineer app" });
-  const [orders, quotes, payments, invoices, reviews, accounts, surveys, inventory, enquiries, returns, repairs] = await Promise.all([
-    db.from("orders").select("id", { count: "exact", head: true }).eq("status", "pending"),
+  const [orders, quotes, payments, invoices, reviews, accounts, surveys, inventory, enquiries, returns, repairs, unassigned] = await Promise.all([
+    db.from("orders").select("id", { count: "exact", head: true }).in("status", ["pending", "confirmed"]),
     db.from("quotes").select("submitted_at").eq("status", "submitted"),
     db.from("payments").select("id", { count: "exact", head: true }).eq("status", "pending").neq("method", "invoice_terms"),
-    db.from("payments").select("id", { count: "exact", head: true }).eq("method", "invoice_terms").eq("status", "pending"),
+    db.from("payments").select("id", { count: "exact", head: true }).eq("method", "invoice_terms").eq("status", "overdue"),
     db.from("reviews").select("id", { count: "exact", head: true }).eq("state", "pending"),
     db.from("customers").select("id", { count: "exact", head: true }).eq("account_status", "pending"),
     db.from("site_surveys").select("id", { count: "exact", head: true }).eq("stage", "requested"),
@@ -24,6 +24,7 @@ adminNavCountsRouter.get("/", async (req, res) => {
     db.from("enquiries").select("id", { count: "exact", head: true }).eq("done", false),
     db.from("returns").select("id", { count: "exact", head: true }).eq("state", "Open"),
     db.from("repairs").select("id", { count: "exact", head: true }).not("stage", "in", "(fixing,returned)"),
+    db.from("jobs").select("id", { count: "exact", head: true }).is("engineer_staff_id", null),
   ]);
 
   const quoteRows = quotes.data ?? [];
@@ -42,5 +43,6 @@ adminNavCountsRouter.get("/", async (req, res) => {
     enquiries: enquiries.count ?? 0,
     returns: returns.count ?? 0,
     repairs: repairs.count ?? 0,
+    unassigned: unassigned.count ?? 0,
   });
 });
