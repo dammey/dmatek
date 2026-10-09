@@ -134,7 +134,12 @@ adminProductsRouter.post("/bulk", async (req, res) => {
       const { data: inv } = await db.from("inventory").select("id").eq("product_id", existing.id).maybeSingle();
       if (inv) await db.from("inventory").update({ quantity_on_hand: row.stock }).eq("id", inv.id);
     } else {
-      const { data: category } = await db.from("categories").select("id").ilike("name", row.category).maybeSingle();
+      // Category by name, or by the label staff see in Categories (e.g. "Wi-Fi").
+      let { data: category } = await db.from("categories").select("id").ilike("name", row.category).maybeSingle();
+      if (!category) {
+        const { data: pl } = await db.from("category_placements").select("category_id").ilike("label", row.category).limit(1).maybeSingle();
+        if (pl?.category_id) category = { id: pl.category_id };
+      }
       const { data: product } = await db
         .from("products")
         .insert({

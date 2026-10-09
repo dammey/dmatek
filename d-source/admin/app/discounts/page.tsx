@@ -8,7 +8,7 @@ import { useToast } from "@/lib/toast-context";
 
 type Discount = { id: string; code: string; applies_to: string; value: string; starts_at: string | null; ends_at: string; active: boolean };
 const day = shortDate;
-const KEYS = ["code", "value", "appliesTo", "startsAt", "endsAt", "reason"] as const;
+type Key = "code" | "value" | "appliesTo" | "startsAt" | "endsAt" | "reason";
 
 export default function DiscountsPage() {
   const [list, setList] = useState<Discount[] | null>(null);
@@ -21,7 +21,7 @@ export default function DiscountsPage() {
   }
   useEffect(load, []);
 
-  const fld = (k: (typeof KEYS)[number], label: string, ph: string) => ({ label, ph, value: f[k] ?? "", onChange: (v: string) => setF((x) => ({ ...x, [k]: v })) });
+  const fld = (k: Key, label: string, ph: string) => ({ label, ph, value: f[k] ?? "", onChange: (v: string) => setF((x) => ({ ...x, [k]: v })) });
   const close = () => setOpen(false);
 
   async function save() {

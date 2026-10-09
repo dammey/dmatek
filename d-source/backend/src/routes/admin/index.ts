@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { activityLog } from "../../util/activity.js";
 import { adminAccountsRouter } from "./accounts.js";
 import { adminCategoriesRouter } from "./categories.js";
 import { adminContentRouter } from "./content.js";
@@ -27,6 +28,7 @@ import { adminSurveysRouter } from "./surveys.js";
 import { adminZonesRouter } from "./zones.js";
 
 export const adminRouter = Router();
+adminRouter.use(activityLog);
 
 adminRouter.use("/dashboard", adminDashboardRouter);
 adminRouter.use("/nav-counts", adminNavCountsRouter);

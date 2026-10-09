@@ -1,33 +1,27 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Card, btnGhost, btnPrimary, inputStyle, labelStyle } from "@/components/ui";
 import { api } from "@/lib/api";
 import { useToast } from "@/lib/toast-context";
 
-type Placement = { id: string; store: "emporium" | "provision"; slug: string; label: string; sortOrder: number; isActive: boolean; categoryId: string | null; categoryName: string };
+type Placement = { id: string; store: "emporium" | "provision"; slug: string; label: string; sortOrder: number; isActive: boolean; categoryId: string | null; categoryName: string; productCount: number };
+type Store = Placement["store"];
 
-const STORES: { key: "emporium" | "provision"; title: string }[] = [
+const STORES: { key: Store; title: string }[] = [
   { key: "emporium", title: "D’Emporium · Home" },
   { key: "provision", title: "D’Provision · Business" },
 ];
+const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
-function slugify(s: string) {
-  return s
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-}
-
+/** Categories publish to the storefront: order, labels and visibility here
+ * drive the category bar, and hidden categories' products stay off the store. */
 export default function CategoriesPage() {
-  const [placements, setPlacements] = useState<Placement[]>([]);
-  const [addFor, setAddFor] = useState<"emporium" | "provision" | null>(null);
-  const [newCategoryName, setNewCategoryName] = useState("");
-  const [newLabel, setNewLabel] = useState("");
+  const [list, setList] = useState<Placement[]>([]);
+  const [newCat, setNewCat] = useState<Record<Store, string>>({ emporium: "", provision: "" });
   const { say } = useToast();
 
   function load() {
-    api.get<{ placements: Placement[] }>("/admin/categories").then(({ placements }) => setPlacements(placements));
+    api.get<{ placements: Placement[] }>("/admin/categories").then(({ placements }) => setList(placements));
   }
   useEffect(load, []);
 
@@ -35,107 +29,66 @@ export default function CategoriesPage() {
     await api.patch(`/admin/categories/${id}/move`, { direction });
     load();
   }
-
-  async function toggleActive(p: Placement) {
+  async function toggle(p: Placement) {
+    setList((l) => l.map((x) => (x.id === p.id ? { ...x, isActive: !x.isActive } : x)));
     await api.patch(`/admin/categories/${p.id}`, { isActive: !p.isActive });
-    say(p.isActive ? `${p.label} hidden from the category bar` : `${p.label} shown in the category bar`);
-    load();
   }
-
-  async function add(store: "emporium" | "provision") {
-    if (!newCategoryName.trim() || !newLabel.trim()) return;
-    await api.post("/admin/categories", { store, categoryName: newCategoryName.trim(), slug: slugify(newLabel.trim()), label: newLabel.trim() });
-    say(`${newLabel} added to ${store === "emporium" ? "D’Emporium" : "D’Provision"}`);
-    setNewCategoryName("");
-    setNewLabel("");
-    setAddFor(null);
+  async function add(store: Store) {
+    const v = newCat[store].trim();
+    if (!v) return;
+    const { placement } = await api.post<{ placement: { id: string } }>("/admin/categories", { store, categoryName: v, slug: slugify(v), label: v });
+    await api.patch(`/admin/categories/${placement.id}`, { isActive: false });
+    setNewCat((n) => ({ ...n, [store]: "" }));
+    say(`${v} added (hidden until it has products)`);
     load();
   }
 
   return (
-    <div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-        {STORES.map((s) => {
-          const rows = placements.filter((p) => p.store === s.key).sort((a, b) => a.sortOrder - b.sortOrder);
+    <>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,440px),1fr))", gap: 16, alignItems: "start" }}>
+        {STORES.map((g) => {
+          const rows = list.filter((p) => p.store === g.key).sort((a, b) => a.sortOrder - b.sortOrder);
           return (
-            <Card key={s.key}>
-              <span style={{ fontWeight: 800, fontSize: 17, display: "block", marginBottom: 12 }}>{s.title}</span>
-              {rows.map((p, i) => (
-                <div
-                  key={p.id}
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "auto 28px minmax(0,1fr) minmax(0,1fr) auto",
-                    gap: 12,
-                    alignItems: "center",
-                    borderTop: i ? "1px solid #EEEAE2" : undefined,
-                    padding: "11px 0",
-                    opacity: p.isActive ? 1 : 0.45,
-                  }}
-                >
-                  <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                    <button
-                      type="button"
-                      onClick={() => move(p.id, "up")}
-                      disabled={i === 0}
-                      aria-label="Move up"
-                      style={{ width: 22, height: 18, border: "1px solid rgba(6,56,46,.2)", background: "#fff", borderRadius: 4, fontSize: 11, lineHeight: 1, opacity: i === 0 ? 0.3 : 1 }}
-                    >
+            <section key={g.key} style={{ background: "#fff", border: "1px solid rgba(6,56,46,.1)", borderRadius: 22, padding: 20, display: "flex", flexDirection: "column", gap: 4 }}>
+              <span style={{ fontWeight: 800, fontSize: 18, marginBottom: 6 }}>{g.title}</span>
+              {rows.map((c, i) => (
+                <div key={c.id} style={{ display: "grid", gridTemplateColumns: "28px minmax(0,1fr) auto auto", gap: 12, alignItems: "center", borderTop: "1px solid #EEEAE2", padding: "11px 0" }}>
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "#5E6E68" }}>{String(i + 1).padStart(2, "0")}</span>
+                  <span style={{ display: "flex", flexDirection: "column" }}>
+                    <span style={{ fontWeight: 700, fontSize: 15, opacity: c.isActive ? 1 : 0.45 }}>{c.label}</span>
+                    <span style={{ fontSize: 12.5, color: "#5E6E68" }}>{c.productCount} products</span>
+                  </span>
+                  <span style={{ display: "flex", gap: 4 }}>
+                    <button type="button" onClick={() => move(c.id, "up")} aria-label="Move up" style={arrow}>
                       ↑
                     </button>
-                    <button
-                      type="button"
-                      onClick={() => move(p.id, "down")}
-                      disabled={i === rows.length - 1}
-                      aria-label="Move down"
-                      style={{ width: 22, height: 18, border: "1px solid rgba(6,56,46,.2)", background: "#fff", borderRadius: 4, fontSize: 11, lineHeight: 1, opacity: i === rows.length - 1 ? 0.3 : 1 }}
-                    >
+                    <button type="button" onClick={() => move(c.id, "down")} aria-label="Move down" style={arrow}>
                       ↓
                     </button>
-                  </div>
-                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "#5E6E68" }}>{String(i + 1).padStart(2, "0")}</span>
-                  <span style={{ fontWeight: 700, fontSize: 15 }}>{p.label}</span>
-                  <span style={{ fontSize: 13, color: "#5E6E68" }}>
-                    /{s.key}/{p.slug} · filed under &ldquo;{p.categoryName}&rdquo;
                   </span>
-                  <button
-                    type="button"
-                    onClick={() => toggleActive(p)}
-                    style={{ width: 44, height: 26, borderRadius: 999, border: 0, background: p.isActive ? "#1F7A5A" : "#D9D4C8", position: "relative", justifySelf: "end" }}
-                    aria-label={p.isActive ? "Hide" : "Show"}
-                  >
-                    <span style={{ position: "absolute", top: 4, left: p.isActive ? 22 : 4, width: 18, height: 18, borderRadius: "50%", background: "#fff" }} />
+                  <button type="button" onClick={() => toggle(c)} style={{ border: "1px solid rgba(6,56,46,.2)", background: c.isActive ? "#E3EEE8" : "#fff", color: "#06382E", borderRadius: 999, padding: "6px 12px", fontSize: 12.5, fontWeight: 700, whiteSpace: "nowrap" }}>
+                    {c.isActive ? "Visible" : "Hidden"}
                   </button>
                 </div>
               ))}
-              {!rows.length && <p style={{ color: "#5E6E68" }}>No categories yet.</p>}
-
-              {addFor === s.key ? (
-                <div style={{ display: "flex", gap: 8, flexWrap: "wrap", borderTop: "1px solid #EEEAE2", paddingTop: 12, marginTop: 4, alignItems: "flex-end" }}>
-                  <label style={{ ...labelStyle, flex: "1 1 200px" }}>
-                    LABEL SHOWN IN NAV
-                    <input value={newLabel} onChange={(e) => setNewLabel(e.target.value)} style={inputStyle} placeholder="e.g. Audio" />
-                  </label>
-                  <label style={{ ...labelStyle, flex: "1 1 200px" }}>
-                    FILED UNDER (CATEGORY)
-                    <input value={newCategoryName} onChange={(e) => setNewCategoryName(e.target.value)} style={inputStyle} placeholder="e.g. TV & Audio" />
-                  </label>
-                  <button type="button" onClick={() => add(s.key)} style={btnPrimary}>
-                    Add
-                  </button>
-                  <button type="button" onClick={() => setAddFor(null)} style={btnGhost}>
-                    Cancel
-                  </button>
-                </div>
-              ) : (
-                <button type="button" onClick={() => setAddFor(s.key)} style={{ ...btnGhost, marginTop: 12 }}>
-                  Add category
+              <div style={{ display: "flex", gap: 8, borderTop: "1px solid #EEEAE2", paddingTop: 12, marginTop: 4 }}>
+                <input
+                  value={newCat[g.key]}
+                  onChange={(e) => setNewCat((n) => ({ ...n, [g.key]: e.target.value }))}
+                  placeholder="New category name"
+                  style={{ flex: 1, border: "1px solid rgba(6,56,46,.18)", borderRadius: 999, padding: "10px 14px", fontSize: 14, background: "#fff", color: "#06382E" }}
+                />
+                <button type="button" onClick={() => add(g.key)} style={{ border: 0, background: "#06382E", color: "#F5F1E8", borderRadius: 999, padding: "10px 16px", fontWeight: 800, fontSize: 13.5 }}>
+                  Add
                 </button>
-              )}
-            </Card>
+              </div>
+            </section>
           );
         })}
       </div>
-    </div>
+      <p style={{ margin: 0, fontSize: 13.5, color: "#5E6E68" }}>Order here is the order on the storefront category bar and the All categories page. Hidden categories stay in the catalogue but don’t show to customers.</p>
+    </>
   );
 }
+
+const arrow: React.CSSProperties = { width: 32, height: 32, borderRadius: 8, border: "1px solid rgba(6,56,46,.18)", background: "#fff", color: "#06382E" };

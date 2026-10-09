@@ -21,8 +21,27 @@ adminContentRouter.get("/", async (_req, res) => {
     bestSellers: await getValue("bestSellers", []),
     help: await getValue("help", {}),
     about: await getValue("about", ""),
-    heroImages: await getValue("heroImages", {}),
+    promo: await getValue("promo", ""),
+    // Best-seller options: live products, as "For you · …" / "Business · …".
+    products: ((await db.from("products").select("id, name, store").eq("is_active", true).order("name")).data ?? []),
   });
+});
+
+/** PUT /admin/content — "Publish content": hero words, best-seller slots,
+ * top bar line, about intro and the delivery help text, all at once. */
+adminContentRouter.put("/", async (req, res) => {
+  const body = z
+    .object({ heroWords: z.array(z.string().trim().min(1).max(40)).max(20), bestSellers: z.array(z.string()).max(12), promo: z.string().max(300), about: z.string().max(2000), helpDelivery: z.string().max(2000) })
+    .parse(req.body);
+  const help = await getValue<Record<string, string>>("help", {});
+  await Promise.all([
+    setValue("heroWords", body.heroWords),
+    setValue("bestSellers", body.bestSellers.filter(Boolean)),
+    setValue("promo", body.promo),
+    setValue("about", body.about),
+    setValue("help", { ...help, helpDelivery: body.helpDelivery }),
+  ]);
+  res.json({ ok: true });
 });
 
 adminContentRouter.put("/hero-words", async (req, res) => {

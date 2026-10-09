@@ -17,6 +17,7 @@ contentRouter.get("/", async (_req, res) => {
   const bestSellerIds = await getValue<string[]>("bestSellers", []);
   const help = await getValue<Record<string, string>>("help", {});
   const about = await getValue<string>("about", "");
+  const promo = await getValue<string>("promo", "");
   const settings = await getSettings();
   // One wide background image per hero kit, keyed by kit ("home", "gate", …).
   const heroImages = await getValue<Record<string, string>>("heroImages", {});
@@ -38,5 +39,5 @@ contentRouter.get("/", async (_req, res) => {
     bestSellers = bestSellerIds.map((id) => rows.find((r) => r.id === id)).filter(Boolean);
   }
 
-  res.json({ heroWords, bestSellers, help, about, settings, heroImages });
+  res.json({ heroWords, bestSellers, help, about, promo, settings, heroImages });
 });

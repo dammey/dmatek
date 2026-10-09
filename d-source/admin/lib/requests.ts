@@ -47,6 +47,13 @@ export function requestDue(e: Enquiry, now: number): [string, string] {
 
 export function when(iso: string, now: number) {
   const t = new Date(iso).getTime();
+  const h = lagosHour(t);
+  if (h >= 20 || h < 8) {
+    // Sent outside 8am–8pm: show the send time, e.g. "Sent 9:10pm".
+    const d = new Date(t + WAT);
+    const mm = String(d.getUTCMinutes()).padStart(2, "0");
+    return `Sent ${h % 12 || 12}:${mm}${h >= 12 ? "pm" : "am"}`;
+  }
   const m = Math.floor((now - t) / 60000);
   if (m < 60) return `${Math.max(1, m)} min ago`;
   const days = Math.floor((now + WAT) / 86400000) - Math.floor((t + WAT) / 86400000);

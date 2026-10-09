@@ -13,8 +13,8 @@ adminAccountsRouter.get("/", async (_req, res) => {
 });
 
 adminAccountsRouter.patch("/:id/approve", async (req, res) => {
-  const { creditTermsDays } = z.object({ creditTermsDays: z.number().default(30) }).parse(req.body);
-  const { error } = await db.from("customers").update({ account_status: "approved", credit_terms_days: creditTermsDays }).eq("id", req.params.id);
+  const { creditTermsDays, creditLimit } = z.object({ creditTermsDays: z.number().default(30), creditLimit: z.number().nonnegative().optional() }).parse(req.body);
+  const { error } = await db.from("customers").update({ account_status: "approved", credit_terms_days: creditTermsDays, credit_limit: creditLimit ?? null }).eq("id", req.params.id);
   if (error) return res.status(500).json({ error: error.message });
   res.json({ ok: true });
 });

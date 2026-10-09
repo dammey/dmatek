@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { GenDrawer, GenNote, GenTable, GenTiles, cB, cM, cP, cT } from "@/components/generic";
+import { GenChips, GenDrawer, GenNote, GenTable, GenTiles, cB, cM, cP, cT } from "@/components/generic";
 import { api } from "@/lib/api";
 import { fmt } from "@/lib/format";
 import { payLabel } from "@/components/orders";
@@ -40,6 +40,7 @@ export default function PaymentsPage() {
 
   return (
     <>
+      <GenChips chips={[]} />
       <GenNote>Card payments confirm themselves through Paystack or Flutterwave. Bank transfers and pay on delivery need a person to confirm the money has arrived.</GenNote>
       <GenTiles
         tiles={[

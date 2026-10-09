@@ -15,6 +15,9 @@ adminCategoriesRouter.get("/", async (_req, res) => {
     .order("store")
     .order("sort_order");
   if (error) return res.status(500).json({ error: error.message });
+  // Product count per store + category, as "6 products" under each row.
+  const { data: prods } = await db.from("products").select("store, category_id");
+  const count = (store: string, cat: string | null) => (prods ?? []).filter((x) => x.store === store && x.category_id === cat).length;
   const placements = (data ?? []).map((p) => ({
     id: p.id,
     store: p.store,
@@ -24,6 +27,7 @@ adminCategoriesRouter.get("/", async (_req, res) => {
     isActive: p.is_active,
     categoryId: (p.categories as unknown as { id: string; name: string } | null)?.id ?? null,
     categoryName: (p.categories as unknown as { id: string; name: string } | null)?.name ?? "",
+    productCount: count(p.store, (p.categories as unknown as { id: string } | null)?.id ?? null),
   }));
   res.json({ placements });
 });

@@ -1,102 +1,106 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Card, btnPrimary, inputStyle, labelStyle } from "@/components/ui";
 import { api } from "@/lib/api";
 import { useToast } from "@/lib/toast-context";
 
-const HERO_KITS: [string, string][] = [
-  ["home", "Home"],
-  ["office", "Office"],
-  ["server-room", "Server room"],
-  ["shop", "Shop"],
-  ["hotel", "Hotel"],
-  ["classroom", "Classroom"],
-];
+type Data = { heroWords: string[]; bestSellers: string[]; help: Record<string, string>; about: string; promo: string; products: { id: string; name: string; store: string }[] };
 
+const card: React.CSSProperties = { background: "#fff", border: "1px solid rgba(6,56,46,.1)", borderRadius: 22, padding: 20, display: "flex", flexDirection: "column", gap: 12 };
+const label: React.CSSProperties = { display: "flex", flexDirection: "column", gap: 6, fontSize: 11, fontWeight: 700, letterSpacing: ".14em" };
+const input: React.CSSProperties = { border: "1px solid rgba(6,56,46,.2)", borderRadius: 12, padding: "10px 12px", fontSize: 14, background: "#fff", color: "#06382E" };
+const area: React.CSSProperties = { ...input, fontSize: 14.5, lineHeight: 1.5, letterSpacing: 0, fontWeight: 500, resize: "vertical" };
+
+/** Content publishes to the storefront: hero words, best sellers, top bar, about and help text. */
 export default function ContentPage() {
-  const [heroWords, setHeroWords] = useState<string[]>([]);
-  const [newWord, setNewWord] = useState("");
-  const [about, setAbout] = useState("");
-  const [heroImages, setHeroImages] = useState<Record<string, string>>({});
+  const [d, setD] = useState<Data | null>(null);
+  const [words, setWords] = useState<string[]>([]);
+  const [best, setBest] = useState<string[]>(["", "", "", ""]);
+  const [text, setText] = useState({ promo: "", about: "", helpDelivery: "" });
+  const [heroNew, setHeroNew] = useState("");
   const { say } = useToast();
 
   useEffect(() => {
-    api.get<{ heroWords: string[]; about: string; heroImages?: Record<string, string> }>("/content").then((d) => {
-      setHeroWords(d.heroWords);
-      setAbout(d.about);
-      setHeroImages(d.heroImages ?? {});
+    api.get<Data>("/admin/content").then((x) => {
+      setD(x);
+      setWords(x.heroWords);
+      setBest([0, 1, 2, 3].map((i) => x.bestSellers[i] ?? ""));
+      setText({ promo: x.promo ?? "", about: x.about ?? "", helpDelivery: x.help?.helpDelivery ?? "" });
     });
   }, []);
 
-  async function saveWords(words: string[]) {
-    setHeroWords(words);
-    await api.put("/admin/content/hero-words", { words });
-  }
-
-  function addWord() {
-    const v = newWord.trim();
+  function add() {
+    const v = heroNew.trim();
     if (!v) return;
-    saveWords([...heroWords, v.endsWith(".") ? v : v + "."]);
-    setNewWord("");
+    setWords((w) => [...w, v.endsWith(".") ? v : `${v}.`]);
+    setHeroNew("");
   }
 
-  async function saveHeroImages() {
-    await api.put("/admin/content/hero-images", { images: heroImages });
-    say("Hero backgrounds published to the storefront");
-  }
-
-  async function saveAbout() {
-    await api.put("/admin/content/text", { key: "about", value: about });
+  async function publish() {
+    await api.put("/admin/content", { heroWords: words, bestSellers: best, ...text });
     say("Content published to the storefront");
   }
 
+  const opts = (d?.products ?? []).map((p) => ({ v: p.id, l: `${p.store === "emporium" ? "For you" : "Business"} · ${p.name}` }));
+  const groups: { title: string; fields: [keyof typeof text, string][] }[] = [
+    { title: "Top bar and about", fields: [["promo", "TOP BAR LINE"], ["about", "ABOUT PAGE INTRO"]] },
+    { title: "Help pages", fields: [["helpDelivery", "DELIVERY PAGE"]] },
+  ];
+
   return (
-    <div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,420px),1fr))", gap: 16 }}>
-        <Card style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          <span style={{ fontWeight: 800, fontSize: 18 }}>Hero · &ldquo;Sourced for the ___&rdquo;</span>
-          <span style={{ fontSize: 13, color: "#5E6E68" }}>Words rotate every 2.3 seconds on the storefront home page.</span>
+    <>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,440px),1fr))", gap: 16, alignItems: "start" }}>
+        <section style={card}>
+          <span style={{ fontWeight: 800, fontSize: 18 }}>Hero · “Sourced for the ___”</span>
+          <span style={{ fontSize: 13, color: "#5E6E68" }}>Words rotate every 2.3 seconds. Each opens the kit with the same name.</span>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-            {heroWords.map((w, i) => (
-              <span key={i} style={{ display: "flex", alignItems: "center", gap: 6, background: "#F5F1E8", borderRadius: 999, padding: "7px 8px 7px 14px", fontWeight: 700, fontSize: 13.5 }}>
+            {words.map((w, i) => (
+              <span key={`${w}-${i}`} style={{ display: "flex", alignItems: "center", gap: 6, background: "#F5F1E8", borderRadius: 999, padding: "7px 8px 7px 14px", fontWeight: 700, fontSize: 13.5 }}>
                 {w}
-                <button type="button" onClick={() => saveWords(heroWords.filter((_, j) => j !== i))} aria-label="Remove" style={{ width: 22, height: 22, borderRadius: "50%", border: 0, background: "#fff", fontSize: 12 }}>
+                <button type="button" onClick={() => setWords((x) => x.filter((_, j) => j !== i))} aria-label="Remove" style={{ width: 22, height: 22, borderRadius: "50%", border: 0, background: "#fff", color: "#06382E", fontSize: 12 }}>
                   ✕
                 </button>
               </span>
             ))}
           </div>
           <div style={{ display: "flex", gap: 8 }}>
-            <input value={newWord} onChange={(e) => setNewWord(e.target.value)} placeholder="e.g. pharmacy." style={{ ...inputStyle, flex: 1 }} />
-            <button type="button" onClick={addWord} style={btnPrimary}>
+            <input value={heroNew} onChange={(e) => setHeroNew(e.target.value)} onKeyDown={(e) => e.key === "Enter" && add()} placeholder="e.g. pharmacy." style={{ ...input, flex: 1 }} />
+            <button type="button" onClick={add} style={{ border: 0, background: "#06382E", color: "#F5F1E8", borderRadius: 999, padding: "10px 16px", fontWeight: 800, fontSize: 13.5 }}>
               Add
             </button>
           </div>
-        </Card>
-        <Card style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          <span style={{ fontWeight: 800, fontSize: 18 }}>Hero backgrounds</span>
-          <span style={{ fontSize: 13, color: "#5E6E68" }}>One real photo per place, behind the home hero (“Sourced for the [place]”). It changes with the rotating word. Leave empty to show the placeholder.</span>
-          {HERO_KITS.map(([key, label]) => (
-            <label key={key} style={labelStyle}>
-              {label.toUpperCase()}
-              <input value={heroImages[key] ?? ""} onChange={(e) => setHeroImages((m) => ({ ...m, [key]: e.target.value }))} placeholder="https://… or /hero/office.jpg" style={inputStyle} />
+        </section>
+        <section style={card}>
+          <span style={{ fontWeight: 800, fontSize: 18 }}>Best sellers on the front page</span>
+          {best.map((id, i) => (
+            <label key={i} style={label}>
+              SLOT {i + 1}
+              <select value={id} onChange={(e) => setBest((b) => b.map((x, j) => (j === i ? e.target.value : x)))} style={input}>
+                <option value="">[ PRODUCT ]</option>
+                {opts.map((o) => (
+                  <option key={o.v} value={o.v}>
+                    {o.l}
+                  </option>
+                ))}
+              </select>
             </label>
           ))}
-          <button type="button" onClick={saveHeroImages} style={{ ...btnPrimary, alignSelf: "flex-start" }}>
-            Publish backgrounds
-          </button>
-        </Card>
-        <Card style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          <span style={{ fontWeight: 800, fontSize: 18 }}>About page intro</span>
-          <label style={labelStyle}>
-            <textarea rows={5} value={about} onChange={(e) => setAbout(e.target.value)} style={{ ...inputStyle, resize: "vertical" }} />
-          </label>
-          <button type="button" onClick={saveAbout} style={{ ...btnPrimary, alignSelf: "flex-start" }}>
-            Publish content
-          </button>
-        </Card>
+        </section>
+        {groups.map((g) => (
+          <section key={g.title} style={card}>
+            <span style={{ fontWeight: 800, fontSize: 18 }}>{g.title}</span>
+            {g.fields.map(([k, l]) => (
+              <label key={k} style={label}>
+                {l}
+                <textarea rows={3} value={text[k]} onChange={(e) => setText((t) => ({ ...t, [k]: e.target.value }))} style={area} />
+              </label>
+            ))}
+          </section>
+        ))}
       </div>
-    </div>
+      <button type="button" onClick={publish} style={{ alignSelf: "flex-start", border: 0, background: "#06382E", color: "#F5F1E8", borderRadius: 999, padding: "15px 26px", fontWeight: 800, fontSize: 15 }}>
+        Publish content
+      </button>
+    </>
   );
 }

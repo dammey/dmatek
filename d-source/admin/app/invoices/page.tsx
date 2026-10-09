@@ -12,13 +12,14 @@ type Invoice = {
   amount: number;
   due_at: string | null;
   created_at: string;
+  invoice_no: number | null;
   overdue: boolean;
   orders?: { ref: string; customers?: { full_name: string; company_name: string | null } | null } | null;
 };
 const IST: Record<string, [string, string]> = { Open: ["#EFEADC", "#06382E"], Overdue: ["#FDE7E4", "#B42318"], Paid: ["#D9F0E3", "#1F7A5A"] };
 const st = (i: Invoice) => (i.status === "paid" ? "Paid" : i.overdue ? "Overdue" : "Open");
 const day = shortDate;
-const invNo = (i: Invoice) => `INV-${(i.orders?.ref ?? i.id).replace(/^DS-/, "")}`;
+const invNo = (i: Invoice) => (i.invoice_no != null ? `INV-${String(i.invoice_no).padStart(4, "0")}` : "INV-[ number ]");
 const co = (i: Invoice) => i.orders?.customers?.company_name || i.orders?.customers?.full_name || "[ COMPANY ]";
 
 export default function InvoicesPage() {

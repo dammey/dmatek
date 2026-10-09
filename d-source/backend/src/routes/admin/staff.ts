@@ -17,6 +17,7 @@ const ALL_MODULES = [
  * modules their role can see, so the sidebar only renders what they have
  * access to (the server still enforces this per-route regardless). */
 adminStaffRouter.get("/me", requireStaff(), async (req, res) => {
+  void db.from("staff").update({ last_active_at: new Date().toISOString() }).eq("id", req.staff!.id);
   if (req.staff!.role === "Owner") return res.json({ staff: req.staff, modules: ALL_MODULES });
   if (req.staff!.role === "Engineer") return res.json({ staff: req.staff, modules: ["Engineer app"] });
   const { data } = await db.from("role_permissions").select("module").eq("role", req.staff!.role).eq("allowed", true);
@@ -68,4 +69,10 @@ adminStaffRouter.patch("/permissions/:role/:module", requireStaff("Staff and rol
   if (req.params.role === "Owner") return res.status(400).json({ error: "Owner access can’t be changed" });
   await db.from("role_permissions").update({ allowed }).eq("role", req.params.role).eq("module", req.params.module);
   res.json({ ok: true });
+});
+
+/** GET /admin/staff/log — the Activity log tab. */
+adminStaffRouter.get("/log", requireStaff("Staff and roles"), async (_req, res) => {
+  const { data } = await db.from("admin_log").select("text, who, created_at").order("created_at", { ascending: false }).limit(40);
+  res.json({ log: data ?? [] });
 });

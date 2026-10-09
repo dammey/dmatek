@@ -5,6 +5,7 @@ import { Chip } from "@/components/ui";
 import { api } from "@/lib/api";
 import { REQUEST_TYPES, requestDue, requestTag, when, type Enquiry } from "@/lib/requests";
 import { useSearch } from "@/lib/search-context";
+import { useNow } from "@/lib/useNow";
 
 export default function RequestsPage() {
   const [filter, setFilter] = useState("all");
@@ -24,7 +25,7 @@ export default function RequestsPage() {
   const all = enquiries ?? [];
   const needle = q.trim().toLowerCase();
   const rows = all.filter((e) => (filter === "all" || e.type === filter) && (!needle || `${e.from_name ?? ""} ${e.from_contact ?? ""} ${e.message}`.toLowerCase().includes(needle)));
-  const now = Date.now();
+  const now = useNow();
 
   return (
     <>
