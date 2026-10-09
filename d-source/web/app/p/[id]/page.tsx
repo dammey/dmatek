@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import ImageSlot from "@/components/ImageSlot";
-import { CheckedPanel, GuaranteeSummary, Kicker, btn, field, pagePad } from "@/components/ui";
+import { CheckedPanel, GuaranteeSummary, Kicker, btn, field, pagePad, photoWord } from "@/components/ui";
 import { api } from "@/lib/api";
 import { useCart } from "@/lib/cart-context";
 import { runFlip } from "@/lib/flip";
@@ -70,7 +70,9 @@ export default function ProductPage() {
   const brand = String(p.specs?.brand ?? "");
   const spec = String(p.specs?.spec ?? "");
   const kicker = v === "c" ? `${groupName(group).toUpperCase()} · REQUEST A QUOTE` : `${groupName(group).toUpperCase()} · ${(p.condition && p.condition.startsWith("Grade") ? "UK-USED" : p.condition ?? "NEW").toUpperCase()}`;
-  const photoLabel = v === "b" ? "REAL PHOTO PLACEHOLDER · ACTUAL UNIT" : `PHOTO PLACEHOLDER · ${p.name.toUpperCase()}`;
+  const photoLabel = v === "b" ? "REAL PHOTO PLACEHOLDER · ACTUAL UNIT" : v === "c" ? `PHOTO PLACEHOLDER · ${photoWord(group)}` : "PHOTO PLACEHOLDER · SEALED UNIT";
+  // The design's close-up captions for a used laptop; other used units keep numbered captions.
+  const thumbs = group === "laptops-computers" ? ["LID SCUFF", "KEYBOARD", "PORTS"] : ["ACTUAL UNIT · PHOTO 1", "ACTUAL UNIT · PHOTO 2", "ACTUAL UNIT · PHOTO 3"];
 
   async function buy() {
     setBusy(true);
@@ -113,7 +115,7 @@ export default function ProductPage() {
                 const src = p.images?.[n];
                 return (
                   <div key={n} style={{ position: "relative", aspectRatio: "1", background: "var(--t2)", borderRadius: 10, overflow: "hidden", fontSize: 10, fontWeight: 700, padding: 6, color: "var(--m)" }}>
-                    {src ? <ImageSlot src={src} alt={`${p.name}, actual unit`} placeholder="" sizes="200px" /> : `ACTUAL UNIT · PHOTO ${n}`}
+                    {src ? <ImageSlot src={src} alt={`${p.name}, actual unit`} placeholder="" sizes="200px" /> : thumbs[n - 1]}
                   </div>
                 );
               })}
@@ -125,7 +127,6 @@ export default function ProductPage() {
           <div>
             <Kicker style={{ marginBottom: 0 }}>{kicker}</Kicker>
             <h1 style={{ margin: "8px 0 0", fontWeight: 800, fontSize: "clamp(34px,4.4vw,64px)", letterSpacing: "-.06em", lineHeight: 0.95 }}>{p.name}</h1>
-            {spec && <div style={{ marginTop: 8, fontSize: 14, color: "var(--muted)" }}>{spec}</div>}
           </div>
           {v === "b" && (
             <div style={{ background: "var(--t)", borderRadius: 14, padding: 14, display: "flex", flexDirection: "column", gap: 8 }}>

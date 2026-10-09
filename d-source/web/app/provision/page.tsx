@@ -1,12 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { btn, field, pagePad } from "@/components/ui";
 import { api } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { useCart } from "@/lib/cart-context";
+import { StoreText } from "@/lib/settings-context";
 
 type Cta = "quote" | "repair" | "survey" | "apply";
 const SERVICES: [string, string, string, string, Cta][] = [
@@ -75,6 +75,7 @@ function BusinessAccount({ signedIn }: { signedIn: boolean }) {
   const [err, setErr] = useState("");
   async function apply() {
     if (!f.company.trim()) return setErr("Add the company name.");
+    if (!signedIn && !/\S+@\S+\.\S+/.test(f.email)) return setErr("Add the company email.");
     setErr("");
     setState("busy");
     try {
@@ -89,8 +90,8 @@ function BusinessAccount({ signedIn }: { signedIn: boolean }) {
     <div id="account" style={{ background: "var(--t)", borderRadius: 16, padding: 20, display: "flex", flexDirection: "column", gap: 10 }}>
       <b style={{ fontSize: 18 }}>Business account application</b>
       {state === "done" ? (
-        <span style={{ fontWeight: 700, lineHeight: 1.5 }}>Application received. We’ll review it and contact you. [ REVIEW TIME TO CONFIRM ]</span>
-      ) : signedIn ? (
+        <span style={{ fontWeight: 700, lineHeight: 1.5 }}>Application received. We’ll review it and contact you. <StoreText k="reviewTime" /></span>
+      ) : (
         <>
           <input value={f.company} onChange={(e) => setF({ ...f, company: e.target.value })} placeholder="Company name" aria-label="Company name" style={{ ...field, padding: 12 }} />
           <input value={f.contact} onChange={(e) => setF({ ...f, contact: e.target.value })} placeholder="Contact name and phone" aria-label="Contact name and phone" style={{ ...field, padding: 12 }} />
@@ -99,13 +100,6 @@ function BusinessAccount({ signedIn }: { signedIn: boolean }) {
           <button type="button" disabled={state === "busy"} onClick={apply} style={btn("deep", { borderRadius: 10, padding: 13 })}>
             Apply for an account with invoicing
           </button>
-        </>
-      ) : (
-        <>
-          <span style={{ fontSize: 14, lineHeight: 1.5 }}>Sign in or create an account first, then apply with your company details.</span>
-          <Link href="/account?tab=business" style={btn("deep", { borderRadius: 10, padding: 13 })}>
-            Sign in to apply
-          </Link>
         </>
       )}
     </div>

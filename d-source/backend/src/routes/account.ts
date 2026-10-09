@@ -77,9 +77,30 @@ const businessApplicationSchema = z.object({
 /** POST /account/business — apply for a D'Provision business account.
  * Approval happens in Admin > Business accounts, never automatically. */
 accountRouter.post("/business", async (req, res) => {
-  const id = requireCustomer(req, res);
-  if (!id) return;
   const body = businessApplicationSchema.parse(req.body);
+  // Signed-out visitors apply straight from the Provision page: a new pending
+  // business customer is created from the form. An email that already has an
+  // account must sign in, so nobody can overwrite someone else's record.
+  if (!req.customer?.id) {
+    const email = body.accountsEmail?.trim().toLowerCase();
+    if (!email || !/\S+@\S+\.\S+/.test(email)) return res.status(400).json({ error: "Add the company email." });
+    const { data: existing } = await db.from("customers").select("id").ilike("email", email).maybeSingle();
+    if (existing) return res.status(409).json({ error: "That email already has an account. Sign in to apply." });
+    const { error } = await db.from("customers").insert({
+      type: "business",
+      full_name: body.accountsContact || body.companyName,
+      email,
+      company_name: body.companyName,
+      accounts_contact: body.accountsContact,
+      accounts_email: email,
+      phone: body.phone,
+      account_status: "pending",
+      applied_at: new Date().toISOString(),
+    });
+    if (error) return res.status(500).json({ error: error.message });
+    return res.status(201).json({ status: "pending" });
+  }
+  const id = req.customer.id;
   const { error } = await db
     .from("customers")
     .update({

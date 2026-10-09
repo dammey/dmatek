@@ -118,7 +118,7 @@ export default function Home() {
       </section>
 
       <section style={{ padding: "0 var(--gut) clamp(24px,4vw,40px)", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,320px),1fr))", gap: 14 }}>
-        <div style={{ border: "1px solid var(--line)", borderRadius: 18, padding: 22, display: "flex", flexDirection: "column", gap: 8, background: "#fff" }}>
+        <div style={{ border: "1px solid var(--line)", borderRadius: 18, padding: 22, display: "flex", flexDirection: "column", gap: 8 }}>
           <IconLabel name="wrench" size={24} style={{ gap: 9, fontSize: 20, fontWeight: 800, letterSpacing: "-.02em", color: "var(--d)" }}>
             Pickup repairs
           </IconLabel>
@@ -127,7 +127,7 @@ export default function Home() {
             Book a pickup
           </Link>
         </div>
-        <div style={{ border: "1px solid var(--line)", borderRadius: 18, padding: 22, display: "flex", flexDirection: "column", gap: 12, background: "#fff" }}>
+        <div style={{ border: "1px solid var(--line)", borderRadius: 18, padding: 22, display: "flex", flexDirection: "column", gap: 12 }}>
           <b style={{ fontSize: 20, letterSpacing: "-.02em" }}>Buy → Set up → Repair → Refresh</b>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
             {["Buy", "Set up", "Repair", "Refresh"].map((l) => (
@@ -159,14 +159,33 @@ export default function Home() {
       />
 
       <section style={{ padding: "clamp(24px,4vw,48px) var(--gut)" }}>
-        <div style={{ background: "var(--d)", color: "#fff", borderRadius: 20, padding: "clamp(22px,4vw,40px)", display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "space-between", alignItems: "center" }}>
-          <div style={{ maxWidth: 520 }}>
+        <div className="ds-darkpanel" style={{ boxSizing: "content-box", padding: "clamp(22px,4vw,48px)", minHeight: "clamp(260px,30vw,380px)", display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "space-between", alignItems: "center" }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/photos/office-in-a-box.webp" alt="A new office set up: laptops, router, labelled cables" className="ds-panelphoto" style={{ width: "60%", WebkitMaskImage: "linear-gradient(to right,transparent 0%,#000 45%)", maskImage: "linear-gradient(to right,transparent 0%,#000 45%)" }} />
+          <div style={{ position: "relative", zIndex: 2, maxWidth: 520 }}>
             <b style={{ fontSize: "clamp(22px,3vw,32px)", letterSpacing: "-.03em" }}>Office in a Box</b>
             <p style={{ margin: "8px 0 0", opacity: 0.9, lineHeight: 1.5, fontSize: 15 }}>Devices, network and internet with backup, domain, email and files, website, MFA and backup, set up and documented.</p>
           </div>
-          <Link href="/provision" style={btn("buy")}>
+          <Link href="/provision" style={{ ...btn("buy"), position: "relative", zIndex: 2 }}>
             See Provision →
           </Link>
+        </div>
+      </section>
+
+      <section className="ds-darkpanel" style={{ margin: "0 var(--gut) clamp(28px,4vw,48px)", minHeight: "clamp(320px,38vw,460px)", display: "flex", alignItems: "center" }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/photos/dsource-hero.webp" alt="Phone, laptop, watch and headphones" className="ds-panelphoto" style={{ width: "62%", objectPosition: "right center", WebkitMaskImage: "linear-gradient(to right,transparent 0%,#000 38%)", maskImage: "linear-gradient(to right,transparent 0%,#000 38%)" }} />
+        <div style={{ boxSizing: "content-box", position: "relative", zIndex: 2, padding: "clamp(22px,4vw,56px)", display: "flex", flexDirection: "column", gap: 16, maxWidth: 560 }}>
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 600, letterSpacing: ".18em", color: "#D4A637" }}>SOURCED FOR SOMEONE ELSE</span>
+          <h2 style={{ margin: 0, fontWeight: 800, fontSize: "clamp(34px,4.4vw,64px)", lineHeight: 0.92, letterSpacing: "-.06em" }}>Looking for the perfect gift? We’ll source it.</h2>
+          <p style={{ margin: 0, fontSize: "clamp(15px,1.3vw,18px)", lineHeight: 1.55, color: "rgba(255,255,255,.88)" }}>
+            Tell us who it’s for and your budget. A real person finds the right phone, watch, laptop or headphones, checks it, and delivers it. Reply within 1 hour (8am–8pm daily).
+          </p>
+          <div>
+            <Link href="/source" style={btn("buy", { padding: "15px 24px", fontSize: 15 })}>
+              Request a gift →
+            </Link>
+          </div>
         </div>
       </section>
     </main>

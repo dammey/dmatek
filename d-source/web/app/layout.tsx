@@ -6,6 +6,7 @@ import Reveal from "@/components/Reveal";
 import Toast from "@/components/Toast";
 import { AuthProvider } from "@/lib/auth-context";
 import { CartProvider } from "@/lib/cart-context";
+import { SettingsProvider } from "@/lib/settings-context";
 import { plexMono } from "@/lib/fonts";
 import "./globals.css";
 
@@ -38,6 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
       </head>
       <body className={`${manrope.variable} ${plexMono.variable}`}>
+        <SettingsProvider>
         <AuthProvider>
           <CartProvider>
             <Header />
@@ -47,6 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Reveal />
           </CartProvider>
         </AuthProvider>
+        </SettingsProvider>
       </body>
     </html>
   );

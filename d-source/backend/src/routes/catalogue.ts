@@ -4,6 +4,14 @@ import { SHOP_GROUPS, groupOf, shape } from "../shop.js";
 
 export const catalogueRouter = Router();
 
+/** Categories hidden in Admin › Categories: their products stay in the
+ * catalogue but don't show to customers. Keyed "store|category_id". */
+async function hiddenCategories() {
+  const { data } = await db.from("category_placements").select("store, category_id").eq("is_active", false);
+  return new Set((data ?? []).map((p) => `${p.store}|${p.category_id}`));
+}
+const visible = (hidden: Set<string>) => (p: { store: string; category_id?: string | null }) => !hidden.has(`${p.store}|${p.category_id}`);
+
 const hasPhoto = (p: { images: unknown }) => (Array.isArray(p.images) && p.images.length > 0 ? 1 : 0);
 
 /** GET /catalogue/products?q=&group=&cond=&mode=&brand=&sort=&limit=&offset=
@@ -27,10 +35,10 @@ catalogueRouter.get("/products", async (req, res) => {
     query = query.eq("category_id", cat.id);
   }
 
-  const { data, error } = await query;
+  const [{ data, error }, hidden] = await Promise.all([query, hiddenCategories()]);
   if (error) return res.status(500).json({ error: error.message });
 
-  let items = (data ?? []).map((p) => {
+  let items = (data ?? []).filter(visible(hidden)).map((p) => {
     const priceList = p.store === "provision" ? "business" : "retail";
     const priceRow = (p.product_prices as unknown as { price_list: string; unit_price: number }[]).find((pp) => pp.price_list === priceList);
     return shape({ ...p, price: priceRow?.unit_price ?? null });
@@ -67,10 +75,10 @@ catalogueRouter.get("/products", async (req, res) => {
 
 /** GET /catalogue/groups — the ten shop groups with live product counts. */
 catalogueRouter.get("/groups", async (_req, res) => {
-  const { data, error } = await db.from("products").select("name, store, specs, categories(name)").eq("is_active", true);
+  const [{ data, error }, hidden] = await Promise.all([db.from("products").select("name, store, specs, category_id, categories(name)").eq("is_active", true), hiddenCategories()]);
   if (error) return res.status(500).json({ error: error.message });
   const counts: Record<string, number> = {};
-  for (const row of data ?? []) {
+  for (const row of (data ?? []).filter(visible(hidden))) {
     const g = groupOf(row as unknown as { name: string; store: string; specs: unknown; categories?: unknown });
     counts[g] = (counts[g] ?? 0) + 1;
   }

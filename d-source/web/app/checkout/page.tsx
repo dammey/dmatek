@@ -7,6 +7,7 @@ import { Kicker, PageTitle, Stepper, btn, field, labelS, pagePad } from "@/compo
 import { api } from "@/lib/api";
 import { useCart } from "@/lib/cart-context";
 import { PROMISE } from "@/lib/promises";
+import { StoreText } from "@/lib/settings-context";
 
 type Pay = "online" | "pod";
 const ADDR: [keyof Addr, string, string][] = [
@@ -64,7 +65,7 @@ export default function CheckoutPage() {
 
   if (!items.length && !busy)
     return (
-      <main style={{ ...pagePad, maxWidth: 760 }}>
+      <main style={{ ...pagePad, boxSizing: "content-box", maxWidth: 760 }}>
         <Kicker>CHECKOUT</Kicker>
         <PageTitle>Almost yours.</PageTitle>
         <p style={{ color: "var(--muted)" }}>Your cart is empty.</p>
@@ -75,7 +76,7 @@ export default function CheckoutPage() {
     );
 
   return (
-    <main style={{ ...pagePad, maxWidth: 760 }}>
+    <main style={{ ...pagePad, boxSizing: "content-box", maxWidth: 760 }}>
       <Kicker>CHECKOUT</Kicker>
       <PageTitle style={{ marginBottom: 22 }}>Almost yours.</PageTitle>
       <Stepper steps={["Address", "Payment", "Confirm"]} current={step} />
@@ -89,7 +90,7 @@ export default function CheckoutPage() {
               <input value={a[k]} onChange={(e) => setA({ ...a, [k]: e.target.value })} autoComplete={ac} style={field} />
             </label>
           ))}
-          <div style={{ fontSize: 14, background: "var(--t)", borderRadius: 12, padding: 12 }}>{PROMISE.delivery}</div>
+          <div style={{ fontSize: 14, background: "var(--t)", borderRadius: 12, padding: 12 }}><StoreText k="delivery" /></div>
         </div>
       )}
 
@@ -121,7 +122,7 @@ export default function CheckoutPage() {
             <br />
             Deliver to: {a.name}, {a.street}, {a.city}
             <br />
-            Delivery: {PROMISE.delivery}
+            Delivery: <StoreText k="delivery" />
             <br />
             Prices confirmed at checkout.
           </div>

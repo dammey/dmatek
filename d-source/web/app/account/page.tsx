@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
-import { PageTitle, Tabs, btn, field, labelS, pagePad } from "@/components/ui";
+import { Kicker, PageTitle, Tabs, btn, field, labelS, pagePad } from "@/components/ui";
 import { api } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 
@@ -14,7 +14,7 @@ const TABS = ["Personal", "Business"] as const;
 
 function Card({ t, d, x, children }: { t: string; d: string; x: string; children?: React.ReactNode }) {
   return (
-    <div data-rv="1" style={{ border: "1px solid var(--line)", borderRadius: 16, padding: 18, display: "flex", flexDirection: "column", gap: 8, background: "#fff" }}>
+    <div data-rv="1" style={{ border: "1px solid var(--line)", borderRadius: 16, padding: 18, display: "flex", flexDirection: "column", gap: 8 }}>
       <b>{t}</b>
       <span style={{ fontSize: 14, color: "var(--muted)", lineHeight: 1.5 }}>{d}</span>
       <div style={{ fontSize: 13, fontWeight: 700, color: "var(--m)" }}>{x}</div>
@@ -43,7 +43,8 @@ function AccountInner() {
   if (!signedIn)
     return (
       <main style={pagePad}>
-        <PageTitle>Account</PageTitle>
+        <Kicker>YOUR ACCOUNT</Kicker>
+      <PageTitle>Account</PageTitle>
         <SignIn />
       </main>
     );
@@ -55,6 +56,7 @@ function AccountInner() {
 
   return (
     <main style={pagePad}>
+      <Kicker>YOUR ACCOUNT</Kicker>
       <PageTitle>Account</PageTitle>
       <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10, marginBottom: 18 }}>
         <Tabs items={TABS} value={tab} onChange={(t) => router.replace(t === "Business" ? "/account?tab=business" : "/account", { scroll: false })} />

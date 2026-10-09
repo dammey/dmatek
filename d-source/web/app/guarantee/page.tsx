@@ -4,26 +4,28 @@ import { PROMISE } from "@/lib/promises";
 
 export const metadata: Metadata = { title: "Our guarantee", description: "What we check, inspect on delivery, 7-day returns, D’Source warranty and manufacturer warranty, in plain words." };
 
-const ROWS: [string, string][] = [
-  ["What we check", "Phones: IMEI, battery health, replaced parts. Laptops: battery cycles, screen, keyboard, ports, charger, specs. Networking, servers, storage, printers: genuine unit, serial, manufacturer warranty status, specs, firmware."],
+const ROWS: [string, React.ReactNode][] = [
+  ["What we check", "Phones and tablets: IMEI, battery health, replaced parts. Laptops: battery cycles, screen, keyboard, ports, charger, specs. Networking, servers, storage, printers: genuine unit, serial, manufacturer warranty status, specs, firmware."],
+  ["Delivery", "Lagos within 24 hours, outside Lagos within 48 hours. Pay on delivery is available, subject to terms and conditions."],
+  ["Sourcing replies", "Personal requests: within 1 hour, 8am–8pm daily (after 8pm, from 8am next morning). Business quotes and sourcing: within 24 hours."],
   ["Inspect on delivery", "Check the item at your door. If it fails inspection, we take it back and you pay nothing."],
   ["7-day returns", "Return within 7 days."],
   ["D’Source warranty", PROMISE.warrantyLine],
   ["Manufacturer warranty", "We’re a reseller. Where a device has a manufacturer’s warranty, you claim it directly with the manufacturer or its authorised service centre. Our warranty is separate."],
   ["What isn’t covered", "[ To be confirmed with D’Matek ]"],
-  ["If something goes wrong", `Reach a person, ${PROMISE.hours}, by phone or WhatsApp (${PROMISE.phone}), or email ${PROMISE.email}.`],
+  ["If something goes wrong", "Reach a person, 8am–8pm daily, by phone or WhatsApp."],
 ];
 
 export default function GuaranteePage() {
   return (
-    <main style={{ padding: "clamp(18px,3vw,36px) var(--gut) clamp(28px,4vw,48px)", maxWidth: 820 }}>
+    <main style={{ boxSizing: "content-box", padding: "clamp(18px,3vw,36px) var(--gut) clamp(28px,4vw,48px)", maxWidth: 820 }}>
       <Kicker>THE GUARANTEE</Kicker>
       <PageTitle>Our guarantee, in plain words</PageTitle>
       <p style={{ margin: "0 0 22px", color: "var(--muted)", lineHeight: 1.6 }}>We’re a reseller. We buy from vetted suppliers once you order, check the item, and deliver it. Here is exactly what we promise.</p>
       {ROWS.map(([k, v]) => (
-        <div key={k} style={{ borderTop: "1px solid var(--line)", padding: "18px 0", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,200px),1fr))", gap: "8px 24px" }}>
+        <div key={k} style={{ borderTop: "1px solid var(--line)", padding: "18px 0", display: "grid", gridTemplateColumns: "minmax(0,200px) minmax(0,1fr)", gap: "8px 24px" }}>
           <b style={{ fontSize: 17 }}>{k}</b>
-          <span style={{ lineHeight: 1.6, fontSize: 15, gridColumn: "span 2" }}>{v}</span>
+          <span style={{ lineHeight: 1.6, fontSize: 15 }}>{v}</span>
         </div>
       ))}
     </main>

@@ -23,4 +23,6 @@ export const api = {
   post: <T>(path: string, body?: unknown) => request<T>(path, { method: "POST", body: body ? JSON.stringify(body) : undefined }),
   patch: <T>(path: string, body?: unknown) => request<T>(path, { method: "PATCH", body: body ? JSON.stringify(body) : undefined }),
   delete: <T>(path: string) => request<T>(path, { method: "DELETE" }),
+  /** Raw file body with the file's own Content-Type. */
+  upload: <T>(path: string, file: File) => request<T>(path, { method: "POST", body: file, headers: { "Content-Type": file.type || "application/octet-stream" } }),
 };

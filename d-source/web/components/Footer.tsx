@@ -2,9 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Logo from "./Logo";
+import { StoreMail, StoreTel } from "./StoreLinks";
 import { Adire, btn, mono } from "./ui";
 import { config } from "@/lib/config";
 import { PROMISE } from "@/lib/promises";
+import { StoreText, WhatsAppLink } from "@/lib/settings-context";
 
 /** "Can't find it? We'll source it" strip, on every page except the request itself. */
 function SourceStrip() {
@@ -34,7 +37,10 @@ export default function Footer() {
       <footer style={{ background: "var(--t)", color: "var(--d)", borderTop: "1px solid var(--line)" }}>
         {config.adire && <Adire h={22} />}
         <div style={{ padding: "clamp(24px,4vw,40px) var(--gut) 20px", display: "flex", flexDirection: "column", gap: 20 }}>
-          <div style={{ fontWeight: 800, fontSize: "clamp(44px,12vw,120px)", lineHeight: 0.85, letterSpacing: "-.07em", color: "var(--m)" }}>D’Source</div>
+          <span style={{ alignSelf: "flex-start" }}>
+            <Logo size="lg" />
+          </span>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 600, letterSpacing: ".18em", color: "var(--m)" }}>TECH YOU NEED, DELIVERED.</div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "16px 40px", justifyContent: "space-between", fontSize: 14, lineHeight: 1.8 }}>
             <div>
               <b>Commerce by D’Matek</b>
@@ -42,19 +48,17 @@ export default function Footer() {
               Lagos, Nigeria
             </div>
             <div>
-              Phone · <a href={`tel:${PROMISE.phone}`} style={{ color: "inherit" }}>{PROMISE.phone}</a>
+              Phone · <StoreTel style={{ color: "inherit" }} />
               <br />
-              Email · <a href={`mailto:${PROMISE.email}`} style={{ color: "inherit" }}>{PROMISE.email}</a>
+              Email · <StoreMail style={{ color: "inherit" }} />
               <br />
               WhatsApp ·{" "}
-              <a href={PROMISE.whatsapp} style={{ color: "inherit", textDecoration: "underline" }}>
-                {PROMISE.phone}
-              </a>
+              <WhatsAppLink style={{ color: "inherit", textDecoration: "underline" }} />
             </div>
             <div>
               Replies {PROMISE.hours}
               <br />
-              {PROMISE.delivery}
+              <StoreText k="delivery" />
             </div>
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "10px 20px", justifyContent: "space-between", ...mono, letterSpacing: ".12em", color: "var(--mutedMono)" }}>

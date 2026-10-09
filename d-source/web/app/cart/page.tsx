@@ -13,6 +13,7 @@ import { PROMISE } from "@/lib/promises";
 import { clearQuoteMeta, readQuoteMeta, setQuoteMeta, type QuoteMeta } from "@/lib/quoteMeta";
 import { conditionLine, warrantyFor } from "@/lib/shop";
 import type { Product } from "@/lib/types";
+import { StoreText } from "@/lib/settings-context";
 
 const TABS = ["Cart", "Quote"] as const;
 
@@ -112,7 +113,7 @@ function CartTab() {
             {PROMISE.returns}
           </IconLabel>
         </span>
-        <span>{PROMISE.delivery}</span>
+        <span><StoreText k="delivery" /></span>
         {items.length > 0 ? (
           <Link href="/checkout" style={{ ...btn("buy"), borderRadius: 12, padding: 15 }}>
             Checkout
@@ -186,7 +187,7 @@ function QuoteTab() {
 
   if (sent)
     return (
-      <div style={{ background: "var(--t)", borderRadius: 18, padding: 28, maxWidth: 560 }}>
+      <div style={{ boxSizing: "content-box", background: "var(--t)", borderRadius: 18, padding: 28, maxWidth: 560 }}>
         <b style={{ fontSize: 22, letterSpacing: "-.03em" }}>Quote request received.</b>
         <p style={{ lineHeight: 1.6 }}>
           {PROMISE.quote24} Reference <b>{sent}</b>.

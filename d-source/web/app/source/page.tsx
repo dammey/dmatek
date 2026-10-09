@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Kicker, PageTitle, Tabs, btn, field, labelS, pagePad } from "@/components/ui";
 import { api } from "@/lib/api";
-import { PROMISE } from "@/lib/promises";
 
 const TYPES = ["Personal", "Business"] as const;
 
@@ -18,6 +17,24 @@ export default function SourcePage() {
   const [done, setDone] = useState<string | null>(null);
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
+  const [files, setFiles] = useState<{ name: string; url: string }[]>([]);
+  const [uploading, setUploading] = useState(false);
+
+  async function attach(list: FileList | null) {
+    if (!list?.length) return;
+    setUploading(true);
+    setErr("");
+    try {
+      for (const file of Array.from(list)) {
+        const { url } = await api.upload<{ url: string }>("/enquiries/attachment", file);
+        setFiles((fs) => [...fs, { name: file.name, url }]);
+      }
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : "That file didn’t upload. Try a JPG, PNG or PDF.");
+    } finally {
+      setUploading(false);
+    }
+  }
   const biz = type === "Business";
 
   async function send() {
@@ -30,7 +47,7 @@ export default function SourcePage() {
         type: biz ? "Business sourcing" : "Sourcing request",
         fromName: f.name.trim() || undefined,
         fromContact: f.contact.trim(),
-        message: `${f.item.trim()}\nQuantity: ${f.qty || "1"}${f.budget.trim() ? `\nBudget: ₦${f.budget.trim()}` : ""}`,
+        message: `${f.item.trim()}\nQuantity: ${f.qty || "1"}${f.budget.trim() ? `\nBudget: ₦${f.budget.trim()}` : ""}${files.map((x) => `\nAttachment: ${x.url}`).join("")}`,
       });
       const h = lagosHour();
       setDone(biz ? "We’ll reply within 24 hours." : h >= 8 && h < 20 ? "We’ll reply within the hour." : h >= 20 ? "We’ll reply from 8am tomorrow." : "We’ll reply from 8am.");
@@ -42,7 +59,7 @@ export default function SourcePage() {
   }
 
   return (
-    <main style={{ ...pagePad, maxWidth: 720 }}>
+    <main style={{ ...pagePad, boxSizing: "content-box", maxWidth: 720 }}>
       <Kicker>SOURCING REQUEST</Kicker>
       <PageTitle>We’ll source it.</PageTitle>
       {done ? (
@@ -54,6 +71,7 @@ export default function SourcePage() {
             onClick={() => {
               setDone(null);
               setF({ item: "", qty: "1", budget: "", name: f.name, contact: f.contact });
+              setFiles([]);
             }}
             style={btn("outline", { padding: "10px 16px" })}
           >
@@ -68,9 +86,15 @@ export default function SourcePage() {
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <textarea value={f.item} onChange={(e) => setF({ ...f, item: e.target.value })} placeholder="Describe the item, or paste a link" aria-label="Describe the item" style={{ ...field, padding: 14, minHeight: 100 }} />
-            <a href={PROMISE.whatsapp} style={{ border: "1px dashed var(--m)", borderRadius: 12, padding: 16, fontSize: 14, color: "var(--m)", fontWeight: 700 }}>
-              Upload a photo or spec sheet: send it to us on WhatsApp ({PROMISE.phone})
-            </a>
+            <label style={{ border: "1px dashed var(--m)", borderRadius: 12, padding: 16, fontSize: 14, color: "var(--m)", fontWeight: 700, cursor: "pointer" }}>
+              {uploading ? "Uploading…" : "Upload a photo or spec sheet"}
+              {files.map((x) => (
+                <span key={x.url} style={{ display: "block", fontWeight: 600, fontSize: 13, marginTop: 6 }}>
+                  ✓ {x.name}
+                </span>
+              ))}
+              <input type="file" accept="image/jpeg,image/png,image/webp,image/heic,application/pdf" multiple hidden onChange={(e) => attach(e.target.files)} />
+            </label>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
               <label style={{ ...labelS, flex: "1 1 120px" }}>
                 Quantity
@@ -95,7 +119,7 @@ export default function SourcePage() {
               {biz ? "Business and bulk requests: reply within 24 hours." : "Personal devices: reply within 1 hour, 8am–8pm daily. Requests sent after 8pm are answered from 8am."}
             </div>
             {err && <span style={{ color: "var(--fail)", fontWeight: 700 }}>{err}</span>}
-            <button type="button" disabled={busy} onClick={send} style={{ ...btn("buy"), borderRadius: 12, padding: 15 }}>
+            <button type="button" disabled={busy || uploading} onClick={send} style={{ ...btn("buy"), borderRadius: 12, padding: 15 }}>
               {busy ? "Sending…" : "Send request"}
             </button>
           </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { PageTitle, btn, field, labelS, pagePad } from "@/components/ui";
+import { Kicker, PageTitle, btn, field, labelS, pagePad } from "@/components/ui";
 import { api } from "@/lib/api";
 
 const STEPS: [string, string][] = [
@@ -47,7 +47,8 @@ export default function RepairPage() {
   }
 
   return (
-    <main style={{ ...pagePad, maxWidth: 760 }}>
+    <main style={{ ...pagePad, boxSizing: "content-box", maxWidth: 760 }}>
+      <Kicker>REPAIRS</Kicker>
       <PageTitle>Pickup repairs</PageTitle>
       <p style={{ margin: "0 0 18px", color: "var(--muted)" }}>One personal device, or several company devices. No work starts until you approve the quote.</p>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 20 }}>
@@ -57,7 +58,7 @@ export default function RepairPage() {
           </button>
         ))}
       </div>
-      <div style={{ border: "1px solid var(--line)", borderRadius: 18, padding: 22, display: "flex", flexDirection: "column", gap: 12, background: "#fff" }}>
+      <div style={{ border: "1px solid var(--line)", borderRadius: 18, padding: 22, display: "flex", flexDirection: "column", gap: 12 }}>
         <b style={{ fontSize: 19 }}>{title}</b>
         <span style={{ lineHeight: 1.6, fontSize: 15 }}>{body}</span>
 

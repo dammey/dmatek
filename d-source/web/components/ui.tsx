@@ -10,6 +10,7 @@ import { btn, mono } from "@/lib/styles";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import { checkLabel, checklistFor, priceLabel, warrantyFor } from "@/lib/shop";
 import type { Product } from "@/lib/types";
+import { StoreText, WhatsAppLink } from "@/lib/settings-context";
 
 /* ---------- type + buttons ---------- */
 
@@ -48,10 +49,10 @@ export function Adire({ h = 10 }: { h?: 10 | 22 }) {
 /* ---------- small pieces ---------- */
 
 /** The 1-hour promise always travels with its hours. */
-export function ResponseHours({ variant = "mono" }: { variant?: "mono" | "text" }) {
+export function ResponseHours({ variant = "mono", color = "var(--mutedMono)" }: { variant?: "mono" | "text"; color?: string }) {
   if (variant === "text") return <>{PROMISE.replyPersonal}</>;
   return (
-    <span style={{ ...mono, letterSpacing: ".12em", color: "var(--mutedMono)", display: "inline-flex", gap: 6, alignItems: "center" }}>
+    <span style={{ ...mono, letterSpacing: ".12em", color, display: "inline-flex", gap: 6, alignItems: "center" }}>
       <Icon name="clock" size={14} />
       {PROMISE.replyPersonalMono}
     </span>
@@ -82,9 +83,9 @@ export function EmptyState({ title = "Nothing listed for that right now." }: { t
         <Link href="/source" style={btn("buy")}>
           Request an item →
         </Link>
-        <a href={PROMISE.whatsapp} style={btn("outline")}>
+        <WhatsAppLink style={btn("outline")}>
           WhatsApp
-        </a>
+        </WhatsAppLink>
       </div>
     </div>
   );
@@ -159,7 +160,7 @@ export function GuaranteeSummary({ warranty }: { warranty: string }) {
       <IconLabel name="returns">{PROMISE.returns}</IconLabel>
       <IconLabel name="warranty">D’Source warranty: {warranty}</IconLabel>
       <IconLabel name="truck" style={{ fontWeight: 500, color: "var(--muted)" }}>
-        {PROMISE.delivery}
+        <StoreText k="delivery" />
       </IconLabel>
       <span style={{ fontSize: 12, fontWeight: 500, color: "var(--muted)" }}>{PROMISE.manufacturerShort}</span>
       <Link href="/guarantee" style={{ alignSelf: "flex-start", fontWeight: 700, textDecoration: "underline" }}>
@@ -252,16 +253,26 @@ export function ProductTile({ p }: { p: Product }) {
   );
 }
 
+/** The design's best-seller placeholder word ("PHOTO · PHONE"). */
+const PHOTO_WORD: Record<string, string> = { "phones-tablets": "PHONE", "laptops-computers": "LAPTOP", "servers-storage": "SERVER", "networking-wifi": "NETWORK", "printers-office": "PRINTER", "security-cctv": "CCTV", "internet-devices": "ROUTER" };
+export const photoWord = (g: string) => PHOTO_WORD[g] ?? "PRODUCT";
+
 /** Best-seller card (home): smaller, condition line + checked mark. */
 export function BestCard({ p }: { p: Product }) {
   return (
     <Link href={`/p/${p.id}`} onClick={(e) => captureFlip(e.currentTarget.querySelector("[data-timg]"))} className="ds-lift" style={{ textAlign: "left", border: "1px solid var(--line)", background: "#fff", borderRadius: 16, overflow: "hidden", color: "var(--ink)", display: "flex", flexDirection: "column" }}>
-      <div data-timg="1" style={{ aspectRatio: "4/3", background: "var(--t)", position: "relative", color: "var(--m)" }}>
-        <ImageSlot src={p.images?.[0]} alt={p.name} placeholder={p.name} sizes="(max-width: 600px) 100vw, 300px" />
-      </div>
+      {p.images?.[0] ? (
+        <div data-timg="1" style={{ aspectRatio: "4/3", background: "var(--t)", position: "relative", color: "var(--m)" }}>
+          <ImageSlot src={p.images[0]} alt={p.name} placeholder={p.name} sizes="(max-width: 600px) 100vw, 300px" />
+        </div>
+      ) : (
+        <div data-timg="1" style={{ aspectRatio: "4/3", background: "var(--t)", display: "flex", alignItems: "flex-end", padding: 10, fontSize: 11, fontWeight: 700, letterSpacing: ".1em", color: "var(--m)" }}>
+          PHOTO · {photoWord(p.group ?? "")}
+        </div>
+      )}
       <div style={{ padding: 14, display: "flex", flexDirection: "column", gap: 6 }}>
         <span style={{ fontWeight: 800, fontSize: 16 }}>{p.name}</span>
-        <span style={{ fontSize: 13, color: "var(--muted)" }}>{p.condition && p.condition.startsWith("Grade") ? `${p.condition} · UK-used` : p.condition ?? "New"}</span>
+        <span style={{ fontSize: 13, color: "#4A5651" }}>{p.condition && p.condition.startsWith("Grade") ? `${p.condition} · UK-used` : p.condition ?? "New"}</span>
         <span style={{ fontWeight: 800 }}>{priceLabel(p)}</span>
         <CheckedMark />
       </div>

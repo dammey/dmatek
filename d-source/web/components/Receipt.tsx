@@ -8,7 +8,7 @@ export type ReceiptLine = { description: string; quantity: number; unit_price: n
 export default function Receipt({ refNo, date, lines, children }: { refNo?: string; date?: string; lines: ReceiptLine[]; children?: React.ReactNode }) {
   const total = lines.every((l) => l.unit_price != null) && lines.length ? lines.reduce((a, l) => a + (l.unit_price ?? 0) * l.quantity, 0) : null;
   return (
-    <section style={{ border: "1px solid var(--line)", borderRadius: 16, padding: 20, display: "flex", flexDirection: "column", gap: 10, fontSize: 14, background: "#fff" }}>
+    <section style={{ border: "1px solid var(--line)", borderRadius: 16, padding: 20, display: "flex", flexDirection: "column", gap: 10, fontSize: 14 }}>
       <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
         <b style={{ fontSize: 18 }}>Invoice / receipt</b>
         <span style={{ color: "var(--muted)" }}>

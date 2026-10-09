@@ -7,7 +7,7 @@ const h2: React.CSSProperties = { margin: "0 0 6px", fontSize: 19 };
 
 export default function TermsPage() {
   return (
-    <main style={{ ...pagePad, maxWidth: 760, display: "flex", flexDirection: "column", gap: 18 }}>
+    <main style={{ ...pagePad, boxSizing: "content-box", maxWidth: 760, display: "flex", flexDirection: "column", gap: 18 }}>
       <h1 style={{ margin: 0, fontSize: "clamp(28px,4vw,44px)", letterSpacing: "-.04em", fontWeight: 800 }}>Terms and conditions</h1>
       <section id="manufacturer-warranty">
         <h2 style={h2}>Manufacturer warranty</h2>

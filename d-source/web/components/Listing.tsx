@@ -5,8 +5,9 @@ import { useEffect, useMemo, useState } from "react";
 import { EmptyState, Kicker, PageTitle, ProductTile, SkeletonTile, btn, mono, pagePad } from "./ui";
 import { api } from "@/lib/api";
 import { PROMISE } from "@/lib/promises";
-import { CONDITIONS, DEFAULT_INTRO, GROUPS, INTRO, groupName } from "@/lib/shop";
+import { CONDITIONS, DEFAULT_INTRO, INTRO, groupName } from "@/lib/shop";
 import type { Product } from "@/lib/types";
+import { WhatsAppLink } from "@/lib/settings-context";
 
 const PAGE = 24;
 const SORTS = [
@@ -91,30 +92,16 @@ export default function Listing({ group, q, onClearQ }: { group?: string; q?: st
       <PageTitle style={{ lineHeight: 0.9, letterSpacing: "-.065em" }}>{title}</PageTitle>
       <p style={{ margin: "0 0 24px", color: "var(--muted)", fontSize: "clamp(15px,1.3vw,18px)", maxWidth: "56ch", lineHeight: 1.55 }}>{intro}</p>
 
-      {!q && (
-        <div className="ds-noscroll" style={{ display: "flex", gap: 6, overflowX: "auto", marginBottom: 14 }}>
-          <Link href="/shop" style={chip(!group)}>
-            All
-          </Link>
-          {GROUPS.map((g) => (
-            <Link key={g.slug} href={`/shop/${g.slug}`} style={chip(group === g.slug)}>
-              {g.name}
-            </Link>
-          ))}
-        </div>
-      )}
 
       <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 22, borderTop: "1px solid var(--line)", paddingTop: 16 }}>
         {rows.map(([title, opts, key]) => (
-          <div key={key} style={{ display: "flex", gap: 10, alignItems: "center" }}>
-            <span style={{ ...mono, letterSpacing: ".14em", color: "var(--mutedMono)", width: 78, flexShrink: 0 }}>{title}</span>
-            <div className="ds-noscroll" style={{ display: "flex", gap: 10, overflowX: "auto", flexWrap: key === "brand" ? "nowrap" : "wrap", minWidth: 0 }}>
-              {opts.map((o) => (
-                <button key={o} type="button" className="ds-chip" onClick={() => set(key, o)} aria-pressed={f[key] === o} style={{ ...chip(f[key] === o), flexShrink: 0 }}>
-                  {o}
-                </button>
-              ))}
-            </div>
+          <div key={key} style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+            <span style={{ ...mono, letterSpacing: ".14em", color: "var(--mutedMono)", width: 78 }}>{title}</span>
+            {opts.map((o) => (
+              <button key={o} type="button" className="ds-chip" onClick={() => set(key, o)} aria-pressed={f[key] === o} style={{ ...chip(f[key] === o), flexShrink: 0 }}>
+                {o}
+              </button>
+            ))}
           </div>
         ))}
       </div>
@@ -164,9 +151,9 @@ export default function Listing({ group, q, onClearQ }: { group?: string; q?: st
           <Link href="/source" style={btn("buy", { padding: "12px 18px" })}>
             Request an item
           </Link>
-          <a href={PROMISE.whatsapp} style={btn("outline", { padding: "12px 18px" })}>
+          <WhatsAppLink style={btn("outline", { padding: "12px 18px" })}>
             WhatsApp
-          </a>
+          </WhatsAppLink>
         </div>
       </div>
     </main>

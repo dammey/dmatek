@@ -4,9 +4,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import Icon from "@/components/Icon";
 import ImageSlot from "@/components/ImageSlot";
-import Receipt, { type ReceiptLine } from "@/components/Receipt";
+import { type ReceiptLine } from "@/components/Receipt";
 import { Kicker, PageTitle, STAGES, TrackingStages, btn, field, pagePad } from "@/components/ui";
 import { api } from "@/lib/api";
+import { PROMISE } from "@/lib/promises";
 
 type Tracked = { ref: string; placed_at: string; status: string; stageIndex: number; check_battery?: string | null; check_imei?: string | null; check_condition?: string | null; check_media?: string | null; order_lines: (ReceiptLine & { used: boolean })[] };
 
@@ -28,7 +29,6 @@ function TrackInner() {
   const r = res?.ref === ref ? res : null;
   const order = r?.order ?? null;
   const stage = order?.stageIndex ?? -1;
-  const date = order ? new Date(order.placed_at).toLocaleDateString("en-NG", { day: "numeric", month: "long", year: "numeric" }) : undefined;
 
   return (
     <main style={pagePad}>
@@ -85,7 +85,21 @@ function TrackInner() {
         </section>
       )}
 
-      {order && <Receipt refNo={order.ref} date={date} lines={order.order_lines} />}
+      {order && (
+        <section style={{ border: "1px solid var(--line)", borderRadius: 16, padding: 18, display: "flex", flexDirection: "column", gap: 8, fontSize: 14 }}>
+          <b style={{ fontSize: 17 }}>Receipt</b>
+          {order.order_lines.map((l, i) => (
+            <div key={i} style={{ display: "flex", justifyContent: "space-between", gap: 12, borderBottom: "1px solid var(--line)", paddingBottom: 8 }}>
+              <span>
+                {l.description}
+                {l.quantity > 1 ? ` × ${l.quantity}` : ""} ({l.used ? "used" : "new"})
+              </span>
+              <span style={{ textAlign: "right" }}>D’Source warranty: {l.warranty ?? "[ period ]"}</span>
+            </div>
+          ))}
+          <span style={{ fontSize: 12, color: "var(--muted)" }}>{PROMISE.manufacturerShort}</span>
+        </section>
+      )}
       {!ref && <p style={{ color: "var(--muted)", fontSize: 14 }}>Enter the reference from your order confirmation. Stages: {STAGES.join(", ")}.</p>}
     </main>
   );

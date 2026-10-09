@@ -4,10 +4,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { IconLabel } from "../Icon";
-import ImageSlot from "../ImageSlot";
+import Image from "next/image";
 import { ResponseHours, btn } from "../ui";
 import { config } from "@/lib/config";
-import { PLACES, PLACE_PHOTO, placeKey } from "@/lib/places";
+import { PLACES, placeKey } from "@/lib/places";
 
 type Props = {
   pi: number;
@@ -69,21 +69,17 @@ export default function Hero({ pi, prev, paused, reduce, heroImages, onPause, on
                 zIndex: on ? 2 : under ? 1 : 0,
                 clipPath: on || under ? "inset(0 0 0 0)" : "inset(0 100% 0 0)",
                 transition: on && !reduce ? "clip-path 1s cubic-bezier(.7,0,.2,1)" : "none",
-                pointerEvents: on ? "auto" : "none",
-                background: "var(--t2)",
-                color: "var(--m)",
               }}
             >
-              <div className="ds-hero-slot">
-                <ImageSlot src={heroImages[placeKey(pl)]} alt="" placeholder={PLACE_PHOTO[pl]} sizes="75vw" priority={i === 0} />
-              </div>
+              <Image src={heroImages[placeKey(pl)] || `/photos/hero-${placeKey(pl)}.webp`} alt="" fill sizes="(max-width: 699px) 100vw, 57vw" priority={i === 0} style={{ objectFit: "cover" }} />
             </div>
           );
         })}
       </div>
+      <div aria-hidden="true" className="ds-hero-fade" />
       <div style={{ position: "relative", zIndex: 2, display: "flex", flexDirection: "column", gap: "clamp(14px,2vw,22px)", maxWidth: 820, pointerEvents: "none" }}>
-        <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 600, letterSpacing: ".16em", color: "var(--mutedMono)" }}>COMMERCE BY D’MATEK · LAGOS</span>
-        <h1 className="ds-hero-h1" style={{ margin: 0, lineHeight: 0.9, letterSpacing: "-.065em", fontWeight: 800 }}>
+        <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 600, letterSpacing: ".16em", color: "rgba(255,255,255,.72)" }}>COMMERCE BY D’MATEK · TECH YOU NEED, DELIVERED.</span>
+        <h1 className="ds-hero-h1" style={{ margin: 0, lineHeight: 1, paddingBottom: ".08em", letterSpacing: "-.065em", fontWeight: 800 }}>
           Sourced for
           <br />
           the{" "}
@@ -93,7 +89,7 @@ export default function Hero({ pi, prev, paused, reduce, heroImages, onPause, on
             tabIndex={0}
             onClick={onGoKit}
             onKeyDown={(e) => e.key === "Enter" && onGoKit()}
-            style={{ color: "var(--m)", display: "inline-block", pointerEvents: "auto", cursor: "pointer", borderBottom: ".06em solid var(--a)", animation: reduce ? "none" : "wordin .6s cubic-bezier(.2,.7,.2,1)" }}
+            style={{ color: "#9BE6C5", display: "inline-block", pointerEvents: "auto", cursor: "pointer", borderBottom: ".06em solid var(--a)", animation: reduce ? "none" : "wordin .6s cubic-bezier(.2,.7,.2,1)" }}
           >
             {place}
           </span>
@@ -111,7 +107,7 @@ export default function Hero({ pi, prev, paused, reduce, heroImages, onPause, on
               search();
             }}
             role="search"
-            style={{ flex: "1 1 260px", maxWidth: 520, display: "flex", background: "#fff", border: "2px solid var(--d)", borderRadius: 999, padding: "5px 5px 5px 18px", alignItems: "center" }}
+            style={{ boxSizing: "content-box", flex: "1 1 260px", maxWidth: 520, display: "flex", background: "#fff", border: "2px solid var(--d)", borderRadius: 999, padding: "5px 5px 5px 18px", alignItems: "center" }}
           >
             <input value={q} onChange={(e) => setQ(e.target.value)} aria-label="Search" placeholder="Search phones, laptops, routers…" style={{ flex: 1, minWidth: 0, border: 0, background: "transparent", fontSize: 15, outline: "none", color: "var(--d)" }} />
             <button type="submit" style={{ border: 0, background: "var(--d)", color: "#fff", borderRadius: 999, padding: "12px 20px", fontWeight: 700 }}>
@@ -125,12 +121,12 @@ export default function Hero({ pi, prev, paused, reduce, heroImages, onPause, on
           </Link>
         </div>
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center", pointerEvents: "auto" }}>
-          <button type="button" onClick={onGoKit} style={{ border: 0, background: "none", padding: 0, color: "var(--d)", fontWeight: 700, fontSize: 14, textDecoration: "underline" }}>
+          <button type="button" onClick={onGoKit} style={{ whiteSpace: "nowrap", border: 0, background: "none", padding: 0, color: "#fff", fontWeight: 700, fontSize: 14, textDecoration: "underline" }}>
             See what goes in a {place} →
           </button>
           <span>
-            <ResponseHours />{" "}
-            {note && <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 600, letterSpacing: ".12em", color: "var(--mutedMono)" }}>{note}</span>}
+            <ResponseHours color="rgba(255,255,255,.72)" />{" "}
+            {note && <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 600, letterSpacing: ".12em", color: "rgba(255,255,255,.72)" }}>{note}</span>}
           </span>
         </div>
       </div>
@@ -143,6 +139,8 @@ export function FlowLine() {
   const d = "M0 20 H380 Q392 20 392 32 V36 Q392 48 404 48 H1040 Q1052 48 1052 36 V24 Q1052 12 1064 12 H1440";
   return (
     <svg viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true" style={{ display: "block", width: "100%", height: "clamp(30px,4vw,56px)" }}>
+      {/* The hero's dark base continues into the seam. */}
+      <path d={`${d} V0 H0 Z`} fill="#072A1F" stroke="none" />
       <path d={d} fill="none" stroke="#D4A637" strokeWidth={2} strokeOpacity={0.55} vectorEffect="non-scaling-stroke" />
       <path d={d} pathLength={2400} fill="none" stroke="#D4A637" strokeWidth={3.5} strokeLinecap="round" strokeDasharray="120 2280" strokeDashoffset={2400} vectorEffect="non-scaling-stroke" style={{ animation: "dsFlow 9s linear 1s infinite" }} />
     </svg>

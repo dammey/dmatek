@@ -50,7 +50,7 @@ export default function KitSelector({ pi, onPick }: { pi: number; onPick: (i: nu
                 >
                   <span style={{ width: 12, height: 12, borderRadius: "50%", background: on ? "var(--a)" : "#fff", border: "2px solid var(--d)", marginTop: -6 }} />
                   <span style={{ width: 1, height: 16 + (i % 3) * 8, background: "var(--d)" }} />
-                  <span style={{ width: "clamp(150px,16vw,200px)", background: "#fff", borderRadius: 16, padding: "9px 9px 13px", boxShadow: "0 14px 30px rgba(6,56,46,.12)", display: "flex", flexDirection: "column", gap: 8, outline: on ? "3px solid var(--a)" : "0 solid transparent", textAlign: "left" }}>
+                  <span style={{ boxSizing: "content-box", width: "clamp(150px,16vw,200px)", background: "#fff", borderRadius: 16, padding: "9px 9px 13px", boxShadow: "0 14px 30px rgba(6,56,46,.12)", display: "flex", flexDirection: "column", gap: 8, outline: on ? "3px solid var(--a)" : "0 solid transparent", textAlign: "left" }}>
                     <span style={{ display: "block", position: "relative", aspectRatio: "4/3", borderRadius: 10, overflow: "hidden", background: "var(--t)", color: "var(--m)" }}>
                       <ImageSlot placeholder={`Photo: ${pl}`} sizes="200px" />
                     </span>
