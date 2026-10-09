@@ -10,7 +10,8 @@ const SLA_MINUTES = 1440;
 
 /** Sidebar nav badges — a count per module the nav links to, gold except
  * quotes.overdue which the sidebar renders red. */
-adminNavCountsRouter.get("/", async (_req, res) => {
+adminNavCountsRouter.get("/", async (req, res) => {
+  if (req.staff!.role === "Engineer") return res.status(403).json({ error: "Engineers can only use the engineer app" });
   const [orders, quotes, payments, invoices, reviews, accounts, surveys, inventory, enquiries, returns, repairs] = await Promise.all([
     db.from("orders").select("id", { count: "exact", head: true }).eq("status", "pending"),
     db.from("quotes").select("submitted_at").eq("status", "submitted"),

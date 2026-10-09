@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, raw } from "express";
 import { z } from "zod";
 import { requireStaff } from "../../auth/middleware.js";
 import { db } from "../../supabase.js";
@@ -50,12 +50,33 @@ adminOrdersRouter.patch("/:ref/checked", async (req, res) => {
   const body = z
     .object({ battery: z.string().max(20).optional(), imei: z.enum(["Clean, verified", "Not verified yet", "Failed"]).optional(), condition: z.string().max(40).optional(), media: z.string().max(2000).optional() })
     .parse(req.body);
-  const { error } = await db
-    .from("orders")
-    .update({ check_battery: body.battery ?? null, check_imei: body.imei ?? null, check_condition: body.condition ?? null, check_media: body.media || null })
-    .eq("ref", req.params.ref);
+  const patch: Record<string, string | null> = {};
+  if (body.battery !== undefined) patch.check_battery = body.battery || null;
+  if (body.imei !== undefined) patch.check_imei = body.imei;
+  if (body.condition !== undefined) patch.check_condition = body.condition || null;
+  if (body.media !== undefined) patch.check_media = body.media || null;
+  const { error } = await db.from("orders").update(patch).eq("ref", req.params.ref);
   if (error) return res.status(500).json({ error: error.message });
   res.json({ ok: true });
+});
+
+const MEDIA_TYPES: Record<string, string> = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp", "video/mp4": "mp4", "video/quicktime": "mov", "video/webm": "webm" };
+
+/** POST /admin/orders/:ref/checked/media — raw photo/video body (Content-Type
+ * set to the file's type), stored in the public checked-media bucket and
+ * linked to the order so the customer sees it on tracking. */
+adminOrdersRouter.post("/:ref/checked/media", raw({ type: Object.keys(MEDIA_TYPES), limit: "25mb" }), async (req, res) => {
+  const type = (req.headers["content-type"] ?? "").split(";")[0];
+  const ext = MEDIA_TYPES[type];
+  if (!ext || !Buffer.isBuffer(req.body) || !req.body.length) return res.status(400).json({ error: "Upload a JPG, PNG, WebP, MP4, MOV or WebM file" });
+  const ref = req.params.ref.toUpperCase();
+  const path = `${ref}/${Date.now()}.${ext}`;
+  const up = await db.storage.from("checked-media").upload(path, req.body, { contentType: type, upsert: false });
+  if (up.error) return res.status(500).json({ error: up.error.message });
+  const url = db.storage.from("checked-media").getPublicUrl(path).data.publicUrl;
+  const { error } = await db.from("orders").update({ check_media: url }).eq("ref", ref);
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ url });
 });
 
 adminOrdersRouter.patch("/:ref/note", async (req, res) => {

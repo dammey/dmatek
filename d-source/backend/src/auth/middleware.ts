@@ -35,6 +35,8 @@ export async function withCustomer(req: Request, _res: Response, next: NextFunct
   next();
 }
 
+export const ENGINEER_APP = "Engineer app";
+
 /** Requires a signed-in staff member; 401/403 otherwise. Optionally
  * requires a specific admin module permission via role_permissions. */
 export function requireStaff(module?: string) {
@@ -48,12 +50,19 @@ export function requireStaff(module?: string) {
       .maybeSingle();
     if (!staff || !staff.active) return res.status(403).json({ error: "Not an active staff account" });
     req.staff = { id: staff.id, name: staff.name, role: staff.role };
+    // Engineers see only the engineer app: every other module is closed to
+    // them whatever role_permissions says.
+    if (staff.role === "Engineer") {
+      if (!module || module === ENGINEER_APP) return next();
+      return res.status(403).json({ error: "Engineers can only use the engineer app" });
+    }
     if (module && staff.role !== "Owner") {
       const { data: perm } = await db
         .from("role_permissions")
         .select("allowed")
         .eq("role", staff.role)
-        .eq("module", module)
+        // Previewing the engineer app is part of Installations for office staff.
+        .eq("module", module === ENGINEER_APP ? "Installations" : module)
         .maybeSingle();
       if (!perm?.allowed) return res.status(403).json({ error: `No access to ${module}` });
     }

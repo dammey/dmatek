@@ -18,6 +18,7 @@ const ALL_MODULES = [
  * access to (the server still enforces this per-route regardless). */
 adminStaffRouter.get("/me", requireStaff(), async (req, res) => {
   if (req.staff!.role === "Owner") return res.json({ staff: req.staff, modules: ALL_MODULES });
+  if (req.staff!.role === "Engineer") return res.json({ staff: req.staff, modules: ["Engineer app"] });
   const { data } = await db.from("role_permissions").select("module").eq("role", req.staff!.role).eq("allowed", true);
   res.json({ staff: req.staff, modules: (data ?? []).map((r) => r.module) });
 });
