@@ -60,7 +60,7 @@ export const NAV: NavGroup[] = [
 
 /** Header title and subtitle per module (the prototype's T map, verbatim). */
 export const TITLES: Record<string, [string, string]> = {
-  reports: ["Reports", "Sample data until the order system is connected"],
+  reports: ["Reports", "Sales, orders and quote performance from live orders"],
   payments: ["Payments", "Confirm transfers and pay on delivery, refund when needed"],
   invoices: ["Invoices", "Business accounts on 30-day invoice"],
   customers: ["Customers", "Everyone who has bought, quoted or applied"],

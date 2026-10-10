@@ -40,8 +40,8 @@ export default function ReportsPage() {
   const pmax = Math.max(...pilots.map((p) => p[1]), 1);
   const charts: { title: string; sub: string; bars: Bar[] }[] = d
     ? [
-        { title: "Sales by store", sub: "Sample data", bars: [bar("D’Emporium", d.homeSales, d.sales, "#A6F000", fmt(d.homeSales)), bar("D’Provision", d.sales - d.homeSales, d.sales, "#D4A637", fmt(d.sales - d.homeSales))] },
-        { title: "Sales by category", sub: "Sample data", bars: cats.map(([k, v]) => bar(k, v, cmax, "#1F7A5A", fmt(v))) },
+        { title: "Sales by store", sub: "From live orders", bars: [bar("D’Emporium", d.homeSales, d.sales, "#A6F000", fmt(d.homeSales)), bar("D’Provision", d.sales - d.homeSales, d.sales, "#D4A637", fmt(d.sales - d.homeSales))] },
+        { title: "Sales by category", sub: "From live orders", bars: cats.map(([k, v]) => bar(k, v, cmax, "#1F7A5A", fmt(v))) },
         { title: "Orders by stage", sub: "Right now", bars: STAGES.map((l, i) => bar(l, d.ordersByStage[STATUS_KEYS[i]] ?? 0, d.orderCount, "#06382E", String(d.ordersByStage[STATUS_KEYS[i]] ?? 0))) },
         { title: "Pilot interest", sub: "From “join the pilot” requests", bars: pilots.length ? pilots.map(([k, v]) => bar(k, v, pmax, "#D4A637", String(v))) : [bar("Device care plan", 0, 1, "#D4A637", "0")] },
       ]
