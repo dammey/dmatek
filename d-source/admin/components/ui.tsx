@@ -5,21 +5,6 @@ export function PageHeader({ title, subtitle }: { title: string; subtitle: strin
         <h1 style={{ margin: 0, fontWeight: 800, fontSize: 26, letterSpacing: "-0.035em" }}>{title}</h1>
         <span style={{ fontSize: 13.5, color: "#5E6E68" }}>{subtitle}</span>
       </div>
-      <span
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: 10.5,
-          fontWeight: 600,
-          letterSpacing: "0.14em",
-          background: "#EFEADC",
-          border: "1px dashed rgba(6,56,46,.3)",
-          padding: "6px 10px",
-          borderRadius: 4,
-          whiteSpace: "nowrap",
-        }}
-      >
-        SAMPLE DATA
-      </span>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { requireStaff } from "../../auth/middleware.js";
 import { db } from "../../supabase.js";
+import { lowStockCount } from "../../util/stock.js";
 
 export const adminNavCountsRouter = Router();
 adminNavCountsRouter.use(requireStaff());
@@ -20,7 +21,7 @@ adminNavCountsRouter.get("/", async (req, res) => {
     db.from("reviews").select("id", { count: "exact", head: true }).eq("state", "pending"),
     db.from("customers").select("id", { count: "exact", head: true }).eq("account_status", "pending"),
     db.from("site_surveys").select("id", { count: "exact", head: true }).eq("stage", "requested"),
-    db.from("inventory").select("id", { count: "exact", head: true }).lt("quantity_on_hand", 3),
+    lowStockCount(),
     db.from("enquiries").select("id", { count: "exact", head: true }).eq("done", false),
     db.from("returns").select("id", { count: "exact", head: true }).eq("state", "Open"),
     db.from("repairs").select("id", { count: "exact", head: true }).not("stage", "in", "(fixing,returned)"),
@@ -39,7 +40,7 @@ adminNavCountsRouter.get("/", async (req, res) => {
     reviews: reviews.count ?? 0,
     accounts: accounts.count ?? 0,
     surveys: surveys.count ?? 0,
-    inventory: inventory.count ?? 0,
+    inventory,
     enquiries: enquiries.count ?? 0,
     returns: returns.count ?? 0,
     repairs: repairs.count ?? 0,

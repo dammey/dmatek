@@ -28,7 +28,7 @@ export default function ReportsPage() {
   }, []);
 
   const tiles = [
-    { label: "SALES (SAMPLE)", value: d ? fmt(d.sales7) : "—", sub: "Last 7 days" },
+    { label: "SALES", value: d ? fmt(d.sales7) : "—", sub: "Last 7 days" },
     { label: "ORDERS", value: d ? String(d.orders7) : "—", sub: "Last 7 days" },
     { label: "QUOTE PROMISE MET", value: d?.quotePromiseMetPct != null ? `${d.quotePromiseMetPct}%` : "—", sub: `Replied within ${d?.slaHours ?? 24} working hours` },
     { label: "QUOTE TO ORDER", value: "—", sub: "Needs 30 days of data" },

@@ -29,7 +29,8 @@ const productSchema = z.object({
   images: z.array(z.string()).optional(),
   isActive: z.boolean().optional(),
   price: z.number().optional(),
-  stock: z.number().int().min(0).optional(),
+  /** null/absent = sourced on order: no stock held, no inventory row. */
+  stock: z.number().int().min(0).nullable().optional(),
 });
 
 adminProductsRouter.post("/", async (req, res) => {
@@ -42,7 +43,6 @@ adminProductsRouter.post("/", async (req, res) => {
   if (error) return res.status(500).json({ error: error.message });
 
   if (body.stock != null) await db.from("inventory").insert({ product_id: product.id, quantity_on_hand: body.stock });
-  else await db.from("inventory").insert({ product_id: product.id, quantity_on_hand: 0 });
   if (body.price != null) await db.from("product_prices").insert({ product_id: product.id, price_list: body.store === "provision" ? "business" : "retail", unit_price: body.price });
 
   res.status(201).json({ id: product.id });
@@ -58,7 +58,10 @@ adminProductsRouter.patch("/:id", async (req, res) => {
     const { error } = await db.from("products").update(patch).eq("id", req.params.id);
     if (error) return res.status(500).json({ error: error.message });
   }
-  if (stock != null) {
+  if (stock === null) {
+    // Back to "sourced on order" only when nothing is held or reserved, so recorded stock is never lost.
+    await db.from("inventory").delete().eq("product_id", req.params.id).eq("quantity_on_hand", 0).eq("quantity_reserved", 0);
+  } else if (stock != null) {
     const { data: inv } = await db.from("inventory").select("id").eq("product_id", req.params.id).maybeSingle();
     if (inv) await db.from("inventory").update({ quantity_on_hand: stock, updated_at: new Date().toISOString() }).eq("id", inv.id);
     else await db.from("inventory").insert({ product_id: req.params.id, quantity_on_hand: stock });
@@ -119,7 +122,7 @@ adminProductsRouter.post("/bulk", async (req, res) => {
         brand: z.string().optional(),
         spec: z.string().optional(),
         price: z.number(),
-        stock: z.number(),
+        stock: z.number().int().min(0).nullable().optional(),
         freeSetup: z.boolean().optional(),
       })
     )
@@ -131,8 +134,11 @@ adminProductsRouter.post("/bulk", async (req, res) => {
     const priceList = row.store === "home" ? "retail" : "business";
     if (existing) {
       await db.from("product_prices").upsert({ product_id: existing.id, price_list: priceList, unit_price: row.price }, { onConflict: "product_id,price_list" });
-      const { data: inv } = await db.from("inventory").select("id").eq("product_id", existing.id).maybeSingle();
-      if (inv) await db.from("inventory").update({ quantity_on_hand: row.stock }).eq("id", inv.id);
+      if (row.stock != null) {
+        const { data: inv } = await db.from("inventory").select("id").eq("product_id", existing.id).maybeSingle();
+        if (inv) await db.from("inventory").update({ quantity_on_hand: row.stock, updated_at: new Date().toISOString() }).eq("id", inv.id);
+        else await db.from("inventory").insert({ product_id: existing.id, quantity_on_hand: row.stock });
+      }
     } else {
       // Category by name, or by the label staff see in Categories (e.g. "Wi-Fi").
       let { data: category } = await db.from("categories").select("id").ilike("name", row.category).maybeSingle();
@@ -155,7 +161,7 @@ adminProductsRouter.post("/bulk", async (req, res) => {
         .single();
       if (product) {
         await db.from("product_prices").insert({ product_id: product.id, price_list: priceList, unit_price: row.price });
-        await db.from("inventory").insert({ product_id: product.id, quantity_on_hand: row.stock });
+        if (row.stock != null) await db.from("inventory").insert({ product_id: product.id, quantity_on_hand: row.stock });
       }
     }
     imported += 1;

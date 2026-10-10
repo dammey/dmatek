@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { requireStaff } from "../../auth/middleware.js";
 import { db } from "../../supabase.js";
+import { lowStockCount } from "../../util/stock.js";
 import { SETTINGS_KEYS, getSettings, quoteSlaMinutes } from "../../util/settings.js";
 
 export const adminDashboardRouter = Router();
@@ -19,7 +20,7 @@ adminDashboardRouter.get("/", async (_req, res) => {
     db.from("reviews").select("id", { count: "exact", head: true }).eq("state", "pending"),
     db.from("customers").select("id", { count: "exact", head: true }).eq("account_status", "pending"),
     db.from("site_surveys").select("id", { count: "exact", head: true }).eq("stage", "requested"),
-    db.from("inventory").select("id", { count: "exact", head: true }).lt("quantity_on_hand", 3),
+    lowStockCount(),
     db.from("orders").select(ORDER_ROW).neq("status", "cancelled").order("placed_at", { ascending: false }).limit(5),
     db.from("enquiries").select("id, type, from_name, from_contact").eq("done", false).in("type", ["Sourcing request", "Return / failed inspection", "Repair collection"]).order("created_at"),
   ]);
@@ -31,7 +32,7 @@ adminDashboardRouter.get("/", async (_req, res) => {
     reviewsPending: reviewsPending.count ?? 0,
     accountsPending: accountsPending.count ?? 0,
     surveysPending: surveysPending.count ?? 0,
-    lowStock: lowStock.count ?? 0,
+    lowStock,
     recent: recent.data ?? [],
     requests: requests.data ?? [],
     // Prototype: the first ten settings (fees … WhatsApp) must all be filled.

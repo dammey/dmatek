@@ -28,7 +28,8 @@ type Product = {
 const COLS = "52px minmax(200px,1fr) 110px 130px 120px 80px 100px 100px 70px";
 const tag = (store: string) => (store === "emporium" ? { label: "FOR YOU", bg: "#EFEADC", ink: "#06382E" } : { label: "BUSINESS", bg: "#06382E", ink: "#D4A637" });
 const priceOf = (p: Product) => p.product_prices.find((x) => x.price_list === (p.store === "provision" ? "business" : "retail"))?.unit_price ?? null;
-const stockOf = (p: Product) => p.inventory?.[0]?.quantity_on_hand ?? 0;
+/** Units held, or null when the item is sourced on order (no stock held). */
+const stockOf = (p: Product): number | null => p.inventory?.[0]?.quantity_on_hand ?? null;
 /** Condition label as the admin edits it: "New" or "UK-used · Grade B". */
 const condLabel = (p: Product) => p.specs?.cond || (p.condition.startsWith("Grade") ? `UK-used · ${p.condition}` : p.condition);
 /** Spec line as the prototype shows it: spec · condition · buying mode. */
@@ -84,7 +85,7 @@ export default function ProductsPage() {
     is_active: false,
     images: [],
     product_prices: [],
-    inventory: [{ quantity_on_hand: 0 }],
+    inventory: [],
     specs: { brand: "", spec: "", free: false, cond: "New", mode: "Buy now" },
     condition: "New",
     mode: "Buy now",
@@ -139,7 +140,7 @@ export default function ProductsPage() {
                 <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, fontWeight: 600, letterSpacing: ".1em", padding: "4px 8px", borderRadius: 4, background: t.bg, color: t.ink, justifySelf: "start" }}>{t.label}</span>
                 <span style={{ color: "#3A4A44" }}>{labelFor(p)}</span>
                 <span style={{ fontWeight: 800 }}>{price != null ? fmt(price) : "[ price ]"}</span>
-                <span style={{ fontWeight: 800, color: stock < 3 ? "#B42318" : "#06382E" }}>{stock}</span>
+                {stock == null ? <span style={{ color: "#5E6E68" }}>On order</span> : <span style={{ fontWeight: 800, color: stock < 3 ? "#B42318" : "#06382E" }}>{stock}</span>}
                 <span style={{ fontSize: 12.5, fontWeight: 700, color: p.specs?.free ? "#1F7A5A" : "#5E6E68" }}>{p.specs?.free ? "Free" : "Paid add-on"}</span>
                 <button type="button" onClick={() => toggleLive(p)} aria-label="Toggle live" style={{ width: 44, height: 26, borderRadius: 999, border: 0, background: p.is_active ? "#1F7A5A" : "#D9D4C8", position: "relative", padding: 0 }}>
                   <span style={{ position: "absolute", top: 4, left: p.is_active ? 22 : 4, width: 18, height: 18, borderRadius: "50%", background: "#fff", transition: "left .25s ease" }} />
@@ -175,7 +176,7 @@ function ProductDrawer({ product, opts, onClose, onSaved }: { product: Product; 
     cond: condLabel(product),
     mode: product.mode,
     price: priceOf(product) ?? 0,
-    stock: stockOf(product),
+    stock: stockOf(product)?.toString() ?? "",
     catKey: `${product.store}|${product.category_id ?? ""}`,
     free: !!product.specs?.free,
     live: product.is_active,
@@ -196,7 +197,7 @@ function ProductDrawer({ product, opts, onClose, onSaved }: { product: Product; 
       store,
       categoryId: categoryId || undefined,
       price: e.price || undefined,
-      stock: e.stock,
+      stock: e.stock.trim() === "" ? null : num(e.stock),
       specs: { ...(product.specs ?? {}), brand: e.brand, spec: e.spec, cond: e.cond, mode: e.mode, free: e.free },
       isActive: e.live,
     };
@@ -216,7 +217,7 @@ function ProductDrawer({ product, opts, onClose, onSaved }: { product: Product; 
     ["cond", "CONDITION (New, UK-used · Grade A / B / C)", "auto"],
     ["mode", "BUYING (Buy now or Quote)", "auto"],
     ["price", "PRICE (₦)", "auto", true],
-    ["stock", "STOCK", "auto", true],
+    ["stock", "STOCK (blank = sourced on order)", "auto"],
   ];
 
   return (

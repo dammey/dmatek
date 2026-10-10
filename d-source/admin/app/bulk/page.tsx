@@ -9,7 +9,7 @@ const COLS = ["sku", "name", "brand", "store", "category", "spec", "price", "sto
 const GRID = "110px minmax(180px,1fr) 110px 130px 120px 80px 160px";
 
 type Check = "" | "Updates existing" | "Missing price" | "Unknown category";
-type Row = { sku: string; name: string; brand: string; store: "home" | "business"; category: string; spec: string; price: number; stock: number; freeSetup: boolean; check: Check };
+type Row = { sku: string; name: string; brand: string; store: "home" | "business"; category: string; spec: string; price: number; stock: number | null; freeSetup: boolean; check: Check };
 const BCK: Record<Check, [string, string, string]> = {
   "": ["Ready", "#D9F0E3", "#1F7A5A"],
   "Updates existing": ["Updates existing", "#DCEBFF", "#1B4A8A"],
@@ -69,7 +69,7 @@ export default function BulkUploadPage() {
           category: get(r, "category"),
           spec: get(r, "spec"),
           price: num(get(r, "price")),
-          stock: num(get(r, "stock")),
+          stock: get(r, "stock") === "" ? null : num(get(r, "stock")),
           freeSetup: yes(get(r, "free_setup")),
           check: "" as Check,
         };
@@ -118,7 +118,7 @@ export default function BulkUploadPage() {
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,420px),1fr))", gap: 16, alignItems: "start" }}>
         <section style={{ border: "2px dashed rgba(6,56,46,.3)", borderRadius: 22, background: "#fff", padding: 28, display: "flex", flexDirection: "column", gap: 12, alignItems: "flex-start" }}>
           <span style={{ fontWeight: 800, fontSize: 20 }}>Upload a spreadsheet</span>
-          <span style={{ fontSize: 14, lineHeight: 1.55, color: "#3A4A44" }}>CSV or Excel. One row per product. New products are added as hidden until you check them; existing products (same SKU) get the new price and stock.</span>
+          <span style={{ fontSize: 14, lineHeight: 1.55, color: "#3A4A44" }}>CSV or Excel. One row per product. New products are added as hidden until you check them; existing products (same SKU) get the new price and stock. Leave stock blank for items sourced on order.</span>
           <input type="file" accept=".csv,.xlsx,.xls" onChange={(e) => e.target.files?.[0] && onFile(e.target.files[0])} style={{ fontSize: 14 }} />
           <button type="button" onClick={sample} style={{ border: "1px solid rgba(6,56,46,.2)", background: "#fff", color: "#06382E", borderRadius: 999, padding: "10px 16px", fontWeight: 800, fontSize: 13.5 }}>
             Load a sample file
@@ -156,7 +156,7 @@ export default function BulkUploadPage() {
                   <span>{b.store}</span>
                   <span>{b.category}</span>
                   <span>{b.price ? fmt(b.price) : "—"}</span>
-                  <span>{b.stock}</span>
+                  <span>{b.stock ?? "On order"}</span>
                   <span style={{ fontSize: 12, fontWeight: 800, padding: "5px 10px", borderRadius: 999, background: BCK[b.check][1], color: BCK[b.check][2], justifySelf: "start" }}>{BCK[b.check][0]}</span>
                 </div>
               ))}

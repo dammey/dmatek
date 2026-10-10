@@ -47,7 +47,7 @@ export default function DashboardPage() {
     { label: "REVIEWS TO CHECK", value: n(d?.reviewsPending), sub: "Match against purchases", ink: "#06382E", go: go("reviews") },
     { label: "ACCOUNTS TO APPROVE", value: n(d?.accountsPending), sub: "30-day invoice", ink: "#06382E", go: go("accounts") },
     { label: "SURVEYS TO SCHEDULE", value: n(d?.surveysPending), sub: "Free site surveys", ink: "#06382E", go: go("surveys") },
-    { label: "LOW STOCK", value: n(d?.lowStock), sub: "Live products under 3", ink: d?.lowStock ? "#B25E00" : "#06382E", go: go("products") },
+    { label: "LOW STOCK", value: n(d?.lowStock), sub: "Below reorder level", ink: d?.lowStock ? "#B25E00" : "#06382E", go: go("products") },
   ];
 
   const att: { tag: string; text: string; bg: string; ink: string; go: () => void }[] = [];

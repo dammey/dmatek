@@ -19,14 +19,19 @@ type Item = {
 };
 
 const SERIAL_CATS = ["Laptops", "Phones", "Tablets", "TV & Audio", "Computing", "Displays"];
+/** Stock is held only for items with an inventory record (from the dealer
+ * lists' stock column, receiving, or a set stock count). Everything else is
+ * sourced on order, so it is never "0" or "low". */
+const held = (p: Item) => !!p.inventory?.length;
 const onHand = (p: Item) => p.inventory?.[0]?.quantity_on_hand ?? 0;
 const reorderAt = (p: Item) => p.inventory?.[0]?.reorder_level ?? 3;
-const isLow = (p: Item) => onHand(p) < 3 && p.is_active;
+const isLow = (p: Item) => held(p) && onHand(p) < reorderAt(p) && p.is_active;
+type View = "all" | "held" | "low" | "order";
 
 export default function InventoryPage() {
   const router = useRouter();
   const [list, setList] = useState<Item[] | null>(null);
-  const [low, setLow] = useState(false);
+  const [view, setView] = useState<View>("held");
   const [open, setOpen] = useState<string | null>(null);
   const [qty, setQty] = useState("");
   const [serials, setSerials] = useState("");
@@ -41,7 +46,10 @@ export default function InventoryPage() {
 
   const needle = q.trim().toLowerCase();
   const all = list ?? [];
-  const rows = all.filter((p) => (!needle || p.name.toLowerCase().includes(needle)) && (!low || isLow(p))).sort((a, b) => onHand(a) - onHand(b));
+  const inView = (p: Item) => (view === "all" ? true : view === "held" ? held(p) : view === "low" ? isLow(p) : !held(p));
+  const rows = all
+    .filter((p) => (!needle || p.name.toLowerCase().includes(needle)) && inView(p))
+    .sort((a, b) => Number(held(b)) - Number(held(a)) || (held(a) ? onHand(a) - onHand(b) : a.name.localeCompare(b.name)));
   const p = open ? all.find((x) => x.id === open) : null;
   const close = () => setOpen(null);
   const n = parseInt(qty.replace(/\D/g, ""), 10) || 10;
@@ -50,8 +58,10 @@ export default function InventoryPage() {
     <>
       <GenChips
         chips={[
-          { label: "All", on: !low, go: () => setLow(false) },
-          { label: `Low stock (${all.filter(isLow).length})`, on: low, go: () => setLow(true) },
+          { label: `In stock (${all.filter(held).length})`, on: view === "held", go: () => setView("held") },
+          { label: `Low stock (${all.filter(isLow).length})`, on: view === "low", go: () => setView("low") },
+          { label: `Sourced on order (${all.filter((p) => !held(p)).length})`, on: view === "order", go: () => setView("order") },
+          { label: `All (${all.length})`, on: view === "all", go: () => setView("all") },
         ]}
         actions={[{ label: "Receive stock", go: () => router.push("/suppliers?tab=po") }]}
       />
@@ -62,7 +72,7 @@ export default function InventoryPage() {
         empty={list ? "Nothing here yet." : "Loading…"}
         rows={rows.slice(0, limit).map((x) => ({
           key: x.id,
-          cells: [cB(x.name), cTag(x.store === "provision"), { ...cB(String(onHand(x))), ink: onHand(x) < 3 ? "#B42318" : "#06382E" }, cT(x.inventory?.[0]?.quantity_reserved ?? 0), cT(reorderAt(x)), cT(SERIAL_CATS.includes(x.categories?.name ?? "") || x.stock_serials?.length ? "Tracked" : "—")],
+          cells: [cB(x.name), cTag(x.store === "provision"), held(x) ? { ...cB(String(onHand(x))), ink: isLow(x) ? "#B42318" : "#06382E" } : cT("On order"), cT(held(x) ? x.inventory?.[0]?.quantity_reserved ?? 0 : "—"), cT(held(x) ? reorderAt(x) : "—"), cT(SERIAL_CATS.includes(x.categories?.name ?? "") || x.stock_serials?.length ? "Tracked" : "—")],
           btn: "Adjust",
           go: () => {
             setQty("");
@@ -82,8 +92,8 @@ export default function InventoryPage() {
           title={p.name}
           onClose={close}
           meta={[
-            { k: "On hand", v: String(onHand(p)) },
-            { k: "Reorder at", v: String(reorderAt(p)) },
+            { k: "On hand", v: held(p) ? String(onHand(p)) : "Sourced on order · no stock held" },
+            { k: "Reorder at", v: held(p) ? String(reorderAt(p)) : "—" },
             { k: "Supplier", v: p.product_suppliers?.map((s) => s.suppliers?.name).filter(Boolean).join(", ") || "[ SUPPLIER ]" },
           ]}
           linesTitle="SERIAL NUMBERS"
