@@ -1,5 +1,5 @@
-// Nav and sister-site links. Copy is verbatim from docs/project/v3.1/README.md
-// and Dmatek Website v3.1.dc.html — do not rewrite. (The shared pilot-programme
+// Nav and sister-site links. Copy is verbatim from docs/project/v3.4/README.md
+// and Dmatek Website v3.4.dc.html — do not rewrite. (The shared pilot-programme
 // note now lives in @dmatek/brand, since D'Source uses it too.)
 
 export type NavKey = "solutions" | "businesses" | "work" | "about" | "insights";

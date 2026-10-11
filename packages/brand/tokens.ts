@@ -1,6 +1,6 @@
 // D'Matek family design tokens — shared verbatim across D'Matek, D'Foundry
 // (colours only; D'Foundry has its own fonts/type scale) and D'Source.
-// Copy is authoritative from docs/project/family/README.md § "Shared family components".
+// Copy is authoritative from the design handoff (docs/project/v3.4/README.md).
 
 export const brand = {
   color: {
