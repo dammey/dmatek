@@ -1,0 +1,30 @@
+You are implementing the full D'Matek website ecosystem in the existing Next.js / Vercel repository (dammey/dmatek).
+
+Read CHANGES.md first (every update to build, per site), then README.md (full spec), and follow both. It covers ALL seven sites, not just one:
+
+1. Main site, dmatek.ng ............ Dmatek Website v3.6.dc.html
+2. dmatek.ng/infrastructure ......... DMatek Infrastructure Hero shared.dc.html
+3. dmatek.ng/cloud .................. DMatek Cloud Home v3.1 shared.dc.html
+4. dmatek.ng/ilemesh ................ DMatek IleMesh.dc.html
+5. dmatek.ng/assurance .............. DMatek Assurance.dc.html
+6. source.dmatek.ng (separate site) . DSource v11.1.dc.html
+7. foundry.dmatek.ng (separate site)  DFoundry Hero v2.dc.html (+ Droplet Case Study.dc.html)
+
+The .dc.html files are high-fidelity HTML design references. Open them in a browser to see the intended look, copy and interactions; recreate them in the codebase using its existing routes, components and patterns. Do not ship the HTML directly.
+
+Before editing: inspect the repo (routes, components, tokens, /api/contact form with Resend, deployment config) and map each page to real files. Then work in this order, in small reviewable changes:
+
+Phase 0  Launch-integrity fixes on the live main site (README "Content hidden until supplied", links, metadata).
+Phase 1  Main site: hero, situation finder, shared enquiry form (prefill from context), Services relationship diagram + profiles, Solutions, the four environment pages, Work, About, Contact.
+Phase 2  /infrastructure, /cloud, /ilemesh, /assurance as routes on the main site with the shared header/footer.
+Phase 3  D'Source and D'Foundry on their subdomains (NEXT_PUBLIC_SOURCE_URL, NEXT_PUBLIC_FOUNDRY_URL).
+Phase 4  Analytics (every data-track attribute), SEO, accessibility, reduced motion, lighter mobile versions of the 3D/canvas pieces, launch checks.
+
+Rules:
+- Keep "Solving what matters." as the main headline.
+- Never invent facts, clients, testimonials, metrics, service availability or SLAs. Hide anything not yet supplied (README section 9).
+- Customers never have to choose one of the six internal businesses.
+- Do not change DNS, secrets or live deployment settings without approval.
+- After each phase, report: files changed, behaviour, tests run, open dependencies, decisions needed.
+
+Contact details to use: phone/WhatsApp 07058071768 (https://wa.me/2347058071768), email hello@dmatek.ng.
