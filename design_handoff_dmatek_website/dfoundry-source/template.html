@@ -1,0 +1,261 @@
+<helmet>
+<title>D’Foundry: Built for your problem</title>
+<meta name="description" content="D’Foundry builds the software, applications, automations and integrations that solve a specific problem properly. A D’Matek business.">
+<meta name="theme-color" content="#06382E">
+<meta property="og:title" content="D’Foundry: Built for your problem, not for a demo.">
+<meta property="og:description" content="Software, applications, automations and integrations. A D’Matek business.">
+<meta property="og:image" content="assets/dmatek-team.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'16'%20fill%3D'%2306382E'%2F%3E%3Crect%20x%3D'12'%20y%3D'22'%20width%3D'40'%20height%3D'20'%20rx%3D'10'%20fill%3D'%23D4A637'%2F%3E%3C%2Fsvg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/matter-js@0.19.0/build/matter.min.js"></script>
+<script src="./image-slot.js"></script>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:#06382E;font-family:'Bricolage Grotesque',sans-serif;-webkit-font-smoothing:antialiased}
+html,body{overflow-x:clip}
+html{scroll-behavior:smooth}
+a{color:inherit;text-decoration:none}
+a:hover{color:#D4A637}
+button{font-family:inherit;cursor:pointer}
+@media (pointer:fine){html.df-cur,html.df-cur *{cursor:none!important}}
+</style>
+</helmet>
+<div data-loader="1" style="position:fixed;inset:0;z-index:500;background:#06382E;color:#F5F1E8;display:flex;flex-direction:column;justify-content:space-between;padding:22px clamp(18px,3vw,40px);transform-origin:50% 0;will-change:transform">
+  <div style="display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:#A9BBB3"><span style="display:flex;align-items:center;gap:10px"><img src="assets/dfoundry-logo-mark-rev.png" alt="D’Foundry logo" style="height:28px;width:auto;display:block">D’FOUNDRY</span><span>A D’MATEK BUSINESS</span></div>
+  <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(6px,1vw,12px)">
+    <span data-lp="1" style="display:inline-block;opacity:0;transform:translateY(-60vh) rotate(-12deg);padding:.08em .42em .14em;border-radius:999px;background:#D4A637;color:#06382E;font-weight:800;font-size:clamp(40px,8vw,140px);line-height:1;letter-spacing:-.05em">D’</span>
+    <span data-lp="1" style="display:inline-block;opacity:0;transform:translateY(-60vh) rotate(9deg);padding:.08em .42em .14em;border-radius:999px;background:#F5F1E8;color:#06382E;font-weight:800;font-size:clamp(40px,8vw,140px);line-height:1;letter-spacing:-.05em">Foun</span>
+    <span data-lp="1" style="display:inline-block;opacity:0;transform:translateY(-60vh) rotate(-6deg);padding:.02em .42em .1em;border-radius:999px;background:#28705A;color:#F5F1E8;font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(46px,9vw,156px);line-height:1">dry</span>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:end;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:#A9BBB3"><span>CASTING THE PAGE</span><span data-lc="1" style="color:#D4A637">000</span></div>
+</div>
+
+<div data-ctl="1" style="position:fixed;left:50%;top:64px;transform:translateX(-50%);z-index:300;display:flex;gap:6px;mix-blend-mode:difference;color:#F5F1E8">
+  <button onClick="{{ toggleSound }}" aria-label="Toggle sound" style="display:flex;align-items:center;gap:7px;border:0;border-radius:999px;background:transparent;color:inherit;padding:6px 10px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.14em;white-space:nowrap;opacity:.6;transition:opacity .3s" style-hover="opacity:1"><span style="display:flex;align-items:end;gap:2px;height:12px"><span data-bar="1" style="width:2px;height:3px;background:currentColor"></span><span data-bar="1" style="width:2px;height:3px;background:currentColor"></span><span data-bar="1" style="width:2px;height:3px;background:currentColor"></span><span data-bar="1" style="width:2px;height:3px;background:currentColor"></span></span><span>{{ soundLabel }}</span></button>
+  <button data-skip="1" onClick="{{ skipIntro }}" style="border:1px solid currentColor;border-radius:999px;background:transparent;color:inherit;padding:5px 10px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.14em;white-space:nowrap;transition:opacity .4s,transform .4s" style-hover="background:#F5F1E8;color:#000">SKIP INTRO ↓</button>
+</div>
+
+<sc-if value="{{ isA }}" hint-placeholder-val="{{ true }}">
+<div data-v="a" data-screen-label="Hero" style="position:relative;height:100svh;min-height:560px;overflow:hidden;background:#F5F1E8;color:#06382E;user-select:none;touch-action:none">
+  <div style="position:absolute;left:0;right:0;top:0;display:flex;justify-content:space-between;align-items:center;padding:22px clamp(18px,3vw,40px);z-index:5;pointer-events:none">
+    <span style="display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:-.03em"><img src="assets/dfoundry-logo-mark.png" alt="D’Foundry logo" style="height:34px;width:auto;display:block">D’FOUNDRY</span>
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em">A D’MATEK BUSINESS</span>
+  </div>
+  <div data-blk="w" style="position:absolute;left:0;top:0;transform:translate(-9999px,0);padding:.1em .45em .14em;border-radius:999px;background:#06382E;color:#F5F1E8;font-weight:800;font-size:clamp(38px,6.4vw,112px);line-height:1;letter-spacing:-.045em;white-space:nowrap;cursor:grab">Built</div>
+  <div data-blk="w" style="position:absolute;left:0;top:0;transform:translate(-9999px,0);padding:.1em .45em .14em;border-radius:999px;border:4px solid #06382E;color:#06382E;font-weight:800;font-size:clamp(38px,6.4vw,112px);line-height:1;letter-spacing:-.045em;white-space:nowrap;cursor:grab">for</div>
+  <div data-blk="w" style="position:absolute;left:0;top:0;transform:translate(-9999px,0);padding:.1em .45em .14em;border-radius:999px;background:#D4A637;color:#06382E;font-weight:800;font-size:clamp(38px,6.4vw,112px);line-height:1;letter-spacing:-.045em;white-space:nowrap;cursor:grab">your</div>
+  <div data-blk="w" style="position:absolute;left:0;top:0;transform:translate(-9999px,0);padding:.1em .45em .14em;border-radius:22px;background:#28705A;color:#F5F1E8;font-weight:800;font-size:clamp(38px,6.4vw,112px);line-height:1;letter-spacing:-.045em;white-space:nowrap;cursor:grab">problem,</div>
+  <div data-blk="w" style="position:absolute;left:0;top:0;transform:translate(-9999px,0);padding:.02em .4em .1em;border-radius:999px;background:#1A1A1A;color:#F5F1E8;font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(44px,7.4vw,128px);line-height:1;white-space:nowrap;cursor:grab">not</div>
+  <div data-blk="w" style="position:absolute;left:0;top:0;transform:translate(-9999px,0);padding:.1em .45em .14em;border-radius:999px;border:4px solid #06382E;color:#06382E;font-weight:800;font-size:clamp(38px,6.4vw,112px);line-height:1;letter-spacing:-.045em;white-space:nowrap;cursor:grab">for</div>
+  <div data-blk="w" style="position:absolute;left:0;top:0;transform:translate(-9999px,0);padding:.1em .42em .14em;border-radius:999px;background:#D4A637;color:#06382E;font-weight:800;font-size:clamp(38px,6.4vw,112px);line-height:1;letter-spacing:-.045em;white-space:nowrap;cursor:grab">a</div>
+  <div data-blk="w" style="position:absolute;left:0;top:0;transform:translate(-9999px,0);padding:.02em .45em .1em;border-radius:22px;background:#06382E;color:#D4A637;font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(44px,7.4vw,128px);line-height:1;white-space:nowrap;cursor:grab">demo.</div>
+  <div data-blk="t" style="position:absolute;left:0;top:0;transform:translate(-9999px,0);padding:12px 20px;border-radius:999px;background:#F5F1E8;border:1.5px solid #06382E;font-family:'IBM Plex Mono',monospace;font-size:clamp(12px,1.1vw,16px);font-weight:600;white-space:nowrap;cursor:grab">CUSTOM SOFTWARE</div>
+  <div data-blk="t" style="position:absolute;left:0;top:0;transform:translate(-9999px,0);padding:12px 20px;border-radius:999px;background:#F5F1E8;border:1.5px solid #06382E;font-family:'IBM Plex Mono',monospace;font-size:clamp(12px,1.1vw,16px);font-weight:600;white-space:nowrap;cursor:grab">WEB APPS</div>
+  <div data-blk="t" style="position:absolute;left:0;top:0;transform:translate(-9999px,0);padding:12px 20px;border-radius:999px;background:#F5F1E8;border:1.5px solid #06382E;font-family:'IBM Plex Mono',monospace;font-size:clamp(12px,1.1vw,16px);font-weight:600;white-space:nowrap;cursor:grab">AUTOMATION</div>
+  <div data-blk="t" style="position:absolute;left:0;top:0;transform:translate(-9999px,0);padding:12px 20px;border-radius:999px;background:#F5F1E8;border:1.5px solid #06382E;font-family:'IBM Plex Mono',monospace;font-size:clamp(12px,1.1vw,16px);font-weight:600;white-space:nowrap;cursor:grab">INTEGRATION</div>
+  <div data-blk="t" style="position:absolute;left:0;top:0;transform:translate(-9999px,0);padding:12px 20px;border-radius:999px;background:#06382E;color:#D4A637;font-family:'IBM Plex Mono',monospace;font-size:clamp(12px,1.1vw,16px);font-weight:600;white-space:nowrap;cursor:grab">QADPAY</div>
+  <div data-blk="t" style="position:absolute;left:0;top:0;transform:translate(-9999px,0);padding:12px 20px;border-radius:999px;background:#D4A637;color:#06382E;font-family:'IBM Plex Mono',monospace;font-size:clamp(12px,1.1vw,16px);font-weight:600;white-space:nowrap;cursor:grab">DROPLET</div>
+  <div style="position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;padding:22px clamp(18px,3vw,40px);z-index:5;pointer-events:none">
+    <p style="margin:0;max-width:38ch;font-size:clamp(14px,1.2vw,17px);line-height:1.5;font-weight:500">We build the software, applications, automations and integrations that solve a specific problem properly. Grab a piece and throw it. Then scroll.</p>
+    <button onClick="{{ toggleAssemble }}" style="pointer-events:auto;border:0;border-radius:999px;background:#06382E;color:#F5F1E8;padding:16px 24px;font-weight:700;font-size:15px;white-space:nowrap" style-hover="background:#D4A637;color:#06382E">{{ assembleLabel }}</button>
+  </div>
+</div>
+</sc-if>
+
+
+<div data-v="c" data-screen-label="Title sequence" style="position:relative;height:800vh;background:#06382E">
+  <div style="position:sticky;top:0;height:100svh;overflow:hidden">
+    <div data-track="1" style="position:absolute;left:0;top:0;height:100%;width:400vw;display:flex;will-change:transform">
+    <div data-scene="0" style="position:relative;flex:0 0 100vw;height:100%;background:#F5F1E8;color:#06382E;display:grid;place-items:center;overflow:hidden">
+      <span style="position:absolute;left:5vw;top:calc(9vh + 72px);font-family:'IBM Plex Mono',monospace;font-size:clamp(11px,1vw,14px);letter-spacing:.12em">PROBLEM 01 · THE CORE PROCESS STILL RUNS ON PAPER</span>
+      <div data-push="1" style="font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(80px,17vw,300px);line-height:.85;letter-spacing:-.03em;text-align:center"><span data-l="1" style="display:inline-block">P</span><span data-l="1" style="display:inline-block">a</span><span data-l="1" style="display:inline-block">p</span><span data-l="1" style="display:inline-block">e</span><span data-l="1" style="display:inline-block">r</span><br><span data-l="1" style="display:inline-block">f</span><span data-l="1" style="display:inline-block">o</span><span data-l="1" style="display:inline-block">r</span><span data-l="1" style="display:inline-block">m</span><span data-l="1" style="display:inline-block">s</span><span data-l="1" style="display:inline-block">.</span></div>
+    </div>
+    <div data-scene="1" style="position:relative;flex:0 0 100vw;height:100%;background:#1A1A1A;color:#F5F1E8;display:grid;place-items:center;overflow:hidden">
+      <span style="position:absolute;left:5vw;top:calc(9vh + 72px);font-family:'IBM Plex Mono',monospace;font-size:clamp(11px,1vw,14px);letter-spacing:.12em;color:#D4A637">PROBLEM 02 · THREE COPIES, NO SINGLE TRUTH</span>
+      <div data-push="1" style="display:flex;flex-direction:column;align-items:center;font-weight:800;font-size:clamp(40px,11vw,200px);line-height:.86;letter-spacing:-.06em">
+        <span data-row="1">Spreadsheet.</span><span data-row="1" style="color:#D4A637">Spreadsheet.</span><span data-row="1" style="color:transparent;-webkit-text-stroke:2px #F5F1E8">Spreadsheet.</span>
+      </div>
+    </div>
+    <div data-scene="2" style="position:relative;flex:0 0 100vw;height:100%;background:#28705A;color:#F5F1E8;display:grid;place-items:center;overflow:hidden">
+      <span style="position:absolute;left:5vw;top:calc(9vh + 72px);font-family:'IBM Plex Mono',monospace;font-size:clamp(11px,1vw,14px);letter-spacing:.12em;color:#F5D98A">PROBLEM 03 · SOMEONE RE-TYPES EVERYTHING</span>
+      <div data-push="1" style="width:100%;padding:0 5vw;display:flex;flex-direction:column;gap:2vh;font-weight:800;font-size:clamp(56px,10vw,180px);line-height:.9;letter-spacing:-.055em">
+        <span data-split="l">Two systems</span><span data-split="r" style="align-self:flex-end;font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em;color:#F5D98A">that won’t talk.</span>
+      </div>
+    </div>
+    <div data-scene="3" style="position:relative;flex:0 0 100vw;height:100%;background:#E9B940;color:#06382E;display:grid;place-items:center;overflow:hidden">
+      <span style="position:absolute;left:5vw;top:calc(9vh + 72px);font-family:'IBM Plex Mono',monospace;font-size:clamp(11px,1vw,14px);letter-spacing:.12em">PROBLEM 04 · MONTHS OF WORK, NOTHING LIVE</span>
+      <div data-push="1" style="font-weight:800;font-size:clamp(56px,11vw,200px);line-height:.88;letter-spacing:-.06em;text-align:center">A <span style="position:relative;display:inline-block">demo<span data-strike="1" style="position:absolute;left:-4%;right:-4%;top:52%;height:.09em;background:#06382E;transform-origin:0 50%;transform:rotate(-4deg) scaleX(0)"></span></span><br><span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em">that never shipped.</span></div>
+    </div>
+    </div>
+    <div data-scene="4" style="position:absolute;inset:0;background:#06382E;color:#F5F1E8;display:grid;place-items:center;overflow:hidden;visibility:hidden">
+      <h1 data-zh="1" style="margin:0;padding:0 5vw;text-align:center;font-weight:800;font-size:clamp(52px,9.4vw,168px);line-height:.9;letter-spacing:-.055em">Built for your pr<span data-o="1" style="color:#E9B940">o</span>blem, <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em;color:#D4A637">not for a demo.</span></h1>
+    </div>
+    <div data-scene="5" style="position:absolute;inset:0;background:#E9B940;color:#06382E;display:flex;flex-direction:column;justify-content:center;gap:4vh;padding:0 5vw;overflow:hidden;visibility:hidden">
+      <div data-rise="1" style="display:flex;flex-direction:column;gap:4vh;max-width:1200px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.12em">D’FOUNDRY · A D’MATEK BUSINESS</span>
+        <p style="margin:0;font-weight:800;font-size:clamp(34px,5vw,86px);line-height:.98;letter-spacing:-.045em;text-wrap:pretty">We build the software, applications, automations and integrations that solve a specific problem <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400">properly.</span></p>
+        <a href="#start" style="align-self:flex-start;background:#06382E;color:#F5F1E8;border-radius:999px;padding:18px 28px;font-weight:700;font-size:16px">Bring us the problem →</a>
+      </div>
+    </div>
+    <div data-lb="top" style="position:absolute;left:0;right:0;top:0;height:9vh;background:#000;transition:height .8s cubic-bezier(.76,0,.24,1);z-index:3"></div>
+    <div data-lb="bot" style="position:absolute;left:0;right:0;bottom:0;height:9vh;background:#000;transition:height .8s cubic-bezier(.76,0,.24,1);z-index:3;display:flex;justify-content:space-between;align-items:center;padding:0 clamp(18px,3vw,40px);overflow:hidden">
+      <span data-sl="1" style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:#F5F1E8">SCENE 01 · THE PROBLEM</span>
+      <span data-tc="1" style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:#D4A637">00:00:00:00</span>
+    </div>
+    <div data-cue="1" style="position:absolute;left:50%;bottom:13vh;transform:translateX(-50%);z-index:4;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:#06382E;transition:opacity .4s">SCROLL TO PLAY ↓</div>
+  </div>
+</div>
+
+<div data-wipe="1" style="position:relative;height:34vh;background:#06382E;overflow:hidden"><div data-wipe-in="1" style="position:absolute;left:0;right:0;top:0;height:100%;background:#D4A637;transform-origin:50% 0"></div></div>
+<section data-screen-label="Problem → fix" style="background:#06382E;color:#F5F1E8;padding:clamp(24px,4vh,48px) clamp(18px,3vw,40px) clamp(72px,12vh,140px)">
+  <div style="max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(32px,5vh,56px)">
+    <div style="display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap">
+      <h2 data-rv="rise" style="margin:0;font-weight:800;font-size:clamp(44px,7vw,120px);line-height:.9;letter-spacing:-.055em;max-width:12ch">Pick the one that <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em;color:#D4A637">sounds like you.</span></h2>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:#A9BBB3">01 · PROBLEM → FIX</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <sc-for list="{{ problems }}" as="p" hint-placeholder-count="3">
+        <div data-rv="pill"><button onClick="{{ p.pick }}" style="text-align:left;display:flex;align-items:center;gap:20px;border-radius:999px;padding:clamp(16px,2.4vh,26px) clamp(20px,3vw,40px);border:2px solid {{ p.line }};background:{{ p.bg }};color:{{ p.ink }};font-weight:700;font-size:clamp(18px,2.2vw,34px);letter-spacing:-.03em;line-height:1.15;transition:background .35s,color .35s,border-color .35s" style-hover="border-color:#D4A637">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:0">{{ p.n }}</span><span style="flex:1">{{ p.text }}</span><span style="font-size:.9em">{{ p.mark }}</span>
+        </button></div>
+      </sc-for>
+    </div>
+    <div style="background:#F5F1E8;color:#06382E;border-radius:28px;padding:clamp(24px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:clamp(20px,3vw,40px)">
+      <sc-for list="{{ plan }}" as="st" hint-placeholder-count="4">
+        <div data-rv="up" style="display:flex;flex-direction:column;gap:10px">
+          <span style="align-self:flex-start;background:#D4A637;color:#06382E;border-radius:999px;padding:6px 12px;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600">{{ st.step }}</span>
+          <span style="font-weight:800;font-size:clamp(22px,2vw,30px);letter-spacing:-.035em;line-height:1.05">{{ st.title }}</span>
+          <span style="font-size:16px;line-height:1.5;color:#28705A">{{ st.body }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="Services" style="background:#F5F1E8;color:#06382E;padding:clamp(72px,12vh,140px) clamp(18px,3vw,40px)">
+  <div style="max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(32px,5vh,56px)">
+    <div style="display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap">
+      <h2 data-rv="rise" style="margin:0;font-weight:800;font-size:clamp(56px,10vw,180px);line-height:.85;letter-spacing:-.06em">What we <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em;color:#28705A">build.</span></h2>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:#28705A">02 · SERVICES</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <sc-for list="{{ services }}" as="s" hint-placeholder-count="7">
+        <div data-rv="pill"><div style="display:flex;align-items:center;gap:20px;border:2px solid #06382E;border-radius:999px;padding:clamp(14px,2vh,22px) clamp(20px,3vw,36px);transition:background .3s,color .3s,transform .4s cubic-bezier(.34,1.56,.64,1)" style-hover="background:#06382E;color:#F5F1E8;transform:rotate(-1.2deg) scale(1.01)">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600">{{ s.n }}</span>
+          <span style="flex:1;font-weight:700;font-size:clamp(20px,2.6vw,40px);letter-spacing:-.035em;line-height:1.1">{{ s.name }}</span>
+          <span style="font-size:clamp(20px,2vw,30px);color:#D4A637">↗</span>
+        </div></div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="Process" style="background:#28705A;color:#F5F1E8;padding:clamp(72px,12vh,140px) clamp(18px,3vw,40px)">
+  <div style="max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(40px,6vh,72px)">
+    <div style="display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap">
+      <h2 data-rv="rise" style="margin:0;font-weight:800;font-size:clamp(44px,7vw,120px);line-height:.9;letter-spacing:-.055em;max-width:14ch">Built around you, <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em;color:#F5D98A">on proven foundations.</span></h2>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em">03 · HOW WE BUILD</span>
+    </div>
+    <div data-rv="mask" style="position:relative;aspect-ratio:16/9;border-radius:32px;overflow:hidden;background:#06382E"><img src="assets/dmatek-team.jpg" alt="The D’Matek team working through a plan" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 25%"></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:clamp(16px,2vw,28px)">
+      <sc-for list="{{ stages }}" as="st" hint-placeholder-count="3">
+        <div data-rv="deal" style="display:flex"><div style="display:flex;flex-direction:column;gap:14px;background:#06382E;border-radius:32px;padding:clamp(24px,3vw,40px);transition:transform .5s cubic-bezier(.34,1.56,.64,1)" style-hover="transform:translateY(-10px) rotate(-1deg)">
+          <span style="font-weight:800;font-size:clamp(90px,10vw,160px);line-height:.8;letter-spacing:-.07em;color:#D4A637">{{ st.num }}</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:#F5D98A">{{ st.n }}</span>
+          <span style="font-weight:800;font-size:clamp(24px,2.2vw,32px);letter-spacing:-.035em">{{ st.title }}</span>
+          <span style="font-size:16px;line-height:1.55;color:#D9E5DE">{{ st.body }}</span>
+        </div></div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section id="droplet" data-screen-label="Recent work" style="background:#1A1A1A;color:#F5F1E8;padding:clamp(72px,12vh,140px) clamp(18px,3vw,40px);overflow:hidden">
+  <div style="max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(32px,5vh,56px)">
+    <div style="display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap">
+      <h2 data-rv="rise" style="margin:0;font-weight:800;font-size:clamp(56px,9vw,160px);line-height:.85;letter-spacing:-.06em">Shipped, <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em;color:#D4A637">and running.</span></h2>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:#BDB6A6">04 · RECENT WORK</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:clamp(24px,4vw,64px);align-items:end">
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <span style="align-self:flex-start;background:#D4A637;color:#06382E;border-radius:999px;padding:6px 12px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600">CASE STUDY · LIVE</span>
+        <span style="font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(72px,9vw,150px);line-height:.8;letter-spacing:-.03em">Droplet</span>
+        <p style="margin:0;font-size:18px;line-height:1.55;color:#D9D3C4;max-width:40ch">Water on demand for Blessed Water. Customers order and reorder in a few taps, keep deliveries coming on a subscription, and book recycling pickups that earn points.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap"><a href="Droplet%20Case%20Study.dc.html" style="border:2px solid #F5F1E8;color:#F5F1E8;border-radius:999px;padding:12px 20px;font-weight:700;font-size:15px;white-space:nowrap" style-hover="background:#F5F1E8;color:#1A1A1A">Read the case study →</a><a href="https://web-gamma-fawn-29.vercel.app/" target="_blank" rel="noopener" style="background:#D4A637;color:#06382E;border-radius:999px;padding:14px 22px;font-weight:700;font-size:15px;white-space:nowrap" style-hover="background:#F5F1E8;color:#06382E">Visit Droplet ↗</a></div>
+      </div>
+      <div style="display:flex;flex-direction:column;border-top:1px solid #444">
+        <sc-for list="{{ dropletFeats }}" as="f" hint-placeholder-count="3">
+          <div data-rv="up" style="display:grid;grid-template-columns:48px minmax(0,1fr);gap:12px;padding:16px 0;border-bottom:1px solid #444">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#D4A637">{{ f.n }}</span>
+            <span style="display:flex;flex-direction:column;gap:4px"><span style="font-weight:700;font-size:20px;letter-spacing:-.02em">{{ f.title }}</span><span style="font-size:15px;line-height:1.5;color:#BDB6A6">{{ f.body }}</span></span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <div style="position:relative;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(12px,1.6vw,24px);align-items:start">
+      <div data-rv="mask" style="grid-column:1 / span 8;position:relative;border-radius:24px;overflow:hidden;background:#F5F8FB;box-shadow:0 40px 80px rgba(0,0,0,.45)"><img loading="lazy" src="assets/droplet-dash.jpg" alt="Droplet customer home: reorder prompt, usual order and subscription" style="display:block;width:100%;height:auto"></div>
+      <div data-rv="deal" style="grid-column:8 / span 5;margin-top:clamp(40px,8vw,140px);position:relative;border-radius:20px;overflow:hidden;background:#F5F8FB;box-shadow:0 40px 80px rgba(0,0,0,.5);border:6px solid #1A1A1A"><img loading="lazy" src="assets/droplet-shop.jpg" alt="Droplet shop with products and delivery zones" style="display:block;width:100%;height:auto"></div>
+      <div data-rv="deal" style="grid-column:3 / span 6;margin-top:clamp(-120px,-6vw,-40px);position:relative;border-radius:20px;overflow:hidden;background:#F5F8FB;box-shadow:0 40px 80px rgba(0,0,0,.5);border:6px solid #1A1A1A"><img loading="lazy" src="assets/droplet-rec.jpg" alt="Droplet recycling pickup: materials, points and pickup address" style="display:block;width:100%;height:auto"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;margin-top:clamp(24px,4vh,48px)">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:#BDB6A6">IN THE WORKS</span>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:12px">
+        <sc-for list="{{ cases }}" as="c" hint-placeholder-count="2">
+          <div data-rv="pill" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;border:1.5px solid #444;border-radius:999px;padding:18px 26px">
+            <span style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:800;font-size:clamp(20px,2vw,28px);letter-spacing:-.035em">{{ c.client }}</span><span style="font-size:14px;color:#BDB6A6">{{ c.body }}</span></span>
+            <span style="display:flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;color:#D4A637;white-space:nowrap"><span style="width:8px;height:8px;border-radius:50%;background:#D4A637"></span>IN PROGRESS</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="Products" style="background:#D4A637;color:#06382E;padding:clamp(72px,12vh,140px) clamp(18px,3vw,40px)">
+  <div style="max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(32px,5vh,56px)">
+    <div style="display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap">
+      <h2 data-rv="rise" style="margin:0;font-weight:800;font-size:clamp(56px,9vw,160px);line-height:.85;letter-spacing:-.06em">Our own <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em">products.</span></h2>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em">05 · PRODUCTS</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(20px,3vw,40px)">
+      <div data-rv="deal" style="display:flex;flex-direction:column;gap:18px;background:#06382E;color:#F5F1E8;border-radius:36px;padding:clamp(20px,2.4vw,32px)">
+        <div style="position:relative;aspect-ratio:16/10;border-radius:24px;overflow:hidden;background:#0B4B3D"><div style="position:absolute;inset:0;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:#D4A637">IN THE FOUNDRY · COMING SOON</div></div>
+        <span style="align-self:flex-start;background:#D4A637;color:#06382E;border-radius:999px;padding:6px 12px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600">PRODUCT 01 · IN DEVELOPMENT</span>
+        <span style="font-weight:800;font-size:clamp(56px,7vw,110px);line-height:.85;letter-spacing:-.065em">QADPAY</span>
+        <p style="margin:0;font-size:17px;line-height:1.55;color:#D9E5DE;max-width:44ch">A D’Matek-owned fintech product, currently in development at D’Foundry.</p>
+      </div>
+      <div data-rv="deal" style="display:flex;flex-direction:column;justify-content:space-between;gap:18px;background:#F5F1E8;border-radius:36px;padding:clamp(24px,3vw,40px);min-height:clamp(320px,40vw,520px)">
+        <span style="align-self:flex-start;background:#06382E;color:#F5F1E8;border-radius:999px;padding:6px 12px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600">PRODUCT 02 · LIVE</span>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <span style="font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(80px,11vw,180px);line-height:.8;letter-spacing:-.03em">Droplet</span>
+          <p style="margin:0;font-size:17px;line-height:1.55;color:#28705A;max-width:40ch">Water on demand, built for Blessed Water and live in Lagos and Ibadan.</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap"><a href="https://web-gamma-fawn-29.vercel.app/" target="_blank" rel="noopener" style="background:#06382E;color:#F5F1E8;border-radius:999px;padding:14px 22px;font-weight:700;font-size:15px;white-space:nowrap">Visit Droplet ↗</a><a href="#droplet" style="border:2px solid #06382E;border-radius:999px;padding:12px 20px;font-weight:700;font-size:15px;white-space:nowrap">Read the case study ↑</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="start" data-screen-label="Contact" style="background:#F5F1E8;color:#06382E;padding:clamp(72px,12vh,140px) clamp(18px,3vw,40px) 28px">
+  <div style="max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(32px,5vh,56px)">
+    <h2 data-rv="rise" style="margin:0;font-weight:800;font-size:clamp(72px,14vw,260px);line-height:.82;letter-spacing:-.05em">Bring the <span style="display:block;font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.03em;color:#28705A">problem.</span></h2>
+    <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;max-width:960px">
+        <input placeholder="Describe it in one sentence" style="flex:1;min-width:260px;background:#FFFFFF;border:2px solid #06382E;border-radius:999px;padding:20px 26px;font-family:inherit;font-size:clamp(17px,1.6vw,22px);font-weight:600;color:#06382E;outline:none">
+        <button onClick="{{ send }}" style="background:#06382E;color:#F5F1E8;border:0;border-radius:999px;padding:22px 30px;font-size:16px;font-weight:800;white-space:nowrap;transition:transform .4s cubic-bezier(.34,1.56,.64,1)" style-hover="background:#D4A637;color:#06382E;transform:rotate(-3deg) scale(1.05)">Send it →</button>
+      </div>
+    </sc-if>
+    <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}"><div style="align-self:flex-start;background:#D4A637;border-radius:999px;padding:18px 28px;font-weight:700;font-size:clamp(17px,1.6vw,22px)">Got it. An engineer will reply within two working days.</div></sc-if>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <sc-for list="{{ sisters }}" as="x" hint-placeholder-count="3">
+        <a href="{{ x.href }}" style="display:flex;gap:10px;align-items:center;border:2px solid #06382E;border-radius:999px;padding:12px 20px;font-weight:700;font-size:15px" style-hover="background:#06382E;color:#F5F1E8"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;color:#B08620">{{ x.verb }}</span>{{ x.name }} ↗</a>
+      </sc-for>
+    </div>
+    <footer style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:2px solid #06382E;padding-top:20px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em">
+      <span>D’FOUNDRY IS A D’MATEK BUSINESS</span>
+      <a href="Dmatek%20Website%20v3.dc.html">D’MATEK.COM ↗</a>
+    </footer>
+  </div>
+</section>

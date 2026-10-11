@@ -1,0 +1,5 @@
+Read design_handoff_dmatek_website/DFOUNDRY_PORT.md, then read dfoundry-source/template.html and dfoundry-source/logic.js in full.
+
+Rebuild the D'Foundry page as an exact replica of "DFoundry Hero.dc.html" (and the Droplet case study) in this Next.js project. Port the markup, inline styles and engine code verbatim per the porting rules. Do not redesign, simplify or drop any interaction.
+
+Work section by section. After each section, run the Playwright comparison from the guide and fix differences before moving on. Finish only when every item in the feature checklist is ticked and the paired screenshots match at 1440 and 390 widths.
