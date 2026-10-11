@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import Eyebrow from "@/components/Eyebrow";
@@ -96,16 +97,17 @@ export default function HotelMoment({ caps }: { caps: HotelCap[] }) {
         >
           <div>
             <div
-              className="dm-blob"
               style={{
                 position: "relative",
                 height: "clamp(0px, calc(100vh - 640px), 190px)",
-                background: "linear-gradient(150deg,#EFEADC,#E6E0CE)",
+                borderRadius: "58% 42% 47% 53% / 52% 46% 54% 48%",
                 overflow: "hidden",
                 margin: "0 0 clamp(0px, calc((100vh - 640px) / 6), 26px)",
                 boxShadow: "0 20px 50px rgba(6,56,46,0.16)",
               }}
-            />
+            >
+              <Image src="/assets/photos/hotel.jpg" alt="A hotel sign lit at dusk" fill sizes="560px" className="object-cover" style={{ objectPosition: "60% 40%" }} />
+            </div>
             <Eyebrow>05 &middot; THE COMPLEXITY WE ABSORB</Eyebrow>
             <h2
               id="hotel-h"
@@ -128,14 +130,14 @@ export default function HotelMoment({ caps }: { caps: HotelCap[] }) {
             <div className="mb-7.5 flex flex-wrap gap-x-9 gap-y-3 border-y border-forest/[0.14] py-4.5">
               <div className="flex flex-col gap-1">
                 <span className="leading-none text-forest" style={{ fontSize: "clamp(28px,3vw,40px)", fontWeight: 800, letterSpacing: "-0.03em" }}>
-                  <span data-hc="caps">0</span>
+                  <span data-hc="caps">6</span>
                   <span className="text-progress">/6</span>
                 </span>
                 <span className="text-[11px] font-bold tracking-[0.16em] text-progress">CAPABILITIES</span>
               </div>
               <div className="flex flex-col gap-1">
                 <span data-hc="spec" className="leading-none text-forest" style={{ fontSize: "clamp(28px,3vw,40px)", fontWeight: 800, letterSpacing: "-0.03em" }}>
-                  0
+                  6
                 </span>
                 <span className="text-[11px] font-bold tracking-[0.16em] text-progress">SPECIALISTS</span>
               </div>

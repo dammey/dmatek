@@ -64,6 +64,7 @@ export default function Navbar() {
             })}
             <Link
               href="/contact"
+              data-track="cta_contact_header"
               className="ml-2 rounded-full bg-gold px-6 py-3.5 text-[13px] font-bold tracking-[0.04em] text-forest transition-transform hover:-translate-y-0.5 hover:bg-forest hover:text-cream hover:shadow-[0_12px_26px_rgba(6,56,46,0.22)]"
             >
               Tell us what you need &rarr;

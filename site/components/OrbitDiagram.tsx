@@ -4,7 +4,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { businesses, orbitPositions } from "@/lib/content";
 
-/** "One customer. Six specialists." auto-rotating orbit on the homepage. */
+/** "One contact. Many solutions." — the home page signature orbit. Each
+ * specialist opens its own page. */
 export default function OrbitDiagram() {
   const router = useRouter();
   const [hoverBiz, setHoverBiz] = useState<number | null>(null);
@@ -54,13 +55,13 @@ export default function OrbitDiagram() {
       <div className="absolute inset-0" style={{ animation: "dm-spin 90s linear infinite" }}>
         {businesses.map((b, i) => {
           const [x, y] = orbitPositions[i];
-          const shortName = b.name.replace("D’Matek ", "");
+          const shortName = b.short;
           return (
             <div key={b.id} style={{ left: x, top: y }} className="absolute aspect-square w-[23%] -translate-x-1/2 -translate-y-1/2">
               <div className="h-full w-full" style={{ animation: "dm-spin-rev 90s linear infinite" }}>
                 <button
                   type="button"
-                  onClick={() => (b.site ? (window.location.href = b.site) : router.push(`/businesses#${b.id}`))}
+                  onClick={() => (b.external ? (window.location.href = b.site) : router.push(b.site))}
                   onMouseEnter={() => setHoverBiz(i)}
                   onMouseLeave={() => setHoverBiz(null)}
                   onFocus={() => setHoverBiz(i)}

@@ -3,13 +3,48 @@ import { Resend } from "resend";
 
 export const runtime = "nodejs";
 
+// Enquiry backend (handoff v3.6 §Enquiry backend): server-side validation,
+// a honeypot and per-IP rate limit against spam, a reference number for the
+// visitor, and a notification to the designated owner with every field plus
+// the source page and CTA. RESEND_API_KEY / RESEND_TO_EMAIL live only in env.
+
+const LIMITS: Record<string, number> = {
+  name: 120,
+  organisation: 160,
+  phone: 40,
+  email: 160,
+  org: 80,
+  location: 160,
+  problem: 160,
+  need: 40,
+  message: 4000,
+  source: 80,
+  page: 300,
+};
+
+// Best-effort rate limit per server instance: 5 enquiries per IP per 10 minutes.
+const WINDOW_MS = 10 * 60 * 1000;
+const MAX_PER_WINDOW = 5;
+const hits = new Map<string, number[]>();
+
+function rateLimited(ip: string) {
+  const now = Date.now();
+  const recent = (hits.get(ip) ?? []).filter((t) => now - t < WINDOW_MS);
+  recent.push(now);
+  hits.set(ip, recent);
+  if (hits.size > 5000) for (const [k, v] of hits) if (v.every((t) => now - t >= WINDOW_MS)) hits.delete(k);
+  return recent.length > MAX_PER_WINDOW;
+}
+
 function escapeHtml(value: string) {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
+  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+
+/** DM-XXXXX: short, unambiguous, quotable on the phone. */
+function reference() {
+  const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  const bytes = crypto.getRandomValues(new Uint8Array(5));
+  return "DM-" + Array.from(bytes, (b) => alphabet[b % alphabet.length]).join("");
 }
 
 export async function POST(request: Request) {
@@ -20,71 +55,71 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
   }
 
-  const name = typeof body.name === "string" ? body.name.trim() : "";
-  const contact = typeof body.contact === "string" ? body.contact.trim() : "";
-  const org = typeof body.org === "string" ? body.org.trim() : "";
-  const location = typeof body.location === "string" ? body.location.trim() : "";
-  const problem = typeof body.problem === "string" ? body.problem.trim() : "";
-  const message = typeof body.message === "string" ? body.message.trim() : "";
-  const outcome = typeof body.outcome === "string" ? body.outcome.trim() : "";
-  const pilotAsk = typeof body.pilotAsk === "string" ? body.pilotAsk.trim() : "";
-
-  if (!name || !contact) {
-    return NextResponse.json({ error: "Name and email or phone are required." }, { status: 400 });
+  const f: Record<string, string> = {};
+  for (const [k, max] of Object.entries(LIMITS)) {
+    const v = typeof body[k] === "string" ? (body[k] as string).trim() : "";
+    f[k] = v.slice(0, max);
   }
+  // Older links and forms sent a single "contact" field.
+  const legacy = typeof body.contact === "string" ? body.contact.trim().slice(0, 160) : "";
+  if (legacy && !f.phone && !f.email) {
+    if (legacy.includes("@")) f.email = legacy;
+    else f.phone = legacy;
+  }
+
+  // Honeypot: real visitors never see this field. Pretend success to bots.
+  if (typeof body.website === "string" && body.website.trim()) return NextResponse.json({ ok: true, ref: reference() });
+
+  const fields: Record<string, string> = {};
+  if (!f.name) fields.name = "Please tell us your name.";
+  if (!f.phone && !f.email) fields.phone = "Add a phone or WhatsApp number, or an email, so we can reply.";
+  if (f.email && !/^\S+@\S+\.\S+$/.test(f.email)) fields.email = "That email address doesn’t look right.";
+  if (f.phone && !/^[+\d][\d\s()-]{5,}$/.test(f.phone)) fields.phone = "That phone number doesn’t look right.";
+  if (Object.keys(fields).length) return NextResponse.json({ error: "Please check the highlighted fields.", fields }, { status: 400 });
+
+  const ip = (request.headers.get("x-forwarded-for") ?? "").split(",")[0].trim() || "unknown";
+  if (rateLimited(ip)) return NextResponse.json({ error: "Too many enquiries from here. Please WhatsApp us instead." }, { status: 429 });
 
   const apiKey = process.env.RESEND_API_KEY;
   const toEmail = process.env.RESEND_TO_EMAIL;
-
   if (!apiKey || !toEmail) {
-    console.error(
-      "Contact form submission received but RESEND_API_KEY / RESEND_TO_EMAIL is not configured.",
-    );
-    return NextResponse.json(
-      { error: "Contact form is not yet configured. Please try again later." },
-      { status: 500 },
-    );
+    console.error("Enquiry received but RESEND_API_KEY / RESEND_TO_EMAIL is not configured.");
+    return NextResponse.json({ error: "The enquiry form is not configured yet. Please WhatsApp us." }, { status: 503 });
   }
 
-  const resend = new Resend(apiKey);
-
-  // Pilot demand log: every enquiry that arrived carrying pilot interest is
-  // recorded by item + closest starting point (the "environment" pre-fill),
-  // per the pilot demand log requirement in the v3.1 handoff.
-  if (pilotAsk) {
-    console.log("Pilot enquiry:", { items: pilotAsk, closestStartingPoint: problem || null, name });
-  }
+  const ref = reference();
+  const row = (label: string, v: string) => `<tr><td style="padding:6px 14px 6px 0;color:#28705A;font-weight:700;vertical-align:top;white-space:nowrap">${label}</td><td style="padding:6px 0">${escapeHtml(v || "—").replace(/\n/g, "<br>")}</td></tr>`;
 
   try {
-    const { error } = await resend.emails.send({
+    const { error } = await new Resend(apiKey).emails.send({
       from: "D’Matek Website <noreply@dmatek.ng>",
       to: toEmail,
-      replyTo: contact.includes("@") ? contact : undefined,
-      subject: pilotAsk
-        ? `New pilot enquiry from ${name} — D’Matek website`
-        : `New enquiry from ${name} — D’Matek website`,
+      replyTo: f.email || undefined,
+      subject: `${ref} · New enquiry from ${f.name}${f.organisation ? ` (${f.organisation})` : ""}`,
       html: `
-        <p><strong>Name:</strong> ${escapeHtml(name)}</p>
-        <p><strong>Email or phone:</strong> ${escapeHtml(contact)}</p>
-        <p><strong>Organisation type:</strong> ${escapeHtml(org || "—")}</p>
-        <p><strong>Location:</strong> ${escapeHtml(location || "—")}</p>
-        <p><strong>Closest starting point:</strong> ${escapeHtml(problem || "—")}</p>
-        ${pilotAsk ? `<p><strong>Pilot interest:</strong> ${escapeHtml(pilotAsk)}</p>` : ""}
-        <p><strong>What they're trying to solve:</strong></p>
-        <p>${escapeHtml(message || "—").replace(/\n/g, "<br>")}</p>
-        <p><strong>What a good outcome looks like:</strong></p>
-        <p>${escapeHtml(outcome || "—").replace(/\n/g, "<br>")}</p>
+        <p style="font-family:Arial,sans-serif;font-size:15px">New enquiry <strong>${ref}</strong>. Status: <strong>New</strong> (track it to qualified, declined, proposal or resolved).</p>
+        <table style="font-family:Arial,sans-serif;font-size:14px;border-collapse:collapse">
+          ${row("Name", f.name)}
+          ${row("Organisation", f.organisation)}
+          ${row("Phone / WhatsApp", f.phone)}
+          ${row("Email", f.email)}
+          ${row("Environment", f.org)}
+          ${row("Closest starting point", f.problem)}
+          ${row("What they need", f.need)}
+          ${row("Location", f.location)}
+          ${row("Message", f.message)}
+          ${row("Source page", f.page)}
+          ${row("Source CTA", f.source)}
+        </table>
       `,
     });
-
     if (error) {
       console.error("Resend error:", error);
       return NextResponse.json({ error: "Failed to send message." }, { status: 502 });
     }
-
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: true, ref });
   } catch (err) {
-    console.error("Contact form send failed:", err);
+    console.error("Enquiry send failed:", err);
     return NextResponse.json({ error: "Failed to send message." }, { status: 500 });
   }
 }

@@ -5,11 +5,22 @@ import SignalRings from "@/components/SignalRings";
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import { approvedCases } from "@/lib/content";
+import { enquiryHref } from "@/lib/enquiry";
+
+/** The five parts every published case study follows (v3.6). */
+const CASE_FORMAT: [string, string][] = [
+  ["The situation", "What the customer was trying to achieve, what was going wrong and what constraints existed."],
+  ["The assessment", "What D’Matek discovered, what had to be prioritised and why the proposed approach was appropriate."],
+  ["The work", "What was designed, supplied, configured, developed or integrated, and which specialist capabilities were involved."],
+  ["The result", "What was actually achieved, supported by documented evidence wherever possible."],
+  ["What happened afterwards", "The handover, maintenance arrangement or ongoing support that was agreed with the customer."],
+];
 
 export const metadata: Metadata = {
   title: "Work",
   description:
-    "Problems we were trusted with. Property, hospitality and estates, mostly — each one started as a mess and became something the owner stopped thinking about.",
+    "Problems we were trusted with. Delivered projects and outcomes only, each published once the work is complete and the client has agreed.",
+  alternates: { canonical: "/work" },
 };
 
 export default function WorkPage() {
@@ -41,15 +52,30 @@ export default function WorkPage() {
         <div className="mx-auto flex max-w-[1280px] flex-col gap-9 px-5 pt-[clamp(28px,4vw,56px)] pb-[clamp(64px,7vw,110px)] sm:gap-12 sm:px-8">
           {approvedCases.length ? approvedCases.map((c) => <CaseStudyCard key={c.id} study={c} />) : (
           <Reveal
-            className="rounded-[clamp(26px,3.4vw,44px)] p-[clamp(28px,4vw,52px)]"
-            style={{ background: "linear-gradient(160deg,#EFEADC,#E8E2D0)" }}
+            className="rounded-[clamp(26px,3.4vw,44px)] p-[clamp(28px,4vw,56px)] text-cream"
+            style={{ background: "radial-gradient(120% 140% at 8% 0%,#0B4B3D,#06382E 60%)" }}
           >
-            <p className="mb-3 text-[11px] font-bold tracking-[0.16em] text-progress">COMING SOON</p>
-            <p className="mb-6 max-w-[34em] text-[clamp(17px,1.7vw,20px)] leading-[1.7] text-ink">
-              Case studies are coming soon. Each one will show the situation, what we assessed, the work, the result
-              and what happened afterwards.
+            <Eyebrow color="#D4A637">COMING SOON</Eyebrow>
+            <h2 className="mb-4 text-[clamp(28px,3.6vw,48px)] font-extrabold leading-[1.05] tracking-[-0.03em] text-balance">
+              A complex requirement. One coordinated delivery.
+            </h2>
+            <p className="mb-[clamp(28px,3.4vw,40px)] max-w-[38em] text-[17px] leading-[1.7] text-cream/88">
+              The first case studies are being prepared with our clients. Each one will follow the same five parts, so you
+              can see how we think, deliver and take responsibility.
             </p>
-            <Link href="/contact?message=I%E2%80%99d%20like%20to%20discuss%20a%20similar%20project." className="inline-block rounded-full bg-gold px-7 py-4 text-[15px] font-bold text-forest transition-transform hover:-translate-y-1 hover:bg-forest hover:text-cream">
+            <ol className="mb-[clamp(28px,3.4vw,40px)] grid list-none grid-cols-[repeat(auto-fit,minmax(min(100%,210px),1fr))] gap-3 p-0">
+              {CASE_FORMAT.map(([t, d], i) => (
+                <li key={t} className="flex flex-col gap-2 rounded-[20px] border border-cream/14 p-5" style={{ background: "rgba(245,241,232,0.07)" }}>
+                  <span className="text-[11px] font-bold tracking-[0.16em] text-gold">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="text-[17px] font-extrabold leading-[1.25]">{t}</span>
+                  <span className="text-[14px] leading-[1.55] text-cream/78">{d}</span>
+                </li>
+              ))}
+            </ol>
+            <Link
+              href={enquiryHref({ message: "I’d like to discuss a project similar to your work.", source: "work_similar" })}
+              className="inline-block whitespace-nowrap rounded-full bg-gold px-7 py-4 text-[15px] font-bold text-forest hover:bg-cream"
+            >
               Discuss a similar project &rarr;
             </Link>
           </Reveal>

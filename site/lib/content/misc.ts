@@ -1,24 +1,25 @@
 // Everything else: Home's ticker/problem-panel/hotel-capability copy, About's
 // values, Work's case placeholders, Contact's badges/options, Insights topics.
-// Copy verbatim from Dmatek Website v3.4.dc.html and docs/project/v3.4/README.md.
+// Copy verbatim from Dmatek Website v3.6.dc.html and docs/project/v3.6/README.md.
 
 export const tickerItems = ["DISCOVER", "UNDERSTAND", "SOLVE", "DELIVER", "SUPPORT", "IMPROVE", "WE STAY"];
 
-export const problemLines: { a: string; b: string }[] = [
-  { a: "Connectivity", b: "productivity." },
-  { a: "Security", b: "trust." },
-  { a: "Power", b: "availability." },
-  { a: "Software", b: "how work gets done." },
-  { a: "Devices", b: "the people using them." },
+export const problemLines: { a: string; v: string; b: string }[] = [
+  { a: "Connectivity", v: "affects", b: "productivity." },
+  { a: "Security", v: "affects", b: "trust." },
+  { a: "Power", v: "affects", b: "availability." },
+  { a: "Software", v: "affects", b: "how work gets done." },
+  { a: "Devices", v: "affect", b: "the people using them." },
 ];
 
+// Home hotel scene: six of six specialists (v3.6).
 export const hotelCaps = [
-  ["Connectivity and guest Wi-Fi", "INFRASTRUCTURE"],
-  ["Security and operations", "ILÉMESH"],
-  ["Guest room technology", "ILÉMESH"],
-  ["Power", "ILÉMESH"],
-  ["Conference technology", "ILÉMESH"],
-  ["Managed IT", "ASSURANCE"],
+  ["Guest and staff Wi-Fi, connectivity", "INFRASTRUCTURE"],
+  ["CCTV, access control, room technology, power", "ILÉMESH"],
+  ["PMS hosting, email, backup", "CLOUD"],
+  ["TVs, locks, devices", "D’SOURCE"],
+  ["Guest app or booking integration", "D’FOUNDRY"],
+  ["Managed IT and support after opening", "ASSURANCE"],
 ].map(([name, spec], i) => ({ n: String(i + 1).padStart(2, "0"), name, spec }));
 
 export const stayWords = ["Support.", "Management.", "Improvement.", "Problem-solving."];
@@ -160,5 +161,7 @@ export const orgOptions = [
   "Home",
   "Other",
 ];
+
+export const needOptions = ["New setup", "Upgrade", "Equipment", "Software", "Support", "Not sure"];
 
 export const NOT_SURE_OPTION = "I’m not sure yet — help me figure it out";

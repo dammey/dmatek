@@ -2,18 +2,19 @@ import type { Metadata } from "next";
 import ContactForm from "@/components/ContactForm";
 import Eyebrow from "@/components/Eyebrow";
 import SignalRings from "@/components/SignalRings";
-import { badges } from "@/lib/content";
+import { CONTACT, badges } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Tell Us What You Need",
   description:
     "Let’s figure it out together. Tell us the problem in your own words — you don’t need to know which technology it needs.",
+  alternates: { canonical: "/contact" },
 };
 
-type SearchParams = { topic?: string; message?: string; pilot?: string };
+type SearchParams = { topic?: string; org?: string; need?: string; message?: string; src?: string };
 
 export default async function ContactPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
-  const { topic, message, pilot } = await searchParams;
+  const { topic, org, need, message, src } = await searchParams;
 
   return (
     <div className="bg-cream px-5 py-[clamp(24px,3vw,44px)] pb-[clamp(56px,7vw,96px)] sm:px-5">
@@ -49,15 +50,23 @@ export default async function ContactPage({ searchParams }: { searchParams: Prom
             <div className="text-[15.5px] leading-[1.9] text-cream/82">
               <p className="m-0">Lagos, Nigeria</p>
               <p className="m-0">
-                <a href="tel:+2347058071768" className="hover:text-gold">0705 807 1768</a>
+                <a href={CONTACT.phoneHref} data-track="call_click" className="dm-pulse-once rounded-full text-cream hover:text-gold">
+                  {CONTACT.phoneDisplay}
+                </a>{" "}
+                &middot;{" "}
+                <a href={CONTACT.whatsappHref} data-track="whatsapp_click" className="dm-pulse-once rounded-full font-bold text-gold" style={{ animationDelay: "1.1s" }}>
+                  WhatsApp us
+                </a>
               </p>
               <p className="m-0">
-                <a href="mailto:hello@dmatek.ng" className="hover:text-gold">hello@dmatek.ng</a>
+                <a href={`mailto:${CONTACT.email}`} data-track="email_click" className="text-cream hover:text-gold">
+                  {CONTACT.email}
+                </a>
               </p>
             </div>
           </div>
 
-          <ContactForm initialTopic={topic} initialMessage={message} initialPilot={pilot} />
+          <ContactForm initialTopic={topic} initialOrg={org} initialNeed={need} initialMessage={message} source={src} />
         </div>
       </div>
     </div>

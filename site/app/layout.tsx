@@ -3,6 +3,7 @@ import { Manrope } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
+import WhatsAppFab from "@/components/WhatsAppFab";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -72,6 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </main>
         <Footer />
+        <WhatsAppFab />
       </body>
     </html>
   );

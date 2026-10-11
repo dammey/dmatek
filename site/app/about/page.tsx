@@ -4,15 +4,17 @@ import { AdireBand } from "@dmatek/brand";
 import Eyebrow from "@/components/Eyebrow";
 import Reveal from "@/components/Reveal";
 import SignalRings from "@/components/SignalRings";
-import { quotes as allQuotes, stages, values } from "@/lib/content";
-
-const quotes = allQuotes.filter((q) => q.verified);
+import { problemLines, quotes as allQuotes, stages, values } from "@/lib/content";
 import { siteConfig } from "@/lib/siteConfig";
+
+// Testimonials render only once verified in writing (handoff v3.6 §9).
+const quotes = allQuotes.filter((q) => q.verified);
 
 export const metadata: Metadata = {
   title: "About",
   description:
     "We’re not vendors. We’re partners for life. Built in Lagos, working across Nigeria — the people who start with your problem are the people who stay with it.",
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {
@@ -40,6 +42,36 @@ export default function AboutPage() {
         </div>
       </section>
 
+      <section aria-labelledby="prob-h-about" className="bg-forest text-cream">
+        <div className="relative mx-auto grid max-w-[1280px] grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] items-start gap-8 px-5 pt-[clamp(48px,6vw,96px)] pb-[clamp(40px,5vw,72px)] sm:gap-18 sm:px-8">
+          <Reveal>
+            <Eyebrow color="#D4A637">WHY ONE PARTNER</Eyebrow>
+            <h2 id="prob-h-about" className="m-0 text-[clamp(30px,4vw,54px)] font-extrabold leading-[1.04] tracking-[-0.03em] text-balance">
+              Technology is rarely one problem.
+            </h2>
+          </Reveal>
+          <Reveal className="flex flex-col">
+            {problemLines.map((p) => (
+              <div key={p.a} className="flex flex-wrap items-baseline gap-x-4 gap-y-1.5 border-b border-cream/16 py-4.5 text-[clamp(19px,2vw,25px)] font-bold tracking-[-0.015em]">
+                <span>{p.a}</span>
+                <span className="text-gold">{p.v}</span>
+                <span className="text-cream/82">{p.b}</span>
+              </div>
+            ))}
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="bg-cream">
+        <div className="mx-auto max-w-[1280px] px-5 py-[clamp(56px,7vw,110px)] sm:px-8">
+          <Reveal>
+            <p className="m-0 max-w-[16em] text-[clamp(30px,4.4vw,60px)] font-extrabold leading-[1.02] tracking-[-0.035em] text-forest text-balance">
+              We connect, build, equip, host, secure and <span className="text-gold">run your technology.</span>
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
       {siteConfig.adire && <AdireBand variant="strip" />}
 
       <section className="bg-cream">
@@ -61,7 +93,7 @@ export default function AboutPage() {
       </section>
 
       <section className="bg-cream">
-        <div className="mx-auto grid max-w-[1280px] grid-cols-[repeat(auto-fit,minmax(min(100%,300px),1fr))] items-center gap-9 px-5 pb-[clamp(56px,7vw,100px)] sm:gap-18 sm:px-8">
+        <div className="mx-auto grid max-w-[1280px] grid-cols-[minmax(0,46em)] items-center px-5 pt-[clamp(28px,4vw,56px)] pb-[clamp(56px,7vw,100px)] sm:px-8">
           <Reveal>
             <Eyebrow>MEET DAMILOLA</Eyebrow>
             <h2 className="mb-5.5 text-[clamp(28px,3.6vw,50px)] font-extrabold leading-[1.05] tracking-[-0.03em] text-forest text-balance">

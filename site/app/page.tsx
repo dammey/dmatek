@@ -10,8 +10,9 @@ import Reveal from "@/components/Reveal";
 import SignalRings from "@/components/SignalRings";
 import SignatureLine from "@/components/SignatureLine";
 import StagePicker from "@/components/StagePicker";
+import SituationFinder from "@/components/SituationFinder";
 import WorkTeaserCard from "@/components/WorkTeaserCard";
-import { caseTeasers, entryPoints, hotelCaps, problemLines, stayWords, tickerItems } from "@/lib/content";
+import { caseTeasers, hotelCaps, stayWords, tickerItems, tryTiles } from "@/lib/content";
 import { siteConfig } from "@/lib/siteConfig";
 
 const HERO_TO_TICKER = {
@@ -136,7 +137,7 @@ export default function HomePage() {
               className="mb-4.5 max-w-[22em] text-[clamp(19px,1.9vw,25px)] font-medium leading-[1.45] text-forest"
               style={{ animation: "dm-rise .8s cubic-bezier(.2,.8,.2,1) .4s both" }}
             >
-              You can trust us. You won&rsquo;t be alone. We&rsquo;ll figure it out.
+              One technology partner. The right specialists. One team accountable for the result.
             </p>
             <p
               className="mb-10 max-w-[30em] text-[17px] leading-[1.7] text-ink"
@@ -174,8 +175,8 @@ export default function HomePage() {
             }}
           >
             <Image
-              src="/assets/hero-onsite.jpg"
-              alt="D’Matek engineers installing network hardware on site"
+              src="/assets/photos/team-real.jpg"
+              alt="D’Matek engineers setting up a meeting room display on site"
               fill
               sizes="(min-width: 900px) 44vw, 90vw"
               className="object-cover"
@@ -188,8 +189,8 @@ export default function HomePage() {
       </section>
 
       {/* TICKER */}
-      <section aria-label="What we stand for" className="overflow-hidden bg-forest py-[clamp(16px,2vw,26px)] text-cream">
-        <div className="flex w-[200%]" style={{ animation: "dm-marquee 34s linear infinite" }}>
+      <section aria-hidden="true" className="overflow-hidden bg-forest py-[clamp(16px,2vw,26px)] text-cream">
+        <div className="flex w-[200%]" style={{ animation: "dm-marquee 70s linear infinite" }}>
           {[...tickerItems, ...tickerItems].map((t, i) => (
             <span key={i} className="inline-flex flex-none items-center gap-4.5 whitespace-nowrap px-6.5 text-[clamp(15px,1.6vw,20px)] font-bold tracking-[0.08em] text-cream/90">
               {t}
@@ -199,43 +200,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 02 — THE PROBLEM */}
+      {/* 02 — SITUATION FINDER */}
       <section aria-labelledby="prob-h" className="relative overflow-hidden bg-forest text-cream">
-        <div className="relative mx-auto grid max-w-[1280px] grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] items-start gap-8 px-5 py-[clamp(48px,6vw,96px)] pb-[clamp(40px,5vw,72px)] sm:gap-18 sm:px-8">
+        <div className="relative mx-auto max-w-[1280px] px-5 pt-[clamp(40px,5vw,72px)] pb-[clamp(48px,6vw,88px)] sm:px-8">
           <Reveal>
-            <Eyebrow node="02" color="#D4A637">02 &middot; THE PROBLEM</Eyebrow>
-            <h2 id="prob-h" className="m-0 text-[clamp(30px,4vw,54px)] font-extrabold leading-[1.04] tracking-[-0.03em] text-balance">
-              Technology is rarely one problem.
-            </h2>
-          </Reveal>
-          <Reveal className="flex flex-col">
-            {problemLines.map((p) => (
-              <div
-                key={p.a}
-                className="flex flex-wrap items-baseline gap-x-4 gap-y-1.5 border-b border-cream/16 py-4.5 text-[clamp(19px,2vw,25px)] font-bold tracking-[-0.015em]"
-              >
-                <span>{p.a}</span>
-                <span className="text-gold">affects</span>
-                <span className="text-cream/82">{p.b}</span>
-              </div>
-            ))}
-          </Reveal>
-        </div>
-        <div className="relative mx-auto max-w-[1280px] px-5 pb-[clamp(48px,6vw,88px)] sm:px-8">
-          <Reveal className="rounded-[clamp(26px,3.4vw,44px)] p-[clamp(24px,3vw,40px)]" style={{ background: "rgba(245,241,232,0.06)" }}>
-            <p className="mb-4 text-[11.5px] font-bold tracking-[0.18em] text-gold">WHAT DO YOU NEED?</p>
-            <div className="flex flex-wrap gap-2.5">
-              {entryPoints.map((e) => (
-                <Link
-                  key={e.id}
-                  href={`/solutions#ep-${e.id}`}
-                  className="rounded-full px-5 py-3 text-[15px] font-semibold text-cream hover:!bg-gold hover:!text-forest"
-                  style={{ background: "rgba(245,241,232,0.07)", border: "1px solid rgba(245,241,232,0.16)" }}
-                >
-                  {e.title}
-                </Link>
-              ))}
-            </div>
+            <SituationFinder />
           </Reveal>
         </div>
         <CableDivider {...PROBLEM_TO_HOW} viewBoxHeight={120} fill="#F5F1E8" heightClamp="clamp(84px,8vw,120px)" flowDuration="9s" flowDelay="1.6s" className="-mb-px" />
@@ -250,8 +219,7 @@ export default function HomePage() {
               We don&rsquo;t hand over and walk away.
             </h2>
             <p className="m-0 text-[17px] leading-[1.7] text-ink">
-              Discover, Understand, Solve, Deliver, Support, Improve. We start with what matters to you, not
-              with a box, a licence or a brand. Pick a stage to read it.
+              Discover, Understand, Solve, Deliver, Support, Improve. Pick a stage to read it.
             </p>
           </Reveal>
 
@@ -277,12 +245,12 @@ export default function HomePage() {
         ) : (
           <CableDivider {...SPECIALISTS_TOP_FALLBACK} viewBoxHeight={110} fill="#F5F1E8" heightClamp="clamp(80px,7.5vw,110px)" flowDuration="10s" flowDelay="2.4s" />
         )}
-        <SignalRings tone="gold" className="pointer-events-none" style={{ top: "8%", left: "-12%", width: "min(50vw,600px)" }} />
+        <SignalRings tone="gold" className="pointer-events-none" style={{ top: "8%", right: "-12%", width: "min(50vw,600px)" }} />
         <div className="relative mx-auto max-w-[1280px] px-5 py-[clamp(56px,7vw,110px)] pb-[clamp(64px,7vw,120px)] sm:px-8">
           <Reveal className="mb-10 max-w-[46em] sm:mb-16">
-            <Eyebrow node="04" color="#D4A637">04 &middot; ONE D&rsquo;MATEK, SIX SPECIALISTS</Eyebrow>
+            <Eyebrow node="04" color="#D4A637">04 &middot; ONE D&rsquo;MATEK, MANY SOLUTIONS</Eyebrow>
             <h2 id="eco-h" className="mb-5 text-[clamp(30px,4vw,54px)] font-extrabold leading-[1.04] tracking-[-0.03em] text-balance">
-              One customer. Six specialists.
+              One contact. Many solutions.
             </h2>
             <p className="m-0 text-[17px] leading-[1.7] text-cream/82">
               Infrastructure connects it. Cloud runs it. D&rsquo;Foundry builds it. Il&eacute;Mesh connects the
@@ -312,6 +280,40 @@ export default function HomePage() {
       {/* 05 — THE COMPLEXITY WE ABSORB (scroll-driven hotel moment) */}
       <HotelMoment caps={hotelCaps} />
 
+      {/* SIX SPECIALISTS. TRY ONE. */}
+      <section aria-labelledby="try-h" className="bg-cream">
+        <div className="mx-auto max-w-[1280px] px-5 pt-[clamp(28px,4vw,56px)] pb-[clamp(48px,6vw,88px)] sm:px-8">
+          <Reveal className="mb-[clamp(28px,3vw,44px)] max-w-[34em]">
+            <Eyebrow>SEE HOW WE WORK</Eyebrow>
+            <h2 id="try-h" className="m-0 text-[clamp(30px,4vw,54px)] font-extrabold leading-[1.04] tracking-[-0.03em] text-forest text-balance">
+              Six specialists. Try one.
+            </h2>
+          </Reveal>
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] gap-[clamp(14px,1.8vw,22px)]">
+            {tryTiles.map((t) => {
+              const cls =
+                "group flex flex-col gap-2.5 rounded-[28px] bg-[#EFEADC] p-[clamp(22px,2.4vw,30px)] text-forest transition-[transform,background,color] duration-300 hover:-translate-y-1 hover:bg-forest hover:text-cream";
+              const body = (
+                <>
+                  <span className="text-[11px] font-bold tracking-[0.16em] text-progress group-hover:text-gold">{t.label}</span>
+                  <span className="text-[clamp(20px,2vw,26px)] font-extrabold leading-[1.15] tracking-[-0.02em]">{t.title}</span>
+                  <span className="text-[14px] font-bold text-gold">Try it &rarr;</span>
+                </>
+              );
+              return t.href.startsWith("/") ? (
+                <Link key={t.track} href={t.href} data-track={t.track} className={cls}>
+                  {body}
+                </Link>
+              ) : (
+                <a key={t.track} href={t.href} data-track={t.track} className={cls}>
+                  {body}
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* 06 — PROOF */}
       <section aria-labelledby="work-teaser-h" className="bg-cream">
         <div className="mx-auto max-w-[1280px] px-5 pb-[clamp(64px,7vw,110px)] sm:px-8">
@@ -337,8 +339,8 @@ export default function HomePage() {
             </div>
           ) : (
             <p className="m-0 max-w-[36em] text-[clamp(17px,1.7vw,20px)] leading-[1.7] text-ink">
-              Case studies are coming soon.{" "}
-              <Link href="/contact?message=I%E2%80%99d%20like%20to%20talk%20about%20similar%20work." className="font-bold text-forest underline decoration-gold underline-offset-4">
+              Case studies are coming soon. Only completed, client-approved projects appear here.{" "}
+              <Link href="/contact?message=I%E2%80%99d%20like%20to%20discuss%20a%20project%20similar%20to%20your%20work.&src=home_proof" className="font-bold text-forest underline decoration-gold underline-offset-4">
                 Talk to us about similar work &rarr;
               </Link>
             </p>

@@ -26,7 +26,7 @@ export default function SolutionsAccordion() {
   }, []);
 
   return (
-    <div className="flex flex-col gap-3.5">
+    <div className="dm-arrive flex flex-col gap-3.5">
       {entryPoints.map((e, i) => {
         const open = openIndex === i;
         const now = e.now;

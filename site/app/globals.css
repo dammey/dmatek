@@ -238,3 +238,36 @@
     animation: none;
   }
 }
+
+/* v3.6: step grids are even — 6, 3 or 2 columns by width. */
+@media (max-width: 1100px) {
+  [data-steps] { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+}
+@media (max-width: 560px) {
+  [data-steps] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+
+/* Solutions: rows slide in once on arrival (v3.6). */
+@media (prefers-reduced-motion: no-preference) {
+  .dm-arrive > * { animation: dm-arrive 0.8s cubic-bezier(.2,.8,.2,1) backwards; }
+  .dm-arrive > *:nth-child(1) { animation-delay: .2s; }
+  .dm-arrive > *:nth-child(2) { animation-delay: .31s; }
+  .dm-arrive > *:nth-child(3) { animation-delay: .42s; }
+  .dm-arrive > *:nth-child(4) { animation-delay: .53s; }
+  .dm-arrive > *:nth-child(5) { animation-delay: .64s; }
+  .dm-arrive > *:nth-child(6) { animation-delay: .75s; }
+  .dm-arrive > *:nth-child(n + 7) { animation-delay: .86s; }
+}
+@keyframes dm-arrive { from { opacity: 0; transform: translateX(60px); } to { opacity: 1; transform: none; } }
+
+/* Environment pages: the hero photo slowly zooms in once on arrival. */
+@media (prefers-reduced-motion: no-preference) {
+  .dm-hero-zoom { animation: dm-hero-zoom 2.6s cubic-bezier(.25,.6,.2,1) both; }
+}
+@keyframes dm-hero-zoom { from { transform: scale(1.14); filter: brightness(.85); } to { transform: scale(1); filter: brightness(1); } }
+
+/* Contact: gold pulse on the WhatsApp and phone links, once, on arrival. */
+@media (prefers-reduced-motion: no-preference) {
+  .dm-pulse-once { animation: dm-pulse-once 1.2s ease-out .9s 1 backwards; }
+}
+@keyframes dm-pulse-once { from { box-shadow: 0 0 0 0 rgba(212,166,55,0.7); } to { box-shadow: 0 0 0 18px rgba(212,166,55,0); } }

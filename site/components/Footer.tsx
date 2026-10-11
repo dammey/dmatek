@@ -1,7 +1,7 @@
 import { AdireBand } from "@dmatek/brand";
 import Image from "next/image";
 import Link from "next/link";
-import { businesses, navItems, D_SOURCE_URL, D_FOUNDRY_URL, ILEMESH_HREF } from "@/lib/content";
+import { CONTACT, businesses, navItems, D_SOURCE_URL } from "@/lib/content";
 import { siteConfig } from "@/lib/siteConfig";
 
 export default function Footer() {
@@ -21,13 +21,19 @@ export default function Footer() {
           </div>
 
           <div>
-            <p className="mb-3 text-[11px] font-bold tracking-[0.16em] text-progress">THE SIX BUSINESSES</p>
+            <p className="mb-3 text-[11px] font-bold tracking-[0.16em] text-progress">SERVICES</p>
             <div className="flex flex-col items-start gap-1.5">
-              {businesses.map((b) => (
-                <Link key={b.id} href={`/businesses#${b.id}`} className="whitespace-nowrap py-0.5 text-[14px] font-medium text-charcoal hover:text-progress">
-                  {b.name}
-                </Link>
-              ))}
+              {businesses.map((b) =>
+                b.external ? (
+                  <a key={b.id} href={b.site} className="whitespace-nowrap py-0.5 text-[14px] font-medium text-charcoal hover:text-progress">
+                    {b.name}
+                  </a>
+                ) : (
+                  <Link key={b.id} href={b.site} className="whitespace-nowrap py-0.5 text-[14px] font-medium text-charcoal hover:text-progress">
+                    {b.name}
+                  </Link>
+                ),
+              )}
             </div>
           </div>
 
@@ -45,22 +51,20 @@ export default function Footer() {
           <div>
             <p className="mb-3 text-[11px] font-bold tracking-[0.16em] text-progress">GET IN TOUCH</p>
             <div className="flex flex-col items-start gap-1.5">
-              <Link href="/contact" className="whitespace-nowrap py-0.5 text-[14px] font-bold text-forest hover:text-progress">
+              <Link href="/contact" data-track="cta_contact_footer" className="whitespace-nowrap py-0.5 text-[14px] font-bold text-forest hover:text-progress">
                 Tell us what you need &rarr;
               </Link>
               <p className="m-0 py-0.5 text-[14px] leading-[1.7] text-ink">
-                <a href="tel:+2347058071768" className="hover:text-progress">0705 807 1768</a>
+                <a href={CONTACT.phoneHref} data-track="call_click" className="hover:text-progress">
+                  {CONTACT.phoneDisplay}
+                </a>
                 <br />
-                <a href="mailto:hello@dmatek.ng" className="hover:text-progress">hello@dmatek.ng</a>
+                <a href={`mailto:${CONTACT.email}`} data-track="email_click" className="hover:text-progress">
+                  {CONTACT.email}
+                </a>
               </p>
               <a href={D_SOURCE_URL} className="whitespace-nowrap py-0.5 text-[14px] font-medium text-charcoal hover:text-progress">
                 Shop D&rsquo;Source &rarr;
-              </a>
-              <Link href={ILEMESH_HREF} className="whitespace-nowrap py-0.5 text-[14px] font-medium text-charcoal hover:text-progress">
-                Explore Il&eacute;Mesh &rarr;
-              </Link>
-              <a href={D_FOUNDRY_URL} className="whitespace-nowrap py-0.5 text-[14px] font-medium text-charcoal hover:text-progress">
-                Explore D&rsquo;Foundry &rarr;
               </a>
             </div>
           </div>
