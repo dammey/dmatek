@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>D’Matek Cloud v3.1 — Enter the cloud</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:#031A15;color:#F5F1E8;font-family:'Manrope',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:clip}
+a{color:#3DFFA8;text-decoration:none}
+a:hover{color:#A6FFD6}
+button{font-family:inherit;cursor:pointer}
+input{font-family:inherit}
+
+@media(max-width:900px){#dm-desk a:not(:last-child){display:none}}
+@media(max-width:1279px){#cloud-hero{left:24px !important;max-width:min(420px,42%) !important}#cloud-d{bottom:auto !important;top:52px !important;width:72px !important}}@media(max-width:900px){#cloud-tag{display:none}}@media(max-width:760px){#cloud-hero,#cloud-d{display:none}}@keyframes c3Draw{to{stroke-dashoffset:0}}@keyframes c3Run{from{stroke-dashoffset:0}to{stroke-dashoffset:-100}}@keyframes c3Pulse{0%{transform:scale(.6);opacity:.9}100%{transform:scale(2.4);opacity:0}}#cloud-lite{display:none}html[data-lite] #cloud-lite{display:flex}html[data-lite] [data-c3="root"]{display:none}
+[data-pm]::before{content:"+"}details[open]>summary [data-pm]::before{content:"\2212"}summary::-webkit-details-marker{display:none}
+</style>
+<script>(function(){function f(){var w=document.getElementById("wa-fab");if(w)w.style.display=scrollY>innerHeight*0.7?"flex":"none"}addEventListener("scroll",f,{passive:true});setInterval(f,300)})()</script>
+<script>(function(){var c=navigator.connection,q=location.search.indexOf('lite=1')>-1;if(q||(c&&(c.saveData||/2g/.test(c.effectiveType||'')))||matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.setAttribute('data-lite','1')})()</script>
+<script>document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a[data-open]");if(!a)return;var d=document.getElementById(a.getAttribute("data-open"));if(d){for(var p=d;p;p=p.parentElement)if(p.tagName==="DETAILS")p.open=true}})</script>
+</helmet>
+
+<header style="position:fixed;top:0;left:0;right:0;z-index:200;padding:14px 20px 0;pointer-events:none">
+  <div style="pointer-events:auto;max-width:1280px;margin:0 auto;padding:10px 14px 10px 18px;display:flex;align-items:center;gap:28px;background:rgba(245,241,232,0.9);backdrop-filter:blur(16px);border:1px solid rgba(6,56,46,0.10);border-radius:999px;box-shadow:0 10px 34px rgba(0,0,0,0.18);font-family:'Manrope',system-ui,sans-serif">
+    <a href="Dmatek%20Website%20v3.6.dc.html" aria-label="D’Matek Technology Limited — home" style="display:flex;align-items:center;gap:12px;flex-shrink:0;color:#06382E">
+      <img src="assets/mark-green.png" alt="" style="height:30px;width:auto;display:block">
+      <span style="display:flex;flex-direction:column;line-height:1"><span style="font-size:17px;font-weight:800;letter-spacing:0.05em;color:#06382E">D&rsquo;MATEK</span><span style="font-size:8px;font-weight:600;letter-spacing:0.2em;color:#28705A;margin-top:4px">TECHNOLOGY LIMITED</span></span>
+    </a>
+    <nav id="dm-desk" aria-label="Primary" style="margin-left:auto;display:flex;align-items:center;gap:4px">
+      <a href="Dmatek%20Website%20v3.6.dc.html#/solutions" style="font-size:14.5px;font-weight:600;color:#1A1A1A;padding:10px 16px;border-radius:999px;white-space:nowrap" style-hover="color:#06382E;background:rgba(6,56,46,0.07)">Solutions</a><a href="Dmatek%20Website%20v3.6.dc.html#/businesses" style="font-size:14.5px;font-weight:600;color:#1A1A1A;padding:10px 16px;border-radius:999px;white-space:nowrap" style-hover="color:#06382E;background:rgba(6,56,46,0.07)">Businesses</a><a href="Dmatek%20Website%20v3.6.dc.html#/work" style="font-size:14.5px;font-weight:600;color:#1A1A1A;padding:10px 16px;border-radius:999px;white-space:nowrap" style-hover="color:#06382E;background:rgba(6,56,46,0.07)">Work</a><a href="Dmatek%20Website%20v3.6.dc.html#/about" style="font-size:14.5px;font-weight:600;color:#1A1A1A;padding:10px 16px;border-radius:999px;white-space:nowrap" style-hover="color:#06382E;background:rgba(6,56,46,0.07)">About</a><a href="Dmatek%20Website%20v3.6.dc.html#/insights" style="font-size:14.5px;font-weight:600;color:#1A1A1A;padding:10px 16px;border-radius:999px;white-space:nowrap" style-hover="color:#06382E;background:rgba(6,56,46,0.07)">Insights</a>
+      <a href="Dmatek%20Website%20v3.6.dc.html#/contact" data-track="cta_contact_header" style="margin-left:8px;font-size:13px;font-weight:700;letter-spacing:0.04em;color:#06382E;background:#D4A637;padding:14px 24px;border-radius:999px;white-space:nowrap" style-hover="background:#06382E;color:#F5F1E8">Tell us what you need &rarr;</a>
+    </nav>
+  </div>
+</header>
+
+<div id="cloud-lite" style="margin-top:84px;min-height:calc(100vh - 84px);flex-direction:column;justify-content:flex-end;gap:16px;padding:48px clamp(18px,3vw,40px);background:radial-gradient(90% 80% at 58% 50%,#0B0F10 0%,#050708 50%,#030405 100%);color:#F5F1E8"><div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.3em;color:#3DFFA8">02 / RUN IT · D’MATEK CLOUD</div><h1 style="font-weight:800;font-size:clamp(34px,5vw,68px);line-height:.98;letter-spacing:-.045em;margin:0;max-width:14ch">Your email, websites and data, <span style="color:#D4A637">looked after.</span></h1><p style="margin:0;font-weight:600;font-size:clamp(16px,1.6vw,22px);line-height:1.5;max-width:34em">Servers, cloud, hosting, email, domains and DNS, set up and run for you.</p><a href="#cloud-cover" style="display:inline-block;pointer-events:auto;margin-top:18px;font-family:'Manrope',sans-serif;font-size:14px;font-weight:700;letter-spacing:0.04em;color:#06382E;background:#D4A637;padding:14px 24px;border-radius:999px;white-space:nowrap" style-hover="background:#F5F1E8">See what we run for you &darr;</a></div>
+<div data-c3="root" style="position:relative;margin-top:84px;height:calc(100vh - 84px);overflow:hidden;background:radial-gradient(90% 80% at 58% 50%,#0A3A2F 0%,#052A22 50%,#031A15 100%);color:#F5F1E8;font-family:'Manrope',system-ui,sans-serif;user-select:none">
+
+  <div style="position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(61,255,168,.018) 0 1px,transparent 1px 3px)"></div>
+  <canvas data-c3="cv" style="position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab"></canvas>
+  
+  <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(85% 75% at 55% 50%,rgba(3,4,5,0) 55%,rgba(3,4,5,.9) 100%)"></div>
+
+  <sc-if value="{{ showHome }}" hint-placeholder-val="{{ true }}">
+    <div id="cloud-d" role="button" tabindex="0" aria-label="Back to the cloud overview" title="Back to the cloud" onClick="{{ back }}" style="display:{{ heroDisp }};position:absolute;left:24px;bottom:56px;z-index:5;width:clamp(130px,14vw,210px);pointer-events:auto;cursor:pointer;opacity:{{ homeO }};transition:opacity .5s ease"><svg viewBox="-10 -10 220 170" style="width:100%;height:auto;overflow:visible"><defs><linearGradient id="c3D" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#28705A"></stop><stop offset=".55" stop-color="#D4A637"></stop></linearGradient><filter id="c3Dg" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.2"></feGaussianBlur></filter></defs><g fill="none" stroke="url(#c3D)" stroke-width="7" stroke-linecap="round"><path pathLength="100" d="M5,7 H120 A68,68 0 0 1 120,143 H5" style="stroke-dasharray:100;stroke-dashoffset:100;animation:c3Draw 1.4s ease-out 0.2s forwards"></path><path pathLength="100" d="M5,21 H120 A54,54 0 0 1 120,129 H40" style="stroke-dasharray:100;stroke-dashoffset:100;animation:c3Draw 1.4s ease-out 0.5s forwards"></path><path pathLength="100" d="M40,35 H120 A40,40 0 0 1 120,115 H40" style="stroke-dasharray:100;stroke-dashoffset:100;animation:c3Draw 1.4s ease-out 0.8s forwards"></path><path pathLength="100" d="M75,49 H120 A26,26 0 0 1 120,101 H75" style="stroke-dasharray:100;stroke-dashoffset:100;animation:c3Draw 1.4s ease-out 1.1s forwards"></path></g><g fill="none" stroke="#FFF3C9" stroke-width="3.5" stroke-linecap="round" opacity=".5" filter="url(#c3Dg)"><path pathLength="100" d="M5,7 H120 A68,68 0 0 1 120,143 H5" style="stroke-dasharray:3 97;animation:c3Run 9s linear 2.6s infinite"></path><path pathLength="100" d="M5,21 H120 A54,54 0 0 1 120,129 H40" style="stroke-dasharray:3 97;animation:c3Run 9s linear 3.7s infinite"></path><path pathLength="100" d="M40,35 H120 A40,40 0 0 1 120,115 H40" style="stroke-dasharray:3 97;animation:c3Run 9s linear 4.8s infinite"></path><path pathLength="100" d="M75,49 H120 A26,26 0 0 1 120,101 H75" style="stroke-dasharray:3 97;animation:c3Run 9s linear 5.9s infinite"></path></g></svg></div>
+    <div id="cloud-hero" style="display:{{ heroDisp }};position:absolute;left:calc(24px + clamp(130px,14vw,210px) + 32px);bottom:56px;z-index:4;max-width:min(520px,calc(100% - clamp(130px,14vw,210px) - 90px));pointer-events:none;opacity:{{ homeO }};transition:opacity .5s ease">
+      <h1 style="font-weight:800;font-size:clamp(34px,4.4vw,68px);line-height:.95;letter-spacing:-.045em;margin:0;max-width:13ch">Your email, websites and data, <span style="color:#D4A637">looked after.</span></h1>
+      <a href="#cloud-cover" style="display:inline-block;pointer-events:auto;margin-top:18px;font-family:'Manrope',sans-serif;font-size:14px;font-weight:700;letter-spacing:0.04em;color:#06382E;background:#D4A637;padding:14px 24px;border-radius:999px;white-space:nowrap" style-hover="background:#F5F1E8">See what we run for you &darr;</a>
+    </div>
+    <sc-for list="{{ nodes }}" as="n" hint-placeholder-count="10">
+      <button data-c3="hnode" data-i="{{ n.i }}" onClick="{{ n.open }}" onMouseEnter="{{ n.hover }}" onMouseLeave="{{ n.unhover }}" aria-label="{{ n.title }}" style="position:absolute;left:{{ n.left }};top:{{ n.top }};width:0;height:0;padding:0;border:0;background:transparent;color:#F5F1E8;z-index:6;will-change:transform,opacity;opacity:{{ homeO }}">
+        <span style="position:absolute;left:-18px;top:-18px;width:36px;height:36px;border-radius:50%"></span>
+        <span style="position:absolute;left:-14px;top:-14px;width:28px;height:28px;border-radius:50%;border:1.5px solid #D4A637;pointer-events:none;opacity:{{ n.pulseO }};animation:c3Pulse 2.2s ease-out 5"></span>
+        <span data-c3="leader" style="position:absolute;left:0;top:0;width:38px;height:1px;background:linear-gradient(90deg,rgba(61,255,168,0),#3DFFA8);transform-origin:0 0;transform:rotate(-42deg)"></span>
+        <span data-c3="tag" style="position:absolute;left:26px;top:-58px;white-space:nowrap;display:flex;flex-direction:column;gap:3px;padding:7px 12px 8px;background:linear-gradient(135deg,rgba(61,255,168,.12),rgba(3,4,5,.55));border:1px solid rgba(61,255,168,.38);backdrop-filter:blur(6px);clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));font-family:'JetBrains Mono',monospace;text-align:left">
+          <span style="font-size:9.5px;letter-spacing:.26em;color:#3DFFA8">{{ n.code }} · {{ n.num }}</span>
+          <span style="font-size:13.5px;font-weight:500;letter-spacing:.01em;color:#F5F1E8">{{ n.title }}</span>
+        </span>
+      </button>
+    </sc-for>
+  </sc-if>
+
+  <sc-if value="{{ showInside }}" hint-placeholder-val="{{ false }}">
+  <div data-c3="inside" style="position:absolute;inset:0;z-index:18;overflow:hidden;background:radial-gradient(120% 90% at 50% 45%,#03281F 0%,#021A15 45%,#010E0B 100%)">
+  <canvas data-cl="net" style="position:absolute;inset:0;width:100%;height:100%;display:block"></canvas>
+  <div style="position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(245,241,232,.018) 0 1px,transparent 1px 3px)"></div>
+  <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(80% 70% at 50% 50%,rgba(1,14,11,0) 55%,rgba(1,14,11,.85) 100%)"></div>
+
+  <div style="position:absolute;left:22px;bottom:52px;z-index:4;max-width:min(560px,calc(100% - 44px));opacity:{{ vintroO }};transition:opacity .6s ease;pointer-events:none;display:flex;flex-direction:column;align-items:flex-start;text-align:left">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.28em;color:#D4A637;white-space:nowrap">INSIDE · {{ svc.code }}</div>
+    <h1 style="font-weight:800;font-size:clamp(20px,2vw,28px);line-height:1.1;letter-spacing:-.025em;margin:8px 0 0;max-width:24ch;text-shadow:0 0 30px rgba(1,14,11,.9)">{{ svc.title }}</h1>
+    <p style="font-family:'JetBrains Mono',monospace;font-size:clamp(11.5px,1vw,13px);letter-spacing:.04em;line-height:1.55;color:#A9BBB3;margin:8px 0 0;max-width:34ch">{{ svc.line }}</p>
+  </div>
+
+  <sc-for list="{{ vnodes }}" as="n" hint-placeholder-count="10">
+    <button data-cl="node" data-i="{{ n.i }}" onClick="{{ n.open }}" onMouseEnter="{{ n.hover }}" onMouseLeave="{{ n.unhover }}" aria-label="{{ n.title }}" style="position:absolute;left:{{ n.left }};top:{{ n.top }};transform:translate(-50%,-50%);background:transparent;border:0;padding:8px;display:flex;align-items:center;gap:12px;color:#F5F1E8;will-change:transform,opacity;z-index:5">
+      <span style="position:relative;width:16px;height:16px;flex:none;border-radius:50%;background:{{ n.core }};box-shadow:0 0 0 5px {{ n.halo }},0 0 26px 4px {{ n.glow }}"></span>
+      <span style="display:flex;flex-direction:column;align-items:flex-start;gap:3px;font-family:'JetBrains Mono',monospace">
+        <span style="font-size:10px;letter-spacing:.2em;color:{{ n.codeInk }}">{{ n.code }}</span>
+        <span style="font-size:13px;font-weight:500;white-space:nowrap;background:rgba(1,14,11,.72);border:1px solid {{ n.line }};padding:4px 8px">{{ n.title }}</span>
+      </span>
+    </button>
+  </sc-for>
+  <div style="position:absolute;right:22px;bottom:18px;z-index:20;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;color:#6F8A80;pointer-events:none;text-align:right">CLICK A LIGHT · ← → TO TRAVEL · ESC TO EXIT</div>
+
+  <sc-if value="{{ listOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;z-index:30;background:rgba(1,14,11,.92);backdrop-filter:blur(8px);overflow:auto;padding:90px 22px 40px">
+      <div style="max-width:1100px;margin:0 auto">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.24em;color:#D4A637">ALL NODES</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:1px;background:#1D5546;border:1px solid #1D5546;margin-top:18px">
+          <sc-for list="{{ vnodes }}" as="n" hint-placeholder-count="10">
+            <button onClick="{{ n.open }}" style="text-align:left;background:#021A15;border:0;color:#F5F1E8;padding:22px;display:flex;flex-direction:column;gap:8px" style-hover="background:#03281F">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.2em;color:#D4A637">{{ n.code }}</span>
+              <span style="font-weight:800;font-size:22px;letter-spacing:-.02em">{{ n.title }}</span>
+              <span style="font-size:14px;line-height:1.5;color:#A9BBB3">{{ n.line }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ vopen }}" hint-placeholder-val="{{ false }}">
+    <aside data-cl="panel" style="position:absolute;right:0;top:0;bottom:0;z-index:25;width:min(560px,100%);background:linear-gradient(180deg,rgba(2,26,21,.9),rgba(1,14,11,.95));backdrop-filter:blur(14px);border-left:1px solid #D4A637;overflow:auto;padding:88px clamp(22px,3vw,40px) 40px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;color:#D4A637">
+        <span>NODE {{ vnode.n }} / {{ vnode.code }}</span>
+        <button onClick="{{ vclose }}" style="background:transparent;border:1px solid #28705A;color:#F5F1E8;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;padding:7px 11px" style-hover="border-color:#D4A637">ESC ×</button>
+      </div>
+      <sc-if value="{{ vnode.hasTag }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-top:20px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.16em;color:#021A15;background:#D4A637;border-radius:999px;padding:6px 14px">{{ vnode.tag }}</span></sc-if>
+      <h2 style="font-weight:800;font-size:clamp(28px,3.4vw,46px);line-height:1.05;letter-spacing:-.035em;margin:18px 0 0">{{ vnode.title }}</h2>
+      <p style="font-size:17px;line-height:1.6;color:#D9D3C4;margin:14px 0 0">{{ vnode.line }}</p>
+
+      <sc-if value="{{ vnode.hasProblem }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:24px;border-left:2px solid #D4A637;padding:4px 0 4px 16px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.2em;color:#A9BBB3">SOUND FAMILIAR?</div>
+          <div style="font-weight:700;font-size:19px;line-height:1.35;margin-top:6px">“{{ vnode.problem }}”</div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ vnode.hasGets }}" hint-placeholder-val="{{ true }}">
+        <div style="margin-top:26px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.2em;color:#A9BBB3;margin-bottom:10px">WHAT YOU GET</div>
+          <div style="display:flex;flex-direction:column;gap:1px;background:#1D5546;border:1px solid #1D5546">
+            <sc-for list="{{ vnode.gets }}" as="g" hint-placeholder-count="3"><div style="background:#021A15;padding:13px 16px;font-size:15px;display:flex;gap:12px"><span style="font-family:'JetBrains Mono',monospace;color:#D4A637">›</span>{{ g }}</div></sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ vnode.isDomain }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:26px;display:flex;flex-direction:column;gap:12px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.2em;color:#A9BBB3">TRY IT · FIND YOUR NAME</div>
+          <div style="display:flex;gap:8px;border:1px solid #28705A;padding:6px 6px 6px 14px;align-items:center;background:#010E0B">
+            <input value="{{ domain }}" onChange="{{ onDomain }}" onKeyDown="{{ onDomainKey }}" placeholder="yourbusiness" style="flex:1;min-width:0;border:0;background:transparent;font-family:'JetBrains Mono',monospace;font-size:16px;color:#F5F1E8;outline:none">
+            <button onClick="{{ checkDomain }}" style="background:#D4A637;color:#021A15;border:0;padding:10px 16px;font-size:13px;font-weight:700">Check</button>
+          </div>
+          <sc-for list="{{ results }}" as="d" hint-placeholder-count="0">
+            <div style="display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #1D5546;padding:10px 2px;font-family:'JetBrains Mono',monospace;font-size:14px"><span>{{ d.name }}</span><span style="color:{{ d.ink }}">{{ d.label }}</span></div>
+          </sc-for>
+          <sc-if value="{{ hasResults }}" hint-placeholder-val="{{ false }}"><div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#6F8A80">DEMO RESULTS · LIVE SEARCH TO BE CONNECTED</div></sc-if>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ vnode.isBackup }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:26px;border:1px solid #28705A;background:#010E0B;padding:18px;display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;justify-content:space-between;gap:12px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#A9BBB3"><span>restore-drill · finance-server</span><span data-cl="clock">00:00:00</span></div>
+          <div style="height:4px;background:#1D5546"><div data-cl="bar" style="height:4px;width:0%;background:linear-gradient(90deg,#28705A,#D4A637);transition:width .6s ease"></div></div>
+          <sc-for list="{{ drill }}" as="d" hint-placeholder-count="5">
+            <div data-cl="step" style="display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#6F8A80;transition:color .4s ease"><span data-cl="tick" style="width:20px;height:20px;border:1px solid #28705A;display:flex;align-items:center;justify-content:center;font-size:11px;flex:none;transition:all .4s ease"></span>{{ d }}</div>
+          </sc-for>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+            <span data-cl="done" style="font-weight:800;font-size:18px;color:#D4A637;opacity:0;transition:opacity .5s ease">Restored and verified.</span>
+            <button onClick="{{ runDrill }}" style="background:#D4A637;color:#021A15;border:0;padding:11px 16px;font-size:13px;font-weight:700;white-space:nowrap">Run a restore drill ▶</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ vnode.isStatus }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:26px;border:1px solid #28705A;background:#010E0B;padding:16px 18px;display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;color:#A9BBB3"><span>LIVE VIEW</span><span>SAMPLE STATUS</span></div>
+          <sc-for list="{{ status }}" as="x" hint-placeholder-count="4">
+            <div style="display:flex;justify-content:space-between;gap:12px;font-family:'JetBrains Mono',monospace;font-size:13px;border-top:1px solid #1D5546;padding-top:8px"><span style="display:flex;align-items:center;gap:8px"><span style="width:7px;height:7px;border-radius:50%;background:#7BD88F"></span>{{ x.name }}</span><span><span data-cl="ms" data-base="{{ x.base }}">{{ x.base }}</span> ms</span></div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ vnode.isWork }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:26px;display:flex;flex-direction:column;gap:18px">
+          <sc-for list="{{ cases }}" as="c" hint-placeholder-count="2">
+            <article style="border:1px solid #28705A;background:#010E0B">
+              <div style="aspect-ratio:16/9;position:relative;background:#021A15"><image-slot id="{{ c.img }}" shape="rect" placeholder="{{ c.imgHint }}"></image-slot></div>
+              <div style="padding:16px 18px;display:flex;flex-direction:column;gap:8px">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:#D4A637">{{ c.tags }}</div>
+                <div style="font-weight:800;font-size:22px;letter-spacing:-.02em">{{ c.client }}</div>
+                <p style="font-size:15px;line-height:1.55;color:#D9D3C4;margin:0">{{ c.body }}</p>
+              </div>
+            </article>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ vnode.isContact }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:26px;display:flex;flex-direction:column;gap:12px">
+          <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+            <input placeholder="Your name" style="background:#010E0B;border:1px solid #28705A;padding:14px 16px;font-size:16px;color:#F5F1E8;outline:none">
+            <input placeholder="Work email or phone" style="background:#010E0B;border:1px solid #28705A;padding:14px 16px;font-size:16px;color:#F5F1E8;outline:none">
+            <input placeholder="What are you running today?" style="background:#010E0B;border:1px solid #28705A;padding:14px 16px;font-size:16px;color:#F5F1E8;outline:none">
+            <button onClick="{{ send }}" style="align-self:flex-start;background:#D4A637;color:#021A15;border:0;padding:14px 22px;font-size:15px;font-weight:700">Book a free review →</button>
+          </sc-if>
+          <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}"><div style="font-weight:700;font-size:20px;color:#D4A637">Thank you. An engineer will contact you within two working days.</div></sc-if>
+        </div>
+      </sc-if>
+
+      <div style="margin-top:30px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.2em;color:#A9BBB3;margin-bottom:10px">CONNECTED TO</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <sc-for list="{{ vnode.links }}" as="l" hint-placeholder-count="3">
+            <button onClick="{{ l.go }}" style="background:transparent;border:1px solid #28705A;color:#F5F1E8;font-family:'JetBrains Mono',monospace;font-size:12px;padding:8px 12px;white-space:nowrap" style-hover="border-color:#D4A637;color:#D4A637">→ {{ l.title }}</button>
+          </sc-for>
+        </div>
+      </div>
+
+      <sc-if value="{{ vnode.showCta }}" hint-placeholder-val="{{ true }}">
+        <button onClick="{{ vopenContact }}" style="margin-top:28px;background:#D4A637;color:#021A15;border:0;padding:14px 22px;font-size:15px;font-weight:700">Talk to us about {{ vnode.short }} →</button>
+      </sc-if>
+
+      <div style="margin-top:36px;padding-top:18px;border-top:1px solid #1D5546;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;color:#6F8A80">
+        <span>D’MATEK CLOUD · SOLVING WHAT MATTERS.</span>
+        <a href="Dmatek%20Website%20v3.6.dc.html" style="color:#A9BBB3;white-space:nowrap">D’MATEK.COM ↗</a>
+      </div>
+    </aside>
+  </sc-if>
+
+    <div style="position:absolute;left:24px;top:78px;z-index:22;display:flex;gap:8px;flex-wrap:wrap">
+      <button onClick="{{ back }}" style="background:rgba(1,14,11,.6);border:1px solid rgba(212,166,55,.6);color:#D4A637;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;padding:9px 14px" style-hover="background:rgba(212,166,55,.12)">← BACK TO THE CLOUD</button>
+      <button onClick="{{ toggleList }}" style="background:rgba(1,14,11,.6);border:1px solid #28705A;color:#F5F1E8;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;padding:9px 14px" style-hover="border-color:#D4A637">{{ listLabel }}</button>
+    </div>
+    
+  </div>
+</sc-if>
+
+  <header style="position:absolute;left:0;right:0;top:0;z-index:20;padding:16px 24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    
+    <a data-c3="brand" href="#top" onClick="{{ back }}" style="display:flex;align-items:center;gap:12px;color:#F5F1E8;white-space:nowrap">
+      
+      <span style="display:flex;flex-direction:column;line-height:1"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.34em;color:#D4A637">CLOUD · RUN IT</span></span>
+    </a>
+    <span id="cloud-tag" style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#8C9A9E;white-space:nowrap">EMAIL · HOSTING · BACKUP · SERVERS</span>
+    
+    <div style="flex:1"></div>
+    <button onClick="{{ toggleSound }}" style="display:flex;align-items:center;gap:8px;background:rgba(3,4,5,.6);border:1px solid {{ soundEdge }};color:{{ soundInk }};font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;padding:8px 10px;white-space:nowrap"><span data-c3="eq" style="display:flex;align-items:flex-end;gap:2px;height:10px"><span style="width:2px;height:40%;background:currentColor"></span><span style="width:2px;height:90%;background:currentColor"></span><span style="width:2px;height:60%;background:currentColor"></span></span>{{ soundLabel }}</button>
+    
+    
+  </header>
+
+  
+  <div style="position:absolute;left:24px;bottom:20px;z-index:20;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:#56646A;pointer-events:none;white-space:nowrap" data-c3="hud">SECTOR 062 · ROT 0.00 / 1.00 · 240 NODES</div>
+  <div style="position:absolute;right:24px;bottom:20px;z-index:20;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:#56646A;pointer-events:none;white-space:nowrap">{{ hint }}</div>
+
+  <sc-if value="{{ narrow }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;left:0;right:0;bottom:0;z-index:12;max-height:52%;overflow:auto;background:linear-gradient(180deg,rgba(3,4,5,0),rgba(3,4,5,.94) 18%);padding:44px 16px 20px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.24em;color:#3DFFA8;margin-bottom:10px">SERVICES · TAP TO OPEN</div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <sc-for list="{{ nodes }}" as="n" hint-placeholder-count="10">
+          <button onClick="{{ n.openMobile }}" style="display:flex;justify-content:space-between;align-items:center;gap:12px;text-align:left;background:rgba(61,255,168,.05);border:1px solid rgba(61,255,168,.25);color:#F5F1E8;padding:14px 14px"><span style="display:flex;flex-direction:column;gap:3px"><span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.24em;color:#D4A637">{{ n.code }}</span><span style="font-weight:700;font-size:16px">{{ n.title }}</span></span><span style="color:#3DFFA8">↗</span></button>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ panelOpen }}" hint-placeholder-val="{{ false }}">
+    <div data-c3="holo" style="position:absolute;inset:0;z-index:40;background:radial-gradient(120% 100% at 50% 0%,rgba(61,255,168,.10),rgba(3,4,5,.94) 55%),rgba(3,4,5,.9);backdrop-filter:blur(14px);overflow:auto">
+      <div style="position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(61,255,168,.04) 0 1px,transparent 1px 4px)"></div>
+      <div style="position:relative;max-width:980px;margin:0 auto;padding:clamp(80px,9vh,110px) 24px 60px">
+        <div style="position:absolute;left:12px;top:64px;width:26px;height:26px;border-left:1px solid #3DFFA8;border-top:1px solid #3DFFA8"></div>
+        <div style="position:absolute;right:12px;top:64px;width:26px;height:26px;border-right:1px solid #3DFFA8;border-top:1px solid #3DFFA8"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.24em;color:#3DFFA8">
+          <span>{{ p.path }}</span>
+          <button onClick="{{ closePanel }}" style="background:transparent;border:1px solid rgba(61,255,168,.5);color:#F5F1E8;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;padding:8px 12px" style-hover="border-color:#3DFFA8;color:#3DFFA8">CLOSE ×</button>
+        </div>
+        <h2 style="font-weight:800;font-size:clamp(36px,5.4vw,80px);line-height:.95;letter-spacing:-.045em;margin:26px 0 0;max-width:16ch;text-shadow:0 0 40px rgba(61,255,168,.25)">{{ p.title }}</h2>
+        <p style="font-size:clamp(17px,1.6vw,20px);line-height:1.6;color:#B9C2C4;margin:18px 0 0;max-width:56ch">{{ p.line }}</p>
+
+        <sc-if value="{{ p.hasProblem }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:28px;border-left:2px solid #D4A637;padding:4px 0 4px 18px;max-width:56ch">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:#8C9A9E">SOUND FAMILIAR?</div>
+            <div style="font-weight:700;font-size:21px;line-height:1.35;margin-top:6px">“{{ p.problem }}”</div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ p.hasGets }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:30px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:1px;background:rgba(61,255,168,.25);border:1px solid rgba(61,255,168,.25)">
+            <sc-for list="{{ p.gets }}" as="g" hint-placeholder-count="3"><div style="background:#050809;padding:20px;display:flex;flex-direction:column;gap:10px"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.24em;color:#3DFFA8">{{ g.code }}</span><span style="font-size:17px;font-weight:600;line-height:1.35">{{ g.t }}</span></div></sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ p.isStatus }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:30px;border:1px solid rgba(61,255,168,.35);background:#050809;padding:18px 20px;display:flex;flex-direction:column;gap:10px;max-width:560px">
+            <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:#8C9A9E"><span>LIVE VIEW</span><span>SAMPLE STATUS</span></div>
+            <sc-for list="{{ status }}" as="x" hint-placeholder-count="4">
+              <div style="display:flex;justify-content:space-between;gap:12px;font-family:'JetBrains Mono',monospace;font-size:14px;border-top:1px solid rgba(61,255,168,.15);padding-top:10px"><span style="display:flex;align-items:center;gap:10px"><span style="width:7px;height:7px;border-radius:50%;background:#3DFFA8;box-shadow:0 0 10px #3DFFA8"></span>{{ x.name }}</span><span><span data-c3="ms" data-base="{{ x.base }}">{{ x.base }}</span> ms</span></div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ p.isDomain }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:30px;display:flex;flex-direction:column;gap:12px;max-width:620px">
+            <div style="display:flex;gap:8px;border:1px solid rgba(61,255,168,.45);padding:6px 6px 6px 16px;align-items:center;background:#050809">
+              <input value="{{ domain }}" onChange="{{ onDomain }}" onKeyDown="{{ onDomainKey }}" placeholder="yourbusiness" style="flex:1;min-width:0;border:0;background:transparent;font-family:'JetBrains Mono',monospace;font-size:18px;color:#F5F1E8;outline:none">
+              <button onClick="{{ checkDomain }}" style="background:#D4A637;color:#030405;border:0;padding:12px 18px;font-size:14px;font-weight:700">Check</button>
+            </div>
+            <sc-for list="{{ results }}" as="d" hint-placeholder-count="0">
+              <div style="display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid rgba(61,255,168,.15);padding:11px 2px;font-family:'JetBrains Mono',monospace;font-size:15px"><span>{{ d.name }}</span><span style="color:{{ d.ink }}">{{ d.label }}</span></div>
+            </sc-for>
+            <sc-if value="{{ hasResults }}" hint-placeholder-val="{{ false }}"><div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#56646A">DEMO RESULTS · LIVE SEARCH TO BE CONNECTED</div></sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ p.isDrill }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:30px;border:1px solid rgba(61,255,168,.35);background:#050809;padding:20px;display:flex;flex-direction:column;gap:12px;max-width:640px">
+            <div style="display:flex;justify-content:space-between;gap:12px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#8C9A9E"><span>restore-drill · finance-server</span><span data-c3="clock">00:00:00</span></div>
+            <div style="height:3px;background:rgba(61,255,168,.15)"><div data-c3="bar" style="height:3px;width:0%;background:linear-gradient(90deg,#3DFFA8,#D4A637);box-shadow:0 0 12px #3DFFA8;transition:width .6s ease"></div></div>
+            <sc-for list="{{ drill }}" as="d" hint-placeholder-count="5">
+              <div data-c3="step" style="display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:13.5px;color:#56646A;transition:color .4s ease"><span data-c3="tick" style="width:20px;height:20px;border:1px solid rgba(61,255,168,.4);display:flex;align-items:center;justify-content:center;font-size:11px;flex:none;transition:all .4s ease"></span>{{ d }}</div>
+            </sc-for>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+              <span data-c3="done" style="font-weight:800;font-size:19px;color:#D4A637;opacity:0;transition:opacity .5s ease">Restored and verified.</span>
+              <button onClick="{{ runDrill }}" style="background:#D4A637;color:#030405;border:0;padding:12px 18px;font-size:14px;font-weight:700;white-space:nowrap">Run a restore drill ▶</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ p.isCases }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:30px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:18px">
+            <sc-for list="{{ p.cases }}" as="c" hint-placeholder-count="2">
+              <article style="border:1px solid rgba(61,255,168,.35);background:#050809">
+                <div style="aspect-ratio:16/9;position:relative;background:#0B0F10"><image-slot id="{{ c.img }}" shape="rect" placeholder="{{ c.imgHint }}"></image-slot></div>
+                <div style="padding:16px 18px;display:flex;flex-direction:column;gap:8px"><div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:#3DFFA8">{{ c.tags }}</div><div style="font-weight:800;font-size:24px;letter-spacing:-.02em">{{ c.client }}</div><p style="font-size:15px;line-height:1.55;color:#B9C2C4;margin:0">{{ c.body }}</p></div>
+              </article>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ p.isContact }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:30px;display:flex;flex-direction:column;gap:12px;max-width:620px">
+            <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+              <input placeholder="Your name" style="background:#050809;border:1px solid rgba(61,255,168,.4);padding:15px 16px;font-size:16px;color:#F5F1E8;outline:none">
+              <input placeholder="Work email or phone" style="background:#050809;border:1px solid rgba(61,255,168,.4);padding:15px 16px;font-size:16px;color:#F5F1E8;outline:none">
+              <input placeholder="What are you running today?" style="background:#050809;border:1px solid rgba(61,255,168,.4);padding:15px 16px;font-size:16px;color:#F5F1E8;outline:none">
+              <button onClick="{{ send }}" style="align-self:flex-start;background:#D4A637;color:#030405;border:0;padding:15px 24px;font-size:15px;font-weight:700">Book a free review →</button>
+            </sc-if>
+            <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}"><div style="font-weight:700;font-size:22px;color:#D4A637">Thank you. An engineer will contact you within two working days.</div></sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ p.showCta }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ openContact }}" style="margin-top:34px;background:#D4A637;color:#030405;border:0;padding:15px 24px;font-size:15px;font-weight:700">Talk to us about this →</button>
+        </sc-if>
+        <div style="margin-top:44px;padding-top:18px;border-top:1px solid rgba(61,255,168,.18);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:#56646A"><span>D’MATEK CLOUD · SOLVING WHAT MATTERS.</span><a data-c3="site" href="Dmatek%20Website%20v3.6.dc.html" target="_top" style="white-space:nowrap">D’MATEK.COM ↗</a></div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+
+<div aria-hidden="true" style="height:30px;background-color:#06382E;background-image:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22%2306382E%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23F5F1E8%22%20stroke-opacity%3D%22.5%22%20stroke-width%3D%221.3%22%3E%3Cpath%20d%3D%22M32%200V64M0%2032H64%22%2F%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2216%22%20r%3D%2210%22%2F%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2216%22%20r%3D%225%22%2F%3E%3Ccircle%20cx%3D%2248%22%20cy%3D%2248%22%20r%3D%2210%22%2F%3E%3Ccircle%20cx%3D%2248%22%20cy%3D%2248%22%20r%3D%225%22%2F%3E%3Cpath%20d%3D%22M36%204l24%2024M36%2014l14%2014M46%204l14%2014M4%2036l24%2024M4%2046l14%2014M14%2036l14%2014%22%2F%3E%3C%2Fg%3E%3Cg%20fill%3D%22%23D4A637%22%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2216%22%20r%3D%221.8%22%2F%3E%3Ccircle%20cx%3D%2248%22%20cy%3D%2248%22%20r%3D%221.8%22%2F%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2232%22%20r%3D%222.4%22%2F%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.4%22%2F%3E%3Ccircle%20cx%3D%2264%22%20cy%3D%220%22%20r%3D%222.4%22%2F%3E%3Ccircle%20cx%3D%220%22%20cy%3D%2264%22%20r%3D%222.4%22%2F%3E%3Ccircle%20cx%3D%2264%22%20cy%3D%2264%22%20r%3D%222.4%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E);background-size:auto 30px;border-bottom:2px solid #D4A637"></div>
+<section id="cloud-cover" data-screen-label="What we cover" style="background:#F5F1E8;color:#06382E;font-family:'Manrope',system-ui,sans-serif;padding:clamp(64px,10vh,120px) clamp(18px,3vw,40px)">
+  <div style="max-width:1280px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(36px,6vh,64px)">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:24px 64px;align-items:end">
+      <div style="display:flex;flex-direction:column;gap:20px"><p style="display:inline-block;align-self:flex-start;white-space:nowrap;font-size:11.5px;font-weight:700;letter-spacing:0.2em;border-top:2px solid #D4A637;padding:10px 0 0;margin:0">D&rsquo;MATEK CLOUD &middot; RUN IT</p><h2 style="margin:0;font-weight:800;font-size:clamp(34px,4.6vw,64px);line-height:1;letter-spacing:-0.035em;text-wrap:balance">The digital environment your business runs on.</h2></div>
+      <p style="margin:0;font-size:clamp(17px,1.6vw,20px);line-height:1.7;color:#3A4A44;max-width:30em">Run it. The digital environment businesses use to operate, communicate and host their systems.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:20px 32px"><div style="display:flex;gap:12px;align-items:baseline"><span style="font-size:12px;font-weight:700;letter-spacing:0.1em;color:#B08620">01</span><span style="font-size:18px;font-weight:800;letter-spacing:-0.01em;line-height:1.3">Hosting for websites and apps</span></div><div style="display:flex;gap:12px;align-items:baseline"><span style="font-size:12px;font-weight:700;letter-spacing:0.1em;color:#B08620">02</span><span style="font-size:18px;font-weight:800;letter-spacing:-0.01em;line-height:1.3">Files your team can reach</span></div><div style="display:flex;gap:12px;align-items:baseline"><span style="font-size:12px;font-weight:700;letter-spacing:0.1em;color:#B08620">03</span><span style="font-size:18px;font-weight:800;letter-spacing:-0.01em;line-height:1.3">Servers looked after for you</span></div><div style="display:flex;gap:12px;align-items:baseline"><span style="font-size:12px;font-weight:700;letter-spacing:0.1em;color:#B08620">04</span><span style="font-size:18px;font-weight:800;letter-spacing:-0.01em;line-height:1.3">Data you can get back</span></div></div>
+    <div style="display:flex;flex-direction:column;gap:20px">
+      <p style="display:inline-block;align-self:flex-start;white-space:nowrap;font-size:11.5px;font-weight:700;letter-spacing:0.2em;border-top:2px solid #D4A637;padding:10px 0 0;margin:0">MOST CUSTOMERS START HERE</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px"><a href="#cld-b8" data-open="cld-b8" style="display:flex;flex-direction:column;gap:10px;background:#06382E;color:#F5F1E8;border-radius:24px;padding:26px" style-hover="background:#0B4B3D"><span style="font-size:20px;font-weight:800;letter-spacing:-0.02em;line-height:1.2;color:#F5F1E8">Business email</span><span style="font-size:16px;line-height:1.55;color:#D9D3C4">Email on your own domain, moved over and secured.</span></a><a href="#cld-b9" data-open="cld-b9" style="display:flex;flex-direction:column;gap:10px;background:#06382E;color:#F5F1E8;border-radius:24px;padding:26px" style-hover="background:#0B4B3D"><span style="font-size:20px;font-weight:800;letter-spacing:-0.02em;line-height:1.2;color:#F5F1E8">Microsoft 365, Google Workspace or Zoho</span><span style="font-size:16px;line-height:1.55;color:#D9D3C4">Licensed and set up for you, and managed if you want.</span></a><a href="#cld-b10" data-open="cld-b10" style="display:flex;flex-direction:column;gap:10px;background:#06382E;color:#F5F1E8;border-radius:24px;padding:26px" style-hover="background:#0B4B3D"><span style="font-size:20px;font-weight:800;letter-spacing:-0.02em;line-height:1.2;color:#F5F1E8">Verified backup</span><span style="font-size:16px;line-height:1.55;color:#D9D3C4">We back up your data, then restore it to prove it works.</span></a></div>
+    </div>
+      </div>
+</section>
+<section id="restore-demo" data-screen-label="Restore demo" style="background:#06382E;color:#F5F1E8;padding:clamp(64px,10vh,120px) clamp(18px,3vw,40px)">
+  <div style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:clamp(28px,4vw,64px);align-items:center">
+    <div style="display:flex;flex-direction:column;gap:22px">
+      <p style="display:inline-block;align-self:flex-start;white-space:nowrap;font-size:11.5px;font-weight:700;letter-spacing:0.2em;color:#F5F1E8;border-top:2px solid #D4A637;padding:10px 0 0;margin:0">TRY IT · BACKUP</p>
+      <h2 style="margin:0;font-weight:800;font-size:clamp(34px,4.6vw,64px);line-height:1;letter-spacing:-0.035em;text-wrap:balance">Lose a file. Get it back.</h2>
+      <p style="margin:0;font-size:clamp(17px,1.6vw,20px);line-height:1.7;color:#D9D3C4;max-width:28em">{{ bkMsg }}</p>
+      <div style="display:flex;flex-wrap:wrap;gap:12px"><button type="button" onClick="{{ bkAction }}" data-track="demo_restore" style="cursor:pointer;border:0;font-size:15px;font-weight:800;color:#06382E;background:#D4A637;padding:16px 28px;border-radius:999px;white-space:nowrap" style-hover="background:#F5F1E8">{{ bkLabel }}</button><sc-if value="{{ bkCanReset }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ bkReset }}" style="cursor:pointer;border:1px solid rgba(245,241,232,0.35);background:transparent;color:#F5F1E8;border-radius:999px;padding:15px 22px;font-size:14px;font-weight:700;white-space:nowrap" style-hover="border-color:#D4A637">Start again</button></sc-if></div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center"><span style="font-size:11px;font-weight:700;letter-spacing:0.16em;color:#A9BBB3;margin-right:6px">WHAT WE DO FOR BACKUP</span><a href="#cloud-b10" data-open="cloud-b10" style="font-size:13px;font-weight:700;color:#F5F1E8;border:1px solid rgba(245,241,232,0.35);border-radius:999px;padding:8px 14px;white-space:nowrap" style-hover="border-color:#D4A637;background:rgba(212,166,55,0.15)">Backups we prove work</a></div>
+    </div>
+    <div style="background:#043028;border:1px solid #1D5546;border-radius:28px;padding:clamp(14px,2vw,24px);display:flex;flex-direction:column;gap:14px">
+      <div style="background:#F5F1E8;color:#06382E;border-radius:18px;overflow:hidden">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 18px;background:#EFEADC;font-size:12px;font-weight:700;letter-spacing:0.12em"><span>SHARED DRIVE · FINANCE</span><span style="color:{{ bkStatCol }}">{{ bkStat }}</span></div>
+        <div style="display:flex;flex-direction:column">
+          <sc-for list="{{ bkFiles }}" as="f" hint-placeholder-count="4"><div style="display:flex;justify-content:space-between;gap:12px;align-items:center;padding:14px 18px;border-top:1px solid rgba(6,56,46,0.1);background:{{ f.bg }};transition:background .4s"><span style="display:flex;gap:12px;align-items:center;font-size:16px;font-weight:700;opacity:{{ f.op }};text-decoration:{{ f.dec }}"><span style="width:10px;height:10px;border-radius:3px;background:{{ f.dot }}"></span>{{ f.name }}</span><span style="font-size:13px;font-weight:600;color:#6A7A74">{{ f.note }}</span></div></sc-for>
+        </div>
+      </div>
+      <sc-if value="{{ bkShowPts }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:11px;font-weight:700;letter-spacing:0.16em;color:#D4A637">PICK A RESTORE POINT</span><sc-for list="{{ bkPts }}" as="p" hint-placeholder-count="3"><button type="button" onClick="{{ p.pick }}" style="display:flex;justify-content:space-between;gap:12px;align-items:center;text-align:left;cursor:pointer;border:1px solid {{ p.edge }};background:rgba(245,241,232,0.05);color:#F5F1E8;border-radius:16px;padding:14px 18px;font-size:16px;font-weight:700" style-hover="border-color:#D4A637"><span>{{ p.label }}</span><span style="font-size:11px;font-weight:700;letter-spacing:0.12em;color:#3DFFA8">{{ p.tag }}</span></button></sc-for></div></sc-if>
+      <sc-if value="{{ bkShowBar }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:12px;font-weight:700;letter-spacing:0.12em;color:#D4A637">{{ bkBarLabel }}</span><div style="height:12px;border-radius:999px;background:rgba(245,241,232,0.15);overflow:hidden"><div style="height:100%;width:{{ bkPct }}%;background:#D4A637;border-radius:999px;transition:width .12s linear"></div></div></div></sc-if>
+      <p style="margin:0;font-size:12px;font-weight:600;letter-spacing:0.08em;color:#6F8A80">ILLUSTRATION ONLY. EXAMPLE FILES.</p>
+    </div>
+  </div>
+</section>
+<section data-screen-label="Good to know" style="background:#F5F1E8;color:#06382E;font-family:'Manrope',system-ui,sans-serif;padding:clamp(48px,7vh,80px) clamp(18px,3vw,40px)">
+  <div style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:28px 40px;border-top:2px solid #06382E;padding-top:28px">
+    <div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:11px;font-weight:700;letter-spacing:0.16em;color:#28705A">WHO IT’S FOR</span><span style="font-size:18px;font-weight:700;line-height:1.4;letter-spacing:-0.01em">Offices and growing businesses that rely on email, files and backup.</span></div><div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:11px;font-weight:700;letter-spacing:0.16em;color:#28705A">PROOF</span><span style="font-size:18px;font-weight:700;line-height:1.4;letter-spacing:-0.01em">We restore and check your backups before handover.</span></div><div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:11px;font-weight:700;letter-spacing:0.16em;color:#28705A">PRICING</span><span style="font-size:18px;font-weight:700;line-height:1.4;letter-spacing:-0.01em">Priced for your business after a free review. No fixed packages.</span></div>
+  </div>
+</section>
+<section data-screen-label="What happens next" style="background:#EFEADC;color:#06382E;font-family:'Manrope',system-ui,sans-serif;padding:clamp(56px,8vh,96px) clamp(18px,3vw,40px)">
+  <div style="max-width:1280px;margin:0 auto;display:flex;flex-direction:column;gap:32px">
+    <p style="display:inline-block;align-self:flex-start;white-space:nowrap;font-size:11.5px;font-weight:700;letter-spacing:0.2em;border-top:2px solid #D4A637;padding:10px 0 0;margin:0">WHAT HAPPENS NEXT</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:24px 40px">
+      <div style="display:flex;flex-direction:column;gap:10px"><span style="font-size:clamp(40px,4vw,56px);font-weight:800;letter-spacing:-0.04em;color:#D4A637;line-height:1">01</span><span style="font-size:20px;font-weight:800;letter-spacing:-0.02em">Tell us what you use</span><span style="font-size:16px;line-height:1.6;color:#3A4A44;max-width:28em">Share what you use today: email, hosting, servers or backup. No technical detail needed.</span></div><div style="display:flex;flex-direction:column;gap:10px"><span style="font-size:clamp(40px,4vw,56px);font-weight:800;letter-spacing:-0.04em;color:#D4A637;line-height:1">02</span><span style="font-size:20px;font-weight:800;letter-spacing:-0.02em">We review your setup</span><span style="font-size:16px;line-height:1.6;color:#3A4A44;max-width:28em">An engineer looks at what you have and tells you what to keep, move or fix.</span></div><div style="display:flex;flex-direction:column;gap:10px"><span style="font-size:clamp(40px,4vw,56px);font-weight:800;letter-spacing:-0.04em;color:#D4A637;line-height:1">03</span><span style="font-size:20px;font-weight:800;letter-spacing:-0.02em">We plan, move and support</span><span style="font-size:16px;line-height:1.6;color:#3A4A44;max-width:28em">You get a plan and a quote. We make the move and stay on to support it.</span></div>
+    </div>
+  </div>
+</section>
+<section id="cloud-full" data-screen-label="Full list" style="background:#F5F1E8;color:#06382E;font-family:'Manrope',system-ui,sans-serif;padding:clamp(64px,10vh,120px) clamp(18px,3vw,40px)">
+  <div style="max-width:1280px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(36px,6vh,64px)"><details id="cloud-list-all" style="border-top:2px solid #06382E"><summary style="list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:22px 0"><span style="font-size:clamp(20px,2vw,26px);font-weight:800;letter-spacing:-0.02em">Browse everything as a list</span><span data-pm="1" aria-hidden="true" style="flex-shrink:0;width:28px;text-align:center;font-size:26px;font-weight:700;line-height:1;color:#28705A"></span></summary><div style="display:flex;flex-direction:column;gap:12px">
+      <p style="display:inline-block;align-self:flex-start;white-space:nowrap;font-size:11.5px;font-weight:700;letter-spacing:0.2em;border-top:2px solid #D4A637;padding:10px 0 0;margin:0">EVERYTHING WE OFFER</p>
+      <div style="display:flex;flex-direction:column"><details id="cld-b1" open="{{ true }}" style="border-top:2px solid #06382E;padding:0;scroll-margin-top:110px"><summary style="list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding:22px 0"><span style="display:flex;gap:16px;align-items:baseline"><span style="font-size:12px;font-weight:700;letter-spacing:0.1em;color:#B08620">01</span><span style="display:flex;flex-direction:column;gap:6px"><span style="font-size:clamp(20px,2vw,26px);font-weight:800;letter-spacing:-0.02em;line-height:1.2">Your web address and padlock</span><span style="font-size:16px;line-height:1.55;color:#3A4A44;max-width:44em">Domain, DNS and SSL certificate registered, set up and renewed for you.</span></span></span><span data-pm="1" aria-hidden="true" style="flex-shrink:0;width:28px;text-align:center;font-size:26px;font-weight:700;line-height:1;color:#28705A"></span></summary><div style="display:flex;flex-direction:column;padding:0 0 20px 40px"><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Registering your business web address</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">We register and renew the name people type to find you online.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Domain registration</span></div><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Pointing your web address to the right place</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">We manage the settings that send your domain to your website and email.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">DNS management</span></div><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">The padlock that secures your website</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">We install and renew the certificate that shows visitors your site is secure.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">SSL management</span></div></div></details><details id="cld-b2" style="border-top:2px solid #06382E;padding:0;scroll-margin-top:110px"><summary style="list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding:22px 0"><span style="display:flex;gap:16px;align-items:baseline"><span style="font-size:12px;font-weight:700;letter-spacing:0.1em;color:#B08620">02</span><span style="display:flex;flex-direction:column;gap:6px"><span style="font-size:clamp(20px,2vw,26px);font-weight:800;letter-spacing:-0.02em;line-height:1.2">Website hosting</span><span style="font-size:16px;line-height:1.55;color:#3A4A44;max-width:44em">A home for your website, with WordPress hosting looked after and moves handled.</span></span></span><span data-pm="1" aria-hidden="true" style="flex-shrink:0;width:28px;text-align:center;font-size:26px;font-weight:700;line-height:1;color:#28705A"></span></summary><div style="display:flex;flex-direction:column;padding:0 0 20px 40px"><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">A home on the internet for your website</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">Space on a server where your website lives and stays online.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Web hosting</span></div><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Website hosting we look after, including WordPress</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">We host your site and handle the updates and upkeep for you.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Managed hosting, including managed WordPress</span></div><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Moving your website to a new host</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">We move your site, files and settings with as little downtime as possible.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Website migration</span></div></div></details><details id="cld-b3" style="border-top:2px solid #06382E;padding:0;scroll-margin-top:110px"><summary style="list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding:22px 0"><span style="display:flex;gap:16px;align-items:baseline"><span style="font-size:12px;font-weight:700;letter-spacing:0.1em;color:#B08620">03</span><span style="display:flex;flex-direction:column;gap:6px"><span style="font-size:clamp(20px,2vw,26px);font-weight:800;letter-spacing:-0.02em;line-height:1.2">Hosting for web agencies</span><span style="font-size:16px;line-height:1.55;color:#3A4A44;max-width:44em">Host your clients' websites with us and sell under your own brand.</span></span></span><span data-pm="1" aria-hidden="true" style="flex-shrink:0;width:28px;text-align:center;font-size:26px;font-weight:700;line-height:1;color:#28705A"></span></summary><div style="display:flex;flex-direction:column;padding:0 0 20px 40px"><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Hosting agencies can sell under their own brand</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">Web agencies host client sites with us and bill under their own name.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Reseller and white-label hosting for agencies</span></div></div></details><details id="cld-b4" style="border-top:2px solid #06382E;padding:0;scroll-margin-top:110px"><summary style="list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding:22px 0"><span style="display:flex;gap:16px;align-items:baseline"><span style="font-size:12px;font-weight:700;letter-spacing:0.1em;color:#B08620">04</span><span style="display:flex;flex-direction:column;gap:6px"><span style="font-size:clamp(20px,2vw,26px);font-weight:800;letter-spacing:-0.02em;line-height:1.2">Website care and protection</span><span style="font-size:16px;line-height:1.55;color:#3A4A44;max-width:44em">Updates, security, backups and Cloudflare protection that keep your website healthy.</span></span></span><span data-pm="1" aria-hidden="true" style="flex-shrink:0;width:28px;text-align:center;font-size:26px;font-weight:700;line-height:1;color:#28705A"></span></summary><div style="display:flex;flex-direction:column;padding:0 0 20px 40px"><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Ongoing care for your website</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">We keep your website updated, checked and in working order.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Website care and management</span></div><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Protecting your website from attacks</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">Scanning, hardening and monitoring to keep your website safe from hackers.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Website security</span></div><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Website backups you can restore</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">Copies of your site are kept so it can be brought back if something breaks.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Website backup and recovery</span></div><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Faster loading and attack protection with Cloudflare</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">Cloudflare serves your site quickly to visitors and blocks floods of fake traffic.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">CDN and DDoS protection with Cloudflare</span></div></div></details><details id="cld-b5" style="border-top:2px solid #06382E;padding:0;scroll-margin-top:110px"><summary style="list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding:22px 0"><span style="display:flex;gap:16px;align-items:baseline"><span style="font-size:12px;font-weight:700;letter-spacing:0.1em;color:#B08620">05</span><span style="display:flex;flex-direction:column;gap:6px"><span style="font-size:clamp(20px,2vw,26px);font-weight:800;letter-spacing:-0.02em;line-height:1.2">Servers, set up and looked after</span><span style="font-size:16px;line-height:1.55;color:#3A4A44;max-width:44em">Private, dedicated or virtual servers for your software, with us running them.</span></span></span><span data-pm="1" aria-hidden="true" style="flex-shrink:0;width:28px;text-align:center;font-size:26px;font-weight:700;line-height:1;color:#28705A"></span></summary><div style="display:flex;flex-direction:column;padding:0 0 20px 40px"><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Your own private server space in the cloud</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">A virtual server for sites or apps that need more control than shared hosting.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">VPS hosting</span></div><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">A whole physical server just for you</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">One server used only by your business, for heavy or sensitive work.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Dedicated servers</span></div><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Running several servers on one machine</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">One physical server runs several virtual servers using Proxmox, Hyper-V or VMware.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Virtualisation with Proxmox, Hyper-V and VMware</span></div><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Hosting for your business software</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">We run your business applications on servers we set up and maintain.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Application hosting</span></div><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">We look after your servers</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">Updates, monitoring, security and fixes for your servers, in the office or the cloud.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Server management</span></div></div></details><details id="cld-b6" style="border-top:2px solid #06382E;padding:0;scroll-margin-top:110px"><summary style="list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding:22px 0"><span style="display:flex;gap:16px;align-items:baseline"><span style="font-size:12px;font-weight:700;letter-spacing:0.1em;color:#B08620">06</span><span style="display:flex;flex-direction:column;gap:6px"><span style="font-size:clamp(20px,2vw,26px);font-weight:800;letter-spacing:-0.02em;line-height:1.2">AWS, Azure and Google Cloud, handled</span><span style="font-size:16px;line-height:1.55;color:#3A4A44;max-width:44em">Your systems built, moved and run on the major cloud platforms.</span></span></span><span data-pm="1" aria-hidden="true" style="flex-shrink:0;width:28px;text-align:center;font-size:26px;font-weight:700;line-height:1;color:#28705A"></span></summary><div style="display:flex;flex-direction:column;padding:0 0 20px 40px"><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Your systems set up on AWS, Azure or Google Cloud</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">We design and build your servers and services on the major cloud platforms.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Cloud infrastructure on AWS, Azure and Google Cloud</span></div><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Moving your systems to the cloud</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">We plan and move your servers, files and applications to the cloud.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Cloud migration</span></div><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Your cloud setup, run by us</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">We operate and maintain your cloud services so your team can focus on its work.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Managed cloud</span></div></div></details><details id="cld-b7" style="border-top:2px solid #06382E;padding:0;scroll-margin-top:110px"><summary style="list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding:22px 0"><span style="display:flex;gap:16px;align-items:baseline"><span style="font-size:12px;font-weight:700;letter-spacing:0.1em;color:#B08620">07</span><span style="display:flex;flex-direction:column;gap:6px"><span style="font-size:clamp(20px,2vw,26px);font-weight:800;letter-spacing:-0.02em;line-height:1.2">Shared files and staff logins</span><span style="font-size:16px;line-height:1.55;color:#3A4A44;max-width:44em">Files your team can reach together, and one login per person.</span></span></span><span data-pm="1" aria-hidden="true" style="flex-shrink:0;width:28px;text-align:center;font-size:26px;font-weight:700;line-height:1;color:#28705A"></span></summary><div style="display:flex;flex-direction:column;padding:0 0 20px 40px"><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Shared files your team can reach from anywhere</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">SharePoint, OneDrive, Google Drive or Nextcloud set up so everyone works on the same files.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Cloud storage and file sync: SharePoint, OneDrive, Google Drive, Nextcloud</span></div><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">A central file store in your office</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">A storage device or server where your team saves and shares files on site.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">NAS and file servers</span></div><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">One login per staff member across your systems</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">Active Directory or Entra ID controls who can sign in and what they can open.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Directory services: Active Directory and Entra ID</span></div></div></details><details id="cld-b8" style="border-top:2px solid #06382E;padding:0;scroll-margin-top:110px"><summary style="list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding:22px 0"><span style="display:flex;gap:16px;align-items:baseline"><span style="font-size:12px;font-weight:700;letter-spacing:0.1em;color:#B08620">08</span><span style="display:flex;flex-direction:column;gap:6px"><span style="font-size:clamp(20px,2vw,26px);font-weight:800;letter-spacing:-0.02em;line-height:1.2">Business email</span><span style="font-size:16px;line-height:1.55;color:#3A4A44;max-width:44em">Professional email on your own domain, moved over and protected.</span></span></span><span data-pm="1" aria-hidden="true" style="flex-shrink:0;width:28px;text-align:center;font-size:26px;font-weight:700;line-height:1;color:#28705A"></span></summary><div style="display:flex;flex-direction:column;padding:0 0 20px 40px"><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Professional email on your own domain</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">Addresses like name@yourcompany.com, set up and supported.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Business email</span></div><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Moving your email to a new provider</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">We move mailboxes, old messages and contacts to your new email service.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Email migration</span></div><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Protection from spam, phishing and email fraud</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">Filtering and settings that stop harmful email before it reaches staff.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Email security</span></div><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Stopping others from sending email as you</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">Records that prove your email is genuine and help keep it out of spam folders.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">DMARC, SPF and DKIM management</span></div></div></details><details id="cld-b9" style="border-top:2px solid #06382E;padding:0;scroll-margin-top:110px"><summary style="list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding:22px 0"><span style="display:flex;gap:16px;align-items:baseline"><span style="font-size:12px;font-weight:700;letter-spacing:0.1em;color:#B08620">09</span><span style="display:flex;flex-direction:column;gap:6px"><span style="font-size:clamp(20px,2vw,26px);font-weight:800;letter-spacing:-0.02em;line-height:1.2">Office apps and teamwork tools</span><span style="font-size:16px;line-height:1.55;color:#3A4A44;max-width:44em">Microsoft 365, Google Workspace or Zoho, licensed and managed, with tools for teamwork.</span></span></span><span data-pm="1" aria-hidden="true" style="flex-shrink:0;width:28px;text-align:center;font-size:26px;font-weight:700;line-height:1;color:#28705A"></span></summary><div style="display:flex;flex-direction:column;padding:0 0 20px 40px"><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Microsoft 365 licences, set up and managed</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">We buy the right licences, set up Outlook, Teams and Office, and can manage users for you.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Microsoft 365: licensing, setup and management</span></div><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Google Workspace licences, set up and managed</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">We buy the licences, set up Gmail, Drive and Meet, and can manage users for you.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Google Workspace: licensing, setup and management</span></div><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Zoho Workplace licences, set up and managed</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">We buy the licences, set up Zoho Mail and its apps, and can manage users for you.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Zoho Workplace: licensing, setup and management</span></div><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Tools for your team to meet and work together</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">Teams, Meet and SharePoint set up for chat, video calls and shared documents.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Collaboration and digital workplace: Teams, Meet, SharePoint</span></div></div></details><details id="cld-b10" style="border-top:2px solid #06382E;padding:0;scroll-margin-top:110px"><summary style="list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding:22px 0"><span style="display:flex;gap:16px;align-items:baseline"><span style="font-size:12px;font-weight:700;letter-spacing:0.1em;color:#B08620">10</span><span style="display:flex;flex-direction:column;gap:6px"><span style="font-size:clamp(20px,2vw,26px);font-weight:800;letter-spacing:-0.02em;line-height:1.2">Backups we prove work</span><span style="font-size:16px;line-height:1.55;color:#3A4A44;max-width:44em">Backups of servers, computers and cloud apps, restored to check they work.</span></span></span><span data-pm="1" aria-hidden="true" style="flex-shrink:0;width:28px;text-align:center;font-size:26px;font-weight:700;line-height:1;color:#28705A"></span></summary><div style="display:flex;flex-direction:column;padding:0 0 20px 40px"><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Backups of your servers, computers and cloud data</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">Regular copies of your important data, kept safely so it can be restored.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Backup for servers, endpoints and cloud</span></div><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Backups of your Microsoft 365 email and files</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">A separate copy of Outlook, OneDrive and SharePoint data in case of loss.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Microsoft 365 backup</span></div><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Backups of your Google Workspace email and files</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">A separate copy of Gmail and Drive data in case of loss or deletion.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Google Workspace backup</span></div><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Proof that your backups actually work</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">We restore from your backups to check they work. Included with every backup service.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Backup verification, included with every backup service</span></div></div></details><details id="cld-b11" style="border-top:2px solid #06382E;padding:0;scroll-margin-top:110px"><summary style="list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding:22px 0"><span style="display:flex;gap:16px;align-items:baseline"><span style="font-size:12px;font-weight:700;letter-spacing:0.1em;color:#B08620">11</span><span style="display:flex;flex-direction:column;gap:6px"><span style="font-size:clamp(20px,2vw,26px);font-weight:800;letter-spacing:-0.02em;line-height:1.2">Recovery after a disaster</span><span style="font-size:16px;line-height:1.55;color:#3A4A44;max-width:44em">A plan and standby systems to get you working again after a major failure.</span></span></span><span data-pm="1" aria-hidden="true" style="flex-shrink:0;width:28px;text-align:center;font-size:26px;font-weight:700;line-height:1;color:#28705A"></span></summary><div style="display:flex;flex-direction:column;padding:0 0 20px 40px"><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Getting your servers back after a failure</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">Server backups plus a written plan to bring them back after a breakdown.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Server backup and disaster recovery</span></div><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">A standby copy of your systems in the cloud</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">If your office systems fail, they can run from the cloud while you recover.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Cloud disaster recovery</span></div><div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid rgba(6,56,46,0.12)"><span style="font-size:17px;font-weight:700;line-height:1.35">Standby systems that keep work going</span><span style="font-size:15px;line-height:1.55;color:#3A4A44">Standby systems and links set up so work can continue during a failure.</span><span style="font-size:12px;font-weight:600;color:#6A7A74">Business continuity infrastructure</span></div></div></details><div style="border-top:2px solid #06382E"></div></div>
+    </div>
+    <p style="margin:0;font-size:16px;line-height:1.7;color:#3A4A44;max-width:40em">Cloud works with D&rsquo;Source for licences and hardware, Assurance for security and planning, and D&rsquo;Foundry for websites and applications.</p>
+    </details>
+    <div style="display:flex;flex-wrap:wrap;gap:16px 24px;align-items:center;justify-content:space-between">
+      <a href="Dmatek%20Website%20v3.6.dc.html#/contact?topic=D%E2%80%99Matek%20Cloud&msg=I%E2%80%99d%20like%20a%20free%20review." data-track="cta_review_request" style="font-size:14px;font-weight:700;letter-spacing:0.04em;color:#06382E;background:#D4A637;padding:18px 30px;border-radius:999px;white-space:nowrap" style-hover="background:#06382E;color:#F5F1E8">Tell us what you need &rarr;</a>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center"><span style="font-size:11px;font-weight:700;letter-spacing:0.16em;color:#28705A;margin-right:6px">ALSO FROM D&rsquo;MATEK</span><a href="DMatek%20Infrastructure%20Hero%20shared.dc.html" style="font-size:14px;font-weight:600;color:#06382E;border:1px solid rgba(6,56,46,0.25);border-radius:999px;padding:10px 18px;white-space:nowrap" style-hover="border-color:#06382E;background:rgba(6,56,46,0.06)">D’Matek Infrastructure</a><a href="DMatek%20Assurance.dc.html" style="font-size:14px;font-weight:600;color:#06382E;border:1px solid rgba(6,56,46,0.25);border-radius:999px;padding:10px 18px;white-space:nowrap" style-hover="border-color:#06382E;background:rgba(6,56,46,0.06)">D’Matek Assurance</a><a href="DFoundry%20Hero%20v2.dc.html" style="font-size:14px;font-weight:600;color:#06382E;border:1px solid rgba(6,56,46,0.25);border-radius:999px;padding:10px 18px;white-space:nowrap" style-hover="border-color:#06382E;background:rgba(6,56,46,0.06)">D’Foundry</a></div>
+    </div>
+  </div>
+</section><div aria-hidden="true" style="height:22px;background-color:#06382E;background-image:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22%2306382E%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23F5F1E8%22%20stroke-opacity%3D%22.5%22%20stroke-width%3D%221.3%22%3E%3Cpath%20d%3D%22M32%200V64M0%2032H64%22%2F%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2216%22%20r%3D%2210%22%2F%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2216%22%20r%3D%225%22%2F%3E%3Ccircle%20cx%3D%2248%22%20cy%3D%2248%22%20r%3D%2210%22%2F%3E%3Ccircle%20cx%3D%2248%22%20cy%3D%2248%22%20r%3D%225%22%2F%3E%3Cpath%20d%3D%22M36%204l24%2024M36%2014l14%2014M46%204l14%2014M4%2036l24%2024M4%2046l14%2014M14%2036l14%2014%22%2F%3E%3C%2Fg%3E%3Cg%20fill%3D%22%23D4A637%22%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2216%22%20r%3D%221.8%22%2F%3E%3Ccircle%20cx%3D%2248%22%20cy%3D%2248%22%20r%3D%221.8%22%2F%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2232%22%20r%3D%222.4%22%2F%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.4%22%2F%3E%3Ccircle%20cx%3D%2264%22%20cy%3D%220%22%20r%3D%222.4%22%2F%3E%3Ccircle%20cx%3D%220%22%20cy%3D%2264%22%20r%3D%222.4%22%2F%3E%3Ccircle%20cx%3D%2264%22%20cy%3D%2264%22%20r%3D%222.4%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E);background-size:auto 22px;border-bottom:2px solid #D4A637"></div><footer style="font-family:'Manrope',system-ui,sans-serif;position:relative;z-index:5;background:#EFEADC;border-top:1px solid rgba(6,56,46,0.12)">
+  <div aria-hidden="true" style="height:22px;background-color:#06382E;background-image:url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22%2306382E%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23F5F1E8%22%20stroke-opacity%3D%22.5%22%20stroke-width%3D%221.3%22%3E%3Cpath%20d%3D%22M32%200V64M0%2032H64%22%2F%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2216%22%20r%3D%2210%22%2F%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2216%22%20r%3D%225%22%2F%3E%3Ccircle%20cx%3D%2248%22%20cy%3D%2248%22%20r%3D%2210%22%2F%3E%3Ccircle%20cx%3D%2248%22%20cy%3D%2248%22%20r%3D%225%22%2F%3E%3Cpath%20d%3D%22M36%204l24%2024M36%2014l14%2014M46%204l14%2014M4%2036l24%2024M4%2046l14%2014M14%2036l14%2014%22%2F%3E%3C%2Fg%3E%3Cg%20fill%3D%22%23D4A637%22%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2216%22%20r%3D%221.8%22%2F%3E%3Ccircle%20cx%3D%2248%22%20cy%3D%2248%22%20r%3D%221.8%22%2F%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2232%22%20r%3D%222.4%22%2F%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%222.4%22%2F%3E%3Ccircle%20cx%3D%2264%22%20cy%3D%220%22%20r%3D%222.4%22%2F%3E%3Ccircle%20cx%3D%220%22%20cy%3D%2264%22%20r%3D%222.4%22%2F%3E%3Ccircle%20cx%3D%2264%22%20cy%3D%2264%22%20r%3D%222.4%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E);background-size:auto 22px;background-position:0 0;border-bottom:2px solid #D4A637"></div>
+  <div style="max-width:1280px;margin:0 auto;padding:clamp(32px,4vw,48px) 32px 20px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:28px 40px">
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+          <img src="assets/mark-green.png" alt="" style="height:24px;width:auto">
+          <span style="font-size:15px;font-weight:800;letter-spacing:0.05em;color:#06382E">D&rsquo;MATEK</span>
+        </div>
+        <p style="font-size:14px;line-height:1.6;color:#3A4A44;margin:0;max-width:22em">Solving what matters. A problem-solving company powered by technology. Lagos, Nigeria.</p>
+      </div>
+      <div>
+        <p style="font-size:11px;font-weight:700;letter-spacing:0.16em;color:#28705A;margin:0 0 12px">THE SIX BUSINESSES</p>
+        <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-start">
+          <a href="DMatek%20Infrastructure%20Hero%20shared.dc.html" style="font-size:14px;font-weight:500;color:#1A1A1A;padding:2px 0;white-space:nowrap" style-hover="color:#28705A">D’Matek Infrastructure</a><a href="DMatek%20Cloud%20Home%20v3.1%20shared.dc.html" style="font-size:14px;font-weight:500;color:#1A1A1A;padding:2px 0;white-space:nowrap" style-hover="color:#28705A">D’Matek Cloud</a><a href="DMatek%20Assurance.dc.html" style="font-size:14px;font-weight:500;color:#1A1A1A;padding:2px 0;white-space:nowrap" style-hover="color:#28705A">D’Matek Assurance</a><a href="DMatek%20IleMesh.dc.html" style="font-size:14px;font-weight:500;color:#1A1A1A;padding:2px 0;white-space:nowrap" style-hover="color:#28705A">IléMesh</a><a href="DFoundry%20Hero%20v2.dc.html" style="font-size:14px;font-weight:500;color:#1A1A1A;padding:2px 0;white-space:nowrap" style-hover="color:#28705A">D’Foundry</a><a href="DSource%20v11.1.dc.html" style="font-size:14px;font-weight:500;color:#1A1A1A;padding:2px 0;white-space:nowrap" style-hover="color:#28705A">D’Source</a>
+        </div>
+      </div>
+      <div>
+        <p style="font-size:11px;font-weight:700;letter-spacing:0.16em;color:#28705A;margin:0 0 12px">PAGES</p>
+        <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-start">
+          <a href="Dmatek%20Website%20v3.6.dc.html#/solutions" style="font-size:14px;font-weight:500;color:#1A1A1A;padding:2px 0;white-space:nowrap" style-hover="color:#28705A">Solutions</a><a href="Dmatek%20Website%20v3.6.dc.html#/businesses" style="font-size:14px;font-weight:500;color:#1A1A1A;padding:2px 0;white-space:nowrap" style-hover="color:#28705A">Businesses</a><a href="Dmatek%20Website%20v3.6.dc.html#/work" style="font-size:14px;font-weight:500;color:#1A1A1A;padding:2px 0;white-space:nowrap" style-hover="color:#28705A">Work</a><a href="Dmatek%20Website%20v3.6.dc.html#/about" style="font-size:14px;font-weight:500;color:#1A1A1A;padding:2px 0;white-space:nowrap" style-hover="color:#28705A">About</a><a href="Dmatek%20Website%20v3.6.dc.html#/insights" style="font-size:14px;font-weight:500;color:#1A1A1A;padding:2px 0;white-space:nowrap" style-hover="color:#28705A">Insights</a>
+        </div>
+      </div>
+      <div>
+        <p style="font-size:11px;font-weight:700;letter-spacing:0.16em;color:#28705A;margin:0 0 12px">GET IN TOUCH</p>
+        <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-start">
+          <a href="Dmatek%20Website%20v3.6.dc.html#/contact" data-track="cta_contact_footer" style="font-size:14px;font-weight:700;color:#06382E;padding:2px 0;white-space:nowrap" style-hover="color:#28705A">Tell us what you need &rarr;</a>
+          <p style="font-size:14px;line-height:1.7;color:#3A4A44;margin:0"><a href="tel:+2347058071768" data-track="call_click">07058071768</a><br><a href="mailto:hello@dmatek.ng" data-track="email_click">hello@dmatek.ng</a></p>
+          <a href="DSource%20v11.1.dc.html" style="font-size:14px;font-weight:500;color:#1A1A1A;padding:2px 0;white-space:nowrap" style-hover="color:#28705A">Shop D&rsquo;Source &rarr;</a>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:28px;padding-top:16px;border-top:1px solid rgba(6,56,46,0.12);display:flex;flex-wrap:wrap;gap:8px 32px;justify-content:space-between">
+      <p style="font-size:12.5px;color:#4A5A54;margin:0">&copy; 2026 D&rsquo;Matek Technology Limited. Lagos, Nigeria.</p>
+      <p style="font-size:12.5px;font-weight:700;letter-spacing:0.12em;color:#28705A;margin:0;white-space:nowrap">WE&rsquo;LL FIGURE IT OUT.</p>
+    </div>
+  </div>
+</footer><a id="wa-fab" href="https://wa.me/2347058071768" data-track="whatsapp_click" aria-label="Chat with D’Matek on WhatsApp" style="position:fixed;right:20px;bottom:20px;z-index:150;display:none;align-items:center;gap:10px;background:#06382E;color:#F5F1E8;border:1.5px solid #D4A637;border-radius:999px;padding:14px 22px;font-family:'Manrope',system-ui,sans-serif;font-size:14px;font-weight:700;letter-spacing:0.02em;box-shadow:0 10px 30px rgba(0,0,0,0.3);white-space:nowrap" style-hover="background:#D4A637;color:#06382E"><span style="width:8px;height:8px;border-radius:50%;background:#3DFFA8"></span>WhatsApp us</a>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const SV = [{"code":"DNS","title":"Domains, DNS & SSL","ll":[30,-30],"line":"Domain registration, DNS management and SSL management.","gets":["Domain Registration","DNS Management","SSL Management"]},{"code":"WEB","title":"Websites & Hosting","ll":[28,60],"line":"Web hosting, managed hosting and website care.","gets":["Web Hosting","Managed Hosting","Reseller / White-label Hosting","Website Care & Management","Website Security","Website Backup & Recovery","CDN & DDoS Protection","Website Migration"]},{"code":"SRV","title":"Servers & Virtualisation","ll":[10,150],"line":"VPS, dedicated servers and virtualisation.","gets":["VPS Hosting","Dedicated Servers","Virtualisation","Application Hosting","Server Management","Colocation","Managed Databases","DevOps / CI-CD Infrastructure"]},{"code":"CLD","title":"Cloud Infrastructure","ll":[-25,100],"line":"AWS, Azure and Google Cloud, managed and migrated.","gets":["Cloud Infrastructure","Managed Cloud","Cloud Migration","Cloud Cost Optimisation"]},{"code":"STO","title":"Storage & Directory","ll":[-35,10],"line":"Cloud storage, file servers and directory services.","gets":["Cloud Storage & File Sync","NAS & File Servers","Directory Services"]},{"code":"MAIL","title":"Email & Productivity","ll":[-20,-80],"line":"Business email, Microsoft 365, Google Workspace and Zoho.","gets":["Business Email","Microsoft 365","Google Workspace","Zoho Workplace","Collaboration & Digital Workplace","Email Migration","Email Security","DMARC / SPF / DKIM Management","Email Archiving"]},{"code":"BAK","title":"Backup","ll":[15,-130],"line":"Backups for servers, endpoints, cloud, Microsoft 365 and Google Workspace.","gets":["Backup","Microsoft 365 Backup","Google Workspace Backup","Backup Verification","Immutable / Ransomware-resistant Backup"]},{"code":"RCV","title":"Recovery & Continuity","ll":[50,-170],"line":"Disaster recovery and continuity, and hosting for resilience.","gets":["Server Backup & Server Disaster Recovery","Cloud Disaster Recovery","Business Continuity Infrastructure","Disaster Recovery-as-a-Service","Nigerian Data-Residency Hosting","Private AI Assistant Hosting"]},{"code":"LINK","title":"Talk to us","ll":[-62,172],"line":"Tell us what you use today. We’ll book a free review with an engineer.","contact":1}];
+const N2 = [{"code":"DNS1","title":"Domain Registration","full":"Domain Registration","short":"domain registration","pos":[0.553,1.8,-0.18],"line":"We register and renew the name people type to find you online.","gets":[],"g":0,"tag":"","st":"Delivered","domain":1,"backup":0,"status":0},{"code":"DNS2","title":"DNS Management","full":"DNS Management","short":"dns management","pos":[-0.544,2.199,0],"line":"We manage the settings that send your domain to your website and email.","gets":[],"g":0,"tag":"","st":"Delivered","domain":0,"backup":0,"status":0},{"code":"DNS3","title":"SSL Management","full":"SSL Management","short":"ssl management","pos":[0.074,1.11,0.18],"line":"We install and renew the certificate that shows visitors your site is secure.","gets":[],"g":0,"tag":"","st":"Delivered","domain":0,"backup":0,"status":0},{"code":"WEB1","title":"Web Hosting","full":"Web Hosting","short":"web hosting","pos":[-0.474,1.286,0.671],"line":"Space on a server where your website lives and stays online.","gets":[],"g":1,"tag":"","st":"Delivered","domain":0,"backup":0,"status":1},{"code":"WEB2","title":"Managed Hosting","full":"Managed Hosting (incl. managed WordPress)","short":"managed hosting","pos":[-1.348,1.593,0.851],"line":"We host your site and handle the updates and upkeep for you.","gets":[],"g":1,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"WEB3","title":"Reseller / White-label Hosting","full":"Reseller / White-label Hosting","short":"reseller / white-label hosting","pos":[-0.874,0.77,1.031],"line":"Web agencies host client sites with us and bill under their own name.","gets":[],"g":1,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"WEB4","title":"Website Care & Management","full":"Website Care & Management","short":"website care & management","pos":[-0.495,1.736,0.671],"line":"We keep your website updated, checked and in working order.","gets":[],"g":1,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"WEB5","title":"Website Security","full":"Website Security","short":"website security","pos":[-1.683,1.181,0.851],"line":"Scanning, hardening and monitoring to keep your website safe from hackers.","gets":[],"g":1,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"WEB6","title":"Website Backup & Recovery","full":"Website Backup & Recovery","short":"website backup & recovery","pos":[-0.244,0.934,1.031],"line":"Copies of your site are kept so it can be brought back if something breaks.","gets":[],"g":1,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"WEB7","title":"CDN & DDoS Protection","full":"CDN & DDoS Protection (Cloudflare)","short":"cdn & ddos protection","pos":[-1.147,1.95,0.671],"line":"Cloudflare serves your site quickly to visitors and blocks floods of fake traffic.","gets":[],"g":1,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"WEB8","title":"Website Migration","full":"Website Migration","short":"website migration","pos":[-1.349,0.649,0.851],"line":"We move your site, files and settings with as little downtime as possible.","gets":[],"g":1,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"SRV1","title":"VPS Hosting","full":"VPS Hosting","short":"vps hosting","pos":[0.597,0.771,-1.8],"line":"A virtual server for sites or apps that need more control than shared hosting.","gets":[],"g":2,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"SRV2","title":"Dedicated Servers","full":"Dedicated Servers","short":"dedicated servers","pos":[-0.277,1.079,-1.62],"line":"One server used only by your business, for heavy or sensitive work.","gets":[],"g":2,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"SRV3","title":"Virtualisation","full":"Virtualisation (Proxmox / Hyper-V / VMware)","short":"virtualisation","pos":[0.197,0.256,-1.44],"line":"One physical server runs several virtual servers using Proxmox, Hyper-V or VMware.","gets":[],"g":2,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"SRV4","title":"Application Hosting","full":"Application Hosting","short":"application hosting","pos":[0.576,1.221,-1.8],"line":"We run your business applications on servers we set up and maintain.","gets":[],"g":2,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"SRV5","title":"Server Management","full":"Server Management","short":"server management","pos":[-0.612,0.667,-1.62],"line":"Updates, monitoring, security and fixes for your servers, in the office or the cloud.","gets":[],"g":2,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"SRV6 · PLANNED","title":"Colocation","full":"Colocation","short":"colocation","pos":[0.827,0.419,-1.44],"line":"Planned. This is not available to order yet.","gets":[],"g":2,"tag":"PLANNED","st":"Future","domain":0,"backup":0,"status":0},{"code":"SRV7 · PLANNED","title":"Managed Databases","full":"Managed Databases","short":"managed databases","pos":[-0.076,1.436,-1.8],"line":"Planned. This is not available to order yet.","gets":[],"g":2,"tag":"PLANNED","st":"Future","domain":0,"backup":0,"status":0},{"code":"SRV8 · PLANNED","title":"DevOps / CI-CD Infrastructure","full":"DevOps / CI-CD Infrastructure","short":"devops / ci-cd infrastructure","pos":[-0.278,0.134,-1.62],"line":"Planned. This is not available to order yet.","gets":[],"g":2,"tag":"PLANNED","st":"Future","domain":0,"backup":0,"status":0},{"code":"CLD1","title":"Cloud Infrastructure","full":"Cloud Infrastructure (AWS / Azure / GCP)","short":"cloud infrastructure","pos":[1.603,0.257,1.234],"line":"We design and build your servers and services on the major cloud platforms.","gets":[],"g":3,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"CLD2","title":"Managed Cloud","full":"Managed Cloud","short":"managed cloud","pos":[0.583,0.625,1.414],"line":"We operate and maintain your cloud services so your team can focus on its work.","gets":[],"g":3,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"CLD3","title":"Cloud Migration","full":"Cloud Migration","short":"cloud migration","pos":[1.152,-0.373,1.594],"line":"We plan and move your servers, files and applications to the cloud.","gets":[],"g":3,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"CLD4 · DEV","title":"Cloud Cost Optimisation","full":"Cloud Cost Optimisation","short":"cloud cost optimisation","pos":[1.621,0.815,1.234],"line":"A review of your cloud usage to cut what you pay for and do not use.","gets":[],"g":3,"tag":"IN DEVELOPMENT","st":"In Development","domain":0,"backup":0,"status":0},{"code":"STO1","title":"Cloud Storage & File Sync","full":"Cloud Storage & File Sync (SharePoint, OneDrive, Drive, Nextcloud)","short":"cloud storage & file sync","pos":[-1.201,-0.257,-0.49],"line":"SharePoint, OneDrive, Google Drive or Nextcloud set up so everyone works on the same files.","gets":[],"g":4,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"STO2","title":"NAS & File Servers","full":"NAS & File Servers","short":"nas & file servers","pos":[-2.298,0.142,-0.31],"line":"A storage device or server where your team saves and shares files on site.","gets":[],"g":4,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"STO3","title":"Directory Services","full":"Directory Services (Active Directory / Entra ID)","short":"directory services","pos":[-1.68,-0.947,-0.13],"line":"Active Directory or Entra ID controls who can sign in and what they can open.","gets":[],"g":4,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"MAIL1","title":"Business Email","full":"Business Email","short":"business email","pos":[1.818,-0.771,-1.053],"line":"Addresses like name@yourcompany.com, set up and supported.","gets":[],"g":5,"tag":"","st":"Delivered","domain":0,"backup":0,"status":0},{"code":"MAIL2","title":"Microsoft 365","full":"Microsoft 365 (licensing, setup, management)","short":"microsoft 365","pos":[0.965,-0.472,-0.873],"line":"We buy the right licences, set up Outlook, Teams and Office, and can manage users for you.","gets":[],"g":5,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"MAIL3","title":"Google Workspace","full":"Google Workspace (licensing, setup, management)","short":"google workspace","pos":[1.426,-1.271,-0.693],"line":"We buy the licences, set up Gmail, Drive and Meet, and can manage users for you.","gets":[],"g":5,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"MAIL4","title":"Zoho Workplace","full":"Zoho Workplace (licensing, setup, management)","short":"zoho workplace","pos":[1.792,-0.336,-1.053],"line":"We buy the licences, set up Zoho Mail and its apps, and can manage users for you.","gets":[],"g":5,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"MAIL5","title":"Collaboration & Digital Workplace","full":"Collaboration & Digital Workplace (Teams, Meet, SharePoint)","short":"collaboration & digital workplace","pos":[0.645,-0.872,-0.873],"line":"Teams, Meet and SharePoint set up for chat, video calls and shared documents.","gets":[],"g":5,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"MAIL6","title":"Email Migration","full":"Email Migration","short":"email migration","pos":[2.032,-1.111,-0.693],"line":"We move mailboxes, old messages and contacts to your new email service.","gets":[],"g":5,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"MAIL7","title":"Email Security","full":"Email Security","short":"email security","pos":[1.162,-0.132,-1.053],"line":"Filtering and settings that stop harmful email before it reaches staff.","gets":[],"g":5,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"MAIL8","title":"DMARC / SPF / DKIM Management","full":"DMARC / SPF / DKIM Management","short":"dmarc / spf / dkim management","pos":[0.968,-1.384,-0.873],"line":"Records that prove your email is genuine and help keep it out of spam folders.","gets":[],"g":5,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"MAIL9 · DEV","title":"Email Archiving","full":"Email Archiving","short":"email archiving","pos":[2.222,-0.529,-0.693],"line":"Every email stored and searchable for records and disputes.","gets":[],"g":5,"tag":"IN DEVELOPMENT","st":"In Development","domain":0,"backup":0,"status":0},{"code":"BAK1","title":"Backup","full":"Backup (server, endpoint, cloud)","short":"backup","pos":[0.169,-1.286,1.037],"line":"Regular copies of your important data, kept safely so it can be restored.","gets":[],"g":6,"tag":"","st":"Delivered","domain":0,"backup":0,"status":0},{"code":"BAK2","title":"Microsoft 365 Backup","full":"Microsoft 365 Backup","short":"microsoft 365 backup","pos":[-0.798,-0.94,1.217],"line":"A separate copy of Outlook, OneDrive and SharePoint data in case of loss.","gets":[],"g":6,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"BAK3","title":"Google Workspace Backup","full":"Google Workspace Backup","short":"google workspace backup","pos":[-0.264,-1.874,1.397],"line":"A separate copy of Gmail and Drive data in case of loss or deletion.","gets":[],"g":6,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"BAK4","title":"Backup Verification","full":"Backup Verification","short":"backup verification","pos":[0.173,-0.767,1.037],"line":"We restore from your backups to check they work. Included with every backup service.","gets":[],"g":6,"tag":"","st":"Offered","domain":0,"backup":1,"status":0},{"code":"BAK5 · DEV","title":"Immutable / Ransomware-resistant Backup","full":"Immutable / Ransomware-resistant Backup","short":"immutable / ransomware-resistant backup","pos":[-1.202,-1.407,1.217],"line":"Backup copies locked so attackers cannot encrypt or erase them.","gets":[],"g":6,"tag":"IN DEVELOPMENT","st":"In Development","domain":0,"backup":0,"status":0},{"code":"RCV1","title":"Server Backup & Server Disaster Recovery","full":"Server Backup & Server Disaster Recovery","short":"server backup & server disaster recovery","pos":[0.479,-1.8,-0.18],"line":"Server backups plus a written plan to bring them back after a breakdown.","gets":[],"g":7,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"RCV2","title":"Cloud Disaster Recovery","full":"Cloud Disaster Recovery","short":"cloud disaster recovery","pos":[-0.449,-1.47,0],"line":"If your office systems fail, they can run from the cloud while you recover.","gets":[],"g":7,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"RCV3","title":"Business Continuity Infrastructure","full":"Business Continuity Infrastructure","short":"business continuity infrastructure","pos":[0.06,-2.358,0.18],"line":"Standby systems and links set up so work can continue during a failure.","gets":[],"g":7,"tag":"","st":"Offered","domain":0,"backup":0,"status":0},{"code":"RCV4 · DEV","title":"Disaster Recovery-as-a-Service","full":"Disaster Recovery-as-a-Service (DRaaS)","short":"disaster recovery-as-a-service","pos":[0.472,-1.31,-0.18],"line":"Your systems copied to standby servers, ready to run if yours fail.","gets":[],"g":7,"tag":"IN DEVELOPMENT","st":"In Development","domain":0,"backup":0,"status":0},{"code":"RCV5 · PLANNED","title":"Nigerian Data-Residency Hosting","full":"Nigerian Data-Residency Hosting","short":"nigerian data-residency hosting","pos":[-0.825,-1.914,0],"line":"Planned. This is not available to order yet.","gets":[],"g":7,"tag":"PLANNED","st":"Future","domain":0,"backup":0,"status":0},{"code":"RCV6 · PLANNED","title":"Private AI Assistant Hosting","full":"Private AI Assistant Hosting","short":"private ai assistant hosting","pos":[0.752,-2.187,0.18],"line":"Planned. This is not available to order yet.","gets":[],"g":7,"tag":"PLANNED","st":"Future","domain":0,"backup":0,"status":0},{"code":"LINK","title":"Talk to us","short":"this","pos":[2.3,-1.4,0],"line":"Tell us what you use today. We’ll book a free review with an engineer.","contact":1,"alt":1,"g":-1,"tag":"","gets":[]}];
+const LINKS = [[0,1],[1,2],[3,4],[3,6],[4,5],[5,6],[5,8],[6,7],[7,8],[7,10],[8,9],[9,10],[11,12],[11,14],[12,13],[13,14],[13,16],[14,15],[15,16],[15,18],[16,17],[17,18],[19,20],[19,22],[20,21],[21,22],[23,24],[24,25],[26,27],[26,29],[27,28],[28,29],[28,31],[29,30],[30,31],[30,33],[31,32],[32,33],[33,34],[35,36],[35,38],[36,37],[37,38],[38,39],[40,41],[40,43],[41,42],[42,43],[42,45],[43,44],[44,45],[46,0],[46,23]];
+const SVL = [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0],[8,0],[8,4],[8,6]];
+const CASES = [
+  { client:'Omatek', body:'Company email moved and set up on D’Matek Cloud, alongside the website revamp built by D’Foundry.', tags:'EMAIL · DOMAINS & DNS · WITH D’FOUNDRY', img:'c3-case-omatek', imgHint:'Omatek website or email setup' },
+  { client:'Valour and Valiant', body:'Business email and hosting set up on D’Matek Cloud for the new website built by D’Foundry.', tags:'EMAIL · WEB HOSTING · WITH D’FOUNDRY', img:'c3-case-vv', imgHint:'Valour and Valiant website' }
+];
+const DRILL = ['Locate last night’s snapshot','Spin up an isolated restore environment','Restore files and database','Verify checksums and open the app','Report sent to your team'];
+const vec = ([la,lo]) => { const a = la*Math.PI/180, b = lo*Math.PI/180; return [Math.cos(a)*Math.sin(b), -Math.sin(a), Math.cos(a)*Math.cos(b)]; };
+const itemsFor = (i) => {
+  const s = SV[i], out = [];
+  if (s.cases) CASES.forEach((c,k) => out.push({ kind:'case', code:'CASE 0' + (k+1), title:c.client, k }));
+  (s.gets || []).forEach((g,k) => out.push({ kind:'get', code:'INCLUDED 0' + (k+1), title:g }));
+  if (s.status) out.push({ kind:'status', code:'LIVE', title:'Live status', live:1 });
+  if (s.domain) out.push({ kind:'domain', code:'TRY IT', title:'Find your domain', live:1 });
+  if (s.drill) out.push({ kind:'drill', code:'TRY IT', title:'Run a restore drill', live:1 });
+  out.push({ kind:'contact', code:'NEXT STEP', title:'Talk to an engineer', live:1 });
+  return out;
+};
+
+class Component extends DCLogic {
+  state = { bk:0, bkp:0, focus:-1, list:false, mode:'home', svc:-1, panel:null, sound:false, domain:'', checked:'', sent:false, narrow:false };
+  componentDidMount(){
+    this._r = () => this.setState({ narrow: window.innerWidth < 760 }); this._r(); window.addEventListener('resize', this._r);
+    if (/[?&]embed=1/.test(location.search)) { const st = document.createElement('style'); st.textContent = '[data-c3="brand"],[data-c3="site"]{display:none!important}'; document.head.appendChild(st); }
+    this.engine();
+  }
+  componentWillUnmount(){ window.removeEventListener('resize', this._r); if (window.__c3) window.__c3(); if (window.__c2) window.__c2(); }
+  enterSvc(i, from){
+    const S = window.__c3S; if (!S || S.busy) return;
+    if (SV[i].contact) { this.openPanel({ kind:'contact', svc:i }, from); return; }
+    S.busy = true; S.warpFrom = S.mode; S.target = i; S.warpT0 = performance.now(); S.mode = 'warp';
+    if (S.A) S.A.whoosh();
+    this.setState({ mode:'warp', panel:null });
+    setTimeout(() => { S.mode = 'inside'; S.svc = i; S.busy = false; this.setState({ mode:'inside', svc:i, focus:-1, list:false }, () => { this.net2(); const l = document.querySelector('[data-c3="inside"]'); if (l && l.animate) l.animate([{opacity:0},{opacity:1}], {duration:500, easing:'ease-out'}); }); }, 1150);
+  }
+  backHome(){
+    const S = window.__c3S; if (!S) return;
+    if (window.__c2) window.__c2();
+    S.mode = 'home'; S.svc = -1; S.returnT0 = performance.now(); S.hover = -1;
+    if (S.A) S.A.blip(520, .18, .04);
+    this.setState({ mode:'home', svc:-1, panel:null, focus:-1, list:false });
+  }
+  openPanel(pnl, ev){
+    const S = window.__c3S;
+    const x = ev && ev.clientX != null ? ev.clientX : innerWidth/2, y = ev && ev.clientY != null ? ev.clientY : innerHeight/2;
+    if (S && S.A) S.A.chime();
+    this.setState({ panel:pnl });
+    setTimeout(() => { const h = document.querySelector('[data-c3="holo"]'); if (h && h.animate) h.animate([{clipPath:'circle(0px at ' + x + 'px ' + y + 'px)'},{clipPath:'circle(150% at ' + x + 'px ' + y + 'px)'}], {duration:750, easing:'cubic-bezier(.7,0,.2,1)', fill:'backwards'}); }, 16);
+  }
+  closePanel(){
+    const h = document.querySelector('[data-c3="holo"]');
+    const S = window.__c3S; if (S && S.A) S.A.blip(440, .12, .035);
+    if (h && h.animate) { const a = h.animate([{opacity:1, transform:'scale(1)'},{opacity:0, transform:'scale(1.03)'}], {duration:280, easing:'ease-in', fill:'forwards'}); a.onfinish = () => this.setState({ panel:null }); setTimeout(() => { if (this.state.panel) this.setState({ panel:null }); }, 400); }
+    else this.setState({ panel:null });
+  }
+
+  go2(i){
+    const S = window.__c2S || (window.__c2S = {});
+    S.focus = i; S.flash = performance.now();
+    this.setState({focus:i, list:false});
+    setTimeout(() => { const p = document.querySelector('[data-cl="panel"]'); if (p && p.animate) p.animate([{transform:'translateX(48px)',opacity:0},{transform:'none',opacity:1}], {duration:650, delay:380, easing:'cubic-bezier(.2,.7,.2,1)', fill:'backwards'}); }, 20);
+  }
+  shut2(){ const S = window.__c2S || (window.__c2S = {}); S.focus = -1; this.setState({focus:-1}); }
+  net2(){
+    if (window.__c2) window.__c2();
+    const S = window.__c2S = { focus:-1, hover:-1, flash:0 };
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const cv = document.querySelector('[data-cl="net"]'); if (!cv) return;
+    const ctx = cv.getContext('2d');
+    let W = 0, H = 0, dpr = 1;
+    const resize = () => { dpr = Math.min(2, window.devicePixelRatio || 1); W = cv.clientWidth; H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr,0,0,dpr,0,0); };
+    resize(); window.addEventListener('resize', resize);
+    let seed = 11; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const pts = [];
+    for (let i = 0; i < 170; i++) pts.push([(rnd()-.5)*3.6, (rnd()-.5)*2.6, (rnd()-.5)*2.2]);
+    const svc = N2.map(n => n.pos);
+    const all = pts.concat(svc), base = pts.length;
+    const grp = this.state.svc, mem = N2.map(n => n.g === grp || !!n.alt), gm = N2.filter(n => n.g === grp), GC = gm.length ? [0,1,2].map(k => gm.reduce((t,n) => t + n.pos[k], 0)/gm.length) : [0,0,0];
+    const edges = [];
+    const d2 = (a,b) => (a[0]-b[0])**2 + (a[1]-b[1])**2 + (a[2]-b[2])**2;
+    all.forEach((p,i) => { const near = all.map((q,j) => [j, d2(p,q)]).filter(x => x[0] !== i).sort((a,b) => a[1]-b[1]).slice(0, i >= base ? 4 : 2); near.forEach(([j]) => { if (!edges.some(e => (e[0]===i&&e[1]===j)||(e[0]===j&&e[1]===i))) edges.push([i,j,0]); }); });
+    LINKS.forEach(([a,b]) => edges.push([base+a, base+b, 1]));
+    const pk = []; for (let i = 0; i < 70; i++) pk.push({ e: Math.floor(rnd()*edges.length), t: rnd(), v: .004 + rnd()*.008 });
+    const cam = { x:0, y:0, z:0, zoom:1, off:0, yaw:0, pitch:0 };
+    let drift = 0, mx = .5, my = .5;
+    const onMove = e => { mx = e.clientX / innerWidth; my = e.clientY / innerHeight; };
+    window.addEventListener('mousemove', onMove, {passive:true});
+    const onKey = e => {
+      if (e.key === 'Escape' && !this.state.panel) { if (S.focus >= 0) this.shut2(); else this.backHome(); }
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { const ids = N2.map((n,i) => i).filter(i => mem[i]), cur = ids.indexOf(S.focus), rt = e.key === 'ArrowRight'; this.go2(ids[cur < 0 ? (rt ? 0 : ids.length - 1) : (cur + (rt ? 1 : -1) + ids.length) % ids.length]); }
+    };
+    window.addEventListener('keydown', onKey);
+    const P = new Array(all.length);
+    const proj = (p, o) => {
+      let x = p[0]-cam.x, y = p[1]-cam.y, z = p[2]-cam.z;
+      const cy = Math.cos(cam.yaw), sy = Math.sin(cam.yaw); const x2 = x*cy - z*sy; z = x*sy + z*cy; x = x2;
+      const cp = Math.cos(cam.pitch), sp = Math.sin(cam.pitch); const y2 = y*cp - z*sp; z = y*sp + z*cp; y = y2;
+      z *= cam.zoom; const den = 2.6 - z; if (den < .25) { o.v = false; return o; }
+      const s = 2.6 / den * cam.zoom;
+      o.X = W/2 + cam.off + x * s * W * .3; o.Y = H/2 + y * s * H * .34; o.s = s; o.z = z; o.v = true; return o;
+    };
+    for (let i = 0; i < all.length; i++) P[i] = {};
+    const domNodes = () => Array.from(document.querySelectorAll('[data-cl="node"]'));
+    let dn = domNodes(), lastScan = 0, lastMs = 0, raf = 0;
+    const frame = (now) => {
+      if (W === 0 || H === 0 || cv.width !== Math.round(cv.clientWidth * dpr) || cv.height !== Math.round(cv.clientHeight * dpr)) resize();
+      if (W === 0 || H === 0) return;
+      const f = S.focus;
+      if (!reduce) drift = Math.sin(now / 9000) * .22;
+      const tgt = f >= 0 ? N2[f].pos : GC;
+      const k = .055;
+      cam.x += (tgt[0]-cam.x)*k; cam.y += (tgt[1]-cam.y)*k; cam.z += (tgt[2]-cam.z)*k;
+      cam.zoom += ((f >= 0 ? 2.4 : 1.15) - cam.zoom)*k;
+      cam.off += ((f >= 0 && W > 900 ? -W*.2 : 0) - cam.off)*k;
+      cam.yaw += ((drift + (mx-.5)*.5) - cam.yaw)*.05; cam.pitch += (((my-.5)*.3) - cam.pitch)*.05;
+      ctx.clearRect(0,0,W,H);
+      for (let i = 0; i < all.length; i++) proj(all[i], P[i]);
+      const hv = S.hover;
+      for (const [a,b,svcE] of edges) {
+        const A = P[a], B = P[b]; if (!A.v || !B.v) continue;
+        if (svcE && !(mem[a-base] && mem[b-base])) continue;
+        const depth = Math.max(0, Math.min(1, (A.s + B.s) / 2 / 1.6));
+        let hot = svcE && (f >= 0 || hv >= 0) && (a === base + (f >= 0 ? f : hv) || b === base + (f >= 0 ? f : hv));
+        ctx.strokeStyle = svcE ? 'rgba(212,166,55,' + (hot ? .85 : .28*depth + .08).toFixed(3) + ')' : 'rgba(40,112,90,' + (.32*depth + .05).toFixed(3) + ')';
+        ctx.lineWidth = svcE ? (hot ? 1.8 : 1) : .7;
+        ctx.beginPath(); ctx.moveTo(A.X, A.Y); ctx.lineTo(B.X, B.Y); ctx.stroke();
+      }
+      for (let i = 0; i < base; i++) { const A = P[i]; if (!A.v) continue; const r = Math.max(.6, 1.6*A.s); ctx.fillStyle = 'rgba(169,187,179,' + Math.min(.9, .25 + .35*A.s).toFixed(3) + ')'; ctx.beginPath(); ctx.arc(A.X, A.Y, r, 0, 6.283); ctx.fill(); }
+      ctx.fillStyle = '#FFF3C9';
+      for (const q of pk) {
+        if (!reduce) { q.t += q.v; if (q.t > 1) { q.t = 0; q.e = Math.floor(Math.random()*edges.length); } }
+        const [a,b] = edges[q.e], A = P[a], B = P[b]; if (!A.v || !B.v) continue;
+        const X = A.X + (B.X-A.X)*q.t, Y = A.Y + (B.Y-A.Y)*q.t, r = Math.max(.8, 1.8*(A.s+B.s)/2);
+        ctx.globalAlpha = .9; ctx.shadowColor = '#D4A637'; ctx.shadowBlur = 10; ctx.beginPath(); ctx.arc(X, Y, r, 0, 6.283); ctx.fill();
+      }
+      ctx.globalAlpha = 1; ctx.shadowBlur = 0;
+      for (let i = 0; i < N2.length; i++) {
+        const A = P[base+i]; if (!A.v || !mem[i]) continue;
+        const ph = (now/1000 + i*.37) % 2 / 2;
+        ctx.strokeStyle = 'rgba(212,166,55,' + ((1-ph)*.5).toFixed(3) + ')'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.arc(A.X, A.Y, 10 + ph*26*Math.min(1.6,A.s), 0, 6.283); ctx.stroke();
+      }
+      if (f >= 0) { const A = P[base+f], age = (now - S.flash) / 900; if (A.v && age < 1) { ctx.strokeStyle = 'rgba(255,243,201,' + (1-age).toFixed(3) + ')'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(A.X, A.Y, 20 + age*Math.max(W,H)*.5, 0, 6.283); ctx.stroke(); } }
+      if (now - lastScan > 800) { dn = domNodes(); lastScan = now; }
+      dn.forEach(el => {
+        const i = +el.getAttribute('data-i'), A = P[base+i];
+        if (!A || !A.v) { el.style.opacity = '0'; el.style.pointerEvents = 'none'; return; }
+        const sc = Math.max(.7, Math.min(1.5, A.s));
+        el.style.left = '0'; el.style.top = '0';
+        if (!el.__w) el.__w = el.offsetWidth || 180;
+        const flip = A.X + (el.__w - 16) * sc > W - 16;
+        el.style.flexDirection = flip ? 'row-reverse' : 'row';
+        const ox = flip ? el.__w - 16 : 16;
+        el.style.transform = 'translate(' + (A.X - ox).toFixed(1) + 'px,' + (A.Y - 24).toFixed(1) + 'px) scale(' + sc.toFixed(3) + ')';
+        el.style.transformOrigin = ox + 'px 24px';
+        const dim = f >= 0 && i !== f ? .35 : 1;
+        el.style.opacity = String(Math.min(1, .35 + .5*A.s) * dim);
+        el.style.zIndex = String(5 + Math.round(A.s*10));
+        el.style.pointerEvents = 'auto';
+      });
+      const co = document.querySelector('[data-cl="coords"]'); if (co) co.textContent = 'X ' + cam.x.toFixed(2) + ' · Y ' + cam.y.toFixed(2) + ' · Z ' + cam.z.toFixed(2) + ' · ZOOM ' + cam.zoom.toFixed(1) + (f >= 0 ? ' · NODE ' + N2[f].code : '');
+      const beat = document.querySelector('[data-cl="beat"]'); if (beat) beat.style.boxShadow = '0 0 0 ' + (3 + Math.sin(now/300)*2.5).toFixed(1) + 'px rgba(123,216,143,.2)';
+      if (now - lastMs > 1100) { lastMs = now; document.querySelectorAll('[data-cl="ms"]').forEach(el => { const b = +el.getAttribute('data-base') || 20; el.textContent = String(Math.max(1, Math.round(b + (Math.random()-.5)*b*.35))); }); }
+    };
+    const loop = (now) => { raf = requestAnimationFrame(loop); frame(now); };
+    const kick = () => { resize(); frame(performance.now()); };
+    const k1 = setTimeout(kick, 0), k2 = setTimeout(kick, 300);
+    let ro = null; if ('ResizeObserver' in window) { ro = new ResizeObserver(kick); ro.observe(cv); }
+    raf = requestAnimationFrame(loop);
+    const timers = [];
+    window.__c2Drill = () => {
+      timers.forEach(t => { clearTimeout(t); clearInterval(t); }); timers.length = 0;
+      const steps = Array.from(document.querySelectorAll('[data-cl="step"]')), ticks = Array.from(document.querySelectorAll('[data-cl="tick"]'));
+      const bar = document.querySelector('[data-cl="bar"]'), clock = document.querySelector('[data-cl="clock"]'), done = document.querySelector('[data-cl="done"]');
+      steps.forEach((s,i) => { s.style.color = '#6F8A80'; ticks[i].textContent = ''; ticks[i].style.background = 'transparent'; });
+      if (bar) bar.style.width = '0%'; if (done) done.style.opacity = '0';
+      const t0 = Date.now();
+      const clk = setInterval(() => { const fr = Math.min(1, (Date.now()-t0)/(steps.length*900)); const sec = Math.round(fr*252); if (clock) clock.textContent = '00:' + String(Math.floor(sec/60)).padStart(2,'0') + ':' + String(sec%60).padStart(2,'0'); if (fr >= 1) clearInterval(clk); }, 60);
+      timers.push(clk);
+      steps.forEach((s,i) => {
+        timers.push(setTimeout(() => { s.style.color = '#F5F1E8'; ticks[i].textContent = '•'; ticks[i].style.color = '#D4A637'; ticks[i].style.borderColor = '#D4A637'; }, i*900));
+        timers.push(setTimeout(() => { ticks[i].textContent = '✓'; ticks[i].style.background = '#D4A637'; ticks[i].style.color = '#021A15'; if (bar) bar.style.width = ((i+1)/steps.length*100) + '%'; if (i === steps.length-1 && done) done.style.opacity = '1'; }, i*900 + 700));
+      });
+    };
+    window.__c2 = () => { cancelAnimationFrame(raf); clearTimeout(k1); clearTimeout(k2); if (ro) ro.disconnect(); window.removeEventListener('resize', resize); window.removeEventListener('mousemove', onMove); window.removeEventListener('keydown', onKey); timers.forEach(t => { clearTimeout(t); clearInterval(t); }); window.__c2 = null; };
+  }
+  engine(){
+    if (window.__c3) window.__c3();
+    const S = window.__c3S = { mode:'home', svc:-1, hover:-1, shover:-1, busy:false, items:0, rx:-.18, ry:.5, vx:0, vy:.0016, warpT0:0, worldT0:0, returnT0:0, target:-1 };
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const cv = document.querySelector('[data-c3="cv"]'); if (!cv) return;
+    const ctx = cv.getContext('2d');
+    let W = 0, H = 0, dpr = 1;
+    const resize = () => { dpr = Math.min(2, window.devicePixelRatio || 1); W = cv.clientWidth; H = cv.clientHeight; cv.width = Math.round(W*dpr); cv.height = Math.round(H*dpr); ctx.setTransform(dpr,0,0,dpr,0,0); };
+    // audio
+    const A = S.A = { on:false, ctx:null };
+    A.start = () => {
+      try {
+        if (!A.ctx) {
+          const C = A.ctx = new (window.AudioContext || window.webkitAudioContext)();
+          A.master = C.createGain(); A.master.gain.value = 0; A.master.connect(C.destination);
+          [[55,.035,'sine'],[55.6,.03,'sine'],[110.3,.012,'triangle']].forEach(([f,v,t]) => { const o = C.createOscillator(), g = C.createGain(); o.type = t; o.frequency.value = f; g.gain.value = v; o.connect(g); g.connect(A.master); o.start(); });
+          const buf = C.createBuffer(1, C.sampleRate*2, C.sampleRate), d = buf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random()*2-1; A.buf = buf;
+          const n = C.createBufferSource(); n.buffer = buf; n.loop = true; const lp = C.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 380; const ng = C.createGain(); ng.gain.value = .014; n.connect(lp); lp.connect(ng); ng.connect(A.master); n.start();
+        }
+        A.ctx.resume(); A.master.gain.setTargetAtTime(1, A.ctx.currentTime, .5); A.on = true;
+      } catch (e) {}
+    };
+    A.stop = () => { if (A.ctx) A.master.gain.setTargetAtTime(0, A.ctx.currentTime, .2); A.on = false; };
+    A.blip = (f = 880, d = .08, v = .04) => { if (!A.on) return; const C = A.ctx, o = C.createOscillator(), g = C.createGain(), t = C.currentTime; o.type = 'sine'; o.frequency.setValueAtTime(f, t); o.frequency.exponentialRampToValueAtTime(f*1.5, t+d); g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(.0001, t+d); o.connect(g); g.connect(A.master); o.start(t); o.stop(t+d+.03); };
+    A.whoosh = () => { if (!A.on) return; const C = A.ctx, n = C.createBufferSource(), t = C.currentTime; n.buffer = A.buf; const bp = C.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.value = 1.6; bp.frequency.setValueAtTime(180, t); bp.frequency.exponentialRampToValueAtTime(3200, t+.95); const g = C.createGain(); g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.3, t+.45); g.gain.exponentialRampToValueAtTime(.0001, t+1.15); n.connect(bp); bp.connect(g); g.connect(A.master); n.start(t); n.stop(t+1.2); };
+    A.chime = () => { A.blip(660, .25, .045); setTimeout(() => A.blip(990, .3, .035), 90); };
+    // sphere mesh
+    const fib = []; const NP = 230, ga = Math.PI*(3-Math.sqrt(5));
+    for (let i = 0; i < NP; i++) { const y = 1 - (i/(NP-1))*2, r = Math.sqrt(1-y*y), th = ga*i; fib.push([Math.cos(th)*r, y, Math.sin(th)*r]); }
+    const sv = SV.map(s => vec(s.ll)), all = fib.concat(sv), base = fib.length;
+    const d2 = (a,b) => (a[0]-b[0])**2 + (a[1]-b[1])**2 + (a[2]-b[2])**2;
+    const edges = [], seen = new Set();
+    all.forEach((p,i) => all.map((q,j) => [j, d2(p,q)]).filter(x => x[0] !== i).sort((a,b) => a[1]-b[1]).slice(0, i >= base ? 4 : 3).forEach(([j]) => { const k = i < j ? i + '-' + j : j + '-' + i; if (!seen.has(k)) { seen.add(k); edges.push([i,j,0]); } }));
+    SVL.forEach(([a,b]) => edges.push([base+a, base+b, 1]));
+    let sd = 7; const rnd = () => (sd = (sd*16807) % 2147483647) / 2147483647;
+    const pk = []; for (let i = 0; i < 80; i++) pk.push({ e: Math.floor(rnd()*edges.length), t: rnd(), v: .005 + rnd()*.01 });
+    const stars = []; for (let i = 0; i < 260; i++) stars.push({ a: rnd()*6.283, d: rnd(), s: .3 + rnd()*.7 });
+    const P = all.map(() => ({}));
+    // drag
+    let drag = null;
+    const onDown = e => { drag = { x:e.clientX, y:e.clientY }; cv.style.cursor = 'grabbing'; };
+    const onMoveP = e => { if (!drag || S.mode !== 'home') return; const dx = e.clientX - drag.x, dy = e.clientY - drag.y; drag.x = e.clientX; drag.y = e.clientY; S.vy = dx*.0009; S.vx = dy*.0009; S.ry += dx*.005; S.rx = Math.max(-1.1, Math.min(1.1, S.rx + dy*.005)); };
+    const onUp = () => { drag = null; cv.style.cursor = 'grab'; };
+    cv.addEventListener('pointerdown', onDown); window.addEventListener('pointermove', onMoveP); window.addEventListener('pointerup', onUp);
+    const onKey = e => { if (e.key === 'Escape') { if (this.state.panel) this.closePanel(); } };
+    window.addEventListener('keydown', onKey);
+    const geo = () => { const narrow = W < 760; const R = Math.min(W, H) * (narrow ? .36 : .36); return { cx: narrow ? W*.5 : W*.6, cy: narrow ? H*.34 : H*.5, R }; };
+    const proj = (p, o, g, sc, ox, oy) => {
+      const cy = Math.cos(S.ry), sy = Math.sin(S.ry), cx = Math.cos(S.rx), sx = Math.sin(S.rx);
+      const x1 = p[0]*cy + p[2]*sy, z1 = -p[0]*sy + p[2]*cy;
+      const y2 = p[1]*cx - z1*sx, z2 = p[1]*sx + z1*cx;
+      const pe = 3.2 / (3.2 - z2);
+      o.X = g.cx + ox + (x1*g.R*pe)*sc; o.Y = g.cy + oy + (y2*g.R*pe)*sc; o.z = z2; o.pe = pe; return o;
+    };
+    const ease = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;
+    let lastMs = 0, lastScan = 0, hn = [], sn = [];
+    const place = (el, X, Y, op, active) => {
+      el.style.left = '0'; el.style.top = '0';
+      el.style.transform = 'translate(' + X.toFixed(1) + 'px,' + Y.toFixed(1) + 'px)';
+      el.style.opacity = op.toFixed(3); el.style.pointerEvents = active ? 'auto' : 'none'; el.style.zIndex = String(6 + Math.round(op*10));
+      const tag = el.querySelector('[data-c3="tag"]'), ld = el.querySelector('[data-c3="leader"]');
+      if (tag) { if (!tag.__w) tag.__w = tag.offsetWidth || 200; const flip = X + 26 + tag.__w > W - 12; tag.style.left = flip ? 'auto' : '26px'; tag.style.right = flip ? '26px' : 'auto'; if (ld) ld.style.transform = flip ? 'rotate(-138deg)' : 'rotate(-42deg)'; }
+    };
+    const frame = (now) => {
+      if (W === 0 || H === 0 || cv.width !== Math.round(cv.clientWidth*dpr) || cv.height !== Math.round(cv.clientHeight*dpr)) resize();
+      if (W === 0 || H === 0) return;
+      const g = geo();
+      ctx.clearRect(0, 0, W, H);
+      if (now - lastScan > 700) { hn = Array.from(document.querySelectorAll('[data-c3="hnode"]')); sn = Array.from(document.querySelectorAll('[data-c3="snode"]')); lastScan = now; }
+      const mode = S.mode;
+      // ---------- stars (warp + world) ----------
+      let wp = 0; if (mode === 'warp') wp = Math.min(1, (now - S.warpT0) / 1150);
+      if (mode === 'warp' || mode === 'world') {
+        const speed = mode === 'warp' ? .004 + ease(wp)*.05 : .0012;
+        const cx0 = W/2, cy0 = H/2, M = Math.hypot(W, H)*.6;
+        ctx.lineCap = 'round';
+        for (const s of stars) {
+          if (!reduce) { s.d += speed*s.s*(.4 + s.d); if (s.d > 1) { s.d = .02; s.a = Math.random()*6.283; } }
+          const r1 = s.d*s.d*M, len = mode === 'warp' ? 4 + ease(wp)*120*s.d : 2 + 6*s.d;
+          const x1 = cx0 + Math.cos(s.a)*r1, y1 = cy0 + Math.sin(s.a)*r1, x2 = cx0 + Math.cos(s.a)*(r1 + len), y2 = cy0 + Math.sin(s.a)*(r1 + len);
+          ctx.strokeStyle = s.s > .8 ? 'rgba(61,255,168,' + (.25 + s.d*.6).toFixed(3) + ')' : 'rgba(232,194,92,' + (.18 + s.d*.55).toFixed(3) + ')';
+          ctx.lineWidth = .6 + s.d*1.6;
+          ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+        }
+      }
+      // ---------- sphere (home + warp-out + return) ----------
+      if (mode === 'home' || mode === 'warp') {
+        if (mode === 'home' && !drag && !reduce) { S.ry += S.vy; S.rx += S.vx; S.vy += (.0016 - S.vy)*.02; S.vx *= .94; S.rx += (-.18 - S.rx)*.004; }
+        let sc = 1, ox = 0, oy = 0, fade = 1;
+        if (mode === 'warp') { const e = ease(Math.min(1, wp/.7)); const T = P[base + S.target]; const tx = T.X != null ? T.X : g.cx, ty = T.Y != null ? T.Y : g.cy; sc = 1 + e*9; ox = -(tx - g.cx)*e*9 + (W/2 - tx)*e; oy = -(ty - g.cy)*e*9 + (H/2 - ty)*e; fade = 1 - Math.min(1, wp/.6); }
+        if (mode === 'home' && S.returnT0) { const e = Math.min(1, (now - S.returnT0)/900); sc = 3 - 2*ease(e); fade = ease(e); if (e >= 1) S.returnT0 = 0; }
+        for (let i = 0; i < all.length; i++) proj(all[i], P[i], g, sc, ox, oy);
+        ctx.globalCompositeOperation = 'lighter';
+        const hv = S.hover;
+        for (const [a,b,svcE] of edges) {
+          const Ap = P[a], Bp = P[b], zf = ((Ap.z + Bp.z)/2 + 1)/2;
+          const hot = svcE && hv >= 0 && (a === base+hv || b === base+hv);
+          if (svcE) { ctx.strokeStyle = 'rgba(61,255,168,' + ((hot ? .95 : .18 + zf*.45)*fade).toFixed(3) + ')'; ctx.lineWidth = hot ? 2 : 1.1; }
+          else { ctx.strokeStyle = 'rgba(212,166,55,' + ((.04 + zf*zf*.3)*fade).toFixed(3) + ')'; ctx.lineWidth = .7; }
+          ctx.beginPath(); ctx.moveTo(Ap.X, Ap.Y); ctx.lineTo(Bp.X, Bp.Y); ctx.stroke();
+        }
+        for (let i = 0; i < base; i++) { const Ap = P[i], zf = (Ap.z + 1)/2; ctx.fillStyle = 'rgba(232,194,92,' + ((.12 + zf*zf*.7)*fade).toFixed(3) + ')'; ctx.beginPath(); ctx.arc(Ap.X, Ap.Y, (.6 + zf*1.5)*Math.min(3, sc), 0, 6.283); ctx.fill(); }
+        for (const q of pk) {
+          if (!reduce) { q.t += q.v; if (q.t > 1) { q.t = 0; q.e = Math.floor(Math.random()*edges.length); } }
+          const [a,b] = edges[q.e], Ap = P[a], Bp = P[b], zf = ((Ap.z + Bp.z)/2 + 1)/2; if (zf < .35) continue;
+          ctx.fillStyle = 'rgba(61,255,168,' + (zf*.95*fade).toFixed(3) + ')';
+          ctx.beginPath(); ctx.arc(Ap.X + (Bp.X-Ap.X)*q.t, Ap.Y + (Bp.Y-Ap.Y)*q.t, 1 + zf*1.4, 0, 6.283); ctx.fill();
+        }
+        for (let i = 0; i < SV.length; i++) {
+          const Ap = P[base+i], zf = (Ap.z + 1)/2, ph = ((now/1000) + i*.31) % 1.8 / 1.8;
+          const gr = ctx.createRadialGradient(Ap.X, Ap.Y, 0, Ap.X, Ap.Y, 22*zf + 6);
+          gr.addColorStop(0, 'rgba(255,236,170,' + ((.4 + zf*.6)*fade).toFixed(3) + ')'); gr.addColorStop(1, 'rgba(212,166,55,0)');
+          ctx.fillStyle = gr; ctx.beginPath(); ctx.arc(Ap.X, Ap.Y, 22*zf + 6, 0, 6.283); ctx.fill();
+          ctx.fillStyle = 'rgba(255,244,210,' + ((.3 + zf*.7)*fade).toFixed(3) + ')'; ctx.beginPath(); ctx.arc(Ap.X, Ap.Y, 2.5 + zf*3, 0, 6.283); ctx.fill();
+          if (zf > .45) { ctx.strokeStyle = 'rgba(212,166,55,' + ((1-ph)*.6*zf*fade).toFixed(3) + ')'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(Ap.X, Ap.Y, 8 + ph*30, 0, 6.283); ctx.stroke(); }
+        }
+        ctx.globalCompositeOperation = 'source-over';
+        const kept = [];
+        hn.map(el => ({ el, i: +el.getAttribute('data-i') })).sort((a,b) => (a.i === S.hover ? -1 : b.i === S.hover ? 1 : P[base+b.i].z - P[base+a.i].z)).forEach(({el, i}) => {
+          const Ap = P[base+i]; if (!Ap || Ap.X == null) return;
+          const zf = (Ap.z + 1)/2, front = Ap.z > -.05, on = mode === 'home' && W >= 760;
+          place(el, Ap.X, Ap.Y, on ? (front ? Math.min(1, .25 + zf*.9)*fade : 0) : 0, on && front);
+          const tag = el.querySelector('[data-c3="tag"]'), ld = el.querySelector('[data-c3="leader"]');
+          if (!tag) return;
+          const tw = tag.__w || 200, th = tag.offsetHeight || 44, flip = tag.style.left === 'auto';
+          const rx0 = flip ? Ap.X - 26 - tw : Ap.X + 26, ry0 = Ap.Y - 58;
+          const hit = kept.some(k => rx0 < k.x + k.w + 6 && rx0 + tw + 6 > k.x && ry0 < k.y + k.h + 4 && ry0 + th + 4 > k.y);
+          const show = front && !hit;
+          tag.style.opacity = show ? '1' : '0'; if (ld) ld.style.opacity = show ? '1' : '0';
+          if (show) kept.push({ x:rx0, y:ry0, w:tw, h:th });
+        });
+      }
+      // ---------- service world ----------
+      if (mode === 'world') {
+        const n = S.items || 1, ci = Math.min(1, (now - S.worldT0)/900), e = ease(ci);
+        const cx0 = W >= 900 ? W*.62 : W*.5, cy0 = H*.52, Rx = Math.min(W*.3, 420)*e, Rz = 1, Ry = Math.min(H*.2, 170)*e;
+        ctx.globalCompositeOperation = 'lighter';
+        for (let r = 0; r < 4; r++) { const rr = (26 + r*20)*e; ctx.strokeStyle = 'rgba(212,166,55,' + (.55 - r*.11).toFixed(3) + ')'; ctx.lineWidth = r === 0 ? 2 : 1; ctx.setLineDash(r % 2 ? [4, 8] : []); ctx.lineDashOffset = -now/(40 + r*20); ctx.beginPath(); ctx.arc(cx0, cy0, rr, 0, 6.283); ctx.stroke(); }
+        ctx.setLineDash([]);
+        const cg = ctx.createRadialGradient(cx0, cy0, 0, cx0, cy0, 70*e + 1); cg.addColorStop(0, 'rgba(255,236,170,.95)'); cg.addColorStop(.25, 'rgba(212,166,55,.5)'); cg.addColorStop(1, 'rgba(212,166,55,0)');
+        ctx.fillStyle = cg; ctx.beginPath(); ctx.arc(cx0, cy0, 70*e + 1, 0, 6.283); ctx.fill();
+        ctx.strokeStyle = 'rgba(61,255,168,.18)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.ellipse(cx0, cy0, Rx + .01, Ry + .01, 0, 0, 6.283); ctx.stroke();
+        const pos = [];
+        for (let k = 0; k < n; k++) {
+          const a = k/n*6.283 + (reduce ? 0 : now*.00012) - 1.2;
+          const x = Math.cos(a)*Rx, zz = Math.sin(a), y = Math.sin(a)*Ry;
+          const pe = 2.4/(2.4 - zz*.6*Rz);
+          const X = cx0 + x*pe, Y = cy0 + y*pe; pos.push({ X, Y, zz });
+          const hot = S.shover === k;
+          ctx.strokeStyle = 'rgba(61,255,168,' + (hot ? .95 : .25 + (zz+1)*.2).toFixed(3) + ')'; ctx.lineWidth = hot ? 2 : 1;
+          ctx.beginPath(); ctx.moveTo(cx0, cy0); ctx.lineTo(X, Y); ctx.stroke();
+          const t = ((now/1400) + k*.23) % 1; ctx.fillStyle = 'rgba(166,255,214,.95)'; ctx.beginPath(); ctx.arc(cx0 + (X-cx0)*t, cy0 + (Y-cy0)*t, 2, 0, 6.283); ctx.fill();
+          const gr = ctx.createRadialGradient(X, Y, 0, X, Y, 18); gr.addColorStop(0, 'rgba(166,255,214,.9)'); gr.addColorStop(1, 'rgba(61,255,168,0)');
+          ctx.fillStyle = gr; ctx.beginPath(); ctx.arc(X, Y, 18*pe, 0, 6.283); ctx.fill();
+        }
+        ctx.globalCompositeOperation = 'source-over';
+        sn.forEach(el => { const k = +el.getAttribute('data-i'), q = pos[k]; if (!q) return; place(el, q.X, q.Y, Math.min(1, e*(.55 + (q.zz+1)*.25)), ci > .6); });
+      }
+      const hud = document.querySelector('[data-c3="hud"]');
+      if (hud) hud.textContent = (mode === 'inside' ? 'INSIDE D’MATEK CLOUD' : mode === 'world' ? 'INSIDE ' + SV[S.svc].code : mode === 'warp' ? 'TRAVELLING ' + (wp*100).toFixed(0) + '%' : 'SECTOR ' + String(Math.abs(Math.round(S.ry*57.3)) % 360).padStart(3,'0')) + ' · ROT ' + S.rx.toFixed(2) + ' / ' + (S.ry % 6.283).toFixed(2) + ' · ' + all.length + ' NODES';
+      const eq = document.querySelector('[data-c3="eq"]'); if (eq && A.on) Array.from(eq.children).forEach((b,i) => { b.style.height = (30 + Math.abs(Math.sin(now/(180 + i*70)))*70).toFixed(0) + '%'; });
+      if (now - lastMs > 1100) { lastMs = now; document.querySelectorAll('[data-c3="ms"]').forEach(el => { const b = +el.getAttribute('data-base') || 20; el.textContent = String(Math.max(1, Math.round(b + (Math.random()-.5)*b*.35))); }); }
+    };
+    let raf = 0;
+    const loop = (now) => { raf = requestAnimationFrame(loop); try { frame(now); } catch (e) {} };
+    const kick = () => { resize(); try { frame(performance.now()); } catch (e) {} };
+    const k1 = setTimeout(kick, 0), k2 = setTimeout(kick, 300);
+    let ro = null; if ('ResizeObserver' in window) { ro = new ResizeObserver(kick); ro.observe(cv); }
+    raf = requestAnimationFrame(loop);
+    const timers = [];
+    window.__c3Drill = () => {
+      timers.forEach(t => { clearTimeout(t); clearInterval(t); }); timers.length = 0;
+      const steps = Array.from(document.querySelectorAll('[data-c3="step"]')), ticks = Array.from(document.querySelectorAll('[data-c3="tick"]'));
+      const bar = document.querySelector('[data-c3="bar"]'), clock = document.querySelector('[data-c3="clock"]'), done = document.querySelector('[data-c3="done"]');
+      steps.forEach((s,i) => { s.style.color = '#56646A'; ticks[i].textContent = ''; ticks[i].style.background = 'transparent'; });
+      if (bar) bar.style.width = '0%'; if (done) done.style.opacity = '0';
+      const t0 = Date.now();
+      const clk = setInterval(() => { const fr = Math.min(1, (Date.now()-t0)/(steps.length*900)); const sec = Math.round(fr*252); if (clock) clock.textContent = '00:' + String(Math.floor(sec/60)).padStart(2,'0') + ':' + String(sec%60).padStart(2,'0'); if (fr >= 1) clearInterval(clk); }, 60);
+      timers.push(clk);
+      steps.forEach((s,i) => {
+        timers.push(setTimeout(() => { s.style.color = '#F5F1E8'; ticks[i].textContent = '•'; ticks[i].style.color = '#3DFFA8'; ticks[i].style.borderColor = '#3DFFA8'; A.blip(700 + i*80, .06, .03); }, i*900));
+        timers.push(setTimeout(() => { ticks[i].textContent = '✓'; ticks[i].style.background = '#D4A637'; ticks[i].style.color = '#030405'; if (bar) bar.style.width = ((i+1)/steps.length*100) + '%'; if (i === steps.length-1) { if (done) done.style.opacity = '1'; A.chime(); } }, i*900 + 700));
+      });
+    };
+    window.__c3 = () => { cancelAnimationFrame(raf); clearTimeout(k1); clearTimeout(k2); if (ro) ro.disconnect(); cv.removeEventListener('pointerdown', onDown); window.removeEventListener('pointermove', onMoveP); window.removeEventListener('pointerup', onUp); window.removeEventListener('keydown', onKey); timers.forEach(t => { clearTimeout(t); clearInterval(t); }); if (A.ctx) try { A.ctx.close(); } catch (e) {} window.__c3 = null; };
+  }
+  bkStart(){ clearInterval(this._bkt); this.setState({ bk:2, bkp:0 }); this._bkt = setInterval(() => { const p = this.state.bkp + 4; if (p >= 100) { clearInterval(this._bkt); this.setState({ bk:3, bkp:100 }); } else this.setState({ bkp:p }); }, 70); }
+  renderVals(){
+    const s = this.state, S = () => window.__c3S;
+    const linksOf = i => SVL.filter(l => l.includes(i)).map(l => l[0] === i ? l[1] : l[0]);
+    const nodes = SV.map((n,i) => { const v = vec(n.ll); return {
+      i, pulseO: i === 0 ? 1 : 0, code:n.code, num:String(i+1).padStart(2,'0'), title:n.title,
+      left: (60 + v[0]*22).toFixed(1) + '%', top: (50 + v[1]*30).toFixed(1) + '%',
+      open: (e) => { e && e.stopPropagation && e.stopPropagation(); this.enterSvc(i, e); },
+      openMobile: (e) => this.openPanel({ kind:'service', svc:i }, e),
+      hover: () => { const x = S(); if (x) { x.hover = i; if (x.A) x.A.blip(1200, .05, .02); } },
+      unhover: () => { const x = S(); if (x) x.hover = -1; }
+    }; });
+    const sv = s.svc >= 0 ? SV[s.svc] : null;
+    const items = sv ? itemsFor(s.svc).map((it,k) => ({
+      i:k, code:it.code, title:it.title,
+      tint: it.live ? 'rgba(212,166,55,.16)' : 'rgba(61,255,168,.12)', edge: it.live ? 'rgba(212,166,55,.55)' : 'rgba(61,255,168,.38)', codeInk: it.live ? '#D4A637' : '#3DFFA8',
+      open: (e) => this.openPanel({ ...it, svc:s.svc }, e),
+      hover: () => { const x = S(); if (x) { x.shover = k; if (x.A) x.A.blip(1400, .04, .018); } }
+    })) : [];
+    const pn = s.panel, ps = pn ? SV[pn.svc] : null;
+    let p = { path:'', title:'', line:'', gets:[], cases:[] };
+    if (pn && ps) {
+      const base = { path:'D’MATEK CLOUD / ' + ps.code + ' / ' + (pn.code || (pn.kind === 'service' ? 'OVERVIEW' : 'CONTACT')), hasProblem:false, hasGets:false, gets:[], isStatus:false, isDomain:false, isDrill:false, isCases:false, cases:[], isContact:false, showCta:true };
+      if (pn.kind === 'service') {
+        p = { ...base, title:ps.title, line:ps.line, hasProblem:!!ps.problem, problem:ps.problem || '', hasGets:!!ps.gets, gets:(ps.gets || []).map((t,k) => ({ t, code:'INCLUDED 0' + (k+1) })), isStatus:!!ps.status, isDomain:!!ps.domain, isDrill:!!ps.drill, isCases:!!ps.cases, cases:ps.cases ? CASES : [], isContact:!!ps.contact, showCta:!ps.contact };
+      } else if (pn.kind === 'get') {
+        p = { ...base, title:pn.title, line:ps.line, hasProblem:!!ps.problem, problem:ps.problem || '' };
+      } else if (pn.kind === 'case') {
+        const c = CASES[pn.k]; p = { ...base, title:c.client, line:c.body, isCases:true, cases:[c] };
+      } else if (pn.kind === 'status') { p = { ...base, title:'Live status', line:'What we watch on your behalf, every minute of the day.', isStatus:true };
+      } else if (pn.kind === 'domain') { p = { ...base, title:'Find your domain', line:'Type your business name. We register it, point it and set up your email.', isDomain:true };
+      } else if (pn.kind === 'drill') { p = { ...base, title:'Run a restore drill', line:'Backup tested, not assumed. This is what a drill looks like.', isDrill:true };
+      } else if (pn.kind === 'contact') { p = { ...base, title: ps.contact ? 'Talk to us' : 'Talk to an engineer about ' + ps.title.toLowerCase(), line:'Tell us what you use today. We’ll book a free review with an engineer.', isContact:true, showCta:false }; }
+    }
+    const hash = (str) => { let x = 7; for (const c of str) x = (x*31 + c.charCodeAt(0)) % 9973; return x; };
+    const b = (s.checked || '').toLowerCase().replace(/[^a-z0-9-]/g,'');
+    const results = b ? ['.com.ng','.ng','.com','.africa'].map(t => { const free = hash(b + t) % 3 !== 0; return { name:b + t, label: free ? 'AVAILABLE' : 'TAKEN', ink: free ? '#3DFFA8' : '#56646A' }; }) : [];
+    const f2 = s.focus, F = f2 >= 0 ? N2[f2] : null, lk = i => LINKS.filter(l => l.includes(i)).map(l => l[0] === i ? l[1] : l[0]);
+    const vnodes = N2.map((n,i) => ({ i, grp:n.g, alt:!!n.alt, i, pulseO: i === 0 ? 1 : 0, code:n.code, title:n.title, line:n.line, left:(50 + n.pos[0]*30).toFixed(1) + '%', top:(50 + n.pos[1]*34).toFixed(1) + '%', core:n.alt ? '#F5F1E8' : n.st === 'Future' ? '#8C9A9E' : n.st === 'In Development' ? '#F2C879' : '#D4A637', halo:n.alt ? 'rgba(245,241,232,.14)' : n.st === 'Future' ? 'rgba(140,154,158,.14)' : 'rgba(212,166,55,.16)', glow:n.alt ? 'rgba(245,241,232,.45)' : n.st === 'Future' ? 'rgba(140,154,158,.4)' : 'rgba(212,166,55,.6)', codeInk:n.alt ? '#F5F1E8' : n.st === 'Future' ? '#8C9A9E' : n.st === 'In Development' ? '#F2C879' : '#D4A637', line:i === f2 ? '#D4A637' : 'rgba(40,112,90,.7)', open:() => this.go2(i), hover:() => { if (window.__c2S) window.__c2S.hover = i; }, unhover:() => { if (window.__c2S) window.__c2S.hover = -1; } })).filter(v => v.grp === s.svc || v.alt);
+    const vnode = F ? { n:String(f2+1).padStart(2,'0'), code:F.code, title:F.full || F.title, tag:F.tag || '', hasTag:!!F.tag, line:F.line, short:F.short, hasProblem:!!F.problem, problem:F.problem || '', hasGets:!!(F.gets && F.gets.length), gets:F.gets || [], isDomain:!!F.domain, isBackup:!!F.backup, isStatus:!!F.status, isWork:!!F.work, isContact:!!F.contact, showCta:!F.contact, links:lk(f2).map(j => ({ title:N2[j].title, go:() => this.go2(j) })) } : { links:[], gets:[] };
+    return {
+      vnodes, vnode, vopen:f2 >= 0, vintroO:f2 >= 0 || s.list ? 0 : 1, vclose:() => this.shut2(), vopenContact:() => this.go2(N2.length - 1), cases:CASES, listOpen:s.list, listLabel:s.list ? 'CLOSE LIST ×' : 'LIST VIEW', toggleList:() => this.setState(st => ({ list:!st.list })),
+      nodes, items,
+      showHome: s.mode !== 'inside', homeO: s.mode === 'home' ? 1 : 0,
+      showInside: s.mode === 'inside',
+      narrow: s.narrow && s.mode === 'home',
+      svc: sv ? { num:String(s.svc+1).padStart(2,'0'), code:sv.code, title:sv.title, line:sv.line, links: linksOf(s.svc).map(j => ({ code:SV[j].code, title:SV[j].title, go:() => { this.backHomeQuiet(); setTimeout(() => this.enterSvc(j), 60); } })) } : { links:[] },
+      back: (e) => { if (e && e.preventDefault) e.preventDefault(); if (s.mode === 'inside') this.backHome(); },
+      heroDisp: s.narrow ? 'none' : 'block',
+      bkFiles: [['Payroll 2026.xlsx','48 KB'],['Client contracts.pdf','2.1 MB'],['Sales report.docx','312 KB'],['Staff list.csv','9 KB']].map(([name,size],i) => { const gone = i === 0 && (s.bk === 1); const back = i === 0 && s.bk === 3; return { name, note: gone ? 'DELETED' : back ? 'RESTORED AND CHECKED' : (i === 0 && s.bk === 2 ? 'RESTORING…' : size), op: gone ? 0.35 : 1, dec: gone ? 'line-through' : 'none', dot: gone ? '#B3261E' : back ? '#1D8C61' : '#28705A', bg: back ? 'rgba(29,140,97,0.14)' : (gone ? 'rgba(179,38,30,0.08)' : 'transparent') }; }),
+      bkStat: s.bk === 1 ? 'FILE MISSING' : s.bk === 2 ? 'RESTORING' : s.bk === 3 ? 'ALL FILES PRESENT' : 'ALL FILES PRESENT', bkStatCol: s.bk === 1 ? '#B3261E' : '#1D8C61',
+      bkShowPts: s.bk === 1, bkShowBar: s.bk === 2, bkPct: s.bkp, bkBarLabel: 'RESTORING FROM LAST NIGHT’S BACKUP, THEN CHECKING IT…',
+      bkPts: [['Last night, 02:00','VERIFIED'],['Two nights ago, 02:00','VERIFIED'],['Last week, Sunday 02:00','VERIFIED']].map(([label,tag],i) => ({ label, tag, edge: i === 0 ? '#D4A637' : 'rgba(245,241,232,0.2)', pick: () => this.bkStart() })),
+      bkLabel: s.bk === 0 ? 'Delete the payroll file' : s.bk === 1 ? 'Choose a restore point below' : s.bk === 2 ? 'Restoring…' : 'Done',
+      bkAction: () => { if (this.state.bk === 0) this.setState({ bk:1 }); },
+      bkCanReset: s.bk === 3, bkReset: () => { clearInterval(this._bkt); this.setState({ bk:0, bkp:0 }); },
+      bkMsg: s.bk === 0 ? 'Someone deletes the payroll file by mistake. It happens in every business. Press the button to see what happens next.' : s.bk === 1 ? 'The file is gone. Pick a restore point. Every one of them has been tested.' : s.bk === 2 ? 'The backup is being restored, then checked against the original.' : 'Back, and checked. We test restores before you ever need one, so you know the backup works.',
+      hint: s.mode === 'inside' ? '' : 'DRAG TO TURN · CLICK A LIGHT TO ENTER',
+      panelOpen: !!pn, p, closePanel: () => this.closePanel(),
+      openContact: (e) => this.openPanel({ kind:'contact', svc: s.svc >= 0 && !SV[s.svc].contact ? s.svc : 9 }, e),
+      soundLabel: s.sound ? 'SOUND ON' : 'SOUND OFF', soundInk: s.sound ? '#3DFFA8' : '#8C9A9E', soundEdge: s.sound ? 'rgba(61,255,168,.6)' : 'rgba(140,154,158,.35)',
+      toggleSound: () => { const x = S(); if (!x || !x.A) return; if (s.sound) x.A.stop(); else x.A.start(); this.setState({ sound:!s.sound }); },
+      domain: s.domain, onDomain: e => this.setState({ domain:e.target.value }),
+      onDomainKey: e => { if (e.key === 'Enter') this.setState(st => ({ checked:st.domain })); },
+      checkDomain: () => this.setState(st => ({ checked:st.domain || 'yourbusiness' })),
+      results, hasResults: results.length > 0,
+      drill: DRILL, runDrill: () => { if (window.__c3Drill) window.__c3Drill(); },
+      status: [{name:'Web hosting',base:18},{name:'Email',base:24},{name:'DNS',base:6},{name:'Backups',base:41}],
+      notSent: !s.sent, sent: s.sent, send: () => this.setState({ sent:true })
+    };
+  }
+  backHomeQuiet(){ const S = window.__c3S; if (!S) return; S.mode = 'home'; S.svc = -1; S.busy = false; this.setState({ mode:'home', svc:-1, panel:null }); }
+}
+</script>
+</body>
+</html>
