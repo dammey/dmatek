@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Eyebrow from "@/components/Eyebrow";
 import SignalRings from "@/components/SignalRings";
 import { insightTopics } from "@/lib/content";
@@ -8,7 +9,11 @@ export const metadata: Metadata = {
   description: "Practical guidance on connectivity, security, power, operations, and data and AI. Articles will be published here.",
 };
 
+// Hidden until 3+ posts exist (handoff v3.6 §Routing).
+const PUBLISHED = false;
+
 export default function InsightsPage() {
+  if (!PUBLISHED) notFound();
   return (
     <div>
       <section className="relative overflow-hidden bg-cream">

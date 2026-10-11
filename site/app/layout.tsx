@@ -22,7 +22,8 @@ const organizationJsonLd = {
   logo: `${siteUrl}/icon.png`,
   telephone: "+2347058071768",
   email: "hello@dmatek.ng",
-  address: { "@type": "PostalAddress", addressLocality: "Lagos", addressCountry: "NG" },
+  // Street address, RC number and social profiles are added only once
+  // D'Matek supplies them (handoff v3.6 §9).
 };
 
 export const metadata: Metadata = {
@@ -32,20 +33,20 @@ export const metadata: Metadata = {
     template: "%s | D’Matek Technology Limited",
   },
   description:
-    "A problem-solving company powered by technology. You can trust us. You won’t be alone. We’ll figure it out.",
+    "D’Matek designs, builds and runs the technology behind businesses, hotels, estates and homes in Lagos: networks, cloud, security, power and managed IT.",
   openGraph: {
     type: "website",
     siteName: "D’Matek Technology Limited",
     title: "D’Matek Technology Limited | Solving What Matters",
     description:
-      "A problem-solving company powered by technology. You can trust us. You won’t be alone. We’ll figure it out.",
+      "D’Matek designs, builds and runs the technology behind businesses, hotels, estates and homes in Lagos: networks, cloud, security, power and managed IT.",
     url: siteUrl,
   },
   twitter: {
     card: "summary_large_image",
     title: "D’Matek Technology Limited | Solving What Matters",
     description:
-      "A problem-solving company powered by technology. You can trust us. You won’t be alone. We’ll figure it out.",
+      "D’Matek designs, builds and runs the technology behind businesses, hotels, estates and homes in Lagos: networks, cloud, security, power and managed IT.",
   },
 };
 

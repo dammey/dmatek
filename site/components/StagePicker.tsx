@@ -78,9 +78,6 @@ export default function StagePicker() {
               <div className="absolute inset-0" style={{ background: "linear-gradient(180deg,rgba(6,56,46,0.20),rgba(4,48,40,0.78))" }} />
             </>
           )}
-          {!s.img && (
-            <p className="relative m-0 mb-3.5 text-[11px] font-bold tracking-[0.16em] text-gold">[ PHOTO &mdash; {s.photo} ]</p>
-          )}
           <p className="relative m-0 max-w-[16em] text-[clamp(20px,2.4vw,30px)] font-extrabold leading-[1.18] tracking-[-0.025em]">
             {s.outcome}
           </p>

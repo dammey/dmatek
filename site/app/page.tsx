@@ -329,11 +329,20 @@ export default function HomePage() {
               See our work &rarr;
             </Link>
           </Reveal>
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,280px),1fr))] gap-6.5">
-            {caseTeasers.map((c) => (
-              <WorkTeaserCard key={c.id} id={c.id} sector={c.sector} title={c.title} problem={c.problem} tenure={c.tenure} />
-            ))}
-          </div>
+          {caseTeasers.length ? (
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,280px),1fr))] gap-6.5">
+              {caseTeasers.map((c) => (
+                <WorkTeaserCard key={c.id} id={c.id} sector={c.sector} title={c.title} problem={c.problem} tenure={c.tenure} />
+              ))}
+            </div>
+          ) : (
+            <p className="m-0 max-w-[36em] text-[clamp(17px,1.7vw,20px)] leading-[1.7] text-ink">
+              Case studies are coming soon.{" "}
+              <Link href="/contact?message=I%E2%80%99d%20like%20to%20talk%20about%20similar%20work." className="font-bold text-forest underline decoration-gold underline-offset-4">
+                Talk to us about similar work &rarr;
+              </Link>
+            </p>
+          )}
         </div>
       </section>
 

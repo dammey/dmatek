@@ -52,8 +52,6 @@ export default function Footer() {
                 <a href="tel:+2347058071768" className="hover:text-progress">0705 807 1768</a>
                 <br />
                 <a href="mailto:hello@dmatek.ng" className="hover:text-progress">hello@dmatek.ng</a>
-                <br />
-                [ SOCIAL LINKS ]
               </p>
               <a href={D_SOURCE_URL} className="whitespace-nowrap py-0.5 text-[14px] font-medium text-charcoal hover:text-progress">
                 Shop D&rsquo;Source &rarr;

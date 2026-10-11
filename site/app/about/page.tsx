@@ -4,7 +4,9 @@ import { AdireBand } from "@dmatek/brand";
 import Eyebrow from "@/components/Eyebrow";
 import Reveal from "@/components/Reveal";
 import SignalRings from "@/components/SignalRings";
-import { quotes, stages, values } from "@/lib/content";
+import { quotes as allQuotes, stages, values } from "@/lib/content";
+
+const quotes = allQuotes.filter((q) => q.verified);
 import { siteConfig } from "@/lib/siteConfig";
 
 export const metadata: Metadata = {
@@ -60,23 +62,6 @@ export default function AboutPage() {
 
       <section className="bg-cream">
         <div className="mx-auto grid max-w-[1280px] grid-cols-[repeat(auto-fit,minmax(min(100%,300px),1fr))] items-center gap-9 px-5 pb-[clamp(56px,7vw,100px)] sm:gap-18 sm:px-8">
-          <Reveal
-            className="flex min-h-[320px] flex-col items-center justify-center gap-3 p-[clamp(28px,4vw,50px)] text-center"
-            style={{
-              background: "linear-gradient(150deg,#EFEADC,#E4DECC)",
-              borderRadius: "56% 44% 50% 50% / 48% 46% 54% 52%",
-              animation: "dm-drift 17s ease-in-out infinite",
-              boxShadow: "0 26px 60px rgba(6,56,46,0.10)",
-              aspectRatio: "4/5",
-            }}
-            role="img"
-            aria-label="Placeholder portrait of Damilola"
-          >
-            <p className="m-0 text-[11.5px] font-bold tracking-[0.16em] text-progress">[ PORTRAIT REQUIRED ]</p>
-            <p className="m-0 max-w-[20em] text-[15.5px] leading-[1.65] text-ink">
-              Damilola, warm light, on site or mid-conversation. Not a corporate headshot.
-            </p>
-          </Reveal>
           <Reveal>
             <Eyebrow>MEET DAMILOLA</Eyebrow>
             <h2 className="mb-5.5 text-[clamp(28px,3.6vw,50px)] font-extrabold leading-[1.05] tracking-[-0.03em] text-forest text-balance">
@@ -86,16 +71,11 @@ export default function AboutPage() {
               You don&rsquo;t get a ticket system. You get Damilola &mdash; in the first meeting, during
               the build, and after handover.
             </p>
-            <div className="rounded-[26px] px-6.5 py-5.5" style={{ background: "rgba(212,166,55,0.16)" }}>
-              <p className="m-0 text-[16.5px] font-medium leading-[1.7] text-forest">
-                [ ONE SHORT STORY TO BE ADDED &mdash; the time a customer&rsquo;s problem was fixed in
-                two hours before they thought to ask. ]
-              </p>
-            </div>
           </Reveal>
         </div>
       </section>
 
+      {quotes.length > 0 && (
       <section className="bg-cream">
         <div className="mx-auto max-w-[1280px] px-5 pb-[clamp(56px,7vw,100px)] sm:px-8">
           <Reveal className="mb-7.5 max-w-[36em] sm:mb-12">
@@ -145,6 +125,7 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+      )}
 
       <section className="bg-cream">
         <div id="how" className="mx-auto flex max-w-[1280px] scroll-mt-28 flex-col gap-6 px-5 pt-[clamp(28px,4vw,56px)] pb-[clamp(64px,7vw,110px)] sm:gap-8.5 sm:px-8">
@@ -189,11 +170,6 @@ export default function AboutPage() {
                     <Image src={s.img} alt={`${s.name} — ${s.photo}`} fill sizes="340px" className="object-cover" />
                     <div className="absolute inset-0" style={{ background: "linear-gradient(180deg,rgba(6,56,46,0.20),rgba(4,48,40,0.78))" }} />
                   </>
-                )}
-                {!s.img && (
-                  <p className="relative m-0 mb-3.5 text-[11px] font-bold tracking-[0.16em] text-gold">
-                    [ PHOTO &mdash; {s.photo} ]
-                  </p>
                 )}
                 <p className="relative m-0 max-w-[16em] text-[clamp(19px,2.3vw,28px)] font-extrabold leading-[1.18] tracking-[-0.025em]">
                   {s.outcome}

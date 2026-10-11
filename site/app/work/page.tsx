@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import CaseStudyCard from "@/components/CaseStudyCard";
 import Eyebrow from "@/components/Eyebrow";
 import SignalRings from "@/components/SignalRings";
-import { cases } from "@/lib/content";
+import Link from "next/link";
+import Reveal from "@/components/Reveal";
+import { approvedCases } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Work",
@@ -37,9 +39,21 @@ export default function WorkPage() {
 
       <section className="bg-cream">
         <div className="mx-auto flex max-w-[1280px] flex-col gap-9 px-5 pt-[clamp(28px,4vw,56px)] pb-[clamp(64px,7vw,110px)] sm:gap-12 sm:px-8">
-          {cases.map((c) => (
-            <CaseStudyCard key={c.id} study={c} />
-          ))}
+          {approvedCases.length ? approvedCases.map((c) => <CaseStudyCard key={c.id} study={c} />) : (
+          <Reveal
+            className="rounded-[clamp(26px,3.4vw,44px)] p-[clamp(28px,4vw,52px)]"
+            style={{ background: "linear-gradient(160deg,#EFEADC,#E8E2D0)" }}
+          >
+            <p className="mb-3 text-[11px] font-bold tracking-[0.16em] text-progress">COMING SOON</p>
+            <p className="mb-6 max-w-[34em] text-[clamp(17px,1.7vw,20px)] leading-[1.7] text-ink">
+              Case studies are coming soon. Each one will show the situation, what we assessed, the work, the result
+              and what happened afterwards.
+            </p>
+            <Link href="/contact?message=I%E2%80%99d%20like%20to%20discuss%20a%20similar%20project." className="inline-block rounded-full bg-gold px-7 py-4 text-[15px] font-bold text-forest transition-transform hover:-translate-y-1 hover:bg-forest hover:text-cream">
+              Discuss a similar project &rarr;
+            </Link>
+          </Reveal>
+          )}
         </div>
       </section>
     </div>

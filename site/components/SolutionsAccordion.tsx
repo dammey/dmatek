@@ -1,6 +1,5 @@
 "use client";
 
-import { PilotLabel } from "@dmatek/brand";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Reveal from "@/components/Reveal";
@@ -30,7 +29,7 @@ export default function SolutionsAccordion() {
     <div className="flex flex-col gap-3.5">
       {entryPoints.map((e, i) => {
         const open = openIndex === i;
-        const now = e.now.length ? e.now : ["Everything here is currently a pilot."];
+        const now = e.now;
         const contactHref = `/contact?topic=${encodeURIComponent(e.title)}`;
 
         let extra: { label: string; href: string } | null = null;
@@ -99,12 +98,6 @@ export default function SolutionsAccordion() {
                       ))}
                     </div>
                   </div>
-                  <PilotLabel
-                    items={e.pilot}
-                    href={`/contact?topic=${encodeURIComponent(e.title)}&pilot=${encodeURIComponent(e.pilot.join(", "))}`}
-                    tone="dark"
-                    compact
-                  />
                 </div>
                 <div className="flex flex-wrap gap-3">
                   <Link

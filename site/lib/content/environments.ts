@@ -280,3 +280,8 @@ export const packages: Record<string, { included: string; forWhom: string }> = {
     forWhom: "Individuals, families, estate residents",
   },
 };
+
+/** Environments with written copy. The rest stay hidden from navigation,
+ * the sitemap and their own routes until their copy is supplied. */
+export const READY_ENV_IDS = ["hospitality", "education", "real-estate", "enterprise"] as const;
+export const liveEnvironments = READY_ENV_IDS.map((id) => environments.find((e) => e.id === id)!).filter(Boolean);

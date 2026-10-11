@@ -4,12 +4,12 @@ import Eyebrow from "@/components/Eyebrow";
 import Reveal from "@/components/Reveal";
 import SignalRings from "@/components/SignalRings";
 import SolutionsAccordion from "@/components/SolutionsAccordion";
-import { environments } from "@/lib/content";
+import { liveEnvironments } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Solutions",
   description:
-    "Start with what you need. Or start with where you work. Everything here is available now, unless it carries the pilot label.",
+    "Start with what you need. Or start with where you work.",
 };
 
 export default function SolutionsPage() {
@@ -31,7 +31,7 @@ export default function SolutionsPage() {
             className="max-w-[36em] text-[clamp(17px,1.7vw,20px)] leading-[1.7] text-ink"
             style={{ animation: "dm-rise .8s cubic-bezier(.2,.8,.2,1) .2s both" }}
           >
-            Or start with where you work. Everything here is available now, unless it carries the pilot label.
+            Or start with where you work.
           </p>
         </div>
       </section>
@@ -52,7 +52,7 @@ export default function SolutionsPage() {
             </h2>
           </Reveal>
           <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,300px),1fr))] gap-3.5">
-            {environments.map((v) => (
+            {liveEnvironments.map((v) => (
               <EnvironmentCard key={v.id} id={v.id} sol={v.sol} name={v.name} headline={v.headline} />
             ))}
           </div>

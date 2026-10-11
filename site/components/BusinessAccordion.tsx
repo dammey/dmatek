@@ -30,7 +30,6 @@ export default function BusinessAccordion() {
     <div className="flex flex-col gap-3.5">
       {businesses.map((b, i) => {
         const open = openIndex === i;
-        const pilotItems = b.pilot ? b.pilot.split(" · ") : [];
         return (
           <Reveal
             key={b.id}
@@ -105,12 +104,6 @@ export default function BusinessAccordion() {
                   className="mx-auto flex w-full max-w-[280px] flex-col items-center justify-center rounded-[44px] p-[clamp(22px,2.6vw,32px)] text-center"
                   style={{ background: open ? "rgba(245,241,232,0.07)" : "rgba(6,56,46,0.06)" }}
                 >
-                  <p className="m-0 mb-3 text-[11px] font-bold tracking-[0.16em] text-gold">
-                    {b.pilot ? "AVAILABLE AS A PILOT" : "ALL AVAILABLE NOW"}
-                  </p>
-                  <p className="m-0 mb-3.5 max-w-[16em] text-[14px] leading-[1.55] text-cream/82">
-                    {pilotItems.length > 0 ? pilotItems.join(" · ") : "Everything listed here can be provided today."}
-                  </p>
                   <div
                     className="relative mt-1 flex w-full flex-col items-center justify-center overflow-hidden p-3 text-center"
                     style={{
@@ -124,11 +117,6 @@ export default function BusinessAccordion() {
                         <Image src={b.img} alt={`${b.name} — ${b.photo}`} fill sizes="280px" className="object-cover" />
                         <div className="absolute inset-0" style={{ background: "linear-gradient(180deg,rgba(6,56,46,0.1),rgba(4,48,40,0.55))" }} />
                       </>
-                    )}
-                    {!b.img && (
-                      <p className="relative m-0 text-[10.5px] font-bold tracking-[0.14em] text-progress">
-                        [ PHOTO &mdash; {b.photo} ]
-                      </p>
                     )}
                   </div>
                 </div>

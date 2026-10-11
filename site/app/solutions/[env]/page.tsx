@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { AdireBand, PilotLabel } from "@dmatek/brand";
+import { AdireBand } from "@dmatek/brand";
 import Eyebrow from "@/components/Eyebrow";
 import Reveal from "@/components/Reveal";
 import SignalRings from "@/components/SignalRings";
-import { environments, packages, pathSteps } from "@/lib/content";
+import { liveEnvironments as environments, packages } from "@/lib/content";
 import { siteConfig } from "@/lib/siteConfig";
 
 export function generateStaticParams() {
@@ -60,18 +60,6 @@ export default async function EnvironmentPage({ params }: { params: Promise<{ en
               </Link>
             </div>
           </div>
-          <div
-            className="relative flex aspect-[5/4] min-h-[260px] flex-col items-center justify-center gap-3 p-[clamp(28px,4vw,50px)] text-center"
-            style={{
-              background: "linear-gradient(150deg,#EFEADC,#E6E0CE)",
-              borderRadius: "52% 48% 44% 56% / 50% 44% 56% 50%",
-              animation: "dm-drift 17s ease-in-out infinite",
-              boxShadow: "inset 0 0 0 1px rgba(6,56,46,0.10), 0 30px 60px rgba(6,56,46,0.10)",
-            }}
-          >
-            <p className="m-0 text-[11.5px] font-bold tracking-[0.16em] text-progress">[ REAL PHOTOGRAPHY REQUIRED ]</p>
-            <p className="m-0 max-w-[20em] text-[15.5px] leading-[1.65] text-ink">{env.photo}</p>
-          </div>
         </div>
       </section>
 
@@ -106,23 +94,11 @@ export default async function EnvironmentPage({ params }: { params: Promise<{ en
               </span>
             ))}
           </div>
-          <p className="mb-3.5 mt-9 text-[11px] font-bold tracking-[0.16em] text-gold sm:mt-12">HOW IT WORKS</p>
-          <div className="flex flex-wrap gap-2">
-            {pathSteps.map((s) => (
-              <span key={s.n} className="flex-[1_1_130px] rounded-[4px] px-4.5 py-3.5 text-[15px] font-bold text-forest" style={{ background: "#F5F1E8" }}>
-                <span className="mr-2 text-[11px] tracking-[0.12em] text-progress">{s.n}</span>
-                {s.name}
-              </span>
-            ))}
-          </div>
         </Reveal>
       </section>
 
       <section className="bg-cream">
         <div className="mx-auto grid max-w-[1280px] items-stretch gap-4 px-5 pb-[clamp(40px,5vw,72px)] sm:grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] sm:gap-6 sm:px-8">
-          <Reveal>
-            <PilotLabel items={env.pilot} href={`/contact?topic=${encodeURIComponent(env.name)}&pilot=${encodeURIComponent(env.pilot.join(", "))}`} tone="cream" />
-          </Reveal>
           {env.pkgs.map((pkgName) => {
             const pkg = packages[pkgName];
             return (
@@ -155,12 +131,6 @@ export default async function EnvironmentPage({ params }: { params: Promise<{ en
 
       <section className="bg-cream">
         <div className="mx-auto grid max-w-[1280px] items-start gap-7 px-5 pb-[clamp(64px,7vw,110px)] sm:grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] sm:gap-14 sm:px-8">
-          <Reveal className="rounded-[clamp(24px,3vw,38px)] p-[clamp(24px,3vw,36px)]" style={{ background: "rgba(6,56,46,0.05)" }}>
-            <p className="mb-3 text-[11px] font-bold tracking-[0.16em] text-progress">PROOF</p>
-            <p className="m-0 text-[16px] leading-[1.65] text-ink">
-              [ DELIVERED WORK ONLY &mdash; references for {env.name} appear here once published. ]
-            </p>
-          </Reveal>
           <Reveal>
             <p className="mb-3.5 text-[11px] font-bold tracking-[0.16em] text-progress">OTHER ENVIRONMENTS</p>
             <div className="flex flex-wrap gap-2">

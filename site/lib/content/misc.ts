@@ -45,6 +45,8 @@ export type CaseStudy = {
   photoSrc?: string;
   quote: string;
   attrib?: string;
+  /** Publishes on Work and the home Proof section only when true. */
+  approved: boolean;
 };
 
 // Real, delivered work the client previously supplied and approved. The
@@ -64,6 +66,7 @@ export const cases: CaseStudy[] = [
       "[ REAL OUTCOME TO BE ADDED — uptime, guest satisfaction, or cost against the original separate quotes. ]",
     photo: "Safwah Hotel: the comms room and a guest floor, before and after.",
     photoSrc: "/assets/safwah-hotel.jpg",
+    approved: false,
     quote: "The hotel opened on schedule, on one system, with one team responsible for all of it.",
   },
   {
@@ -79,6 +82,7 @@ export const cases: CaseStudy[] = [
       "[ REAL OUTCOME TO BE ADDED — incident response time, resident satisfaction, or insurance position. ]",
     photo: "Gatehouse and perimeter, before and after.",
     photoSrc: "/assets/estate-street.jpg",
+    approved: false,
     quote: "Every camera has a purpose, every entry is logged, and the answers are always retrievable.",
   },
   {
@@ -94,11 +98,14 @@ export const cases: CaseStudy[] = [
       "[ REAL OUTCOME TO BE ADDED — tenant retention, complaint volume, or operating cost. ]",
     photo: "Risers, tenant floor and the building entrance.",
     photoSrc: "/assets/commercial-tower.jpg",
+    approved: false,
     quote: "One number to call, one team responsible — and the complaints stopped being the landlord’s problem.",
   },
 ];
 
-export const caseTeasers = cases.map((c) => ({
+export const approvedCases = cases.filter((c) => c.approved);
+
+export const caseTeasers = approvedCases.map((c) => ({
   id: c.id,
   sector: c.sector,
   title: c.title,
@@ -109,26 +116,32 @@ export const caseTeasers = cases.map((c) => ({
 // Real client testimonials, previously supplied and approved by the client.
 // Not part of the v3.4 mockup's About section, but real content is never
 // left unused — shown in a new "Why clients stick around" panel on About.
-export const quotes: { text: string; attrib: string; tone: "light" | "dark" }[] = [
+// Only entries with verified: true render (handoff v3.6 §9). Set it once
+// D'Matek confirms each quote and attribution in writing.
+export const quotes: { text: string; attrib: string; tone: "light" | "dark"; verified: boolean }[] = [
   {
     text: "“Our internet went down, and Dmatek came in, diagnosed the problem and found that the access point had failed. They replaced it and had us back online without the usual back-and-forth. It was a huge relief.”",
     attrib: "OAA, Admin Office, MaxiMedia Global",
     tone: "light",
+    verified: false,
   },
   {
     text: "“We didn’t have to explain the problem five times or keep calling for updates. They understood what was wrong, fixed it quickly, and kept us informed. That made a stressful situation surprisingly easy.”",
     attrib: "Amaka Eze, Operations Manager, Northbridge Consulting",
     tone: "dark",
+    verified: false,
   },
   {
     text: "“Dmatek is usually the first call we make when something isn’t working. They don’t just sell us another device or tell us what to buy — they help us figure out what the actual problem is.”",
     attrib: "Daniel Okoro, IT Manager, Westfield Properties",
     tone: "light",
+    verified: false,
   },
   {
     text: "“We’ve worked with Dmatek for years, through new equipment, network changes and the occasional problem we didn’t see coming. What keeps us coming back is simple: they stay involved after the sale.”",
     attrib: "AO, V & V",
     tone: "light",
+    verified: false,
   },
 ];
 

@@ -2,7 +2,7 @@
 
 import { pilotNote } from "@dmatek/brand";
 import { useState, type FormEvent } from "react";
-import { NOT_SURE_OPTION, entryPoints, environments, orgOptions } from "@/lib/content";
+import { NOT_SURE_OPTION, entryPoints, liveEnvironments as environments, orgOptions } from "@/lib/content";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
