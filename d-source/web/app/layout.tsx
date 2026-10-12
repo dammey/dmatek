@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DmatekBar, manrope } from "@dmatek/brand";
+import { Analytics, DmatekBar, manrope } from "@dmatek/brand";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Reveal from "@/components/Reveal";
@@ -49,6 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Footer />
             <Toast />
             <Reveal />
+            <Analytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
           </CartProvider>
         </AuthProvider>
         </SettingsProvider>

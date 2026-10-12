@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import Eyebrow from "@/components/Eyebrow";
 import SignalRings from "@/components/SignalRings";
 import { insightTopics } from "@/lib/content";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Insights",
   description: "Practical guidance on connectivity, security, power, operations, and data and AI. Articles will be published here.",
-};
+  path: "/insights",
+});
 
 // Hidden until 3+ posts exist (handoff v3.6 §Routing).
 const PUBLISHED = false;

@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import ContactForm from "@/components/ContactForm";
 import Eyebrow from "@/components/Eyebrow";
 import SignalRings from "@/components/SignalRings";
 import { CONTACT, badges } from "@/lib/content";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Tell Us What You Need",
-  description:
-    "Let’s figure it out together. Tell us the problem in your own words — you don’t need to know which technology it needs.",
-  alternates: { canonical: "/contact" },
-};
+  description: "Let’s figure it out together. Tell us the problem in your own words — you don’t need to know which technology it needs.",
+  path: "/contact",
+});
 
 type SearchParams = { topic?: string; org?: string; need?: string; message?: string; src?: string };
 

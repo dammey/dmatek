@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import Eyebrow from "@/components/Eyebrow";
 import RelationshipDiagram from "@/components/RelationshipDiagram";
 import Reveal from "@/components/Reveal";
 import SignalRings from "@/components/SignalRings";
 import { pathSteps } from "@/lib/content";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Services",
-  description:
-    "One partner. The specialists your problem requires. D’Matek brings connectivity, cloud, software, physical systems, equipment and managed IT together around your requirements.",
-  alternates: { canonical: "/businesses" },
-};
+  description: "One partner. The specialists your problem requires. D’Matek brings connectivity, cloud, software, physical systems, equipment and managed IT together around your requirements.",
+  path: "/businesses",
+});
 
 const rise = (d: string) => ({ animation: `dm-rise .8s cubic-bezier(.2,.8,.2,1) ${d} both` });
 
@@ -69,7 +69,7 @@ export default function ServicesPage() {
                   className="min-w-0 rounded-[4px] px-5 py-4.5 shadow-[0_10px_26px_rgba(6,56,46,0.07)] transition-transform hover:-translate-y-1"
                   style={{ background: "#EFEADC" }}
                 >
-                  <p className="mb-2 text-[11px] font-bold tracking-[0.14em] text-gold">{p.step}</p>
+                  <p className="mb-2 text-[11px] font-bold tracking-[0.14em] text-[#7F600F]">{p.step}</p>
                   <p className="m-0 text-[16.5px] font-bold tracking-[-0.01em] text-forest">{p.name}</p>
                 </div>
               ))}

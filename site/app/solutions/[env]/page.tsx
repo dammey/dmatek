@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -24,12 +25,13 @@ export async function generateMetadata({ params }: { params: Promise<{ env: stri
   const { env: envId } = await params;
   const env = environments.find((v) => v.id === envId);
   if (!env) return {};
-  return {
+  return pageMeta({
     title: `${env.name} · ${env.sol.charAt(0)}${env.sol.slice(1).toLowerCase()}`,
     description: env.support,
-    alternates: { canonical: `/solutions/${env.id}` },
-    openGraph: { title: env.headline, description: env.support, images: env.img ? [env.img] : undefined },
-  };
+    path: `/solutions/${env.id}`,
+    ogTitle: env.headline,
+    image: env.img,
+  });
 }
 
 const pad = (i: number) => String(i + 1).padStart(2, "0");

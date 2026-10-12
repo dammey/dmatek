@@ -62,6 +62,11 @@ def build(src, ranges, prefix, out_tsx, out_css, subs=(), drop=(), extra_css="",
         if n == 0:
             raise SystemExit(f"resub matched nothing: {pat[:80]}")
     html = rewrite_links(html, src_name)
+    # Accessibility (WCAG AA 4.5:1 for small text): the prototypes' small
+    # dark-gold and grey labels on cream, and dim grey notes on forest, are
+    # darkened/lightened to the nearest passing shade of the same hue.
+    html = html.replace("#B08620", "#86660F").replace("#6A7A74", "#56645E").replace("#6F8A80", "#8FA69C")
+    html = html.replace("font-size:clamp(40px,4vw,56px);font-weight:800;letter-spacing:-0.04em;color:#D4A637", "font-size:clamp(40px,4vw,56px);font-weight:800;letter-spacing:-0.04em;color:#86660F")
     # next/font serves hashed family names; point the design's literals at them.
     html = html.replace("'Manrope'", "var(--font-manrope),'Manrope'")
     html = html.replace("'JetBrains Mono'", "var(--font-jbm),'JetBrains Mono'")

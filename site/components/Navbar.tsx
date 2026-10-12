@@ -31,7 +31,7 @@ export default function Navbar() {
       <header className="sticky top-0 z-[80] px-5 pt-3.5 sm:px-5">
         <div
           className="mx-auto flex max-w-[1280px] items-center gap-7 rounded-full border border-forest/10 px-3.5 py-2.5 pl-4.5 shadow-[0_10px_34px_rgba(6,56,46,0.07)] backdrop-blur-md"
-          style={{ background: "rgba(245,241,232,0.82)" }}
+          style={{ background: "rgba(245,241,232,0.95)" }}
         >
           <Link
             href="/"

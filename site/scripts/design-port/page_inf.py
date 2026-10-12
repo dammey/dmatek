@@ -41,9 +41,11 @@ build(
          '<div aria-hidden="true" style="position:absolute;left:0;bottom:0;margin:0;font-weight:800;font-size:1em;line-height:.9;letter-spacing:-.055em;max-width:14ch;opacity:{{ bOp }}'),
         ('and operated.</span></h1>', 'and operated.</span></div>'),
         ('<span style="font-family:\'Manrope\',sans-serif;font-weight:700;font-size:12px;letter-spacing:.1em;color:#D4A637;white-space:nowrap">{{ pct }}% CONNECTED</span>',
-         '<span aria-hidden="true" style="font-family:\'Manrope\',sans-serif;font-weight:700;font-size:12px;letter-spacing:.1em;color:#D4A637;white-space:nowrap">{{ pct }}% CONNECTED</span>'),
+         '<span aria-hidden="true" data-pct="1" style="font-family:\'Manrope\',sans-serif;font-weight:700;font-size:12px;letter-spacing:.1em;color:#D4A637;white-space:nowrap">{{ pct }}% CONNECTED</span>'),
         ('<canvas data-cv="1"', '<canvas data-cv="1" aria-hidden="true"'),
         (FORM_OLD, FORM_NEW),
+        # Cream on gold fails contrast; keep the emphasis with a cream underline.
+        ('<span style="color:#F5F1E8">Support</span>', '<span style="text-decoration:underline;text-decoration-color:#F5F1E8;text-decoration-thickness:.08em;text-underline-offset:.12em">Support</span>'),
     ],
     extra_css="""
 @keyframes infFlow{to{stroke-dashoffset:-16}}

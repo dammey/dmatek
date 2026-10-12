@@ -44,7 +44,7 @@ export default function ImageSlot({
         <circle cx="8.5" cy="8.5" r="1.5" />
         <path d="m21 15-5-5L5 21" />
       </svg>
-      <span style={{ maxWidth: "90%", opacity: 0.75 }}>{placeholder}</span>
+      <span style={{ maxWidth: "90%" }}>{placeholder}</span>
     </span>
   );
 }

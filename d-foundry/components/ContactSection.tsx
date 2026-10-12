@@ -1,5 +1,6 @@
 "use client";
 
+import { track } from "@dmatek/brand";
 import { useState, type FormEvent } from "react";
 import { CONTACT, DMATEK_URL } from "@/lib/sites";
 
@@ -26,11 +27,6 @@ const field = (bad: boolean): React.CSSProperties => ({
   outline: "none",
 });
 const errText: React.CSSProperties = { fontSize: 14, fontWeight: 700, color: "#B3261E" };
-
-function track(event: string, data: Record<string, string>) {
-  const w = window as unknown as { dataLayer?: unknown[] };
-  (w.dataLayer = w.dataLayer || []).push({ event, ...data, page: location.pathname });
-}
 
 /** "Bring the problem." (Hero v2): name, contact and the problem in a
  * sentence, sent to D'Matek's shared enquiry backend on the main site. */
@@ -143,7 +139,7 @@ export default function ContactSection() {
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
           {SISTERS.map((x) => (
             <a key={x.name} href={x.href} className="df-sister-link" style={{ display: "flex", gap: 10, alignItems: "center", border: "2px solid #06382E", borderRadius: 999, padding: "12px 20px", fontWeight: 700, fontSize: 15, whiteSpace: "nowrap" }}>
-              <span style={{ fontFamily: mono, fontSize: 11, fontWeight: 600, color: "#B08620" }}>{x.verb}</span>
+              <span style={{ fontFamily: mono, fontSize: 11, fontWeight: 600, color: "#86660F" }}>{x.verb}</span>
               {x.name} &#8599;
             </a>
           ))}

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import EnvironmentCard from "@/components/EnvironmentCard";
 import Eyebrow from "@/components/Eyebrow";
 import Reveal from "@/components/Reveal";
@@ -6,11 +7,11 @@ import SignalRings from "@/components/SignalRings";
 import SolutionsAccordion from "@/components/SolutionsAccordion";
 import { liveEnvironments } from "@/lib/content";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Solutions",
   description: "Find the right solution. Start with where you work, or with what you need. Choose the closest match and we’ll take it from there.",
-  alternates: { canonical: "/solutions" },
-};
+  path: "/solutions",
+});
 
 export default function SolutionsPage() {
   return (

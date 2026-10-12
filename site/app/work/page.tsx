@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import CaseStudyCard from "@/components/CaseStudyCard";
 import Eyebrow from "@/components/Eyebrow";
 import SignalRings from "@/components/SignalRings";
@@ -16,12 +17,11 @@ const CASE_FORMAT: [string, string][] = [
   ["What happened afterwards", "The handover, maintenance arrangement or ongoing support that was agreed with the customer."],
 ];
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Work",
-  description:
-    "Problems we were trusted with. Delivered projects and outcomes only, each published once the work is complete and the client has agreed.",
-  alternates: { canonical: "/work" },
-};
+  description: "Problems we were trusted with. Delivered projects and outcomes only, each published once the work is complete and the client has agreed.",
+  path: "/work",
+});
 
 export default function WorkPage() {
   return (

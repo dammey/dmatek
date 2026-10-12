@@ -20,7 +20,7 @@
   --warn: #9a5b00;
   --fail: #9e1b32;
   --muted: #4a5651;
-  --mutedMono: #5e6e68;
+  --mutedMono: #4f5d58;
   --surface: #ffffff;
   --r-sm: 6px;
   --r-md: 10px;
@@ -294,3 +294,12 @@ h3 {
   }
 }
 
+
+/* Keyboard focus stays visible even where controls set outline:none inline. */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #d4a637 !important;
+  outline-offset: 3px;
+}

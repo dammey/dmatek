@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import Image from "next/image";
 import { AdireBand } from "@dmatek/brand";
 import Eyebrow from "@/components/Eyebrow";
@@ -10,12 +11,11 @@ import { siteConfig } from "@/lib/siteConfig";
 // Testimonials render only once verified in writing (handoff v3.6 §9).
 const quotes = allQuotes.filter((q) => q.verified);
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "About",
-  description:
-    "We’re not vendors. We’re partners for life. Built in Lagos, working across Nigeria — the people who start with your problem are the people who stay with it.",
-  alternates: { canonical: "/about" },
-};
+  description: "We’re not vendors. We’re partners for life. Built in Lagos, working across Nigeria — the people who start with your problem are the people who stay with it.",
+  path: "/about",
+});
 
 export default function AboutPage() {
   return (
@@ -66,7 +66,7 @@ export default function AboutPage() {
         <div className="mx-auto max-w-[1280px] px-5 py-[clamp(56px,7vw,110px)] sm:px-8">
           <Reveal>
             <p className="m-0 max-w-[16em] text-[clamp(30px,4.4vw,60px)] font-extrabold leading-[1.02] tracking-[-0.035em] text-forest text-balance">
-              We connect, build, equip, host, secure and <span className="text-gold">run your technology.</span>
+              We connect, build, equip, host, secure and <span className="text-[#86660F]">run your technology.</span>
             </p>
           </Reveal>
         </div>

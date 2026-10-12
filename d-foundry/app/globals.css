@@ -50,3 +50,11 @@ button {
     top: 104px !important;
   }
 }
+
+/* Keyboard focus stays visible even where inputs set outline:none inline. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid #d4a637 !important;
+  outline-offset: 3px;
+}

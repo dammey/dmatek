@@ -456,7 +456,7 @@ class Cloud extends React.Component {
       back: (e) => { if (e && e.preventDefault) e.preventDefault(); if (s.mode === "inside") this.backHome(); },
       heroDisp: s.narrow ? "none" : "block",
       bkFiles: [["Payroll 2026.xlsx", "48 KB"], ["Client contracts.pdf", "2.1 MB"], ["Sales report.docx", "312 KB"], ["Staff list.csv", "9 KB"]].map(([name, size], i) => { const gone = i === 0 && s.bk === 1; const back = i === 0 && s.bk === 3; return { name, note: gone ? "DELETED" : back ? "RESTORED AND CHECKED" : i === 0 && s.bk === 2 ? "RESTORING…" : size, op: gone ? 0.35 : 1, dec: gone ? "line-through" : "none", dot: gone ? "#B3261E" : back ? "#1D8C61" : "#28705A", bg: back ? "rgba(29,140,97,0.14)" : gone ? "rgba(179,38,30,0.08)" : "transparent" }; }),
-      bkStat: s.bk === 1 ? "FILE MISSING" : s.bk === 2 ? "RESTORING" : "ALL FILES PRESENT", bkStatCol: s.bk === 1 ? "#B3261E" : "#1D8C61",
+      bkStat: s.bk === 1 ? "FILE MISSING" : s.bk === 2 ? "RESTORING" : "ALL FILES PRESENT", bkStatCol: s.bk === 1 ? "#B3261E" : "#17704E",
       bkShowPts: s.bk === 1, bkShowBar: s.bk === 2, bkPct: s.bkp, bkBarLabel: "RESTORING FROM LAST NIGHT’S BACKUP, THEN CHECKING IT…",
       bkPts: [["Last night, 02:00", "VERIFIED"], ["Two nights ago, 02:00", "VERIFIED"], ["Last week, Sunday 02:00", "VERIFIED"]].map(([label, tag], i) => ({ label, tag, edge: i === 0 ? "#D4A637" : "rgba(245,241,232,0.2)", pick: () => this.bkStart() })),
       bkLabel: s.bk === 0 ? "Delete the payroll file" : s.bk === 1 ? "Choose a restore point below" : s.bk === 2 ? "Restoring…" : "Done",

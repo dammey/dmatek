@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
 import WhatsAppFab from "@/components/WhatsAppFab";
+import { Analytics } from "@dmatek/brand";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -42,9 +43,12 @@ export const metadata: Metadata = {
     description:
       "D’Matek designs, builds and runs the technology behind businesses, hotels, estates and homes in Lagos: networks, cloud, security, power and managed IT.",
     url: siteUrl,
+    images: ["/assets/photos/team-real.jpg"],
   },
+  alternates: { canonical: "/" },
   twitter: {
     card: "summary_large_image",
+    images: ["/assets/photos/team-real.jpg"],
     title: "D’Matek Technology Limited | Solving What Matters",
     description:
       "D’Matek designs, builds and runs the technology behind businesses, hotels, estates and homes in Lagos: networks, cloud, security, power and managed IT.",
@@ -74,6 +78,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </main>
         <Footer />
         <WhatsAppFab />
+        <Analytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
       </body>
     </html>
   );

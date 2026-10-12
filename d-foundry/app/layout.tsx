@@ -1,5 +1,6 @@
 import { DMATEK_URL, SITE_URL } from "@/lib/sites";
 import type { Metadata } from "next";
+import { Analytics } from "@dmatek/brand";
 import "./globals.css";
 
 // Loaded via the exact Google Fonts CSS2 URL from the source <helmet> (not next/font/google):
@@ -54,7 +55,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="stylesheet" href={FONTS_URL} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+      </body>
     </html>
   );
 }

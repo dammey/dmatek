@@ -209,7 +209,7 @@ export default function RelationshipDiagram() {
                 <span className="flex items-center justify-between gap-3">
                   <span className="flex min-w-max shrink-0 items-center gap-2 text-forest">
                     <Icon id={b.id} />
-                    <span className="whitespace-nowrap text-[10.5px] font-bold tracking-[0.16em] text-gold">{b.verb}</span>
+                    <span className="whitespace-nowrap text-[10.5px] font-bold tracking-[0.16em] text-[#7F600F]">{b.verb}</span>
                   </span>
                   <span aria-hidden="true" className="text-[22px] font-bold leading-none text-progress">
                     +

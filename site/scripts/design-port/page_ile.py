@@ -20,6 +20,7 @@ build(
         ("padding:clamp(112px,15vh,140px) clamp(18px,3vw,40px) clamp(32px,5vh,56px)", "padding:clamp(36px,6vh,64px) clamp(18px,3vw,40px) clamp(32px,5vh,56px)"),
         ('<g onClick="{{ z.pick }}" onMouseEnter="{{ z.pick }}" style="cursor:pointer">',
          '<g onClick="{{ z.pick }}" onMouseEnter="{{ z.pick }}" onFocus="{{ z.pick }}" tabindex="0" role="button" aria-label="{{ z.label }}" style="cursor:pointer">'),
+        ('style="width:100%;height:auto;display:block" role="img" aria-label="A cutaway', 'style="width:100%;height:auto;display:block" role="group" aria-label="A cutaway'),
         ('href="#cover-b9" data-open="cover-b9"', 'href="#ile-b9" data-open="ile-b9"'),
         # The prototype promised a reply "within two working days"; no such
         # commitment has been supplied.

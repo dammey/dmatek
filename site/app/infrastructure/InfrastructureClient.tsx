@@ -99,7 +99,8 @@ class Infrastructure extends React.Component {
     const size = () => {
       dpr = Math.min(2, devicePixelRatio || 1); W = root.clientWidth; H = root.clientHeight;
       cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      S = H < 700 ? 30 : W < 700 ? 30 : 48; P = W < 700 ? 60 : 96;
+      // Phones get fewer, shorter cables: same look, a fraction of the work.
+      S = W < 700 ? 20 : H < 700 ? 30 : 48; P = W < 700 ? 44 : 96;
       fix = new Float32Array(S * P); baseY = []; xs = [];
       const y0 = Math.max(90, H * 0.16), y1 = y0 + Math.max(110, H * 0.22);
       for (let i = 0; i < S; i++) baseY.push(y0 + ((y1 - y0) * i) / (S - 1));
@@ -107,6 +108,7 @@ class Infrastructure extends React.Component {
     };
     size();
     let t = 0, done = false, lastPct = -1, lastSet = 0, visible = true;
+    const pctEl = root.querySelector("[data-pct]");
     const amp = () => Math.min(H * 0.085, 80);
     const pos = (i, j, out) => {
       const f = fix[i * P + j], k = (1 - f) * (1 - f), env = 0.3 + 0.7 * Math.pow(Math.sin((Math.PI * j) / (P - 1)), 0.5), A = amp() * env;
@@ -146,21 +148,27 @@ class Infrastructure extends React.Component {
       const pct = Math.round((100 * sum) / fix.length);
       if (!done && pct >= 55) { done = true; this.setState({ done: true }); }
       if (done) for (let n = 0; n < fix.length; n++) fix[n] += (1 - fix[n]) * 0.045;
-      if (pct !== lastPct && now - lastSet > 120) { lastPct = pct; lastSet = now; this.setState({ pct }); }
+      // Written straight to the label: a state update here would re-render the whole page ~8x a second.
+      if (pct !== lastPct && now - lastSet > 120) { lastPct = pct; lastSet = now; if (pctEl) pctEl.textContent = pct + "% CONNECTED"; }
       ctx.fillStyle = "#06382E"; ctx.fillRect(0, 0, W, H);
       ctx.lineCap = "round";
+      // Batch segments into one path per style (gold + 8 cream alpha steps)
+      // instead of one stroke call per segment.
+      const gold = new Path2D(), cream = Array.from({ length: 8 }, () => new Path2D());
       const a = { x: 0, y: 0 }, b = { x: 0, y: 0 };
       for (let i = 0; i < S; i++) {
         pos(i, 0, a);
         for (let j = 1; j < P; j++) {
           pos(i, j, b);
           const f = (fix[i * P + j - 1] + fix[i * P + j]) / 2;
-          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
-          if (f > 0.92) { ctx.strokeStyle = "#D4A637"; ctx.lineWidth = 2; }
-          else { ctx.strokeStyle = "rgba(245,241,232," + (0.22 + 0.45 * f).toFixed(3) + ")"; ctx.lineWidth = 1.2; }
-          ctx.stroke(); a.x = b.x; a.y = b.y;
+          const path = f > 0.92 ? gold : cream[Math.min(7, Math.floor(f * 8))];
+          path.moveTo(a.x, a.y); path.lineTo(b.x, b.y);
+          a.x = b.x; a.y = b.y;
         }
       }
+      ctx.lineWidth = 1.2;
+      cream.forEach((path, k) => { ctx.strokeStyle = "rgba(245,241,232," + (0.22 + 0.45 * ((k + 0.5) / 8)).toFixed(3) + ")"; ctx.stroke(path); });
+      ctx.strokeStyle = "#D4A637"; ctx.lineWidth = 2; ctx.stroke(gold);
       if (done) {
         ctx.fillStyle = "#F5F1E8";
         for (let i = 2; i < S; i += 6) { const j0 = Math.floor((t * 14 + i * 9) % (P - 1)); pos(i, j0, a); ctx.beginPath(); ctx.arc(a.x, a.y, 3.2, 0, 6.283); ctx.fill(); }
@@ -168,19 +176,21 @@ class Infrastructure extends React.Component {
     };
     // Lite mode (reduced motion, data saver, 2G): draw the finished network once.
     if (isLite()) {
-      fix.fill(1); done = true; this.setState({ done: true, pct: 100 }); draw(performance.now());
+      fix.fill(1); done = true; this.setState({ done: true }); draw(performance.now()); if (pctEl) pctEl.textContent = "100% CONNECTED";
       this._reset = () => {};
       this.on(window, "resize", () => { size(); fix.fill(1); draw(performance.now()); });
       return;
     }
-    this._reset = () => { fix.fill(0); done = false; t = 0; this.setState({ done: false, pct: 0 }); };
+    this._reset = () => { fix.fill(0); done = false; t = 0; lastPct = -1; this.setState({ done: false }); };
     // Only animate while the hero is on screen.
     if ("IntersectionObserver" in window) {
       const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; });
       io.observe(root);
       this._offs.push(() => io.disconnect());
     }
-    this.every((now) => { if (visible) draw(now); else last = now; });
+    const minGap = window.innerWidth < 700 ? 32 : 0; // ~30fps on phones
+    let lastDraw = 0;
+    this.every((now) => { if (!visible) { last = now; return; } if (now - lastDraw < minGap) return; lastDraw = now; draw(now); });
   }
 
   send = (e) => {
@@ -191,7 +201,8 @@ class Infrastructure extends React.Component {
 
   renderVals() {
     const s = this.state;
-    const sg = signalGrid(s.ap);
+    if (this._sgFor !== s.ap) { this._sgFor = s.ap; this._sg = signalGrid(s.ap); }
+    const sg = this._sg;
     return {
       foundryUrl: D_FOUNDRY_URL,
       pct: s.pct, aOp: s.done ? 0 : 1, bOp: s.done ? 1 : 0, aY: s.done ? "-30px" : "0px", bY: s.done ? "0px" : "30px",

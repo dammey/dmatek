@@ -15,7 +15,7 @@ export default function Products() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,420px),1fr))", gap: "clamp(20px,3vw,40px)" }}>
           <div data-rv="deal" style={{ display: "flex", flexDirection: "column", gap: 18, background: "#06382E", color: "#F5F1E8", borderRadius: 36, padding: "clamp(20px,2.4vw,32px)" }}>
             <div style={{ position: "relative", aspectRatio: "16/10", borderRadius: 24, overflow: "hidden", background: "#0B4B3D" }}>
-              <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", fontFamily: "var(--font-plex-mono),monospace", fontSize: 12, letterSpacing: ".14em", color: "#D4A637" }}>IN THE FOUNDRY &middot; COMING SOON</div>
+              <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", fontFamily: "var(--font-plex-mono),monospace", fontSize: 12, letterSpacing: ".14em", color: "#E0B54A" }}>IN THE FOUNDRY &middot; COMING SOON</div>
             </div>
             <span style={{ alignSelf: "flex-start", background: "#D4A637", color: "#06382E", borderRadius: 999, padding: "6px 12px", fontFamily: "var(--font-plex-mono),monospace", fontSize: 11, fontWeight: 600 }}>PRODUCT 01 &middot; IN DEVELOPMENT</span>
             <span style={{ fontWeight: 800, fontSize: "clamp(56px,7vw,110px)", lineHeight: 0.85, letterSpacing: "-.065em" }}>QADPAY</span>
