@@ -55,7 +55,7 @@ export default function SituationFinder() {
                 onClick={() => choose(i)}
                 className="group flex flex-col gap-2.5 rounded-[22px] border border-forest/14 bg-white p-3.5 pb-5 text-left text-forest transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-1 hover:border-gold hover:shadow-[0_16px_40px_rgba(6,56,46,0.14)]"
               >
-                <span className="relative block aspect-video overflow-hidden rounded-2xl bg-[#E6E0CE]">
+                <span className="relative block aspect-square overflow-hidden rounded-2xl bg-[#E6E0CE]">
                   <Image
                     src={c.img}
                     alt={c.alt}
