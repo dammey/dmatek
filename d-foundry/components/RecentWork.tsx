@@ -12,7 +12,7 @@ const CASES = [
   { client: "Omatek", body: "Website revamp, with company email on D’Matek Cloud." },
   { client: "Valour and Valiant", body: "New website, with business email on D’Matek Cloud." },
   { client: "Saratu’s Atelier", body: "Website for a modern Adire fashion brand." },
-  { client: "WeddNG", body: "A wedding planning platform: app and website." },
+  { client: "WeddCraft", body: "WeddNG, a wedding planning platform: app and website." },
 ];
 
 const DROPLET_URL = "https://web-gamma-fawn-29.vercel.app/";
