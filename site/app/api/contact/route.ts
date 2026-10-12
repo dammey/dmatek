@@ -101,7 +101,8 @@ async function handle(request: Request): Promise<NextResponse> {
   const ip = (request.headers.get("x-forwarded-for") ?? "").split(",")[0].trim() || "unknown";
   if (rateLimited(ip)) return NextResponse.json({ error: "Too many enquiries from here. Please WhatsApp us instead." }, { status: 429 });
 
-  const apiKey = process.env.RESEND_API_KEY;
+  // RESEND_KEY_TEST is accepted too, for projects that stored the key under that name.
+  const apiKey = process.env.RESEND_API_KEY || process.env.RESEND_KEY_TEST;
   const toEmail = process.env.RESEND_TO_EMAIL;
   if (!apiKey || !toEmail) {
     console.error("Enquiry received but RESEND_API_KEY / RESEND_TO_EMAIL is not configured.");
@@ -113,7 +114,10 @@ async function handle(request: Request): Promise<NextResponse> {
 
   try {
     const { error } = await new Resend(apiKey).emails.send({
-      from: "D’Matek Website <noreply@dmatek.ng>",
+      // Until dmatek.ng is verified in Resend, set RESEND_FROM to
+      // "D’Matek Website <onboarding@resend.dev>" (Resend only delivers that
+      // sender to the account owner's own address).
+      from: process.env.RESEND_FROM || "D’Matek Website <noreply@dmatek.ng>",
       to: toEmail,
       replyTo: f.email || undefined,
       subject: `${ref} · New enquiry from ${f.name}${f.organisation ? ` (${f.organisation})` : ""}`,
