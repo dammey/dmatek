@@ -11,3 +11,4 @@ export * from "./businesses";
 export * from "./stages";
 export * from "./misc";
 export * from "./situations";
+export * from "./estate";

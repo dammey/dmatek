@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 import Eyebrow from "@/components/Eyebrow";
 import Reveal from "@/components/Reveal";
 import SignalRings from "@/components/SignalRings";
-import { defaultDeliver, liveEnvironments as environments, packages } from "@/lib/content";
+import { defaultDeliver, estateInternet, IRH_PATH, irh, liveEnvironments as environments, packages } from "@/lib/content";
 import { enquiryHref } from "@/lib/enquiry";
 
 /** Environment → the enquiry form's environment option. */
@@ -128,6 +128,52 @@ export default async function EnvironmentPage({ params }: { params: Promise<{ en
           </ol>
         </Reveal>
       </section>
+
+      {env.id === "real-estate" && (
+        <section className="bg-cream">
+          <div className="mx-auto max-w-[1280px] px-5 pb-[clamp(40px,5vw,72px)] sm:px-8">
+            <Eyebrow>INSIDE CONNECTED ESTATE</Eyebrow>
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] gap-4 sm:gap-6">
+              <Reveal className="flex flex-col gap-3.5 rounded-[clamp(26px,3.4vw,44px)] p-[clamp(26px,3vw,40px)] shadow-[0_18px_46px_rgba(6,56,46,0.08)]" style={{ background: "linear-gradient(150deg,#EFEADC,#E6E0CE)" }}>
+                <span className="w-max rounded-[4px] px-4 py-2 text-[11px] font-bold tracking-[0.16em] text-forest" style={{ background: "rgba(212,166,55,0.3)" }}>FOR DEVELOPERS</span>
+                <p className="m-0 text-[clamp(24px,2.6vw,32px)] font-extrabold leading-[1.1] tracking-[-0.025em] text-forest">{irh.name}</p>
+                <p className="m-0 text-[15.5px] font-semibold leading-[1.6] text-forest">{irh.tag}</p>
+                <p className="m-0 text-[15.5px] leading-[1.65] text-ink">
+                  Structured cabling, a network port in every room that needs one and a central cabinet, installed during construction instead of cut into finished walls.
+                </p>
+                <ul className="m-0 flex list-none flex-col gap-2 p-0">
+                  {irh.install.slice(0, 3).map((t) => (
+                    <li key={t} className="flex gap-3 text-[15px] leading-[1.55] text-ink">
+                      <span aria-hidden="true" className="mt-[8px] h-1.5 w-1.5 flex-none rounded-full bg-gold" />
+                      <span>{t}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link href={IRH_PATH} data-track="irh_card" className="mt-auto w-max whitespace-nowrap rounded-full bg-gold px-5.5 py-3.5 text-[14px] font-bold text-forest hover:bg-forest hover:text-cream">
+                  See Internet-Ready Homes &rarr;
+                </Link>
+              </Reveal>
+              <Reveal className="flex flex-col gap-3.5 rounded-[clamp(26px,3.4vw,44px)] p-[clamp(26px,3vw,40px)] shadow-[0_18px_46px_rgba(6,56,46,0.08)]" style={{ background: "linear-gradient(150deg,#EFEADC,#E6E0CE)" }}>
+                <span className="w-max rounded-[4px] px-4 py-2 text-[11px] font-bold tracking-[0.16em] text-forest" style={{ background: "rgba(212,166,55,0.3)" }}>FOR ESTATES AND RESIDENTS</span>
+                <p className="m-0 text-[clamp(24px,2.6vw,32px)] font-extrabold leading-[1.1] tracking-[-0.025em] text-forest">{estateInternet.name}</p>
+                <p className="m-0 text-[15.5px] font-semibold leading-[1.6] text-forest">{estateInternet.tag}</p>
+                <p className="m-0 text-[15.5px] leading-[1.65] text-ink">{estateInternet.body}</p>
+                <ul className="m-0 flex list-none flex-col gap-2 p-0">
+                  {estateInternet.points.map((t) => (
+                    <li key={t} className="flex gap-3 text-[15px] leading-[1.55] text-ink">
+                      <span aria-hidden="true" className="mt-[8px] h-1.5 w-1.5 flex-none rounded-full bg-gold" />
+                      <span>{t}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link href={ask("I’d like to talk about estate internet for an estate.")} data-track="estate_internet_ask" className="mt-auto w-max whitespace-nowrap rounded-full bg-gold px-5.5 py-3.5 text-[14px] font-bold text-forest hover:bg-forest hover:text-cream">
+                  Ask about estate internet &rarr;
+                </Link>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="bg-cream">
         <div className="mx-auto grid max-w-[1280px] items-stretch gap-4 px-5 pb-[clamp(40px,5vw,72px)] sm:grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] sm:gap-6 sm:px-8">
