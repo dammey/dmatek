@@ -1,7 +1,8 @@
+import { SITE_URL } from "@/lib/sites";
 import type { MetadataRoute } from "next";
 import { GROUPS } from "@/lib/shop";
 
-const siteUrl = "https://source.dmatek.com";
+const siteUrl = SITE_URL;
 const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
 
 

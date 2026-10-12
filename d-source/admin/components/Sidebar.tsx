@@ -7,7 +7,7 @@ import { api } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { NAV } from "@/lib/nav";
 
-const DSOURCE_URL = process.env.NEXT_PUBLIC_DSOURCE_URL ?? "https://source.dmatek.com";
+const DSOURCE_URL = process.env.NEXT_PUBLIC_DSOURCE_URL ?? "https://source.dmatek.ng";
 
 type NavCounts = Record<string, number | boolean>;
 

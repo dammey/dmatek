@@ -1,3 +1,4 @@
+import { DMATEK_URL, SITE_URL } from "@/lib/sites";
 import type { Metadata } from "next";
 import "./globals.css";
 
@@ -8,9 +9,9 @@ import "./globals.css";
 // side-by-side screenshot comparison. The literal Google Fonts URL preserves opsz 12..96
 // exactly like the reference, so glyph metrics match at every size.
 const FONTS_URL =
-  "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&display=swap";
+  "https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&display=swap";
 
-const siteUrl = "https://dfoundry-dammey-s-projects.vercel.app";
+const siteUrl = SITE_URL;
 
 const organizationJsonLd = {
   "@context": "https://schema.org",
@@ -19,7 +20,7 @@ const organizationJsonLd = {
   url: siteUrl,
   telephone: "+2347058071768",
   email: "hello@dmatek.ng",
-  parentOrganization: { "@type": "Organization", name: "D’Matek Technology Limited", url: "https://www.dmatek.ng" },
+  parentOrganization: { "@type": "Organization", name: "D’Matek Technology Limited", url: DMATEK_URL },
 };
 
 export const metadata: Metadata = {

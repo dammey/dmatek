@@ -20,7 +20,7 @@ const nextConfig: NextConfig = {
   },
 };
 
-// Staff use the admin at source.dmatek.com/admin/<module>: proxied to the
+// Staff use the admin at source.dmatek.ng/admin/<module>: proxied to the
 // separate admin deployment (its basePath is /admin).
 const ADMIN_ORIGIN = process.env.ADMIN_ORIGIN;
 if (ADMIN_ORIGIN) {

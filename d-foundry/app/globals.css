@@ -42,3 +42,11 @@ button {
     cursor: none !important;
   }
 }
+
+/* The D'Matek bar (v2) pushes the hero's top row down; on phones the fixed
+   sound / skip controls sit below that row instead of on top of it. */
+@media (max-width: 700px) {
+  .df-ctl {
+    top: 104px !important;
+  }
+}

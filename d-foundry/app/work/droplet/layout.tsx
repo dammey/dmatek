@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { CLIENT_WORK_APPROVED } from "@/lib/clientWork";
 
 export const metadata: Metadata = {
   title: "Droplet — Case Study",
@@ -12,5 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default function DropletLayout({ children }: { children: React.ReactNode }) {
+  // Hidden until Blessed Water gives written permission to be named.
+  if (!CLIENT_WORK_APPROVED) notFound();
   return children;
 }

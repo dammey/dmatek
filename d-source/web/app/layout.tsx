@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { manrope } from "@dmatek/brand";
+import { DmatekBar, manrope } from "@dmatek/brand";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Reveal from "@/components/Reveal";
@@ -8,9 +8,10 @@ import { AuthProvider } from "@/lib/auth-context";
 import { CartProvider } from "@/lib/cart-context";
 import { SettingsProvider } from "@/lib/settings-context";
 import { plexMono } from "@/lib/fonts";
+import { DMATEK_URL, SITE_URL } from "@/lib/sites";
 import "./globals.css";
 
-const siteUrl = "https://source.dmatek.com";
+const siteUrl = SITE_URL;
 
 const organizationJsonLd = {
   "@context": "https://schema.org",
@@ -19,7 +20,7 @@ const organizationJsonLd = {
   url: siteUrl,
   telephone: "+2347058071768",
   email: "hello@dmatek.ng",
-  parentOrganization: { "@type": "Organization", name: "D’Matek Technology Limited", url: "https://www.dmatek.ng" },
+  parentOrganization: { "@type": "Organization", name: "D’Matek Technology Limited", url: DMATEK_URL },
 };
 
 const description = "Technology sourcing in Lagos, by D’Matek. Every item checked before it reaches you. Inspect on delivery, 7-day returns.";
@@ -42,6 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SettingsProvider>
         <AuthProvider>
           <CartProvider>
+            <DmatekBar dmatekUrl={DMATEK_URL} />
             <Header />
             {children}
             <Footer />

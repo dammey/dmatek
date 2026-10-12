@@ -1,6 +1,7 @@
+import { SITE_URL } from "@/lib/sites";
 import type { MetadataRoute } from "next";
 
-const siteUrl = "https://source.dmatek.com";
+const siteUrl = SITE_URL;
 
 export default function robots(): MetadataRoute.Robots {
   return {

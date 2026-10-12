@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 // Every module lives at /admin/<id> (ids as in "DSource Admin v3.dc.html").
-// The storefront proxies source.dmatek.com/admin/* here, so the admin sits
+// The storefront proxies source.dmatek.ng/admin/* here, so the admin sits
 // under the store's domain while staying a separate deployment.
 const OLD: [string, string][] = [
   ["dashboard", "dash"],

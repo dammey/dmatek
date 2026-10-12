@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { supplied } from "@/lib/clientWork";
 
 const DROPLET_URL = "https://web-gamma-fawn-29.vercel.app/";
 
@@ -10,15 +11,24 @@ const PROCESS = [
   { label: "01 DIAGNOSE", title: "[What we mapped]", body: "[Who we spoke to, what we learned about how orders really flowed.]", meta: "[0 WEEKS]", bg: "#F5F1E8", ink: "#06382E", metaColor: "#06382E" },
   { label: "02 BUILD", title: "[The first version]", body: "[What went into v1: web app, payments, admin, driver view.]", meta: "[0 WEEKS]", bg: "#D4A637", ink: "#06382E", metaColor: "#06382E" },
   { label: "03 SHIP", title: "[The pilot]", body: "[Where it launched first, what changed after real use.]", meta: "[0 WEEKS]", bg: "#28705A", ink: "#F5F1E8", metaColor: "#F5F1E8" },
-  { label: "04 RUN", title: "Hosted and supported", body: "On D’Matek Cloud, backed up and monitored. [Anything added since launch.]", meta: "ONGOING", bg: "#1A1A1A", ink: "#F5F1E8", metaColor: "#D4A637" },
+  { label: "04 RUN", title: "Hosted and supported", body: "On D’Matek Cloud, backed up and monitored.", meta: "ONGOING", bg: "#1A1A1A", ink: "#F5F1E8", metaColor: "#D4A637" },
 ];
 
-const RESULTS = [
-  { value: "00%", label: "of orders are reorders from the one-tap prompt" },
-  { value: "0,000", label: "customers ordering in the app" },
-  { value: "000", label: "active delivery subscriptions" },
-  { value: "0,000kg", label: "of bottles collected through recycling pickups" },
+// Real figures from Blessed Water go here. Until then the Results section
+// stays hidden (the design's "00%" / "0,000" were placeholders).
+const RESULTS: { value: string; label: string }[] = [];
+
+// Copy still to be supplied by D'Foundry / the client. Each block renders
+// only once its placeholder has been replaced.
+const TIMELINE = "[00 weeks]";
+const LAUNCHED = "[Month 2026]";
+const PROBLEM_HEAD = "[phone and WhatsApp]";
+const PROBLEM_BODY = [
+  "[How Blessed Water took and tracked orders before Droplet. Who handled them, and what went wrong: missed orders, customers running out, drivers without routes.]",
+  "[What they asked D’Foundry for, in their own words if possible.]",
 ];
+const QUOTE = "[A short quote from Blessed Water about what changed after Droplet.]";
+const QUOTE_BY = "[NAME] · [ROLE], BLESSED WATER";
 
 const PRODUCT_SHOTS = [
   { src: "/assets/droplet-home.jpg", alt: "Droplet home screen with reorder prompt", n: "01", title: "Reorder in one tap", body: "Spots when a customer is running low from their order history, and offers their usual.", imgFirst: true },
@@ -133,22 +143,19 @@ export default function DropletCaseStudy() {
               Water on demand for Blessed Water, live in Lagos and Ibadan.
             </p>
             <div data-in="1" style={{ display: "grid", gridTemplateColumns: "repeat(2,minmax(0,1fr))", gap: "18px 24px", fontSize: 15 }}>
-              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                <span style={{ fontFamily: "var(--font-plex-mono),monospace", fontSize: 11, letterSpacing: ".12em", color: "#BDB6A6" }}>CLIENT</span>
-                <span style={{ fontWeight: 700 }}>Blessed Water</span>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                <span style={{ fontFamily: "var(--font-plex-mono),monospace", fontSize: 11, letterSpacing: ".12em", color: "#BDB6A6" }}>TIMELINE</span>
-                <span style={{ fontWeight: 700, color: "#D4A637" }}>[00 weeks]</span>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                <span style={{ fontFamily: "var(--font-plex-mono),monospace", fontSize: 11, letterSpacing: ".12em", color: "#BDB6A6" }}>LAUNCHED</span>
-                <span style={{ fontWeight: 700, color: "#D4A637" }}>[Month 2026]</span>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                <span style={{ fontFamily: "var(--font-plex-mono),monospace", fontSize: 11, letterSpacing: ".12em", color: "#BDB6A6" }}>HOSTED ON</span>
-                <span style={{ fontWeight: 700 }}>D&rsquo;Matek Cloud</span>
-              </div>
+              {[
+                ["CLIENT", "Blessed Water"],
+                ["TIMELINE", TIMELINE],
+                ["LAUNCHED", LAUNCHED],
+                ["HOSTED ON", "D’Matek Cloud"],
+              ]
+                .filter(([, v]) => supplied(v))
+                .map(([k, v]) => (
+                  <div key={k} style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                    <span style={{ fontFamily: "var(--font-plex-mono),monospace", fontSize: 11, letterSpacing: ".12em", color: "#BDB6A6" }}>{k}</span>
+                    <span style={{ fontWeight: 700 }}>{v}</span>
+                  </div>
+                ))}
             </div>
           </div>
           <div data-in="mask" style={{ borderRadius: 24, overflow: "hidden", background: "#F5F8FB", boxShadow: "0 40px 80px rgba(0,0,0,.45)" }}>
@@ -157,13 +164,13 @@ export default function DropletCaseStudy() {
         </div>
       </section>
 
+      {RESULTS.length > 0 && (
       <section data-screen-label="Results" style={{ background: "#D4A637", color: "#06382E", padding: "clamp(64px,10vh,120px) clamp(18px,3vw,40px)" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", display: "flex", flexDirection: "column", gap: "clamp(32px,5vh,56px)" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", gap: 24, flexWrap: "wrap" }}>
             <h2 data-in="1" style={{ margin: 0, fontWeight: 800, fontSize: "clamp(48px,7vw,120px)", lineHeight: 0.88, letterSpacing: "-.055em" }}>
               The <span style={{ fontFamily: "var(--font-instrument),serif", fontStyle: "italic", fontWeight: 400, letterSpacing: "-.02em" }}>results.</span>
             </h2>
-            <span style={{ fontFamily: "var(--font-plex-mono),monospace", fontSize: 12, letterSpacing: ".12em" }}>PLACEHOLDERS &middot; REPLACE WITH REAL NUMBERS</span>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,200px),1fr))", borderTop: "2px solid #06382E" }}>
             {RESULTS.map((r) => (
@@ -175,25 +182,27 @@ export default function DropletCaseStudy() {
           </div>
         </div>
       </section>
+      )}
 
+      {supplied(PROBLEM_HEAD) && PROBLEM_BODY.every(supplied) && (
       <section data-screen-label="The problem" style={{ background: "#F5F1E8", color: "#06382E", padding: "clamp(72px,12vh,140px) clamp(18px,3vw,40px)" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,380px),1fr))", gap: "clamp(32px,5vw,80px)", alignItems: "start" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
             <span style={{ fontFamily: "var(--font-plex-mono),monospace", fontSize: 12, letterSpacing: ".12em" }}>01 &middot; THE PROBLEM</span>
             <h2 data-in="1" style={{ margin: 0, fontWeight: 800, fontSize: "clamp(44px,5.6vw,96px)", lineHeight: 0.9, letterSpacing: "-.055em" }}>
-              Orders came in by <span style={{ fontFamily: "var(--font-instrument),serif", fontStyle: "italic", fontWeight: 400, letterSpacing: "-.02em" }}>[phone and WhatsApp].</span>
+              Orders came in by <span style={{ fontFamily: "var(--font-instrument),serif", fontStyle: "italic", fontWeight: 400, letterSpacing: "-.02em" }}>{PROBLEM_HEAD}.</span>
             </h2>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 20, fontSize: "clamp(17px,1.4vw,20px)", lineHeight: 1.55, paddingTop: "clamp(0px,4vh,48px)" }}>
-            <p data-in="1" style={{ margin: 0 }}>
-              [How Blessed Water took and tracked orders before Droplet. Who handled them, and what went wrong: missed orders, customers running out, drivers without routes.]
-            </p>
-            <p data-in="1" style={{ margin: 0 }}>
-              [What they asked D&rsquo;Foundry for, in their own words if possible.]
-            </p>
+            {PROBLEM_BODY.map((t) => (
+              <p key={t} data-in="1" style={{ margin: 0 }}>
+                {t}
+              </p>
+            ))}
           </div>
         </div>
       </section>
+      )}
 
       <section data-screen-label="What we built" style={{ background: "#1A1A1A", color: "#F5F1E8", padding: "clamp(72px,12vh,140px) clamp(18px,3vw,40px)", overflow: "hidden" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", display: "flex", flexDirection: "column", gap: "clamp(56px,10vh,120px)" }}>
@@ -239,6 +248,7 @@ export default function DropletCaseStudy() {
         </div>
       </section>
 
+      {PROCESS.filter((st) => supplied(st.title)).length > 1 && (
       <section data-screen-label="How we built it" style={{ background: "#06382E", color: "#F5F1E8", padding: "clamp(72px,12vh,140px) clamp(18px,3vw,40px)" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", display: "flex", flexDirection: "column", gap: "clamp(32px,5vh,56px)" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", gap: 24, flexWrap: "wrap" }}>
@@ -248,7 +258,7 @@ export default function DropletCaseStudy() {
             <span style={{ fontFamily: "var(--font-plex-mono),monospace", fontSize: 12, letterSpacing: ".12em", color: "#A9BBB3" }}>03 &middot; THE PROCESS</span>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,260px),1fr))", gap: 12 }}>
-            {PROCESS.map((st) => (
+            {PROCESS.filter((st) => supplied(st.title) && supplied(st.body) && supplied(st.meta)).map((st) => (
               <div key={st.label} data-in="deal" style={{ display: "flex", flexDirection: "column", gap: 14, background: st.bg, color: st.ink, borderRadius: 24, padding: 28, minHeight: 280 }}>
                 <span style={{ fontFamily: "var(--font-plex-mono),monospace", fontSize: 12, fontWeight: 600 }}>{st.label}</span>
                 <span style={{ fontWeight: 800, fontSize: 28, letterSpacing: "-.035em", lineHeight: 1 }}>{st.title}</span>
@@ -260,14 +270,18 @@ export default function DropletCaseStudy() {
         </div>
       </section>
 
+      )}
+
+      {supplied(QUOTE) && supplied(QUOTE_BY) && (
       <section data-screen-label="Client quote" style={{ background: "#F5F1E8", color: "#06382E", padding: "clamp(72px,14vh,160px) clamp(18px,3vw,40px)" }}>
         <figure style={{ maxWidth: 1200, margin: "0 auto", display: "flex", flexDirection: "column", gap: 28 }}>
           <blockquote data-in="1" style={{ margin: 0, fontFamily: "var(--font-instrument),serif", fontStyle: "italic", fontSize: "clamp(40px,5.4vw,92px)", lineHeight: 1, letterSpacing: "-.02em" }}>
-            &ldquo;[A short quote from Blessed Water about what changed after Droplet.]&rdquo;
+            &ldquo;{QUOTE}&rdquo;
           </blockquote>
-          <figcaption style={{ fontFamily: "var(--font-plex-mono),monospace", fontSize: 13, letterSpacing: ".1em" }}>[NAME] &middot; [ROLE], BLESSED WATER</figcaption>
+          <figcaption style={{ fontFamily: "var(--font-plex-mono),monospace", fontSize: 13, letterSpacing: ".1em" }}>{QUOTE_BY}</figcaption>
         </figure>
       </section>
+      )}
 
       <section data-screen-label="Next" style={{ background: "#06382E", color: "#F5F1E8", padding: "clamp(72px,12vh,140px) clamp(18px,3vw,40px) 32px" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", display: "flex", flexDirection: "column", gap: "clamp(40px,8vh,96px)" }}>

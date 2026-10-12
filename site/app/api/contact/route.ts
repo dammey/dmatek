@@ -36,6 +36,27 @@ function rateLimited(ip: string) {
   return recent.length > MAX_PER_WINDOW;
 }
 
+// D'Foundry (foundry.dmatek.ng) posts its contact form here too. Any
+// *.dmatek.ng origin is allowed; preview hosts can be added via the
+// comma-separated ENQUIRY_ALLOWED_ORIGINS env var.
+function allowedOrigin(origin: string | null) {
+  if (!origin) return null;
+  if (/^https:\/\/([a-z0-9-]+\.)*dmatek\.ng$/.test(origin)) return origin;
+  const extra = (process.env.ENQUIRY_ALLOWED_ORIGINS ?? "").split(",").map((o) => o.trim()).filter(Boolean);
+  return extra.includes(origin) ? origin : null;
+}
+
+function cors(request: Request): Record<string, string> {
+  const origin = allowedOrigin(request.headers.get("origin"));
+  return origin ? { "Access-Control-Allow-Origin": origin, Vary: "Origin" } : {};
+}
+
+export function OPTIONS(request: Request) {
+  const h = cors(request);
+  if (!h["Access-Control-Allow-Origin"]) return new NextResponse(null, { status: 403 });
+  return new NextResponse(null, { status: 204, headers: { ...h, "Access-Control-Allow-Methods": "POST", "Access-Control-Allow-Headers": "Content-Type", "Access-Control-Max-Age": "86400" } });
+}
+
 function escapeHtml(value: string) {
   return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 }
@@ -47,7 +68,7 @@ function reference() {
   return "DM-" + Array.from(bytes, (b) => alphabet[b % alphabet.length]).join("");
 }
 
-export async function POST(request: Request) {
+async function handle(request: Request): Promise<NextResponse> {
   let body: Record<string, unknown>;
   try {
     body = await request.json();
@@ -122,4 +143,10 @@ export async function POST(request: Request) {
     console.error("Enquiry send failed:", err);
     return NextResponse.json({ error: "Failed to send message." }, { status: 500 });
   }
+}
+
+export async function POST(request: Request) {
+  const res = await handle(request);
+  for (const [k, v] of Object.entries(cors(request))) res.headers.set(k, v);
+  return res;
 }

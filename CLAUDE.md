@@ -7,10 +7,10 @@ its commerce division, D'Source.
 
 ```
 dmatek/
-├── site/                 the Next.js info site for dmatek.com (live)
+├── site/                 the Next.js info site for dmatek.ng (live)
 ├── d-foundry/            D'Foundry's own site (BUILD IT) — its own Next.js app (live)
 ├── d-source/
-│   ├── web/              storefront → source.dmatek.com — Next.js app (live)
+│   ├── web/              storefront → source.dmatek.ng — Next.js app (live)
 │   ├── backend/          Express API on Railway, fronting Supabase Postgres (built, not deployed)
 │   ├── admin/            internal staff tool → not built yet
 │   └── mobile/           future mobile app (not started)

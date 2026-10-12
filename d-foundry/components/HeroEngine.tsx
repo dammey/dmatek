@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createEngine, type EngineState } from "@/lib/dfoundryEngine";
+import { CLIENT_WORK_APPROVED } from "@/lib/clientWork";
 
 const WORDS: { text: string; style: React.CSSProperties }[] = [
   { text: "Built", style: { borderRadius: 999, background: "#06382E", color: "#F5F1E8" } },
@@ -21,7 +22,8 @@ const TAGS: { text: string; style: React.CSSProperties }[] = [
   { text: "AUTOMATION", style: { background: "#F5F1E8", border: "1.5px solid #06382E" } },
   { text: "INTEGRATION", style: { background: "#F5F1E8", border: "1.5px solid #06382E" } },
   { text: "QADPAY", style: { background: "#06382E", color: "#D4A637" } },
-  { text: "DROPLET", style: { background: "#D4A637", color: "#06382E" } },
+  // Droplet names a client: shown once Blessed Water gives written permission.
+  ...(CLIENT_WORK_APPROVED ? [{ text: "DROPLET", style: { background: "#D4A637", color: "#06382E" } }] : []),
 ];
 
 export default function HeroEngine() {
@@ -135,7 +137,7 @@ export default function HeroEngine() {
       </div>
 
       {/* Controls */}
-      <div data-ctl="1" style={{ position: "fixed", left: "50%", top: 64, transform: "translateX(-50%)", zIndex: 300, display: "flex", gap: 6, mixBlendMode: "difference", color: "#F5F1E8" }}>
+      <div data-ctl="1" className="df-ctl" style={{ position: "fixed", left: "50%", top: 64, transform: "translateX(-50%)", zIndex: 300, display: "flex", gap: 6, mixBlendMode: "difference", color: "#F5F1E8" }}>
         <button
           onClick={toggleSound}
           aria-label="Toggle sound"

@@ -1,5 +1,7 @@
 "use client";
 
+import { CLIENT_WORK_APPROVED } from "@/lib/clientWork";
+
 const FEATS = [
   { n: "01", title: "Reorder in one tap", body: "Spots when a customer is running low from their order history, and offers their usual." },
   { n: "02", title: "Subscriptions", body: "Scheduled deliveries that keep coming without a new order." },
@@ -14,6 +16,8 @@ const CASES = [
 const DROPLET_URL = "https://web-gamma-fawn-29.vercel.app/";
 
 export default function RecentWork() {
+  // Every item here names a client; hidden until they give written permission.
+  if (!CLIENT_WORK_APPROVED) return null;
   return (
     <section id="droplet" data-screen-label="Recent work" style={{ background: "#1A1A1A", color: "#F5F1E8", padding: "clamp(72px,12vh,140px) clamp(18px,3vw,40px)", overflow: "hidden" }}>
       <div style={{ maxWidth: 1400, margin: "0 auto", display: "flex", flexDirection: "column", gap: "clamp(32px,5vh,56px)" }}>

@@ -1,9 +1,12 @@
 import type { MetadataRoute } from "next";
 
-const siteUrl = "https://dfoundry-dammey-s-projects.vercel.app";
+import { CLIENT_WORK_APPROVED } from "@/lib/clientWork";
+import { SITE_URL } from "@/lib/sites";
+
+const siteUrl = SITE_URL;
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = ["", "/work/droplet"];
+  const routes = CLIENT_WORK_APPROVED ? ["", "/work/droplet"] : [""];
   return routes.map((route) => ({
     url: `${siteUrl}${route}`,
     lastModified: new Date(),
