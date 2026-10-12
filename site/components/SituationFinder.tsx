@@ -53,9 +53,9 @@ export default function SituationFinder() {
                 key={c.title}
                 type="button"
                 onClick={() => choose(i)}
-                className="group flex flex-col gap-2.5 rounded-[22px] border border-forest/14 bg-white p-3.5 pb-5 text-left text-forest transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-1 hover:border-gold hover:shadow-[0_16px_40px_rgba(6,56,46,0.14)]"
+                className="group row-span-3 grid grid-rows-subgrid gap-y-2.5 rounded-[22px] border border-forest/14 bg-white p-3.5 pb-5 text-left text-forest transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-1 hover:border-gold hover:shadow-[0_16px_40px_rgba(6,56,46,0.14)]"
               >
-                <span className="relative block aspect-square overflow-hidden rounded-2xl bg-[#E6E0CE]">
+                <span className="relative block aspect-video overflow-hidden rounded-2xl bg-[#E6E0CE]">
                   <Image
                     src={c.img}
                     alt={c.alt}
@@ -64,8 +64,8 @@ export default function SituationFinder() {
                     className="object-cover transition-transform duration-700 ease-[cubic-bezier(.2,.8,.2,1)] group-hover:scale-[1.09]"
                   />
                 </span>
-                <span className="px-1.5 pt-1 text-[clamp(16px,1.4vw,18px)] font-extrabold leading-[1.2] tracking-[-0.01em] min-[640px]:min-h-[calc(2.4em+4px)]">{c.title}</span>
-                <span className="px-1.5 text-[13.5px] leading-[1.5] text-ink">{c.desc}</span>
+                <span className="px-1.5 pt-1 text-[clamp(18px,1.8vw,22px)] font-extrabold tracking-[-0.01em]">{c.title}</span>
+                <span className="px-1.5 text-[15px] leading-[1.55] text-ink">{c.desc}</span>
               </button>
             ))}
           </div>
