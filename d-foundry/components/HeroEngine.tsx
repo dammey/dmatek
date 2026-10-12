@@ -22,6 +22,7 @@ const TAGS: { text: string; style: React.CSSProperties }[] = [
   { text: "AUTOMATION", style: { background: "#F5F1E8", border: "1.5px solid #06382E" } },
   { text: "INTEGRATION", style: { background: "#F5F1E8", border: "1.5px solid #06382E" } },
   { text: "QADPAY", style: { background: "#06382E", color: "#D4A637" } },
+  { text: "ROMORA", style: { background: "#06382E", color: "#D4A637" } },
   // Droplet names a client: shown with Blessed Water’s written permission.
   ...(CLIENT_WORK_APPROVED ? [{ text: "DROPLET", style: { background: "#D4A637", color: "#06382E" } }] : []),
 ];

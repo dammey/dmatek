@@ -1,5 +1,11 @@
 import { CLIENT_WORK_APPROVED } from "@/lib/clientWork";
 
+// D’Matek’s own products, built at D’Foundry.
+const OWN = [
+  { n: "01", name: "QADPAY", body: "A D’Matek-owned fintech product, currently in development at D’Foundry." },
+  { n: "02", name: "ROMORA", body: "A D’Matek-owned school management platform, currently in development at D’Foundry." },
+];
+
 const DROPLET_URL = "https://web-gamma-fawn-29.vercel.app/";
 
 export default function Products() {
@@ -12,19 +18,21 @@ export default function Products() {
           </h2>
           <span style={{ fontFamily: "var(--font-plex-mono),monospace", fontSize: 12, letterSpacing: ".12em" }}>{CLIENT_WORK_APPROVED ? "05" : "04"} &middot; PRODUCTS</span>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,420px),1fr))", gap: "clamp(20px,3vw,40px)" }}>
-          <div data-rv="deal" style={{ display: "flex", flexDirection: "column", gap: 18, background: "#06382E", color: "#F5F1E8", borderRadius: 36, padding: "clamp(20px,2.4vw,32px)" }}>
-            <div style={{ position: "relative", aspectRatio: "16/10", borderRadius: 24, overflow: "hidden", background: "#0B4B3D" }}>
-              <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", fontFamily: "var(--font-plex-mono),monospace", fontSize: 12, letterSpacing: ".14em", color: "#E0B54A" }}>IN THE FOUNDRY &middot; COMING SOON</div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,520px),1fr))", gap: "clamp(20px,3vw,40px)" }}>
+          {OWN.map((pr) => (
+            <div key={pr.name} data-rv="deal" style={{ display: "flex", flexDirection: "column", gap: 18, background: "#06382E", color: "#F5F1E8", borderRadius: 36, padding: "clamp(20px,2.4vw,32px)" }}>
+              <div style={{ position: "relative", aspectRatio: "16/10", borderRadius: 24, overflow: "hidden", background: "#0B4B3D" }}>
+                <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", fontFamily: "var(--font-plex-mono),monospace", fontSize: 12, letterSpacing: ".14em", color: "#E0B54A" }}>IN THE FOUNDRY &middot; COMING SOON</div>
+              </div>
+              <span style={{ alignSelf: "flex-start", background: "#D4A637", color: "#06382E", borderRadius: 999, padding: "6px 12px", fontFamily: "var(--font-plex-mono),monospace", fontSize: 11, fontWeight: 600 }}>PRODUCT {pr.n} &middot; IN DEVELOPMENT</span>
+              <span style={{ fontWeight: 800, fontSize: "clamp(56px,7vw,110px)", lineHeight: 0.85, letterSpacing: "-.065em" }}>{pr.name}</span>
+              <p style={{ margin: 0, fontSize: 17, lineHeight: 1.55, color: "#D9E5DE", maxWidth: "44ch" }}>{pr.body}</p>
             </div>
-            <span style={{ alignSelf: "flex-start", background: "#D4A637", color: "#06382E", borderRadius: 999, padding: "6px 12px", fontFamily: "var(--font-plex-mono),monospace", fontSize: 11, fontWeight: 600 }}>PRODUCT 01 &middot; IN DEVELOPMENT</span>
-            <span style={{ fontWeight: 800, fontSize: "clamp(56px,7vw,110px)", lineHeight: 0.85, letterSpacing: "-.065em" }}>QADPAY</span>
-            <p style={{ margin: 0, fontSize: 17, lineHeight: 1.55, color: "#D9E5DE", maxWidth: "44ch" }}>A D&rsquo;Matek-owned fintech product, currently in development at D&rsquo;Foundry.</p>
-          </div>
+          ))}
           {/* Droplet names a client: shown with written permission. */}
           {CLIENT_WORK_APPROVED && (
-          <div data-rv="deal" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 18, background: "#F5F1E8", borderRadius: 36, padding: "clamp(24px,3vw,40px)", minHeight: "clamp(320px,40vw,520px)" }}>
-            <span style={{ alignSelf: "flex-start", background: "#06382E", color: "#F5F1E8", borderRadius: 999, padding: "6px 12px", fontFamily: "var(--font-plex-mono),monospace", fontSize: 11, fontWeight: 600 }}>PRODUCT 02 &middot; LIVE</span>
+          <div data-rv="deal" style={{ gridColumn: "1 / -1", display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 18, background: "#F5F1E8", borderRadius: 36, padding: "clamp(24px,3vw,40px)", minHeight: "clamp(320px,40vw,520px)" }}>
+            <span style={{ alignSelf: "flex-start", background: "#06382E", color: "#F5F1E8", borderRadius: 999, padding: "6px 12px", fontFamily: "var(--font-plex-mono),monospace", fontSize: 11, fontWeight: 600 }}>PRODUCT 03 &middot; LIVE</span>
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               <span style={{ fontFamily: "var(--font-instrument),serif", fontStyle: "italic", fontSize: "clamp(80px,11vw,180px)", lineHeight: 0.8, letterSpacing: "-.03em" }}>Droplet</span>
               <p style={{ margin: 0, fontSize: 17, lineHeight: 1.55, color: "#28705A", maxWidth: "40ch" }}>Water on demand, built for Blessed Water and live in Lagos and Ibadan.</p>

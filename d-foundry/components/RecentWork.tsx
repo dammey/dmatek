@@ -11,7 +11,6 @@ const FEATS = [
 const CASES = [
   { client: "Omatek", body: "Website revamp, with company email on D’Matek Cloud." },
   { client: "Valour and Valiant", body: "New website, with business email on D’Matek Cloud." },
-  { client: "Romora", body: "A school management platform." },
   { client: "Saratu’s Atelier", body: "Website, plus a wedding app and website." },
 ];
 
