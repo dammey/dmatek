@@ -17,6 +17,9 @@ build(
         r'<sc-if value="\{\{ showDraft \}\}".*?</sc-if>\s*',
     ],
     subs=[
+        ('Connect the physical world. Buildings, security', 'Buildings, security'),
+        ('border-top:2px solid #D4A637;padding:10px 0 0;margin:0">IL&Eacute;MESH &middot; PHYSICAL WORLD</p><h2', 'border-top:2px solid #D4A637;padding:10px 0 0;margin:0">WHAT WE COVER</p><h2'),
+
         ("padding:clamp(112px,15vh,140px) clamp(18px,3vw,40px) clamp(32px,5vh,56px)", "padding:clamp(36px,6vh,64px) clamp(18px,3vw,40px) clamp(32px,5vh,56px)"),
         ('<g onClick="{{ z.pick }}" onMouseEnter="{{ z.pick }}" style="cursor:pointer">',
          '<g onClick="{{ z.pick }}" onMouseEnter="{{ z.pick }}" onFocus="{{ z.pick }}" tabindex="0" role="button" aria-label="{{ z.label }}" style="cursor:pointer">'),

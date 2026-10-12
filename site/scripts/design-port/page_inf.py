@@ -33,6 +33,8 @@ build(
         r'(?<=</section>)<div aria-hidden="true" style="height:22px.*$',
     ],
     subs=[
+        ('Connect it. Design, build and operate', 'Design, build and operate'),
+
         ("</div>\n</sc-if>", "</div>"),
         ("height:100vh;min-height:560px;", "height:calc(100svh - 78px);min-height:520px;"),
         ("touch-action:none\">", "touch-action:pan-y\">"),

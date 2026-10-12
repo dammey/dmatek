@@ -254,7 +254,7 @@ export default function HeroEngine() {
 
 function TitleSequence() {
   return (
-    <div data-v="c" data-screen-label="Title sequence" style={{ position: "relative", height: "800vh", background: "#06382E" }}>
+    <div data-v="c" data-screen-label="Title sequence" style={{ position: "relative", height: "var(--df-seq)", background: "#06382E" }}>
       <div style={{ position: "sticky", top: 0, height: "100svh", overflow: "hidden" }}>
         <div data-track="1" style={{ position: "absolute", left: 0, top: 0, height: "100%", width: "400vw", display: "flex", willChange: "transform" }}>
           <div data-scene="0" style={{ position: "relative", flex: "0 0 100vw", height: "100%", background: "#F5F1E8", color: "#06382E", display: "grid", placeItems: "center", overflow: "hidden" }}>

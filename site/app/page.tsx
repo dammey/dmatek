@@ -254,8 +254,7 @@ export default function HomePage() {
             </h2>
             <p className="m-0 text-[17px] leading-[1.7] text-cream/82">
               Infrastructure connects it. Cloud runs it. D&rsquo;Foundry builds it. Il&eacute;Mesh connects the
-              physical world. D&rsquo;Source sources it. Assurance manages, protects and improves it. One team
-              accountable for the result.
+              physical world. D&rsquo;Source sources it. Assurance manages, protects and improves it.
             </p>
           </Reveal>
           <Reveal>

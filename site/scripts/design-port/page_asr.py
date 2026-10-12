@@ -17,6 +17,9 @@ build(
         r'<sc-if value="\{\{ showDraft \}\}".*?</sc-if>\s*',
     ],
     subs=[
+        ('Manage, protect and improve it. Advisory,', 'Advisory,'),
+        ('border-top:2px solid #D4A637;padding:10px 0 0;margin:0">D&rsquo;MATEK ASSURANCE &middot; MANAGE IT</p><h2', 'border-top:2px solid #D4A637;padding:10px 0 0;margin:0">WHAT WE COVER</p><h2'),
+
         ("padding:clamp(112px,15vh,140px) clamp(18px,3vw,40px) clamp(40px,6vh,72px)", "padding:clamp(36px,6vh,64px) clamp(18px,3vw,40px) clamp(40px,6vh,72px)"),
         ('href="#cover-b6" data-open="cover-b6"', 'href="#asr-b6" data-open="asr-b6"'),
         ('href="#cover-b7" data-open="cover-b7"', 'href="#asr-b7" data-open="asr-b7"'),
