@@ -55,6 +55,40 @@ function Icon({ id }: { id: Business["id"] }) {
 
 type Rect = { t: number; l: number; w: number; h: number };
 
+const FULL = "inset(0px 0px 0px 0px round 36px)";
+
+/** Each specialist opens (and closes) with its own style. `from` is the hidden
+ * state the profile grows out of; closing plays the same frames in reverse. */
+function styleFor(id: Business["id"], p: HTMLElement, f: Rect) {
+  const W = p.offsetWidth, H = p.offsetHeight;
+  const cx = f.l + f.w / 2, cy = f.t + f.h / 2;
+  const reach = Math.hypot(W, H);
+  switch (id) {
+    case "infrastructure": // grows out of its own tile
+      return { from: { clipPath: `inset(${f.t}px ${Math.max(0, W - f.l - f.w)}px ${Math.max(0, H - f.t - f.h)}px ${f.l}px round 18px)` }, to: { clipPath: FULL }, ms: 560, ease: "cubic-bezier(.7,0,.2,1)" };
+    case "cloud": // a circle that spreads out from the tile, like a cloud opening
+      return { from: { clipPath: `circle(0px at ${cx}px ${cy}px)` }, to: { clipPath: `circle(${reach}px at ${cx}px ${cy}px)` }, ms: 620, ease: "cubic-bezier(.6,0,.2,1)" };
+    case "foundry": // compiles in left to right, in steps
+      return { from: { clipPath: "inset(0px 100% 0px 0px round 36px)" }, to: { clipPath: FULL }, ms: 520, ease: "steps(9, end)" };
+    case "ilemesh": // swings down like a gate
+      return { from: { clipPath: FULL, transform: "perspective(1100px) rotateX(-70deg)", opacity: 0 }, to: { clipPath: FULL, transform: "perspective(1100px) rotateX(0deg)", opacity: 1 }, ms: 560, ease: "cubic-bezier(.2,.8,.2,1)", origin: "50% 0%" };
+    case "source": // rises from below like a parcel lifting out of a box
+      return { from: { clipPath: "inset(100% 0px 0px 0px round 36px)", transform: "translateY(36px) scale(.97)" }, to: { clipPath: FULL, transform: "none" }, ms: 560, ease: "cubic-bezier(.2,.8,.2,1)" };
+    case "assurance": // opens from the middle like two doors
+      return { from: { clipPath: "inset(0px 50% 0px 50% round 36px)" }, to: { clipPath: FULL }, ms: 560, ease: "cubic-bezier(.65,0,.2,1)" };
+  }
+}
+
+/** How the other tiles return after a close: each comes back its own way. */
+const RETURN: Keyframe[] = [
+  { opacity: 0, transform: "translateX(-28px)" },
+  { opacity: 0, transform: "translateY(-20px) scale(.94)" },
+  { opacity: 0, transform: "rotate(-3deg) scale(.9)" },
+  { opacity: 0, transform: "translateY(26px)" },
+  { opacity: 0, transform: "scale(.78)" },
+  { opacity: 0, transform: "translateX(28px)" },
+];
+
 /** Services relationship diagram: one green D'Matek card above six specialist
  * tiles. A tile expands (clip-path from its own rectangle) into the full
  * profile; the round "−" shrinks it back into the same tile. */
@@ -67,10 +101,9 @@ export default function RelationshipDiagram() {
   const returnTo = useRef<number | null>(null);
   const closing = useRef(false);
 
-  const clipFor = (p: HTMLElement) => {
-    const f = from.current!;
-    const W = p.offsetWidth, H = p.offsetHeight;
-    return `inset(${f.t}px ${Math.max(0, W - f.l - f.w)}px ${Math.max(0, H - f.t - f.h)}px ${f.l}px round 18px)`;
+  const frames = (id: Business["id"], p: HTMLElement) => {
+    const f = from.current ?? { t: 0, l: Math.max(0, p.offsetWidth / 2 - 110), w: 220, h: 140 };
+    return styleFor(id, p, f);
   };
 
   const openAt = (i: number, el: HTMLElement | null) => {
@@ -85,25 +118,25 @@ export default function RelationshipDiagram() {
 
   const close = () => {
     const p = profile.current;
-    if (!p || !from.current || !p.animate || reduced() || closing.current) {
+    const ob = open >= 0 ? businesses[open] : null;
+    if (!p || !ob || !p.animate || reduced() || closing.current) {
       returnTo.current = open;
       setOpen(-1);
       return;
     }
     closing.current = true;
-    [...p.children].forEach((c) => c.animate([{ opacity: 1, transform: "none" }, { opacity: 0, transform: "translateY(10px)" }], { duration: 240, fill: "forwards", easing: "ease-in" }));
-    const an = p.animate(
-      [
-        { clipPath: "inset(0px 0px 0px 0px round 36px)", filter: "brightness(1)" },
-        { clipPath: clipFor(p), filter: "brightness(1.25)" },
-      ],
-      { duration: 700, delay: 140, easing: "cubic-bezier(.7,0,.25,1)", fill: "forwards" },
-    );
-    an.onfinish = () => {
+    const st = frames(ob.id, p);
+    [...p.children].forEach((c) => c.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 140, fill: "forwards", easing: "ease-in" }));
+    if (st.origin) p.style.transformOrigin = st.origin;
+    const done = () => {
+      if (!closing.current) return;
       closing.current = false;
       returnTo.current = open;
       setOpen(-1);
     };
+    const an = p.animate([st.to, st.from], { duration: Math.round(st.ms * 0.62), easing: st.ease.startsWith("steps") ? st.ease : "cubic-bezier(.5,0,.8,.4)", fill: "forwards" });
+    an.onfinish = done;
+    an.oncancel = done;
   };
 
   // Deep links (/businesses#cloud) open that profile.
@@ -143,20 +176,16 @@ export default function RelationshipDiagram() {
       if (!from.current || !p.animate || reduced()) return;
       const top = p.getBoundingClientRect().top;
       if (top < 70 || top > window.innerHeight * 0.6) window.scrollTo({ top: window.scrollY + top - 110, behavior: "smooth" });
-      p.animate(
-        [
-          { clipPath: clipFor(p), filter: "brightness(1.35)" },
-          { clipPath: "inset(0px 0px 0px 0px round 36px)", filter: "brightness(1)" },
-        ],
-        { duration: 900, easing: "cubic-bezier(.7,0,.2,1)" },
-      );
+      const st = frames(businesses[open].id, p);
+      if (st.origin) p.style.transformOrigin = st.origin;
+      p.animate([st.from, st.to], { duration: st.ms, easing: st.ease });
       [...p.children].forEach((c, k) =>
         c.animate(
           [
-            { opacity: 0, transform: "translateY(22px)", filter: "blur(6px)" },
-            { opacity: 1, transform: "none", filter: "blur(0)" },
+            { opacity: 0, transform: "translateY(18px)" },
+            { opacity: 1, transform: "none" },
           ],
-          { duration: 650, delay: 480 + k * 110, easing: EASE, fill: "backwards" },
+          { duration: 450, delay: Math.round(st.ms * 0.4) + k * 90, easing: EASE, fill: "backwards" },
         ),
       );
     }
@@ -169,8 +198,8 @@ export default function RelationshipDiagram() {
       tiles.forEach((t, k) => {
         if (!t.animate) return;
         if (k === idx)
-          t.animate([{ background: "#06382E", color: "#F5F1E8", transform: "scale(1.03)" }, { background: "#FFFFFF", transform: "scale(1)" }], { duration: 650, easing: EASE });
-        else t.animate([{ opacity: 0, transform: "scale(.94)" }, { opacity: 1, transform: "none" }], { duration: 520, delay: 60 + Math.abs(k - idx) * 70, easing: EASE, fill: "backwards" });
+          t.animate([{ background: "#06382E", color: "#F5F1E8", transform: "scale(1.04)" }, { background: "#FFFFFF", transform: "scale(1)" }], { duration: 480, easing: EASE });
+        else t.animate([RETURN[k % RETURN.length], { opacity: 1, transform: "none" }], { duration: 380, delay: Math.abs(k - idx) * 40, easing: EASE, fill: "backwards" });
       });
       const y = tiles[idx]?.getBoundingClientRect().top;
       if (y != null && (y < 70 || y > window.innerHeight - 80)) window.scrollTo({ top: window.scrollY + y - 200, behavior: "smooth" });
