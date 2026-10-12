@@ -47,7 +47,7 @@ export default function SituationFinder() {
       {!sc && (
         <>
           <p className="mb-3.5 text-[11px] font-bold tracking-[0.16em] text-progress">STEP 1 OF 3 &middot; CHOOSE A SITUATION</p>
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,280px),1fr))] gap-[clamp(12px,1.6vw,20px)]">
+          <div className="grid grid-cols-1 min-[600px]:grid-cols-2 min-[960px]:grid-cols-3 gap-[clamp(12px,1.6vw,20px)]">
             {situations.map((c, i) => (
               <button
                 key={c.title}
