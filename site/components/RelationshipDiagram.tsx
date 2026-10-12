@@ -194,7 +194,7 @@ export default function RelationshipDiagram() {
       </div>
       <div ref={stage} className="relative">
         {!ob ? (
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,280px),1fr))] gap-[clamp(10px,1.4vw,16px)]">
+          <div key="tiles" className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,280px),1fr))] gap-[clamp(10px,1.4vw,16px)]">
             {businesses.map((b, i) => (
               <button
                 key={b.id}
@@ -222,6 +222,7 @@ export default function RelationshipDiagram() {
           </div>
         ) : (
           <div
+            key="profile"
             id="biz-profile"
             ref={profile}
             tabIndex={-1}
