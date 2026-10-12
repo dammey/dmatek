@@ -89,7 +89,10 @@ async function handle(request: Request): Promise<NextResponse> {
   }
 
   // Honeypot: real visitors never see this field. Pretend success to bots.
-  if (typeof body.website === "string" && body.website.trim()) return NextResponse.json({ ok: true, ref: reference() });
+  if (typeof body.hp_check === "string" && body.hp_check.trim()) {
+    console.warn("Enquiry dropped by honeypot.");
+    return NextResponse.json({ ok: true, ref: reference() });
+  }
 
   const fields: Record<string, string> = {};
   if (!f.name) fields.name = "Please tell us your name.";

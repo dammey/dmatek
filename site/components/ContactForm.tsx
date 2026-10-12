@@ -114,8 +114,8 @@ export default function ContactForm({ initialTopic, initialOrg, initialNeed, ini
     <form onSubmit={handleSubmit} onFocus={onStart} noValidate className={`${formShell} flex flex-col gap-5`} style={{ background: "rgba(3,42,34,0.7)" }}>
       {/* Spam trap: invisible to people, filled in by bots. */}
       <div aria-hidden="true" className="absolute left-[-9999px] h-px w-px overflow-hidden">
-        <label htmlFor="f-website">Website</label>
-        <input id="f-website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+        <label htmlFor="f-hp">Leave this empty</label>
+        <input id="f-hp" name="hp_check" type="text" tabIndex={-1} autoComplete="off" data-lpignore="true" data-1p-ignore="true" />
       </div>
 
       <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,200px),1fr))] gap-5">
