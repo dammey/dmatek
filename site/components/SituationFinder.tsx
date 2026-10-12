@@ -64,8 +64,8 @@ export default function SituationFinder() {
                     className="object-cover transition-transform duration-700 ease-[cubic-bezier(.2,.8,.2,1)] group-hover:scale-[1.09]"
                   />
                 </span>
-                <span className="px-1.5 pt-1 text-[clamp(18px,1.8vw,22px)] font-extrabold tracking-[-0.01em]">{c.title}</span>
-                <span className="px-1.5 text-[15px] leading-[1.55] text-ink">{c.desc}</span>
+                <span className="px-1.5 pt-1 text-[clamp(16px,1.4vw,18px)] font-extrabold leading-[1.2] tracking-[-0.01em] min-[640px]:min-h-[calc(2.4em+4px)]">{c.title}</span>
+                <span className="px-1.5 text-[13.5px] leading-[1.5] text-ink">{c.desc}</span>
               </button>
             ))}
           </div>
