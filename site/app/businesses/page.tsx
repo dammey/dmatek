@@ -31,11 +31,9 @@ export default function ServicesPage() {
           </h1>
           <p className="mb-3.5 max-w-[36em] text-[clamp(17px,1.7vw,20px)] leading-[1.7] text-ink" style={rise(".2s")}>
             Technology problems rarely fit neatly into one category. A new office might need connectivity, cloud services,
-            equipment and ongoing support. Another customer might need only a network upgrade.
-          </p>
-          <p className="mb-3.5 max-w-[36em] text-[clamp(17px,1.7vw,20px)] leading-[1.7] text-ink" style={rise(".2s")}>
-            D&rsquo;Matek brings the relevant expertise together around your requirements. Our specialist capabilities work
-            together when a project demands it, and can be engaged individually when that is the right approach.
+            equipment and support. Another customer might need only a network upgrade. D&rsquo;Matek brings the right
+            specialists together around your requirements, or works with you on one capability alone when that&rsquo;s the
+            right approach.
           </p>
           <p className="mb-3.5 max-w-[36em] text-[clamp(17px,1.7vw,20px)] font-semibold leading-[1.7] text-forest" style={rise(".2s")}>
             You bring us the problem. We work out what it takes to solve it, coordinate the delivery and remain accountable for
