@@ -61,7 +61,7 @@ export const irh = {
       pts: [
         "We work directly with project managers and architects to fit into existing construction workflows.",
         "A volume-friendly approach for multi-unit developments, from small blocks to large estates.",
-        "The same relationship extends into estate-wide internet service after handover.",
+        "The same relationship extends into EstateLine, estate-wide internet service after handover.",
         "A single infrastructure partner for this project and the projects that follow.",
       ],
     },
@@ -69,10 +69,11 @@ export const irh = {
 };
 
 export const estateInternet = {
-  name: "Estate internet",
+  name: "EstateLine",
+  descriptor: "Estate internet service",
   tag: "Internet for the people who live on the estate",
   body:
-    "Once an estate is handed over, the same relationship can extend into ongoing estate-wide internet service, delivered through ISP partnerships over the infrastructure we plan with you. Residents connect to a professionally planned network instead of each arranging their own provider and digging up the estate again.",
+    "EstateLine is D’Matek’s internet service for estates. Once an estate is handed over, the same relationship that planned its network extends into ongoing, estate-wide internet service, delivered through ISP partnerships. Residents connect to a professionally planned network instead of each arranging their own provider and digging up the estate again.",
   points: [
     "ISP-ready estate fibre, planned before finishes go in",
     "Estate-wide internet service after handover, through ISP partnerships",

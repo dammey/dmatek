@@ -10,7 +10,7 @@ import { pageMeta } from "@/lib/seo";
 export const metadata: Metadata = pageMeta({
   title: "Internet-Ready Homes",
   description:
-    "Network pre-wiring for residential developments: structured cabling, a port in every room that needs one and a central cabinet, installed during construction instead of cut into finished walls.",
+    "Network pre-wiring for residential developments in Lagos and beyond: structured Cat6 cabling, a port in every room that needs one and a central cabinet, installed during construction instead of cut into finished walls.",
   path: "/internet-ready-homes",
   ogTitle: "Wire the internet in, the way you wire in power.",
 });
@@ -46,6 +46,14 @@ export default function InternetReadyHomesPage() {
             >
               Discuss your development &rarr;
             </Link>
+            <a
+              href="/downloads/internet-ready-homes.pdf"
+              download
+              data-track="irh_pdf"
+              className="whitespace-nowrap rounded-full border border-forest/22 px-7 py-4.5 text-[15px] font-semibold text-forest transition-transform hover:-translate-y-1 hover:border-gold"
+            >
+              Download the one-page overview (PDF)
+            </a>
             <Link
               href="#how"
               className="whitespace-nowrap rounded-full border border-forest/22 px-7 py-4.5 text-[15px] font-semibold text-forest transition-transform hover:-translate-y-1 hover:border-gold"
@@ -133,7 +141,7 @@ export default function InternetReadyHomesPage() {
               <p className="mb-3.5 text-[11.5px] font-bold tracking-[0.2em] text-progress">THE NEXT STEP</p>
               <h2 className="mb-3.5 text-[clamp(28px,3.6vw,48px)] font-extrabold leading-[1.05] tracking-[-0.03em] text-forest text-balance">Planning a development?</h2>
               <p className="m-0 max-w-[34em] text-[17px] leading-[1.7] text-ink">
-                Tell us about the site, the number of units and where you are in construction. We will discuss the appropriate next step with you. After handover, the same relationship can extend into {estateInternet.name.toLowerCase()} for the estate.
+                Tell us about the site, the number of units and where you are in construction. We will discuss the appropriate next step with you. After handover, the same relationship can extend into {estateInternet.name}, our estate internet service.
               </p>
             </div>
             <div className="flex flex-wrap gap-3">

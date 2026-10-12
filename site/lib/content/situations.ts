@@ -25,10 +25,11 @@ export const situations: Situation[] = [
   {"title":"Equip my business","desc":"Genuine devices and equipment, set up and supported.","img":"/assets/photos/source-kit.jpg","alt":"Devices ready for set-up","topic":"Equip my business","org":"Business or office","overview":"We source genuine devices and equipment, set them up ready to use, and support them afterwards.","assess":"Quantities, specifications, delivery location and timing.","needs":["Laptops and desktops","Phones and tablets","Printers and peripherals","Networking equipment","Set-up and delivery","Repairs and replacement"]},
 ];
 
-/** The four pills under the tiles: Solutions deep-links, or straight to the enquiry. */
+/** The pills under the tiles: Solutions deep-links, or straight to the enquiry. */
 export const situationPills: { title: string; href: string }[] = [
   { title: "I need software built or integrated", href: "/solutions#ep-software" },
   { title: "Keep the power on", href: "/solutions#ep-power" },
   { title: "Secure my organisation", href: "/solutions#ep-secure" },
+  { title: "Building or running an estate?", href: "/solutions/real-estate" },
   { title: "Not sure. Talk to us", href: "/contact" },
 ];

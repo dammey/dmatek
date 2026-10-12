@@ -156,7 +156,7 @@ export default async function EnvironmentPage({ params }: { params: Promise<{ en
               <Reveal className="flex flex-col gap-3.5 rounded-[clamp(26px,3.4vw,44px)] p-[clamp(26px,3vw,40px)] shadow-[0_18px_46px_rgba(6,56,46,0.08)]" style={{ background: "linear-gradient(150deg,#EFEADC,#E6E0CE)" }}>
                 <span className="w-max rounded-[4px] px-4 py-2 text-[11px] font-bold tracking-[0.16em] text-forest" style={{ background: "rgba(212,166,55,0.3)" }}>FOR ESTATES AND RESIDENTS</span>
                 <p className="m-0 text-[clamp(24px,2.6vw,32px)] font-extrabold leading-[1.1] tracking-[-0.025em] text-forest">{estateInternet.name}</p>
-                <p className="m-0 text-[15.5px] font-semibold leading-[1.6] text-forest">{estateInternet.tag}</p>
+                <p className="m-0 text-[15.5px] font-semibold leading-[1.6] text-forest">{estateInternet.descriptor}. {estateInternet.tag}.</p>
                 <p className="m-0 text-[15.5px] leading-[1.65] text-ink">{estateInternet.body}</p>
                 <ul className="m-0 flex list-none flex-col gap-2 p-0">
                   {estateInternet.points.map((t) => (
@@ -166,9 +166,18 @@ export default async function EnvironmentPage({ params }: { params: Promise<{ en
                     </li>
                   ))}
                 </ul>
-                <Link href={ask("I’d like to talk about estate internet for an estate.")} data-track="estate_internet_ask" className="mt-auto w-max whitespace-nowrap rounded-full bg-gold px-5.5 py-3.5 text-[14px] font-bold text-forest hover:bg-forest hover:text-cream">
-                  Ask about estate internet &rarr;
-                </Link>
+                <div className="mt-auto flex flex-wrap gap-3">
+                  <Link href={ask("I’d like to talk about EstateLine for an estate.")} data-track="estateline_ask" className="w-max whitespace-nowrap rounded-full bg-gold px-5.5 py-3.5 text-[14px] font-bold text-forest hover:bg-forest hover:text-cream">
+                    Ask about EstateLine &rarr;
+                  </Link>
+                  <Link
+                    href={enquiryHref({ topic: "EstateLine", org: "Home", message: "I live on an estate and would like to know if EstateLine is available there. Estate name: ", source: "estateline_resident" })}
+                    data-track="estateline_resident"
+                    className="w-max whitespace-nowrap rounded-full border border-forest/22 px-5.5 py-3 text-[14px] font-bold text-forest hover:border-gold"
+                  >
+                    Live on an estate? Ask if it&rsquo;s covered
+                  </Link>
+                </div>
               </Reveal>
             </div>
           </div>

@@ -38,7 +38,7 @@ export const businesses: Business[] = [
     solves: "Reliable internet, Wi-Fi and network infrastructure for businesses, schools, properties, events and homes.",
     tag: "Networks and connectivity",
     works: "Works with Cloud on internet and hosting, IléMesh on CCTV and access, and Assurance for support after handover.",
-    items: ["Network Design & Deployment", "Enterprise & Guest Wi-Fi", "Internet with Backup Links & Failover", "Fibre & Structured Cabling", "ISP-Ready Estate Fibre", "Event Connectivity", "Managed Networks", "Wi-Fi-as-a-Service", "IT Power Protection (UPS, Surge & Earthing)"],
+    items: ["Network Design & Deployment", "Enterprise & Guest Wi-Fi", "Internet with Backup Links & Failover", "Fibre & Structured Cabling", "ISP-Ready Estate Fibre", "Internet-Ready Homes", "EstateLine Estate Internet", "Event Connectivity", "Managed Networks", "Wi-Fi-as-a-Service", "IT Power Protection (UPS, Surge & Earthing)"],
     site: "/infrastructure",
     external: false,
     siteLabel: "Explore D’Matek Infrastructure →",

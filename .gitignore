@@ -17,3 +17,4 @@ out/
 
 # ad-hoc Playwright verification screenshots (not application code)
 /compare/
+shots/
