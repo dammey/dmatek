@@ -65,17 +65,17 @@ function styleFor(id: Business["id"], p: HTMLElement, f: Rect) {
   const reach = Math.hypot(W, H);
   switch (id) {
     case "infrastructure": // grows out of its own tile
-      return { from: { clipPath: `inset(${f.t}px ${Math.max(0, W - f.l - f.w)}px ${Math.max(0, H - f.t - f.h)}px ${f.l}px round 18px)` }, to: { clipPath: FULL }, ms: 560, ease: "cubic-bezier(.7,0,.2,1)" };
+      return { from: { clipPath: `inset(${f.t}px ${Math.max(0, W - f.l - f.w)}px ${Math.max(0, H - f.t - f.h)}px ${f.l}px round 18px)` }, to: { clipPath: FULL }, ms: 780, ease: "cubic-bezier(.65,0,.25,1)" };
     case "cloud": // a circle that spreads out from the tile, like a cloud opening
-      return { from: { clipPath: `circle(0px at ${cx}px ${cy}px)` }, to: { clipPath: `circle(${reach}px at ${cx}px ${cy}px)` }, ms: 620, ease: "cubic-bezier(.6,0,.2,1)" };
+      return { from: { clipPath: `circle(0px at ${cx}px ${cy}px)` }, to: { clipPath: `circle(${reach}px at ${cx}px ${cy}px)` }, ms: 860, ease: "cubic-bezier(.65,0,.25,1)" };
     case "foundry": // compiles in left to right, in steps
-      return { from: { clipPath: "inset(0px 100% 0px 0px round 36px)" }, to: { clipPath: FULL }, ms: 520, ease: "steps(9, end)" };
+      return { from: { clipPath: "inset(0px 100% 0px 0px round 36px)" }, to: { clipPath: FULL }, ms: 760, ease: "steps(14, end)" };
     case "ilemesh": // swings down like a gate
-      return { from: { clipPath: FULL, transform: "perspective(1100px) rotateX(-70deg)", opacity: 0 }, to: { clipPath: FULL, transform: "perspective(1100px) rotateX(0deg)", opacity: 1 }, ms: 560, ease: "cubic-bezier(.2,.8,.2,1)", origin: "50% 0%" };
+      return { from: { clipPath: FULL, transform: "perspective(1100px) rotateX(-70deg)", opacity: 0 }, to: { clipPath: FULL, transform: "perspective(1100px) rotateX(0deg)", opacity: 1 }, ms: 800, ease: "cubic-bezier(.45,0,.2,1)", origin: "50% 0%" };
     case "source": // rises from below like a parcel lifting out of a box
-      return { from: { clipPath: "inset(100% 0px 0px 0px round 36px)", transform: "translateY(36px) scale(.97)" }, to: { clipPath: FULL, transform: "none" }, ms: 560, ease: "cubic-bezier(.2,.8,.2,1)" };
+      return { from: { clipPath: "inset(100% 0px 0px 0px round 36px)", transform: "translateY(36px) scale(.97)" }, to: { clipPath: FULL, transform: "none" }, ms: 800, ease: "cubic-bezier(.45,0,.2,1)" };
     case "assurance": // opens from the middle like two doors
-      return { from: { clipPath: "inset(0px 50% 0px 50% round 36px)" }, to: { clipPath: FULL }, ms: 560, ease: "cubic-bezier(.65,0,.2,1)" };
+      return { from: { clipPath: "inset(0px 50% 0px 50% round 36px)" }, to: { clipPath: FULL }, ms: 800, ease: "cubic-bezier(.65,0,.25,1)" };
   }
 }
 
@@ -126,7 +126,7 @@ export default function RelationshipDiagram() {
     }
     closing.current = true;
     const st = frames(ob.id, p);
-    [...p.children].forEach((c) => c.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 140, fill: "forwards", easing: "ease-in" }));
+    [...p.children].forEach((c) => c.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 260, fill: "forwards", easing: "ease-in-out" }));
     if (st.origin) p.style.transformOrigin = st.origin;
     const done = () => {
       if (!closing.current) return;
@@ -134,7 +134,7 @@ export default function RelationshipDiagram() {
       returnTo.current = open;
       setOpen(-1);
     };
-    const an = p.animate([st.to, st.from], { duration: Math.round(st.ms * 0.62), easing: st.ease.startsWith("steps") ? st.ease : "cubic-bezier(.5,0,.8,.4)", fill: "forwards" });
+    const an = p.animate([st.to, st.from], { duration: Math.round(st.ms * 0.85), easing: st.ease.startsWith("steps") ? st.ease : "cubic-bezier(.65,0,.35,1)", fill: "forwards" });
     an.onfinish = done;
     an.oncancel = done;
   };
@@ -185,7 +185,7 @@ export default function RelationshipDiagram() {
             { opacity: 0, transform: "translateY(18px)" },
             { opacity: 1, transform: "none" },
           ],
-          { duration: 450, delay: Math.round(st.ms * 0.4) + k * 90, easing: EASE, fill: "backwards" },
+          { duration: 560, delay: Math.round(st.ms * 0.35) + k * 110, easing: EASE, fill: "backwards" },
         ),
       );
     }
@@ -198,8 +198,8 @@ export default function RelationshipDiagram() {
       tiles.forEach((t, k) => {
         if (!t.animate) return;
         if (k === idx)
-          t.animate([{ background: "#06382E", color: "#F5F1E8", transform: "scale(1.04)" }, { background: "#FFFFFF", transform: "scale(1)" }], { duration: 480, easing: EASE });
-        else t.animate([RETURN[k % RETURN.length], { opacity: 1, transform: "none" }], { duration: 380, delay: Math.abs(k - idx) * 40, easing: EASE, fill: "backwards" });
+          t.animate([{ background: "#06382E", color: "#F5F1E8", transform: "scale(1.04)" }, { background: "#FFFFFF", transform: "scale(1)" }], { duration: 640, easing: EASE });
+        else t.animate([RETURN[k % RETURN.length], { opacity: 1, transform: "none" }], { duration: 560, delay: Math.abs(k - idx) * 65, easing: EASE, fill: "backwards" });
       });
       const y = tiles[idx]?.getBoundingClientRect().top;
       if (y != null && (y < 70 || y > window.innerHeight - 80)) window.scrollTo({ top: window.scrollY + y - 200, behavior: "smooth" });
