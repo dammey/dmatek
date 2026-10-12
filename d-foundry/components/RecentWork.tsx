@@ -11,12 +11,14 @@ const FEATS = [
 const CASES = [
   { client: "Omatek", body: "Website revamp, with company email on D’Matek Cloud." },
   { client: "Valour and Valiant", body: "New website, with business email on D’Matek Cloud." },
+  { client: "Romora", body: "A school management platform." },
+  { client: "Saratu’s Atelier", body: "Website, plus a wedding app and website." },
 ];
 
 const DROPLET_URL = "https://web-gamma-fawn-29.vercel.app/";
 
 export default function RecentWork() {
-  // Every item here names a client; hidden until they give written permission.
+  // Every item here names a client; shown with their written permission.
   if (!CLIENT_WORK_APPROVED) return null;
   return (
     <section id="droplet" data-screen-label="Recent work" style={{ background: "#1A1A1A", color: "#F5F1E8", padding: "clamp(72px,12vh,140px) clamp(18px,3vw,40px)", overflow: "hidden" }}>

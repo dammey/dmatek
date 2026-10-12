@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default function DropletLayout({ children }: { children: React.ReactNode }) {
-  // Hidden until Blessed Water gives written permission to be named.
+  // Shown with Blessed Water’s written permission; NEXT_PUBLIC_FOUNDRY_CLIENT_WORK=hidden takes it down.
   if (!CLIENT_WORK_APPROVED) notFound();
   return children;
 }

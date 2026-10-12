@@ -21,7 +21,7 @@ export default function Products() {
             <span style={{ fontWeight: 800, fontSize: "clamp(56px,7vw,110px)", lineHeight: 0.85, letterSpacing: "-.065em" }}>QADPAY</span>
             <p style={{ margin: 0, fontSize: 17, lineHeight: 1.55, color: "#D9E5DE", maxWidth: "44ch" }}>A D&rsquo;Matek-owned fintech product, currently in development at D&rsquo;Foundry.</p>
           </div>
-          {/* Droplet names a client: shown once permission is given. */}
+          {/* Droplet names a client: shown with written permission. */}
           {CLIENT_WORK_APPROVED && (
           <div data-rv="deal" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 18, background: "#F5F1E8", borderRadius: 36, padding: "clamp(24px,3vw,40px)", minHeight: "clamp(320px,40vw,520px)" }}>
             <span style={{ alignSelf: "flex-start", background: "#06382E", color: "#F5F1E8", borderRadius: 999, padding: "6px 12px", fontFamily: "var(--font-plex-mono),monospace", fontSize: 11, fontWeight: 600 }}>PRODUCT 02 &middot; LIVE</span>
