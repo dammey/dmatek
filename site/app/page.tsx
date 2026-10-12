@@ -288,7 +288,7 @@ export default function HomePage() {
               Six specialists. Try one.
             </h2>
           </Reveal>
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] gap-[clamp(14px,1.8vw,22px)]">
+          <div className="grid grid-cols-1 min-[600px]:grid-cols-2 min-[960px]:grid-cols-3 gap-[clamp(14px,1.8vw,22px)]">
             {tryTiles.map((t) => {
               const cls =
                 "group flex flex-col gap-2.5 rounded-[28px] bg-[#EFEADC] p-[clamp(22px,2.4vw,30px)] text-forest transition-[transform,background,color] duration-300 hover:-translate-y-1 hover:bg-forest hover:text-cream";
@@ -296,7 +296,7 @@ export default function HomePage() {
                 <>
                   <span className="text-[11px] font-bold tracking-[0.16em] text-progress group-hover:text-gold">{t.label}</span>
                   <span className="text-[clamp(20px,2vw,26px)] font-extrabold leading-[1.15] tracking-[-0.02em]">{t.title}</span>
-                  <span className="text-[14px] font-bold text-gold">Try it &rarr;</span>
+                  <span className="mt-auto pt-1 text-[14px] font-bold text-gold">Try it &rarr;</span>
                 </>
               );
               return t.href.startsWith("/") ? (
