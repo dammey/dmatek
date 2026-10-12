@@ -8,7 +8,8 @@
 .cl-root input::placeholder{color:rgba(245,241,232,0.5)}
 .cl-root svg [font-family]{font-family:var(--font-manrope),sans-serif}
 @media(max-width:1279px){.cl-root #cloud-hero{left:24px !important;max-width:min(420px,42%) !important}.cl-root #cloud-d{bottom:auto !important;top:52px !important;width:72px !important}}
-@media(max-width:900px){.cl-root #cloud-tag{display:none}}
+/* The D mark sits top-left at every width (the prototype had it bottom-left). */
+.cl-root #cloud-d{bottom:auto !important;top:64px !important}
 /* Lighter, non-3D hero on phones and in lite mode (reduced motion, data saver, 2G). */
 .cl-root #cloud-lite{display:none}
 .cl-root[data-lite] #cloud-lite{display:flex}

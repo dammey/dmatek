@@ -38,6 +38,8 @@ build(
          contact_form("#050809", "rgba(61,255,168,.4)", "#030405")),
     ],
     subs=[
+        # Header tag line ("EMAIL · HOSTING · BACKUP · SERVERS") removed by request.
+        ('<span id="cloud-tag" style="font-family:\'JetBrains Mono\',monospace;font-size:11px;letter-spacing:.18em;color:#8C9A9E;white-space:nowrap">EMAIL · HOSTING · BACKUP · SERVERS</span>', ''),
         ('Run it. The digital environment businesses use', 'The digital environment businesses use'),
 
         ("margin-top:84px;min-height:calc(100vh - 84px);", "min-height:calc(100svh - 78px);"),
@@ -63,7 +65,8 @@ build(
 .cl-root input::placeholder{color:rgba(245,241,232,0.5)}
 .cl-root svg [font-family]{font-family:var(--font-manrope),sans-serif}
 @media(max-width:1279px){.cl-root #cloud-hero{left:24px !important;max-width:min(420px,42%) !important}.cl-root #cloud-d{bottom:auto !important;top:52px !important;width:72px !important}}
-@media(max-width:900px){.cl-root #cloud-tag{display:none}}
+/* The D mark sits top-left at every width (the prototype had it bottom-left). */
+.cl-root #cloud-d{bottom:auto !important;top:64px !important}
 /* Lighter, non-3D hero on phones and in lite mode (reduced motion, data saver, 2G). */
 .cl-root #cloud-lite{display:none}
 .cl-root[data-lite] #cloud-lite{display:flex}

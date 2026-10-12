@@ -156,7 +156,6 @@ export default function Markup({ v }) {
 <a data-c3="brand" href="#top" onClick={v.back} style={{"display": "flex", "alignItems": "center", "gap": "12px", "color": "#F5F1E8", "whiteSpace": "nowrap"}}>
 <span style={{"display": "flex", "flexDirection": "column", "lineHeight": "1"}}><span style={{"fontFamily": "var(--font-jbm),'JetBrains Mono',monospace", "fontSize": "12px", "letterSpacing": ".34em", "color": "#D4A637"}}>CLOUD · RUN IT</span></span>
 </a>
-<span id="cloud-tag" style={{"fontFamily": "var(--font-jbm),'JetBrains Mono',monospace", "fontSize": "11px", "letterSpacing": ".18em", "color": "#8C9A9E", "whiteSpace": "nowrap"}}>EMAIL · HOSTING · BACKUP · SERVERS</span>
 <div style={{"flex": "1"}}></div>
 <button onClick={v.toggleSound} style={{"display": "flex", "alignItems": "center", "gap": "8px", "background": "rgba(3,4,5,.6)", "border": `1px solid ${v.soundEdge}`, "color": v.soundInk, "fontFamily": "var(--font-jbm),'JetBrains Mono',monospace", "fontSize": "10px", "letterSpacing": ".1em", "padding": "8px 10px", "whiteSpace": "nowrap"}}><span data-c3="eq" style={{"display": "flex", "alignItems": "flex-end", "gap": "2px", "height": "10px"}}><span style={{"width": "2px", "height": "40%", "background": "currentColor"}}></span><span style={{"width": "2px", "height": "90%", "background": "currentColor"}}></span><span style={{"width": "2px", "height": "60%", "background": "currentColor"}}></span></span>{v.soundLabel}</button>
 </header>
