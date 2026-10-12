@@ -1,0 +1,23 @@
+/* Generated from docs/project/v3.6/DMatek Assurance.dc.html: hover/focus states and page styles. */
+@keyframes asrPop{0%{transform:translateY(8px);opacity:0}100%{transform:none;opacity:1}}
+@keyframes asrRing{0%{transform:scale(.7);opacity:.6}100%{transform:scale(3.6);opacity:0}}
+@keyframes asrCar{to{transform:translateX(1300px)}}
+@keyframes asrShield{0%,100%{opacity:.25;transform:scale(1)}50%{opacity:.7;transform:scale(1.25)}}
+.asr-root a{color:#06382E}
+.asr-root a:hover{color:#28705A}
+.asr-root a:focus-visible,.asr-root button:focus-visible,.asr-root input:focus-visible,.asr-root textarea:focus-visible{outline:2px solid #D4A637;outline-offset:3px}
+.asr-root svg [font-family]{font-family:var(--font-manrope),sans-serif}
+.asr-root input::placeholder,.asr-root textarea::placeholder{color:rgba(245,241,232,0.5)}
+.asr-root [data-pm]::before{content:"+"}
+.asr-root details[open]>summary [data-pm]::before{content:"\2212"}
+.asr-root summary::-webkit-details-marker{display:none}
+@media(max-width:640px){.asr-root [data-asr=ctrl]{grid-template-columns:auto 1fr !important}.asr-root [data-asr=ctrl]>div:last-child{grid-column:1/-1}.asr-root [data-asr=ev]{grid-template-columns:48px 1fr !important}.asr-root [data-asr=ev]>span:last-child{grid-column:2;justify-self:start}}
+@media (prefers-reduced-motion: reduce){.asr-root [style*="animation"]{animation:none!important}}
+.asr-h0:hover{background:#F5F1E8 !important}
+.asr-h1:hover{background:#0B4B3D !important}
+.asr-h2:hover{border-color:#D4A637 !important}
+.asr-h3:hover{border-color:#D4A637 !important;background:rgba(212,166,55,0.15) !important}
+.asr-h4:hover{background:#06382E !important;color:#F5F1E8 !important}
+.asr-h5:hover{background:#D4A637 !important;color:#06382E !important}
+.asr-h6:hover{border-color:#06382E !important;background:rgba(6,56,46,0.06) !important}
+.asr-h7:hover{color:#D4A637 !important}

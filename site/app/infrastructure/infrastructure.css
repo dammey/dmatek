@@ -1,0 +1,19 @@
+/* Generated from docs/project/v3.6/DMatek Infrastructure Hero shared.dc.html: hover/focus states and page styles. */
+@keyframes infFlow{to{stroke-dashoffset:-16}}
+.inf-root a{color:inherit}
+.inf-root svg [font-family]{font-family:var(--font-manrope),sans-serif}
+.inf-root a:hover{color:#D4A637}
+.inf-root [data-pm]::before{content:"+"}
+.inf-root details[open]>summary [data-pm]::before{content:"\2212"}
+.inf-root summary::-webkit-details-marker{display:none}
+.inf-root input::placeholder{color:rgba(245,241,232,0.55)}
+@media (prefers-reduced-motion: reduce){.inf-root [style*="infFlow"]{animation:none!important}}
+.inf-h0:hover{background:#D4A637 !important;color:#06382E !important}
+.inf-h1:hover{background:#0B4B3D !important}
+.inf-h2:hover{border-color:#D4A637 !important;background:rgba(212,166,55,0.15) !important}
+.inf-h3:hover{border-color:#D4A637 !important}
+.inf-h4:hover{background:#F5F1E8 !important}
+.inf-h5:hover{background:rgba(6,56,46,0.04) !important;padding-left:12px !important}
+.inf-h6:hover{background:#06382E !important;color:#F5F1E8 !important}
+.inf-h7:hover{border-color:#06382E !important;background:rgba(6,56,46,0.06) !important}
+.inf-h8:focus{border-bottom-color:#F5F1E8 !important}

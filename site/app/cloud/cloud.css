@@ -1,0 +1,31 @@
+/* Generated from docs/project/v3.6/DMatek Cloud Home v3.1 shared.dc.html: hover/focus states and page styles. */
+@keyframes c3Draw{to{stroke-dashoffset:0}}
+@keyframes c3Run{from{stroke-dashoffset:0}to{stroke-dashoffset:-100}}
+@keyframes c3Pulse{0%{transform:scale(.6);opacity:.9}100%{transform:scale(2.4);opacity:0}}
+.cl-root a{color:#3DFFA8}
+.cl-root a:hover{color:#A6FFD6}
+.cl-root button{font-family:inherit;cursor:pointer}
+.cl-root input::placeholder{color:rgba(245,241,232,0.5)}
+.cl-root svg [font-family]{font-family:var(--font-manrope),sans-serif}
+@media(max-width:1279px){.cl-root #cloud-hero{left:24px !important;max-width:min(420px,42%) !important}.cl-root #cloud-d{bottom:auto !important;top:52px !important;width:72px !important}}
+@media(max-width:900px){.cl-root #cloud-tag{display:none}}
+/* Lighter, non-3D hero on phones and in lite mode (reduced motion, data saver, 2G). */
+.cl-root #cloud-lite{display:none}
+.cl-root[data-lite] #cloud-lite{display:flex}
+.cl-root[data-lite] [data-c3="root"]{display:none}
+@media(max-width:759px){.cl-root #cloud-lite{display:flex}.cl-root [data-c3="root"]{display:none}}
+.cl-root [data-pm]::before{content:"+"}
+.cl-root details[open]>summary [data-pm]::before{content:"\2212"}
+.cl-root summary::-webkit-details-marker{display:none}
+@media (prefers-reduced-motion: reduce){.cl-root [style*="c3Pulse"],.cl-root [style*="c3Run"]{animation:none!important}.cl-root [style*="c3Draw"]{animation:none!important;stroke-dashoffset:0!important}}
+.cl-h0:hover{background:#F5F1E8 !important}
+.cl-h1:hover{background:#03281F !important}
+.cl-h2:hover{border-color:#D4A637 !important}
+.cl-h3:focus{border-color:#D4A637 !important}
+.cl-h4:hover{border-color:#D4A637 !important;color:#D4A637 !important}
+.cl-h5:hover{background:rgba(212,166,55,.12) !important}
+.cl-h6:hover{border-color:#3DFFA8 !important;color:#3DFFA8 !important}
+.cl-h7:hover{background:#0B4B3D !important}
+.cl-h8:hover{border-color:#D4A637 !important;background:rgba(212,166,55,0.15) !important}
+.cl-h9:hover{background:#06382E !important;color:#F5F1E8 !important}
+.cl-h10:hover{border-color:#06382E !important;background:rgba(6,56,46,0.06) !important}

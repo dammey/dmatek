@@ -1,0 +1,26 @@
+/* Generated from docs/project/v3.6/DMatek IleMesh.dc.html: hover/focus states and page styles. */
+@keyframes ileCar{0%{transform:translateX(-170px);opacity:1}36%{transform:translateX(110px)}50%{transform:translateX(110px)}86%{transform:translateX(470px);opacity:1}92%{transform:translateX(520px);opacity:0}100%{transform:translateX(-170px);opacity:0}}
+@keyframes ileBeam{0%,100%{opacity:.15}50%{opacity:.55}}
+@keyframes ileBarrier{0%,38%{transform:rotate(0deg)}50%,88%{transform:rotate(-62deg)}100%{transform:rotate(0deg)}}
+@keyframes ileFlow{to{stroke-dashoffset:-16}}
+@keyframes ileRing{0%{transform:scale(.6);opacity:.8}100%{transform:scale(2.2);opacity:0}}
+@keyframes ileGlow{0%,100%{opacity:.35}50%{opacity:.9}}
+.ile-root a{color:#06382E}
+.ile-root a:hover{color:#28705A}
+.ile-root a:focus-visible,.ile-root button:focus-visible,.ile-root input:focus-visible,.ile-root textarea:focus-visible,.ile-root g[role=button]:focus-visible{outline:2px solid #D4A637;outline-offset:3px}
+.ile-root svg [font-family]{font-family:var(--font-manrope),sans-serif}
+.ile-root input::placeholder,.ile-root textarea::placeholder{color:rgba(245,241,232,0.5)}
+@media(max-width:1200px){.ile-root #ile-card{position:static !important;margin:-4px 12px 14px;grid-template-columns:1fr !important}}
+.ile-root [data-pm]::before{content:"+"}
+.ile-root details[open]>summary [data-pm]::before{content:"\2212"}
+.ile-root summary::-webkit-details-marker{display:none}
+@media (prefers-reduced-motion: reduce){.ile-root [style*="animation"]{animation:none!important}}
+.ile-h0:hover{background:#F5F1E8 !important}
+.ile-h1:hover{background:#D4A637 !important;color:#06382E !important}
+.ile-h2:hover{border-color:#D4A637 !important}
+.ile-h3:hover{color:#28705A !important}
+.ile-h4:hover{background:#0B4B3D !important}
+.ile-h5:hover{color:#D4A637 !important}
+.ile-h6:hover{border-color:#D4A637 !important;background:rgba(212,166,55,0.15) !important}
+.ile-h7:hover{background:#06382E !important;color:#F5F1E8 !important}
+.ile-h8:hover{border-color:#06382E !important;background:rgba(6,56,46,0.06) !important}
