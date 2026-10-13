@@ -3,7 +3,7 @@ import Link from "next/link";
 import Eyebrow from "@/components/Eyebrow";
 import Reveal from "@/components/Reveal";
 import SignalRings from "@/components/SignalRings";
-import { estateline, IRH_PATH, models, who } from "@/lib/content";
+import { estateline, estatelineModels, estatelineWho, IRH_PATH } from "@/lib/content";
 import { enquiryHref } from "@/lib/enquiry";
 import { pageMeta } from "@/lib/seo";
 
@@ -84,7 +84,7 @@ export default function EstateLinePage() {
           <Eyebrow>HOW WE CAN WORK WITH YOU</Eyebrow>
           <p className="mb-7 max-w-[42em] text-[17px] leading-[1.7] text-ink">What happens after deployment depends on what the developer or estate agrees with us.</p>
           <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] gap-4">
-            {models.map((m, i) => (
+            {estatelineModels.map((m, i) => (
               <Reveal key={m.h} className="flex flex-col gap-2 rounded-[22px] border border-forest/14 bg-white p-[clamp(18px,2vw,26px)]">
                 <span className="text-[11px] font-bold tracking-[0.16em] text-progress">{pad(i)}</span>
                 <span className="text-[19px] font-extrabold leading-[1.2] text-forest">{m.h}</span>
@@ -94,7 +94,7 @@ export default function EstateLinePage() {
           </div>
           <p className="mb-3.5 mt-8 text-[11px] font-bold tracking-[0.16em] text-progress">WHO IT HELPS</p>
           <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,220px),1fr))] gap-4">
-            {who.map((w) => (
+            {estatelineWho.map((w) => (
               <div key={w.h} className="flex flex-col gap-1.5 border-t-2 border-gold pt-3.5">
                 <span className="text-[17px] font-extrabold text-forest">{w.h}</span>
                 <span className="text-[15px] leading-[1.6] text-ink">{w.t}</span>

@@ -71,17 +71,28 @@ export const irh = {
 
 /** One product at different scales: the same approach from a single home to
  * a whole estate. What D'Matek does after deployment is set by the contract. */
-/** Shared by both offerings: what happens after deployment is set by the contract. */
-export const models = [
+/** Internet-Ready Homes: what happens after deployment is set by the contract. */
+export const irhModels = [
+  { h: "Deploy and hand over", t: "We design and build it, test it, document it and hand it over to the developer or home owner." },
+  { h: "Deploy and stay on", t: "We stay on to look after the network after handover, as an add-on." },
+];
+
+/** EstateLine: the same two options, plus a telecoms operator as an extra customer. */
+export const estatelineModels = [
   { h: "Deploy and hand over", t: "We design and build it, test it, document it and hand it over to the developer or estate management." },
   { h: "Deploy and stay on", t: "We stay on to manage the network after handover, as an add-on to the estate." },
   { h: "Deploy for a telco", t: "We build the network for a telecoms operator that wants to serve the estate, including areas where fibre has not arrived yet." },
 ];
 
-export const who = [
-  { h: "Developers", t: "A tangible feature to sell, and no cutting into finished walls or digging up the estate later." },
-  { h: "Telecoms operators", t: "A way to serve estates and areas they may not cover yet." },
+export const irhWho = [
+  { h: "Developers", t: "A tangible feature to sell, and no cutting into finished walls later." },
+  { h: "Homeowners", t: "A connected home from day one, with no cables cut into finished walls." },
+];
+
+export const estatelineWho = [
+  { h: "Developers", t: "A tangible feature to sell, and no digging up the estate later." },
   { h: "Homeowners", t: "A connected home from day one, including where fibre has not reached." },
+  { h: "Telecoms operators", t: "A way to serve estates and areas they may not cover yet." },
 ];
 
 /** EstateLine: the same discipline as Internet-Ready Homes, applied to a whole estate. */
@@ -110,6 +121,6 @@ export const irhScale = {
     { n: "In the home: Internet-Ready Homes", t: "Structured cabling to every room that needs a port, finished at a central cabinet." },
     { n: "Across the estate: EstateLine", t: "Structured cabling for the whole estate: the network that carries internet from a central point to every home." },
   ],
-  models,
-  who,
+  models: irhModels,
+  who: irhWho,
 };
