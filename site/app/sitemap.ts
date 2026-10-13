@@ -4,7 +4,7 @@ import { liveEnvironments } from "@/lib/content";
 const siteUrl = "https://www.dmatek.ng";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = ["", "/solutions", "/businesses", "/infrastructure", "/cloud", "/ilemesh", "/assurance", "/infrastructure/internet-ready-homes", "/work", "/about", "/contact"];
+  const routes = ["", "/solutions", "/businesses", "/infrastructure", "/cloud", "/ilemesh", "/assurance", "/infrastructure/internet-ready-homes", "/infrastructure/estateline", "/work", "/about", "/contact"];
   const envRoutes = liveEnvironments.map((e) => `/solutions/${e.id}`);
   return [...routes, ...envRoutes].map((route) => ({
     url: `${siteUrl}${route}`,

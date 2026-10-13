@@ -3,7 +3,7 @@ import Link from "next/link";
 import Eyebrow from "@/components/Eyebrow";
 import Reveal from "@/components/Reveal";
 import SignalRings from "@/components/SignalRings";
-import { irh, irhScale } from "@/lib/content";
+import { ESTATELINE_PATH, irh, irhScale } from "@/lib/content";
 import { enquiryHref } from "@/lib/enquiry";
 import { pageMeta } from "@/lib/seo";
 
@@ -107,6 +107,9 @@ export default function InternetReadyHomesPage() {
               </Reveal>
             ))}
           </div>
+          <Link href={ESTATELINE_PATH} data-track="try_estateline" className="mt-6 inline-block whitespace-nowrap rounded-full border border-forest/22 px-6 py-3.5 text-[14px] font-bold text-forest hover:border-gold">
+            See EstateLine, for the whole estate &rarr;
+          </Link>
           <p className="mb-3.5 mt-8 text-[11px] font-bold tracking-[0.16em] text-progress">HOW WE CAN WORK WITH YOU</p>
           <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] gap-4">
             {irhScale.models.map((m, i) => (
@@ -175,7 +178,7 @@ export default function InternetReadyHomesPage() {
               <p className="mb-3.5 text-[11.5px] font-bold tracking-[0.2em] text-progress">THE NEXT STEP</p>
               <h2 className="mb-3.5 text-[clamp(28px,3.6vw,48px)] font-extrabold leading-[1.05] tracking-[-0.03em] text-forest text-balance">Planning a development?</h2>
               <p className="m-0 max-w-[34em] text-[17px] leading-[1.7] text-ink">
-                Tell us about the site, the number of units and where you are in construction. We will discuss the appropriate next step with you. It can be one home, a block or a whole estate, and we can stay on to manage it afterwards if you want.
+                Tell us about the site, the number of units and where you are in construction. We will discuss the appropriate next step with you. It can be one home, a block or, with EstateLine, a whole estate, and we can stay on to manage it afterwards if you want.
               </p>
             </div>
             <div className="flex flex-wrap gap-3">

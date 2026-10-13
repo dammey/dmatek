@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 import Eyebrow from "@/components/Eyebrow";
 import Reveal from "@/components/Reveal";
 import SignalRings from "@/components/SignalRings";
-import { defaultDeliver, IRH_PATH, irh, irhScale, liveEnvironments as environments, packages } from "@/lib/content";
+import { defaultDeliver, ESTATELINE_PATH, estateline, IRH_PATH, irh, liveEnvironments as environments, packages } from "@/lib/content";
 import { enquiryHref } from "@/lib/enquiry";
 
 /** Environment → the enquiry form's environment option. */
@@ -132,31 +132,27 @@ export default async function EnvironmentPage({ params }: { params: Promise<{ en
       {env.id === "real-estate" && (
         <section className="bg-cream">
           <div className="mx-auto max-w-[1280px] px-5 pb-[clamp(40px,5vw,72px)] sm:px-8">
-            <Eyebrow>FIRST OFFERING</Eyebrow>
-            <Reveal className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] gap-x-10 gap-y-6 rounded-[clamp(26px,3.4vw,44px)] p-[clamp(26px,3vw,40px)] shadow-[0_18px_46px_rgba(6,56,46,0.08)]" style={{ background: "linear-gradient(150deg,#EFEADC,#E6E0CE)" }}>
-              <div className="flex flex-col gap-3.5">
-                <span className="w-max rounded-[4px] px-4 py-2 text-[11px] font-bold tracking-[0.16em] text-forest" style={{ background: "rgba(212,166,55,0.3)" }}>AVAILABLE</span>
+            <Eyebrow>INSIDE CONNECTED ESTATE</Eyebrow>
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] gap-4 sm:gap-6">
+              <Reveal className="flex flex-col gap-3.5 rounded-[clamp(26px,3.4vw,44px)] p-[clamp(26px,3vw,40px)] shadow-[0_18px_46px_rgba(6,56,46,0.08)]" style={{ background: "linear-gradient(150deg,#EFEADC,#E6E0CE)" }}>
+                <span className="w-max rounded-[4px] px-4 py-2 text-[11px] font-bold tracking-[0.16em] text-forest" style={{ background: "rgba(212,166,55,0.3)" }}>AVAILABLE · FIRST OFFERING</span>
                 <p className="m-0 text-[clamp(24px,2.6vw,32px)] font-extrabold leading-[1.1] tracking-[-0.025em] text-forest">{irh.name}</p>
-                <p className="m-0 text-[15.5px] font-semibold leading-[1.6] text-forest">{irhScale.h}</p>
-                <p className="m-0 text-[15.5px] leading-[1.65] text-ink">
-                  Structured cabling built in during construction instead of cut into finished walls, from a single home to a whole estate.
-                </p>
-                <Link href={IRH_PATH} data-track="try_internet_ready_homes" className="mt-2 w-max whitespace-nowrap rounded-full bg-gold px-5.5 py-3.5 text-[14px] font-bold text-forest hover:bg-forest hover:text-cream">
+                <p className="m-0 text-[15.5px] font-semibold leading-[1.6] text-forest">{irh.tag}</p>
+                <p className="m-0 text-[15.5px] leading-[1.65] text-ink">Structured cabling built into each home during construction instead of cut into finished walls. We can hand it over, or stay on to manage it.</p>
+                <Link href={IRH_PATH} data-track="try_internet_ready_homes" className="mt-auto w-max whitespace-nowrap rounded-full bg-gold px-5.5 py-3.5 text-[14px] font-bold text-forest hover:bg-forest hover:text-cream">
                   See Internet-Ready Homes &rarr;
                 </Link>
-              </div>
-              <div>
-                <p className="mb-3 text-[11px] font-bold tracking-[0.16em] text-progress">HOW WE CAN WORK WITH YOU</p>
-                <ul className="m-0 flex list-none flex-col gap-3 p-0">
-                  {irhScale.models.map((m) => (
-                    <li key={m.h} className="flex gap-3 text-[15px] leading-[1.55] text-ink">
-                      <span aria-hidden="true" className="mt-[8px] h-1.5 w-1.5 flex-none rounded-full bg-gold" />
-                      <span><strong className="text-forest">{m.h}.</strong> {m.t}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </Reveal>
+              </Reveal>
+              <Reveal className="flex flex-col gap-3.5 rounded-[clamp(26px,3.4vw,44px)] p-[clamp(26px,3vw,40px)] shadow-[0_18px_46px_rgba(6,56,46,0.08)]" style={{ background: "linear-gradient(150deg,#EFEADC,#E6E0CE)" }}>
+                <span className="w-max rounded-[4px] px-4 py-2 text-[11px] font-bold tracking-[0.16em] text-forest" style={{ background: "rgba(212,166,55,0.3)" }}>AVAILABLE</span>
+                <p className="m-0 text-[clamp(24px,2.6vw,32px)] font-extrabold leading-[1.1] tracking-[-0.025em] text-forest">{estateline.name}</p>
+                <p className="m-0 text-[15.5px] font-semibold leading-[1.6] text-forest">{estateline.tag}</p>
+                <p className="m-0 text-[15.5px] leading-[1.65] text-ink">The network that reaches every home on the estate, planned before roads and finishes go in. Handed over, managed by us, or built for a telecoms operator.</p>
+                <Link href={ESTATELINE_PATH} data-track="try_estateline" className="mt-auto w-max whitespace-nowrap rounded-full bg-gold px-5.5 py-3.5 text-[14px] font-bold text-forest hover:bg-forest hover:text-cream">
+                  See EstateLine &rarr;
+                </Link>
+              </Reveal>
+            </div>
           </div>
         </section>
       )}

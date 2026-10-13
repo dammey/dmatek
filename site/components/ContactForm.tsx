@@ -29,7 +29,7 @@ export default function ContactForm({ initialTopic, initialOrg, initialNeed, ini
   const [message, setMessage] = useState(initialMessage ?? "");
   const started = useRef(false);
   // Developer enquiries (Internet-Ready Homes) also ask how big the project is and how far along it is.
-  const developer = !!source && (source.startsWith("irh") || source === "home_finder_developer");
+  const developer = !!source && (source.startsWith("irh") || source.startsWith("estateline") || source === "home_finder_developer");
 
   function onStart() {
     if (started.current) return;
