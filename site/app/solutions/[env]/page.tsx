@@ -138,7 +138,7 @@ export default async function EnvironmentPage({ params }: { params: Promise<{ en
                 <span className="w-max rounded-[4px] px-4 py-2 text-[11px] font-bold tracking-[0.16em] text-forest" style={{ background: "rgba(212,166,55,0.3)" }}>AVAILABLE · FIRST OFFERING</span>
                 <p className="m-0 text-[clamp(24px,2.6vw,32px)] font-extrabold leading-[1.1] tracking-[-0.025em] text-forest">{irh.name}</p>
                 <p className="m-0 text-[15.5px] font-semibold leading-[1.6] text-forest">{irh.tag}</p>
-                <p className="m-0 text-[15.5px] leading-[1.65] text-ink">Structured cabling built into each home during construction instead of cut into finished walls. We can hand it over, or stay on to manage it.</p>
+                <p className="m-0 text-[15.5px] leading-[1.65] text-ink">Structured cabling built into a single home during construction instead of cut into finished walls. We can hand it over, or stay on to look after it.</p>
                 <Link href={IRH_PATH} data-track="try_internet_ready_homes" className="mt-auto w-max whitespace-nowrap rounded-full bg-gold px-5.5 py-3.5 text-[14px] font-bold text-forest hover:bg-forest hover:text-cream">
                   See Internet-Ready Homes &rarr;
                 </Link>
@@ -147,7 +147,7 @@ export default async function EnvironmentPage({ params }: { params: Promise<{ en
                 <span className="w-max rounded-[4px] px-4 py-2 text-[11px] font-bold tracking-[0.16em] text-forest" style={{ background: "rgba(212,166,55,0.3)" }}>AVAILABLE</span>
                 <p className="m-0 text-[clamp(24px,2.6vw,32px)] font-extrabold leading-[1.1] tracking-[-0.025em] text-forest">{estateline.name}</p>
                 <p className="m-0 text-[15.5px] font-semibold leading-[1.6] text-forest">{estateline.tag}</p>
-                <p className="m-0 text-[15.5px] leading-[1.65] text-ink">The network that reaches every home on the estate, planned before roads and finishes go in. Handed over, managed by us, or built for a telecoms operator.</p>
+                <p className="m-0 text-[15.5px] leading-[1.65] text-ink">For whole estates: the network that reaches every home, planned before roads and finishes go in. Handed over, managed by us, or built for a telecoms operator.</p>
                 <Link href={ESTATELINE_PATH} data-track="try_estateline" className="mt-auto w-max whitespace-nowrap rounded-full bg-gold px-5.5 py-3.5 text-[14px] font-bold text-forest hover:bg-forest hover:text-cream">
                   See EstateLine &rarr;
                 </Link>

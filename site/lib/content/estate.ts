@@ -9,7 +9,7 @@ export const ESTATELINE_PATH = "/infrastructure/estateline";
 
 export const irh = {
   name: "Internet-Ready Homes",
-  tag: "Network pre-wiring for residential developments",
+  tag: "Network pre-wiring for single homes",
   concept:
     "Internet connectivity is now as essential to a home as electricity. Just as every modern building is wired for power during construction, D’Matek installs professional network cabling at the same stage, so homes are ready for how people live today: streaming, remote work, smart devices and reliable whole-home Wi-Fi.",
   problems: [
@@ -53,17 +53,17 @@ export const irh = {
       pts: [
         "Installed with minimal disruption, during a phase when the site is already open for wiring work.",
         "No re-entry into finished units and no cutting into completed walls.",
-        "A standardised approach across every unit in the development, for consistent quality.",
-        "One point of contact for the whole development’s network infrastructure, from first unit to last.",
+        "A standardised approach across every home you build, for consistent quality.",
+        "One point of contact for the network in every home you build.",
       ],
     },
     {
       h: "A long-term infrastructure partner",
       pts: [
         "We work directly with project managers and architects to fit into existing construction workflows.",
-        "A volume-friendly approach for multi-unit developments, from small blocks to large estates.",
         "For a whole estate, the same approach continues as EstateLine.",
-        "A single infrastructure partner for this project and the projects that follow.",
+        "For a whole estate, the same approach continues as EstateLine.",
+        "A single infrastructure partner for this home and the ones that follow.",
       ],
     },
   ],
@@ -100,7 +100,7 @@ export const estateline = {
   name: "EstateLine",
   tag: "Structured cabling for the whole estate",
   intro:
-    "Internet-Ready Homes puts the cabling inside the home. EstateLine does the same job for the whole estate: the network that reaches every home, planned before roads and finishes go in. Think of it as structured cabling at estate scale. It is bigger and more involved, with more to plan and more ways to work together.",
+    "Internet-Ready Homes puts the cabling inside a single home. EstateLine does the same job for a whole estate: the network that reaches every home, planned before roads and finishes go in. Think of it as structured cabling at estate scale. It is bigger and more involved, with more to plan and more ways to work together.",
   covers: [
     "Planning the estate network before roads and finishes go in",
     "Cabling from a central point to every home on the estate",
@@ -108,18 +108,18 @@ export const estateline = {
     "Testing, documentation and handover",
   ],
   vs: [
-    { n: "Internet-Ready Homes", t: "Inside the home or block: structured cabling to every room that needs a port, finished at a central cabinet." },
-    { n: "EstateLine", t: "Across the estate: the network that carries internet from a central point to every home." },
+    { n: "Internet-Ready Homes", t: "For single homes: structured cabling to every room that needs a port, finished at a central cabinet." },
+    { n: "EstateLine", t: "For whole estates: the network that carries internet from a central point to every home on the estate." },
   ],
 };
 
 export const irhScale = {
   h: "From one home to a whole estate",
   intro:
-    "Internet-Ready Homes covers the cabling inside each home. For a whole estate, the same approach continues as EstateLine, the network that reaches every home. What happens after deployment depends on what the developer or estate agrees with us.",
+    "Internet-Ready Homes is for single homes: the cabling inside the home. For a whole estate, the same approach continues as EstateLine, the network that reaches every home. What happens after deployment depends on what the developer or estate agrees with us.",
   levels: [
-    { n: "In the home: Internet-Ready Homes", t: "Structured cabling to every room that needs a port, finished at a central cabinet." },
-    { n: "Across the estate: EstateLine", t: "Structured cabling for the whole estate: the network that carries internet from a central point to every home." },
+    { n: "A single home: Internet-Ready Homes", t: "Structured cabling to every room that needs a port, finished at a central cabinet." },
+    { n: "A whole estate: EstateLine", t: "Structured cabling for the whole estate: the network that carries internet from a central point to every home." },
   ],
   models: irhModels,
   who: irhWho,

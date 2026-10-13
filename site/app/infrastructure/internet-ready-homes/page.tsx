@@ -10,7 +10,7 @@ import { pageMeta } from "@/lib/seo";
 export const metadata: Metadata = pageMeta({
   title: "Internet-Ready Homes",
   description:
-    "Structured cabling built in during construction, from a single home to a whole estate: Cat6 cabling, a port in every room and a central cabinet, with D’Matek handing over or staying on to manage it.",
+    "Network cabling built into a single home during construction: Cat6 cabling, a port in every room that needs one and a central cabinet, with D’Matek handing over or staying on to look after it.",
   path: "/infrastructure/internet-ready-homes",
   ogTitle: "Wire the internet in, the way you wire in power.",
 });
@@ -44,7 +44,7 @@ export default function InternetReadyHomesPage() {
               data-track="cta_developer_enquiry"
               className="whitespace-nowrap rounded-full bg-gold px-7.5 py-4.5 text-[15px] font-bold text-forest shadow-[0_10px_26px_rgba(212,166,55,0.35)] transition-transform hover:-translate-y-1 hover:bg-forest hover:text-cream"
             >
-              Discuss your development &rarr;
+              Discuss your home &rarr;
             </Link>
             <a
               href="/downloads/internet-ready-homes.pdf"
@@ -176,14 +176,14 @@ export default function InternetReadyHomesPage() {
           <Reveal className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] items-end gap-x-12 gap-y-5 border-t-2 border-gold pt-[clamp(28px,3.4vw,44px)]">
             <div>
               <p className="mb-3.5 text-[11.5px] font-bold tracking-[0.2em] text-progress">THE NEXT STEP</p>
-              <h2 className="mb-3.5 text-[clamp(28px,3.6vw,48px)] font-extrabold leading-[1.05] tracking-[-0.03em] text-forest text-balance">Planning a development?</h2>
+              <h2 className="mb-3.5 text-[clamp(28px,3.6vw,48px)] font-extrabold leading-[1.05] tracking-[-0.03em] text-forest text-balance">Building a home?</h2>
               <p className="m-0 max-w-[34em] text-[17px] leading-[1.7] text-ink">
-                Tell us about the site, the number of units and where you are in construction. We will discuss the appropriate next step with you. It can be one home, a block or, with EstateLine, a whole estate, and we can stay on to manage it afterwards if you want.
+                Tell us about the home and where you are in construction. We will discuss the appropriate next step with you. It is for a single home, and for a whole estate there is EstateLine. We can stay on to look after the network afterwards if you want.
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
-              <Link href={ask("I’d like to talk about Internet-Ready Homes for a development.", "irh_next")} data-track="cta_developer_enquiry" className="inline-block whitespace-nowrap rounded-full bg-gold px-7.5 py-4.5 text-[15px] font-bold text-forest hover:bg-forest hover:text-cream">
-                Discuss your development &rarr;
+              <Link href={ask("I’d like to talk about Internet-Ready Homes for a home I am building.", "irh_next")} data-track="cta_developer_enquiry" className="inline-block whitespace-nowrap rounded-full bg-gold px-7.5 py-4.5 text-[15px] font-bold text-forest hover:bg-forest hover:text-cream">
+                Discuss your home &rarr;
               </Link>
               <Link href="/solutions/real-estate" className="inline-block whitespace-nowrap rounded-full border border-forest/22 px-7 py-4.5 text-[15px] font-semibold text-forest hover:border-gold">
                 Connected Estate
