@@ -288,3 +288,10 @@ textarea:focus-visible,
   outline: 2px solid #d4a637;
   outline-offset: 2px;
 }
+
+/* Mobile-menu network packets: hidden when the visitor prefers reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  .dm-pkt {
+    display: none;
+  }
+}

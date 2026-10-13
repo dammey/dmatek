@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import MenuNetwork from "./MenuNetwork";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -90,7 +91,8 @@ export default function Navbar() {
           className="fixed inset-0 z-[90] flex flex-col overflow-y-auto bg-forest px-7 pt-6 pb-10 text-cream"
           style={{ animation: "dm-rise .4s cubic-bezier(.2,.8,.2,1) both" }}
         >
-          <div className="flex items-center gap-3">
+          <MenuNetwork />
+          <div className="relative flex items-center gap-3">
             <Image src="/assets/mark-cream.png" alt="" width={30} height={30} className="h-[30px] w-auto" />
             <span className="text-[17px] font-extrabold tracking-[0.05em]">D&rsquo;MATEK</span>
             <button
@@ -102,13 +104,13 @@ export default function Navbar() {
               CLOSE
             </button>
           </div>
-          <div className="mt-11 flex flex-col gap-1.5">
+          <div className="relative mt-11 flex flex-col gap-1.5">
             {navItems.map((n) => (
               <Link
                 key={n.key}
                 href={n.href}
                 className="rounded-full px-5.5 py-4 text-[30px] font-bold tracking-[-0.02em] text-cream hover:bg-gold hover:text-forest"
-                style={{ background: "rgba(245,241,232,0.06)" }}
+                style={{ background: "rgba(245,241,232,0.1)", backdropFilter: "blur(2px)" }}
               >
                 {n.label}
               </Link>
@@ -116,7 +118,7 @@ export default function Navbar() {
           </div>
           <Link
             href="/contact"
-            className="mt-5.5 rounded-full bg-gold px-6 py-5 text-center text-[15px] font-bold tracking-[0.05em] text-forest"
+            className="relative mt-5.5 rounded-full bg-gold px-6 py-5 text-center text-[15px] font-bold tracking-[0.05em] text-forest"
           >
             Tell us what you need &rarr;
           </Link>
