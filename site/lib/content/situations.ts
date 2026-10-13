@@ -7,6 +7,11 @@ export type Situation = {
   desc: string;
   img: string;
   alt: string;
+  /** Spans the full row (a featured tile). */
+  wide?: boolean;
+  /** Overrides the enquiry's source tag and the click event. */
+  src?: string;
+  track?: string;
   /** Prefills the enquiry's "closest starting point". */
   topic: string;
   /** Prefills the enquiry's environment. */
@@ -23,6 +28,7 @@ export const situations: Situation[] = [
   {"title":"Connect or secure a property","desc":"Network coverage, surveillance, access control and connected environments.","img":"/assets/photos/cabling-site.jpg","alt":"Cabling work on an estate","topic":"Real Estate","org":"Estate or developer","overview":"Estates and buildings usually need fibre ready for internet providers, gate and perimeter security, access control, common-area power and someone looking after it all.","assess":"Site plans, number of homes or units, construction stage and existing infrastructure.","needs":["ISP-ready fibre","Gate and perimeter security","Access control and visitor codes","CCTV","Common-area power","Ongoing management"]},
   {"title":"Keep my IT running","desc":"One number to call. Problems fixed or prevented, and a plain picture every month.","img":"/assets/photos/support.jpg","alt":"A D’Matek engineer supporting a customer","topic":"Keep my IT running","org":"Business or office","overview":"Most businesses want problems fixed fast, updates and backups done without being asked, and a plain monthly summary. It usually starts with a Technology Health Check.","assess":"How many people and devices you have, your systems today and what keeps going wrong.","needs":["A Technology Health Check","Helpdesk and support","Backup and recovery","Email and account security","Device management","Not sure yet"]},
   {"title":"Equip my business","desc":"Genuine devices and equipment, set up and supported.","img":"/assets/photos/source-kit.jpg","alt":"Devices ready for set-up","topic":"Equip my business","org":"Business or office","overview":"We source genuine devices and equipment, set them up ready to use, and support them afterwards.","assess":"Quantities, specifications, delivery location and timing.","needs":["Laptops and desktops","Phones and tablets","Printers and peripherals","Networking equipment","Set-up and delivery","Repairs and replacement"]},
+  {"title":"Build or develop a property","desc":"Structured cabling built in during construction, from a single home to a whole estate.","img":"/assets/photos/cabling-site.jpg","alt":"Network cabling being installed during construction","topic":"Real Estate","org":"Estate or developer","wide":true,"src":"home_finder_developer","track":"try_internet_ready_homes","overview":"Developers usually want the network cabling built in while the site is still open, so homes are ready on the day buyers move in. The same approach scales from a single block of homes to a whole estate.","assess":"Number of units, construction stage, whether the site has fibre yet, and the building drawings.","needs":["Network cabling built into each home","A network to every home on the estate","Handover with documentation","Ongoing management after handover","A network deployed for a telecoms operator"]},
 ];
 
 /** The pills under the tiles: Solutions deep-links, or straight to the enquiry. */
@@ -30,6 +36,5 @@ export const situationPills: { title: string; href: string }[] = [
   { title: "I need software built or integrated", href: "/solutions#ep-software" },
   { title: "Keep the power on", href: "/solutions#ep-power" },
   { title: "Secure my organisation", href: "/solutions#ep-secure" },
-  { title: "Building or running an estate?", href: "/solutions/real-estate" },
   { title: "Not sure. Talk to us", href: "/contact" },
 ];

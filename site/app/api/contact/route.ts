@@ -17,6 +17,8 @@ const LIMITS: Record<string, number> = {
   location: 160,
   problem: 160,
   need: 40,
+  units: 20,
+  stage: 60,
   message: 4000,
   source: 80,
   page: 300,
@@ -135,6 +137,7 @@ async function handle(request: Request): Promise<NextResponse> {
           ${row("Closest starting point", f.problem)}
           ${row("What they need", f.need)}
           ${row("Location", f.location)}
+          ${f.units || f.stage ? row("Number of homes or units", f.units) + row("Construction stage", f.stage) : ""}
           ${row("Message", f.message)}
           ${row("Source page", f.page)}
           ${row("Source CTA", f.source)}

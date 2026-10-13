@@ -28,6 +28,8 @@ export default function ContactForm({ initialTopic, initialOrg, initialNeed, ini
   const [need, setNeed] = useState(initialNeed && needOptions.includes(initialNeed) ? initialNeed : "Not sure");
   const [message, setMessage] = useState(initialMessage ?? "");
   const started = useRef(false);
+  // Developer enquiries (Internet-Ready Homes) also ask how big the project is and how far along it is.
+  const developer = !!source && (source.startsWith("irh") || source === "home_finder_developer");
 
   function onStart() {
     if (started.current) return;
@@ -159,6 +161,25 @@ export default function ContactForm({ initialTopic, initialOrg, initialNeed, ini
           <input id="f-loc" name="location" type="text" placeholder="City or site" maxLength={160} className={fieldClass} style={glass} />
         </div>
       </div>
+
+      {developer && (
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,200px),1fr))] gap-5">
+          <div className="flex flex-col gap-2">
+            <label htmlFor="f-units" className={labelClass}>NUMBER OF HOMES OR UNITS</label>
+            <input id="f-units" name="units" type="text" inputMode="numeric" placeholder="For example 40" maxLength={20} className={fieldClass} style={glass} />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="f-stage" className={labelClass}>CONSTRUCTION STAGE</label>
+            <select id="f-stage" name="stage" defaultValue="Not sure" className={fieldClass} style={select}>
+              {["Planning", "Rough-in (walls being framed)", "Finishing (after plastering)", "Already built", "Not sure"].map((o) => (
+                <option key={o} value={o}>
+                  {o}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,200px),1fr))] gap-5">
         <div className="flex flex-col gap-2">

@@ -28,7 +28,7 @@ export default function SituationFinder() {
     if (!sc) return;
     track("finder_situation", { situation: sc.title, needs: picked.join(", ") || "Not sure yet" });
     const msg = `Situation: ${sc.title}. ${picked.length ? `I need: ${picked.join(", ")}.` : "I’m not sure yet what I need."}`;
-    router.push(enquiryHref({ topic: sc.topic, org: sc.org, message: msg, source: "home_finder" }));
+    router.push(enquiryHref({ topic: sc.topic, org: sc.org, need: sc.wide ? "New setup" : undefined, message: msg, source: sc.src ?? "home_finder" }));
   };
 
   return (
@@ -48,7 +48,25 @@ export default function SituationFinder() {
         <>
           <p className="mb-3.5 text-[11px] font-bold tracking-[0.16em] text-progress">STEP 1 OF 3 &middot; CHOOSE A SITUATION</p>
           <div className="grid grid-cols-1 min-[600px]:grid-cols-2 min-[960px]:grid-cols-3 gap-[clamp(12px,1.6vw,20px)]">
-            {situations.map((c, i) => (
+            {situations.map((c, i) =>
+              c.wide ? (
+                <button
+                  key={c.title}
+                  type="button"
+                  onClick={() => choose(i)}
+                  data-track={c.track}
+                  className="group flex flex-col gap-4 rounded-[22px] border border-forest/14 bg-white p-3.5 text-left text-forest transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-1 hover:border-gold hover:shadow-[0_16px_40px_rgba(6,56,46,0.14)] sm:col-span-full sm:flex-row sm:items-center sm:gap-7 sm:pr-8 min-[960px]:col-span-3"
+                >
+                  <span className="relative block aspect-video overflow-hidden rounded-2xl bg-[#E6E0CE] sm:w-[34%] sm:flex-none">
+                    <Image src={c.img} alt={c.alt} fill sizes="(min-width: 900px) 380px, 90vw" className="object-cover transition-transform duration-700 ease-[cubic-bezier(.2,.8,.2,1)] group-hover:scale-[1.09]" />
+                  </span>
+                  <span className="flex flex-col gap-2 px-1.5 pb-2 sm:pb-0">
+                    <span className="text-[11px] font-bold tracking-[0.16em] text-progress">FOR DEVELOPERS</span>
+                    <span className="text-[clamp(18px,1.8vw,22px)] font-extrabold tracking-[-0.01em]">{c.title}</span>
+                    <span className="text-[15px] leading-[1.55] text-ink">{c.desc}</span>
+                  </span>
+                </button>
+              ) : (
               <button
                 key={c.title}
                 type="button"
@@ -67,7 +85,8 @@ export default function SituationFinder() {
                 <span className="px-1.5 pt-1 text-[clamp(18px,1.8vw,22px)] font-extrabold tracking-[-0.01em]">{c.title}</span>
                 <span className="px-1.5 text-[15px] leading-[1.55] text-ink">{c.desc}</span>
               </button>
-            ))}
+              ),
+            )}
           </div>
           <div className="mt-[clamp(18px,2.4vw,28px)] flex flex-wrap gap-2.5">
             {situationPills.map((e) => (

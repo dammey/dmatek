@@ -1,10 +1,10 @@
-// Connected Estate products: Internet-Ready Homes and estate internet.
+// Connected Estate: Internet-Ready Homes, from one home to a whole estate.
 // Source: D'Matek Portfolio, "Internet-Ready Homes" (customer-facing).
 // The separate internet-infrastructure business concept is an internal
 // proposal; its projections (uptime, speeds, conversion rates, market size,
 // supplier names, warranty periods) are NOT published here.
 
-export const IRH_PATH = "/internet-ready-homes";
+export const IRH_PATH = "/infrastructure/internet-ready-homes";
 
 export const irh = {
   name: "Internet-Ready Homes",
@@ -61,22 +61,31 @@ export const irh = {
       pts: [
         "We work directly with project managers and architects to fit into existing construction workflows.",
         "A volume-friendly approach for multi-unit developments, from small blocks to large estates.",
-        "The same relationship extends into EstateLine, estate-wide internet service after handover.",
+        "The same approach scales from a single home to a whole estate network, with us staying on to manage it if you want.",
         "A single infrastructure partner for this project and the projects that follow.",
       ],
     },
   ],
 };
 
-export const estateInternet = {
-  name: "EstateLine",
-  descriptor: "Estate internet service",
-  tag: "Internet for the people who live on the estate",
-  body:
-    "EstateLine is D’Matek’s internet service for estates. Once an estate is handed over, the same relationship that planned its network extends into ongoing, estate-wide internet service, delivered through ISP partnerships. Residents connect to a professionally planned network instead of each arranging their own provider and digging up the estate again.",
-  points: [
-    "ISP-ready estate fibre, planned before finishes go in",
-    "Estate-wide internet service after handover, through ISP partnerships",
-    "One accountable partner for the network, from the first unit to the last",
+/** One product at different scales: the same approach from a single home to
+ * a whole estate. What D'Matek does after deployment is set by the contract. */
+export const irhScale = {
+  h: "From one home to a whole estate",
+  intro:
+    "Think of it as structured cabling, from a single home up to a whole estate. The estate version is the same idea, only bigger and more involved, with more to plan and more ways to work together. What happens after deployment depends on what the developer or estate agrees with us.",
+  levels: [
+    { n: "In the home", t: "Structured cabling to every room that needs a port, finished at a central cabinet." },
+    { n: "Across the estate", t: "Structured cabling for the whole estate: the network that carries internet from a central point to every home, planned before roads and finishes go in." },
+  ],
+  models: [
+    { h: "Deploy and hand over", t: "We design and build it, test it, document it and hand it over to the developer or estate management." },
+    { h: "Deploy and stay on", t: "We stay on to manage the network after handover, as an add-on to the estate." },
+    { h: "Deploy for a telco", t: "We build the estate network for a telecoms operator that wants to serve the estate, including areas where fibre has not arrived yet." },
+  ],
+  who: [
+    { h: "Developers", t: "A tangible feature to sell, and no cutting into finished walls later." },
+    { h: "Telecoms operators", t: "A way to serve estates and areas they may not cover yet." },
+    { h: "Homeowners", t: "A connected home from day one, including where fibre has not reached." },
   ],
 };
